@@ -82,6 +82,54 @@ namespace Inventarios.DataAccess
             return Mapping.ListPerfilesToPerfilesDTO(list);
         }
 
+
+
+        public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
+        {
+            var list = _context.Menus.Where(a => !a.estadodelregistro.Contains("I")).OrderBy(a => a.nombre).ToList();
+
+            Perfiles? obj = _context.Perfiles.FirstOrDefault(a => a.id == id);
+            string? programas = obj.programas;
+
+            List<ProgramasPermisosDTO> listaprogramaspermisos = new List<ProgramasPermisosDTO>();
+
+            foreach (var s in list)
+            {
+                ProgramasPermisosDTO obj1 = new ProgramasPermisosDTO();
+                obj1.nombre = s.nombre;
+                obj1.id = s.id;
+                obj1.agregar = false;
+                obj1.borrar = false;
+                obj1.modificar = false;
+                obj1.anular = false;
+                obj1.imprimir = false;
+                obj1.estadodelregistro = s.estadodelregistro;
+
+                listaprogramaspermisos.Add(obj1);
+            }
+
+            string[] permisos = obj.programas.Split(",");
+            for (int i = 1; i < permisos.Length - 1; i++)
+            {
+                string codigoprograma = permisos[i].Substring(0, permisos[i].IndexOf("="));
+
+                foreach (var s in listaprogramaspermisos)
+                {
+                    if (s.id == Convert.ToInt32(codigoprograma))
+                    {
+                        if (permisos[i].IndexOf("A") >= 0) s.agregar = true;
+                        if (permisos[i].IndexOf("M") >= 0) s.modificar = true;
+                        if (permisos[i].IndexOf("B") >= 0) s.borrar = true;
+                        if (permisos[i].IndexOf("I") >= 0) s.imprimir = true;
+                        if (permisos[i].IndexOf("N") >= 0) s.anular = true;
+                    }
+                }
+            }
+
+            return listaprogramaspermisos;
+        }
+
+
         public void Log(Perfiles obj, string operacion)
         {
             string comando = "";

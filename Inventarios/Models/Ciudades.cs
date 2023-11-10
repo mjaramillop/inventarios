@@ -1,10 +1,14 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inventarios.Models;
 
-public partial class Ciudades
+public class Ciudades
 {
-    public int? id { get; set; } = null!;
+
+   
+   public int? id { get; set; }
 
     public string? codigo1 { get; set; }
     public string? nivel1 { get; set; }

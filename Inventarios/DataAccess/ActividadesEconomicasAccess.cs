@@ -41,7 +41,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
-        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas obj)
+        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas? obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.Actividadeseconomicas.FirstOrDefault(a => a.id == obj.id);

@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.ComponentModel.Design;
-
+using Inventarios.Models;
+using Inventarios.ModelsParameter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,9 @@ builder.Services.AddScoped<ActividadesEconomicasAccess>();
 builder.Services.AddScoped<PerfilesAccess>();
 builder.Services.AddScoped<TiposDeDocumentoAccess>();
 builder.Services.AddScoped<ProveedoresAccess>();
+builder.Services.AddScoped<CiudadesAccess>();
+
+
 
 
 // services
@@ -49,6 +53,7 @@ builder.Services.AddScoped<ActividadesEconomicasService>();
 builder.Services.AddScoped<PerfilesService>();
 builder.Services.AddScoped<TiposDeDocumentoService>();
 builder.Services.AddScoped<ProveedoresService>();
+builder.Services.AddScoped<CiudadesService>();
 
 
 

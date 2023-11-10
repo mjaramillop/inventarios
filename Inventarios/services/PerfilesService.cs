@@ -53,5 +53,14 @@ namespace Inventarios.services
             return list;
         }
 
+
+        public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
+        {
+
+            var list = _access.ListProgramasPermisos(id);
+            return list;
+
+        }
+
     }
 }

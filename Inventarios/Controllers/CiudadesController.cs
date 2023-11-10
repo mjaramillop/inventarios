@@ -1,5 +1,6 @@
 ﻿using Inventarios.DTO;
 using Inventarios.Models;
+using Inventarios.ModelsParameter;
 using Inventarios.services;
 using Inventarios.Token;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +32,7 @@ namespace Inventarios.Controllers
         [ActionName("Add")]
         public List<CiudadesDTO>? Add(Ciudades obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+           if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
             return list;
         }
@@ -50,7 +51,7 @@ namespace Inventarios.Controllers
         [ActionName("Update")]
         public List<CiudadesDTO>? Update(Ciudades obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+           if (_jwtservice.UserAthenticated() == false) return null;
 
             list = _service.Update(obj);
             return list;
@@ -85,7 +86,7 @@ namespace Inventarios.Controllers
 
         [HttpPut]
         [ActionName("UpdateNiveles")]
-        public List<CiudadesDTO>? UpdateNiveles(Ciudades obj)
+        public List<CiudadesDTO>? UpdateNiveles(CiudadesUpdateNiveles obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
