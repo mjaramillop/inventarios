@@ -120,7 +120,7 @@ namespace Inventarios.DataAccess
             return list.OrderBy(a => a.nombre).ToList();
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? ListPermisos(int id)
+        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
         {
             var list = _context.TiposDeDocumento.Where(a => !a.estadodelregistro.Contains("I")).OrderBy(a => a.nombre).ToList();
 

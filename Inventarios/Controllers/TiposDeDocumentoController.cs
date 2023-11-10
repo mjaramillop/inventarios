@@ -93,11 +93,11 @@ namespace Inventarios.Controllers
 
 
         [HttpGet("{id}")]
-        [ActionName("GetListPermisos")]
-        public List<TiposDeDocumentoPermisosDTO>? GetListPermisos(int id )
+        [ActionName("GetListDocumentosPermisos")]
+        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id )
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            List<TiposDeDocumentoPermisosDTO>? list = _service.ListPermisos(id);
+            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
             return list;
         }
 

@@ -63,10 +63,10 @@ namespace Inventarios.services
 
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? ListPermisos(int id)
+        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
         {
 
-            var list = _access.ListPermisos(id);
+            var list = _access.ListDocumentosPermisos(id);
             return list;
 
         }

@@ -85,7 +85,7 @@ namespace Inventarios.Controllers
 
 
         [HttpGet("{id}")]
-        [ActionName("GetListProgramas")]
+        [ActionName("GetListProgramasPermisos")]
         public List<ProgramasPermisosDTO>? GetListProgramasPermisos(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
