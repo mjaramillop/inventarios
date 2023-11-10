@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Inventarios.Models;
 
-public partial class Perfiles
+public  class Perfiles
 {
     public int id { get; set; }
 
