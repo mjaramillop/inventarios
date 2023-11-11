@@ -5,6 +5,29 @@ namespace Inventarios.Map
 {
     public static class Mapping
     {
+
+        public static LogDTO LogToLogDTO(Log obj)
+        {
+            LogDTO dto = new();
+            dto.id = obj.id;
+            dto.descripciondelaoperacion = obj.descripciondelaoperacion;
+            dto.fechadeactualizacion = obj.fechadeactualizacion;
+           
+            return dto;
+        }
+
+        public static List<LogDTO> ListLogToLogDTO(List<Log> list)
+        {
+            List<LogDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(LogToLogDTO(s));
+            }
+            return listdto;
+        }
+
+
         public static ProveedoresDTO ProveedoresToProveedoresDTO(Proveedores obj)
         {
             ProveedoresDTO dto = new();

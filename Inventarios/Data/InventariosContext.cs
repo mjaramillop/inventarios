@@ -360,8 +360,8 @@ public partial class InventariosContext : DbContext
         {
             entity.ToTable("LOG");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.DescripcionDeLaOperacion)
+            entity.Property(e => e.id).HasColumnName("ID");
+            entity.Property(e => e.descripciondelaoperacion)
                 .HasColumnType("ntext")
                 .HasColumnName("DESCRIPCION_DE_LA_OPERACION");
             entity.Property(e => e.fechadeactualizacion)
@@ -584,9 +584,7 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Perfiles>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("PERFILES");
+            entity.ToTable("PERFILES");
 
             entity.Property(e => e.programas)
                 .HasMaxLength(500)
