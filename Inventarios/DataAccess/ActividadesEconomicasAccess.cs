@@ -11,6 +11,7 @@ namespace Inventarios.DataAccess
         private readonly InventariosContext _context;
         private readonly JwtService _jwtservice;
         private readonly LogAccess _logacces;
+      
         private List<ActividadesEconomicas>? list;
 
         public ActividadesEconomicasAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)

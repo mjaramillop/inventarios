@@ -24,7 +24,7 @@ namespace Inventarios.Controllers
 
 
 
-        [HttpGet("{filtro}")]
+        [HttpPut]
         [ActionName("GetAll")]
         public List<LogDTO>? GetAll(LogConsultar obj)
         {

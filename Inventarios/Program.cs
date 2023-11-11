@@ -46,7 +46,7 @@ builder.Services.AddScoped<CiudadesAccess>();
 
 
 // services
-
+builder.Services.AddScoped<LogService>();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ActividadesEconomicasService>();

@@ -10,13 +10,17 @@ namespace Inventarios.DataAccess
     {
         private readonly InventariosContext _context;
         private readonly JwtService _jwtservice;
+        private readonly LogAccess _logacces;
+
+     
 
         private List<Usuarios>? list;
 
-        public UserAccess(InventariosContext context, JwtService jwtservice)
+        public UserAccess(InventariosContext context, JwtService jwtservice, LogAccess logacces)
         {
             _context = context;
             _jwtservice = jwtservice;
+            _logacces = logacces;
         }
 
         public List<UsersDTO>? Add(Usuarios obj)
@@ -185,8 +189,8 @@ namespace Inventarios.DataAccess
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
 
-            LogAccess logaccess = new LogAccess(_context, _jwtservice);
-            logaccess.Add(comando);
+       
+            _logacces.Add(comando);
         }
     }
 }

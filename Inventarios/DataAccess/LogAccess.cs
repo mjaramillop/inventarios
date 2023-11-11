@@ -4,6 +4,9 @@ using Inventarios.Map;
 using Inventarios.Models;
 using Inventarios.ModelsParameter;
 using Inventarios.Token;
+using Inventarios.Utils;
+using System.Data;
+using System.Globalization;
 
 namespace Inventarios.DataAccess
 {
@@ -11,11 +14,12 @@ namespace Inventarios.DataAccess
     {
         private readonly InventariosContext _context;
         private readonly JwtService _jwtservice;
-
-        public LogAccess(InventariosContext context, JwtService jwtservice)
+        private readonly IConfiguration _iconfiguration;
+        public LogAccess(InventariosContext context, JwtService jwtservice , IConfiguration iconfigutarion )
         {
             _context = context;
             _jwtservice = jwtservice;
+            _iconfiguration = iconfigutarion;
         }
 
         public void Add(string registro)
@@ -35,100 +39,29 @@ namespace Inventarios.DataAccess
 
 
             string comando = "";
-            if (obj.fechadesde != null) comando = comando + "1";
-            if (obj.fechahasta != null) comando = comando + "2";
-            if (obj.filtro1.Trim().Length>0) comando = comando + "3";
-            if (obj.filtro2.Trim().Length > 0) comando = comando + "4";
-            if (obj.filtro3.Trim().Length > 0) comando = comando + "5";
-            if (obj.filtro4.Trim().Length > 0) comando = comando + "6";
-            if (obj.filtro5.Trim().Length > 0) comando = comando + "7";
 
 
+            comando = "Select id,DESCRIPCION_DE_LA_OPERACION ,FECHA_DE_ACTUALIZACION  ";
+            comando = comando + "from ";
+            comando = comando + "LOG                       ";
+            comando = comando + " where ID IS NOT NULL ";
 
 
+            if (obj.fechadesde != null) comando = comando + " AND FECHA_DE_ACTUALIZACION>='" + obj.fechadesde.Value.ToString("yyyy-MM-dd") + "'";
+            if (obj.fechahasta != null) comando = comando + " AND FECHA_DE_ACTUALIZACION<'" + obj.fechahasta.Value.AddDays(1).ToString("yyyy-MM-dd") + "'";
+            if (obj.filtro1.Trim().Length>0) comando = comando+  " AND   DESCRIPCION_DE_LA_OPERACION LIKE " + "'%" + obj.filtro1 + "%'";
+            if (obj.filtro2.Trim().Length > 0) comando = comando + " AND DESCRIPCION_DE_LA_OPERACION LIKE " + "'%" + obj.filtro2 + "%'";
+            if (obj.filtro3.Trim().Length > 0) comando = comando + " AND DESCRIPCION_DE_LA_OPERACION LIKE " + "'%" + obj.filtro3 + "%'";
+            if (obj.filtro4.Trim().Length > 0) comando = comando + " AND DESCRIPCION_DE_LA_OPERACION LIKE " + "'%" + obj.filtro4 + "%'";
+            if (obj.filtro5.Trim().Length > 0) comando = comando + " AND DESCRIPCION_DE_LA_OPERACION LIKE " + "'%" + obj.filtro5 + "%'";
+            comando = comando + " order by FECHA_DE_ACTUALIZACION DESC";
 
-            var list =   _context.Logs.ToList().Where(a => a.id < 0).ToList();
+            Rutinas ru = new(_iconfiguration);
 
-            if (comando.Trim().Length==1)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                 .Where(a => a.fechadeactualizacion >= obj.fechadesde).ToList();
-            }
-
-
-            if (comando.Trim().Length==2)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                  .Where(a => a.fechadeactualizacion >= obj.fechadesde)
-                  .Where(a => a.fechadeactualizacion < obj.fechadesde.Value.AddDays(1)).ToList();
-            }
+            DataTable list = ru.rtn_creartabla(comando);
 
 
-
-            if (comando.Trim().Length==3)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                  .Where(a => a.fechadeactualizacion >= obj.fechadesde)
-                  .Where(a => a.fechadeactualizacion < obj.fechadesde.Value.AddDays(1))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro1.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
-            if (comando.Trim().Length == 4)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                  .Where(a => a.fechadeactualizacion >= obj.fechadesde)
-                  .Where(a => a.fechadeactualizacion < obj.fechadesde.Value.AddDays(1))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro1.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro2.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
-            if (comando.Trim().Length == 5)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                  .Where(a => a.fechadeactualizacion >= obj.fechadesde)
-                  .Where(a => a.fechadeactualizacion < obj.fechadesde.Value.AddDays(1))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro1.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro2.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro3.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-
-            }
-
-
-            if (comando.Trim().Length == 6)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                  .Where(a => a.fechadeactualizacion >= obj.fechadesde)
-                  .Where(a => a.fechadeactualizacion < obj.fechadesde.Value.AddDays(1))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro1.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro2.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro3.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro4.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-
-            }
-
-
-            if (comando.Trim().Length == 6)
-            {
-                list = _context.Logs.ToList()
-                 .OrderByDescending(a => a.fechadeactualizacion)
-                  .Where(a => a.fechadeactualizacion >= obj.fechadesde)
-                  .Where(a => a.fechadeactualizacion < obj.fechadesde.Value.AddDays(1))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro1.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro2.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro3.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro4.Trim()), StringComparison.OrdinalIgnoreCase))
-                  .Where(a => a.descripciondelaoperacion.Contains((obj.filtro5.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-
-            }
-
-
-            return Mapping.ListLogToLogDTO(list);
+            return Mapping.TableLogToLogDTO(list);
         }
     }
 }

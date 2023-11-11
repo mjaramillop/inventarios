@@ -11,6 +11,8 @@ namespace Inventarios.DataAccess
         private readonly InventariosContext _context;
         private readonly JwtService _jwtservice;
         private readonly LogAccess _logacces;
+
+
         private List<Menu>? list;
 
         public MenuAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)

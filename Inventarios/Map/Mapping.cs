@@ -1,5 +1,6 @@
 ﻿using Inventarios.DTO;
 using Inventarios.Models;
+using System.Data;
 
 namespace Inventarios.Map
 {
@@ -26,6 +27,28 @@ namespace Inventarios.Map
             }
             return listdto;
         }
+
+        public static List<LogDTO> TableLogToLogDTO(DataTable? list)
+        {
+            List<LogDTO> listdto = new();
+
+            if (list != null)
+            {
+                foreach (DataRow dr in list.Rows)
+                {
+                    LogDTO dto = new();
+                    dto.id = Convert.ToInt32(dr["id"]);
+                    dto.descripciondelaoperacion = dr["descripcion_de_la_operacion"].ToString();
+                    dto.fechadeactualizacion = Convert.ToDateTime(dr["fecha_de_actualizacion"].ToString());
+                    listdto.Add(dto);
+
+                }
+            }
+
+         
+            return listdto;
+        }
+
 
 
         public static ProveedoresDTO ProveedoresToProveedoresDTO(Proveedores obj)
