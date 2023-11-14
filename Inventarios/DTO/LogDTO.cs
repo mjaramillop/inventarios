@@ -7,6 +7,6 @@
 
         public string? descripciondelaoperacion { get; set; }
 
-        public DateTime? fechadeactualizacion { get; set; }
+        public string? fechadeactualizacion { get; set; }
     }
 }

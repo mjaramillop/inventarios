@@ -121,6 +121,8 @@ namespace Inventarios.DataAccess
                 idperfil = s.perfil;
             }
 
+            if (idperfil==0) return new List<TokenDTO>() { new TokenDTO() { token = jwt } };
+
             var perfil = _context.Perfiles.FirstOrDefault(a => a.id == idperfil);
             _jwtservice.programas = perfil.programas;
 

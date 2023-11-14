@@ -9,15 +9,15 @@ namespace Inventarios.DataAccess
     public class ActividadesEconomicasAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
+     
         private readonly LogAccess _logacces;
       
         private List<ActividadesEconomicas>? list;
 
-        public ActividadesEconomicasAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)
+        public ActividadesEconomicasAccess(InventariosContext context,  LogAccess logacces)
         {
             _context = context;
-            _jwtservice = jwtService;
+          
             _logacces = logacces;
         }
 

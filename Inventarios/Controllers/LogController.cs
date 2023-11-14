@@ -25,8 +25,8 @@ namespace Inventarios.Controllers
 
 
         [HttpPut]
-        [ActionName("GetAll")]
-        public List<LogDTO>? GetAll(LogConsultar obj)
+        [ActionName("filtrar")]
+        public List<LogDTO>? filtrar(LogConsultar obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(obj);

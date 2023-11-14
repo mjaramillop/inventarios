@@ -41,7 +41,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Log> Logs { get; set; }
 
-    public virtual DbSet<Mensajesdelsistema> Mensajesdelsistemas { get; set; }
+    public virtual DbSet<Mensajesdelsistema> Mensajesdelsistema { get; set; }
 
     public virtual DbSet<Menu> Menus { get; set; }
 
@@ -375,16 +375,16 @@ public partial class InventariosContext : DbContext
                 .HasNoKey()
                 .ToTable("MENSAJESDELSISTEMA");
 
-            entity.Property(e => e.FechaDesde)
+            entity.Property(e => e.fechadesde)
                 .HasColumnType("datetime")
                 .HasColumnName("FECHA_DESDE");
-            entity.Property(e => e.FechaHasta)
+            entity.Property(e => e.fechahasta)
                 .HasColumnType("datetime")
                 .HasColumnName("FECHA_HASTA");
-            entity.Property(e => e.Id)
+            entity.Property(e => e.id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-            entity.Property(e => e.Mensaje)
+            entity.Property(e => e.mensaje)
                 .IsUnicode(false)
                 .HasColumnName("MENSAJE");
         });

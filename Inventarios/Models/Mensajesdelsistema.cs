@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Inventarios.Models;
 
-public partial class Mensajesdelsistema
+public class Mensajesdelsistema
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public DateTime? FechaDesde { get; set; }
+    public DateTime? fechadesde { get; set; }
 
-    public DateTime? FechaHasta { get; set; }
+    public DateTime? fechahasta { get; set; }
 
-    public string? Mensaje { get; set; }
+    public string? mensaje { get; set; }
 }

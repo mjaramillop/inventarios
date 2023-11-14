@@ -10,15 +10,13 @@ namespace Inventarios.DataAccess
     {
 
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
         private readonly LogAccess _logacces;
         private List<Perfiles>? list;
 
-        public PerfilesAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)
+        public PerfilesAccess(InventariosContext context, LogAccess logacces)
         {
             _context = context;
-            _jwtservice = jwtService;
-            _logacces = logacces;
+           _logacces = logacces;
         }
 
         public List<PerfilesDTO> Add(Perfiles obj)

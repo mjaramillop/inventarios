@@ -10,15 +10,15 @@ namespace Inventarios.Controllers
     [Route("[controller]/[action]")]
     [ApiController]
 
-    public class ActividadesEconomicasController : ControllerBase
+    public class MensajesDelSistemaController : ControllerBase
     {
 
 
-        private readonly ActividadesEconomicasService _service;
+        private readonly MensajesDelSistemaService _service;
         private readonly JwtService _jwtservice;
-        private List<ActividadesEconomicasDTO>? list;
+        private List<MensajesDelSistemaDTO>? list;
 
-        public ActividadesEconomicasController(ActividadesEconomicasService service, JwtService jwtservice)
+        public MensajesDelSistemaController(MensajesDelSistemaService service, JwtService jwtservice)
         {
             _service = service;
             _jwtservice = jwtservice;
@@ -26,7 +26,7 @@ namespace Inventarios.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
+        public List<MensajesDelSistemaDTO>? Add(Mensajesdelsistema obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
@@ -35,7 +35,7 @@ namespace Inventarios.Controllers
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<ActividadesEconomicasDTO>? Delete(int id)
+        public List<MensajesDelSistemaDTO>? Delete(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -43,9 +43,11 @@ namespace Inventarios.Controllers
             return list;
         }
 
+
+
         [HttpPut]
         [ActionName("Update")]
-        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas obj)
+        public List<MensajesDelSistemaDTO>? Update(Mensajesdelsistema obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -53,30 +55,24 @@ namespace Inventarios.Controllers
             return list;
         }
 
-        [HttpGet("{id}")]
-        [ActionName("GetById")]
-        public List<ActividadesEconomicas>? GetById(int id)
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-            List<ActividadesEconomicas> list = _service.GetById(id);
-            return list;
-        }
+
 
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
-        public List<ActividadesEconomicasDTO>? GetAll(string filtro = "")
+        public List<MensajesDelSistemaDTO>? GetAll(string filtro)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
             return list;
         }
 
-        [HttpGet("{filtro}")]
+
+        [HttpGet]
         [ActionName("GetAllActive")]
-        public List<ActividadesEconomicasDTO>? GetAllActive(string filtro = "")
+        public List<MensajesDelSistemaDTO>? GetAllActive()
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.ListActive(filtro);
+            list = _service.ListActive();
             return list;
         }
 
@@ -84,4 +80,5 @@ namespace Inventarios.Controllers
 
 
     }
+
 }

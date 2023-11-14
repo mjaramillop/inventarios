@@ -11,14 +11,14 @@ namespace Inventarios.DataAccess
     public class CiudadesAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
+      
         private readonly LogAccess _logacces;
         private List<Ciudades>? list;
 
-        public CiudadesAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)
+        public CiudadesAccess(InventariosContext context, LogAccess logacces)
         {
             _context = context;
-            _jwtservice = jwtService;
+           
             _logacces = logacces;
         }
 

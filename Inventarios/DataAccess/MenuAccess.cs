@@ -9,17 +9,15 @@ namespace Inventarios.DataAccess
     public class MenuAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
         private readonly LogAccess _logacces;
 
 
         private List<Menu>? list;
 
-        public MenuAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)
+        public MenuAccess(InventariosContext context,  LogAccess logacces)
         {
             _context = context;
-            _jwtservice = jwtService;
-            _logacces = logacces;   
+           _logacces = logacces;   
         }
 
         public List<MenuDTO>? Add(Menu? obj)

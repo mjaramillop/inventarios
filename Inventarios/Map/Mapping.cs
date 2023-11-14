@@ -7,13 +7,40 @@ namespace Inventarios.Map
     public static class Mapping
     {
 
+        public static MensajesDelSistemaDTO MensajesDelSistemaToMensajesDelSistemaDTO(Mensajesdelsistema obj)
+        {
+            MensajesDelSistemaDTO dto = new();
+            dto.id=obj.id;
+            dto.fechadesde = String.Format("{0:f}", obj.fechadesde);
+            dto.fechahasta = String.Format("{0:f}", obj.fechahasta);
+            dto.mensaje = obj.mensaje;
+          
+            return dto;
+        }
+
+        public static List<MensajesDelSistemaDTO> ListMensajesDelSistemaToMensajesDelSistemaDTO(List<Mensajesdelsistema> list)
+        {
+            List<MensajesDelSistemaDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(MensajesDelSistemaToMensajesDelSistemaDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+
+
         public static LogDTO LogToLogDTO(Log obj)
         {
             LogDTO dto = new();
             dto.id = obj.id;
             dto.descripciondelaoperacion = obj.descripciondelaoperacion;
-            dto.fechadeactualizacion = obj.fechadeactualizacion;
-           
+            dto.fechadeactualizacion = String.Format("{0:f}", obj.fechadeactualizacion);
+
+
             return dto;
         }
 
@@ -39,7 +66,7 @@ namespace Inventarios.Map
                     LogDTO dto = new();
                     dto.id = Convert.ToInt32(dr["id"]);
                     dto.descripciondelaoperacion = dr["descripcion_de_la_operacion"].ToString();
-                    dto.fechadeactualizacion = Convert.ToDateTime(dr["fecha_de_actualizacion"].ToString());
+                    dto.fechadeactualizacion = dr["fecha_de_actualizacion"].ToString();
                     listdto.Add(dto);
 
                 }

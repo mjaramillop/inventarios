@@ -9,14 +9,12 @@ namespace Inventarios.DataAccess
     public class TiposDeDocumentoAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
         private readonly LogAccess _logacces;
         private List<TiposDeDocumento>? list;
 
-        public TiposDeDocumentoAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces)
         {
             _context = context;
-            _jwtservice = jwtService;
             _logacces = logacces;
         }
 

@@ -9,14 +9,12 @@ namespace Inventarios.DataAccess
     public class ProveedoresAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
         private readonly LogAccess _logacces;
         private List<Proveedores>? list;
 
-        public ProveedoresAccess(InventariosContext context, JwtService jwtService, LogAccess logacces)
+        public ProveedoresAccess(InventariosContext context,LogAccess logacces)
         {
             _context = context;
-            _jwtservice = jwtService;
             _logacces = logacces;
         }
 

@@ -16,7 +16,35 @@ namespace Inventarios.Utils
             _iconfiguration = iconfigutarion;
         }
 
-        public  DataTable rtn_creartabla(string comando)
+
+
+        public string rtn_ejecutarsql(string comando)
+        {
+
+            comando = comando.Trim();
+            if (comando.Length == 0) return "  ";
+            string xmensaje = "";
+            SqlConnection xconexion = new SqlConnection(_iconfiguration.GetConnectionString("connectionstring"));
+            SqlCommand xcomando = new SqlCommand(comando, xconexion);
+            try
+            {
+                xconexion.Open();
+                xcomando.ExecuteNonQuery();
+                xconexion.Close();
+                xconexion.Dispose();
+            }
+            catch (Exception e)
+            {
+                xconexion.Close();
+                xconexion.Dispose();
+                xmensaje = "Error : " + e.Message.ToString();
+
+
+            }
+            return xmensaje;
+        }
+
+        public DataTable rtn_creartabla(string comando)
         {
             System.Data.DataTable table = new DataTable();
             DataSet xdataset = new DataSet();
