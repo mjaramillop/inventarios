@@ -35,6 +35,15 @@ namespace Inventarios.services
         }
 
 
+        public List<Mensajesdelsistema>? GetById(int id)
+        {
+            List<Mensajesdelsistema> list = _access.GetById(id);
+
+            return list;
+        }
+
+
+
         public List<MensajesDelSistemaDTO>? List(string filtro)
         {
             var list = _access.List(filtro);

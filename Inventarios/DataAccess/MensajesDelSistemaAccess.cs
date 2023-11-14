@@ -69,6 +69,13 @@ namespace Inventarios.DataAccess
             return Mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
         }
 
+        public List<Mensajesdelsistema> GetById(int id)
+        {
+            list = _context.Mensajesdelsistema.Where(a => a.id == id).ToList();
+            return list;
+        }
+
+
         public List<MensajesDelSistemaDTO>? List( string filtro )
         {
             list = _context.Mensajesdelsistema.ToList().Where(a => a.mensaje.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();

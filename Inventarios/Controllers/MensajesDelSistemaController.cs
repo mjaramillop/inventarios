@@ -55,6 +55,14 @@ namespace Inventarios.Controllers
             return list;
         }
 
+        [HttpGet("{id}")]
+        [ActionName("GetById")]
+        public List<Mensajesdelsistema>? GetById(int id)
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+            List<Mensajesdelsistema> list = _service.GetById(id);
+            return list;
+        }
 
 
         [HttpGet("{filtro}")]
