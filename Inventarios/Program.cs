@@ -60,6 +60,7 @@ builder.Services.AddSession( options => {     options.IdleTimeout= TimeSpan.From
 
 
 //data access
+builder.Services.AddScoped<ConceptosNotaDebitoCreditoAccess>();
 builder.Services.AddScoped<LogAccess>(); 
 builder.Services.AddScoped<MenuAccess>();
 builder.Services.AddScoped<UserAccess>();
@@ -74,6 +75,7 @@ builder.Services.AddScoped<MensajesDelSistemaAccess>();
 
 
 // services
+builder.Services.AddScoped<ConceptosNotaDebitoCreditoService>();
 builder.Services.AddScoped<LogService>();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<UserService>();
@@ -83,8 +85,6 @@ builder.Services.AddScoped<TiposDeDocumentoService>();
 builder.Services.AddScoped<ProveedoresService>();
 builder.Services.AddScoped<CiudadesService>();
 builder.Services.AddScoped<MensajesDelSistemaService>();
-
-
 
 
 
