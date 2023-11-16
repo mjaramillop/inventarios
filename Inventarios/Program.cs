@@ -12,12 +12,39 @@ using System;
 using System.ComponentModel.Design;
 using Inventarios.Models;
 using Inventarios.ModelsParameter;
+using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Scaffold-DbContext "Server=DESKTOP-56QVMV6\SQLEXPRESS;Database=inventarios;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", 
+        new OpenApiInfo 
+        { Title = "Mi aplicacion de inventarios", 
+            Version = "v2.0" ,
+            Description="hola",
+          TermsOfService = new Uri("https://example.com/terms"),
+            Contact = new OpenApiContact
+            {
+                Name = "John Walkner",
+                Email = "John.Walkner@gmail.com",
+                Url = new Uri("https://twitter.com/jwalkner"),
+            },
+            License = new OpenApiLicense
+            {
+                Name = "Employee API LICX",
+                Url = new Uri("https://example.com/license"),
+            }
 
+        });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -91,7 +118,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseSwagger();
+// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+// specifying the Swagger JSON endpoint.
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My inventarios api v2.0");
+});
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

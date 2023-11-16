@@ -7,24 +7,24 @@ namespace Inventarios.services
 {
     public class LogService
     {
-
-
         private readonly LogAccess _access;
         public List<LogDTO>? list;
 
         public LogService(LogAccess access)
         {
             _access = access;
-
         }
 
-     
-
-        public List<LogDTO>? List( LogConsultar obj)
+        public List<LogDTO>? List(LogConsultar obj)
         {
             var list = _access.List(obj);
             return list;
         }
 
+        public List<Mensaje>  DeleteLog(string fecha)
+        {
+            List<Mensaje> list = _access.DeleteLog(fecha);
+            return list;
+        }
     }
 }

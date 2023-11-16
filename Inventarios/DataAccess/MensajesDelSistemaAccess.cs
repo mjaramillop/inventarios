@@ -19,6 +19,7 @@ namespace Inventarios.DataAccess
         {
             _context = context;
             _iconfiguration = iconfigutarion;
+            _logacces = logacces;
         }
 
         public List<MensajesDelSistemaDTO>? Add(Mensajesdelsistema obj)

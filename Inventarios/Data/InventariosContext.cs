@@ -28,7 +28,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Colore> Colores { get; set; }
 
-    public virtual DbSet<Conceptosnotadebitoycredito> Conceptosnotadebitoycreditos { get; set; }
+    public virtual DbSet<ConceptosNotaDebitoCredito> ConceptosNotaDebitoCredito { get; set; }
 
     public virtual DbSet<Cuentasbancaria> Cuentasbancarias { get; set; }
 
@@ -248,19 +248,19 @@ public partial class InventariosContext : DbContext
            
         });
 
-        modelBuilder.Entity<Conceptosnotadebitoycredito>(entity =>
+        modelBuilder.Entity<ConceptosNotaDebitoCredito>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_TABLA_CONCEPTOS_NOTA_DEBITO_Y_CREDITO");
+            entity.HasKey(e => e.id).HasName("PK_TABLA_CONCEPTOS_NOTA_DEBITO_Y_CREDITO");
 
             entity.ToTable("CONCEPTOSNOTADEBITOYCREDITO");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
            
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.nombre)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");
@@ -371,9 +371,13 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Mensajesdelsistema>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("MENSAJESDELSISTEMA");
+
+            entity.HasKey(e => e.id).HasName("PK_MENSAJESDELSISTEMA");
+
+            entity.ToTable("MENSAJESDELSISTEMA");
+
+            entity.Property(e => e.id).HasColumnName("ID").ValueGeneratedOnAdd();
+
 
             entity.Property(e => e.fechadesde)
                 .HasColumnType("datetime")

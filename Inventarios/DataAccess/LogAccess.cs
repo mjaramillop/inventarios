@@ -5,11 +5,7 @@ using Inventarios.Models;
 using Inventarios.ModelsParameter;
 using Inventarios.Token;
 using Inventarios.Utils;
-using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Linq.Dynamic;
 using System.Linq.Dynamic.Core;
 
 namespace Inventarios.DataAccess
@@ -19,7 +15,8 @@ namespace Inventarios.DataAccess
         private readonly InventariosContext _context;
         private readonly JwtService _jwtservice;
         private readonly IConfiguration _iconfiguration;
-        public LogAccess(InventariosContext context, JwtService jwtservice , IConfiguration iconfigutarion )
+
+        public LogAccess(InventariosContext context, JwtService jwtservice, IConfiguration iconfigutarion)
         {
             _context = context;
             _jwtservice = jwtservice;
@@ -38,11 +35,10 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
         }
 
-        public List<LogDTO> List(LogConsultar?obj)
+        public List<LogDTO> List(LogConsultar? obj)
         {
-
             string? comando = " a => a.id >0  ";
-            if (obj.fechadesde != null) comando = comando + " && a.fechadeactualizacion>=DateTime(\"" + obj.fechadesde.Value.ToString( _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "\") ";
+            if (obj.fechadesde != null) comando = comando + " && a.fechadeactualizacion>=DateTime(\"" + obj.fechadesde.Value.ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "\") ";
             if (obj.fechahasta != null) comando = comando + " && a.fechadeactualizacion<DateTime(\"" + obj.fechahasta.Value.AddDays(1).ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "\") ";
             if (obj.filtro1.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro1 + "\")";
             if (obj.filtro2.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro2 + "\")";
@@ -50,15 +46,12 @@ namespace Inventarios.DataAccess
             if (obj.filtro4.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro4 + "\")";
             if (obj.filtro5.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro5 + "\")";
 
-            var list = _context.Logs.OrderByDescending(a => a.fechadeactualizacion ).Where(comando).ToList();
+            var list = _context.Logs.OrderByDescending(a => a.fechadeactualizacion).Where(comando).ToList();
 
-
-         
             //comando = "Select id,DESCRIPCION_DE_LA_OPERACION ,FECHA_DE_ACTUALIZACION  ";
             //comando = comando + "from ";
             //comando = comando + "LOG                       ";
             //comando = comando + " where ID IS NOT NULL ";
-
 
             //if (obj.fechadesde != null) comando = comando + " AND FECHA_DE_ACTUALIZACION>='" + obj.fechadesde.Value.ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "'";
             //if (obj.fechahasta != null) comando = comando + " AND FECHA_DE_ACTUALIZACION<'" + obj.fechahasta.Value.AddDays(1).ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "'";
@@ -73,12 +66,21 @@ namespace Inventarios.DataAccess
 
             //DataTable list = ru.rtn_creartabla(comando);
 
-
             return Mapping.ListLogToLogDTO(list);
         }
 
+        public List<Mensaje> DeleteLog(String fecha)
+        {
+            string? comando = "  ";
 
+            comando = "DELETE  FROM LOG WHERE FECHA_DE_ACTUALIZACION <" + "'" + fecha + "'";
 
+            Rutinas ru = new(_iconfiguration);
 
+            string mensaje = ru.rtn_ejecutarsql(comando);
+            if (mensaje.Trim().Length == 0) mensaje = "Registros eliminados correctamente antes del " + fecha;
+
+            return new List<Mensaje>   { new Mensaje() { mensaje = mensaje } };
+        }
     }
 }

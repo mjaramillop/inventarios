@@ -7,6 +7,30 @@ namespace Inventarios.Map
     public static class Mapping
     {
 
+
+        public static ConceptosNotaDebitoCreditoDTO ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(ConceptosNotaDebitoCredito obj)
+        {
+            ConceptosNotaDebitoCreditoDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+        public static List<ConceptosNotaDebitoCreditoDTO> ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(List<ConceptosNotaDebitoCredito> list)
+        {
+            List<ConceptosNotaDebitoCreditoDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(s));
+            }
+            return listdto;
+        }
+
+
+
         public static MensajesDelSistemaDTO MensajesDelSistemaToMensajesDelSistemaDTO(Mensajesdelsistema obj)
         {
             MensajesDelSistemaDTO dto = new();

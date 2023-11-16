@@ -94,9 +94,8 @@ namespace Inventarios.DataAccess
         {
             login = login.ToUpper();
             password = password.ToUpper();
-            var list = from users in _context.Usuarios
-                       where users.login.Contains(login) && users.password.Contains(password)
-                       select users;
+            var list = _context.Usuarios.Where(a => a.login == login && a.password==password ).ToList();
+                     
 
             string jwt = "xxx";
             _jwtservice.jwt = "xxx";
