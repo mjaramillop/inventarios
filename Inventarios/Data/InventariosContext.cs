@@ -25,8 +25,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<ConceptosNotaDebitoCredito> ConceptosNotaDebitoCredito { get; set; }
 
-    public virtual DbSet<Cuentasbancaria> Cuentasbancarias { get; set; }
-
+  
     public virtual DbSet<Formasdepago> Formasdepagos { get; set; }
 
     public virtual DbSet<Formula> Formulas { get; set; }
@@ -240,29 +239,7 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-        modelBuilder.Entity<Cuentasbancaria>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_CUENTAS_BANCARIAS");
-
-            entity.ToTable("CUENTASBANCARIAS");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Banco).HasColumnName("BANCO");
-            entity.Property(e => e.Cuenta)
-                .HasMaxLength(15)
-                .IsUnicode(false)
-                .HasColumnName("CUENTA");
-            entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("ESTADO_DEL_REGISTRO");
-
-            entity.Property(e => e.TipoDeCuenta)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("TIPO_DE_CUENTA");
-        });
-
+    
         modelBuilder.Entity<Formasdepago>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_TABLA_FORMAS_DE_PAGO");
@@ -711,6 +688,15 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("telefono");
             entity.Property(e => e.tipodeagente).HasColumnName("TIPO_DE_AGENTE");
             entity.Property(e => e.tipoderegimen).HasColumnName("tipoderegimen");
+            entity.Property(e => e.cuentabancaria)
+              .HasMaxLength(20)
+              .IsUnicode(false)
+              .HasColumnName("cuentabancaria");
+            entity.Property(e => e.tipodecuenta)
+              .HasMaxLength(1)
+              .IsUnicode(false)
+              .HasColumnName("tipodecuenta");
+
         });
 
         modelBuilder.Entity<Saldos>(entity =>

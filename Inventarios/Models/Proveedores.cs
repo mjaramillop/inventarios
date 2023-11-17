@@ -60,6 +60,8 @@ public partial class Proveedores
 
     public string? estadodelregistro { get; set; }
 
+    public string? cuentabancaria { get; set; }
 
+    public string? tipodecuenta { get; set; }
  
 }
