@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Inventarios.Models;
 
-public partial class ConceptosNotaDebitoCredito
+public class ConceptosNotaDebitoCredito
 {
     public int id { get; set; }
 
