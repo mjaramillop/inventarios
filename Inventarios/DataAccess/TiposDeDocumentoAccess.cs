@@ -81,7 +81,14 @@ namespace Inventarios.DataAccess
                 obj_.eldocumentoseimprimeanombrededespachaorecibe = obj.eldocumentoseimprimeanombrededespachaorecibe;
                 obj_.esunanota = obj.esunanota;
                 obj_.esuninventarioinicial = obj.esuninventarioinicial;
-
+                obj_.titulodespacha = obj.titulodespacha;   
+                obj_.titulorecibe = obj.titulorecibe;   
+                obj_.puedeincluiritems = obj.puedeincluiritems;
+                obj_.puedemodificaritems = obj.puedemodificaritems;
+                obj_.esuncampodeescritura = obj.esuncampodeescritura;
+                obj_.esuncampodelectura = obj.esuncampodelectura;   
+                obj_.esuncampovisible = obj.esuncampovisible;
+                obj_.transaccionesquepuedellamar = obj.transaccionesquepuedellamar;
                 //
                 obj_.estadodelregistro = obj.estadodelregistro;
 
