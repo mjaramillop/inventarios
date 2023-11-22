@@ -49,6 +49,14 @@ namespace Inventarios.DataAccess
             if (obj_ != null)
             {
                 obj_.nombre = obj.nombre;
+                obj_.abreviatura= obj.abreviatura;
+                obj_.consecutivo= obj.consecutivo;  
+                obj_.cuentacontabledebito= obj.cuentacontabledebito;
+                obj_.cuentacontablecredito= obj.cuentacontablecredito;
+                obj_.despacha= obj.despacha;
+                obj_.recibe= obj.recibe;
+                obj_.pidefechadeldocumento= obj.pidefechadeldocumento;
+                obj_.pidefechadevencimiento = obj.pidefechadevencimiento;
                 obj_.pideprograma = obj.pideprograma;
                 obj_.pideconceptonotadebitocredito = obj.pideconceptonotadebitocredito;
                 obj_.pidevendedor = obj.pidevendedor;
@@ -89,7 +97,6 @@ namespace Inventarios.DataAccess
                 obj_.esuncampodelectura = obj.esuncampodelectura;   
                 obj_.esuncampovisible = obj.esuncampovisible;
                 obj_.transaccionesquepuedellamar = obj.transaccionesquepuedellamar;
-                //
                 obj_.estadodelregistro = obj.estadodelregistro;
 
                 _context.SaveChanges();
@@ -210,6 +217,15 @@ namespace Inventarios.DataAccess
             comando = comando + "eldocumentoseimprimeanombrededespachaorecibe = " + obj.eldocumentoseimprimeanombrededespachaorecibe + "\n";
             comando = comando + "esunanota = " + obj.esunanota + "\n";
             comando = comando + "esuninventarioinicial = " + obj.esuninventarioinicial + "\n";
+            comando = comando + "titulodespacha  = " + obj.titulodespacha;
+            comando = comando + "titulorecibe =" + obj.titulorecibe;
+            comando = comando + "puedeincluiritems =" + obj.puedeincluiritems;
+            comando = comando + "puedemodificaritems =" + obj.puedemodificaritems;
+            comando = comando + "esuncampodeescritura =" + obj.esuncampodeescritura;
+            comando = comando + "esuncampodelectura =" + obj.esuncampodelectura;
+            comando = comando + "esuncampovisible =" + obj.esuncampovisible;
+            comando = comando + "transaccionesquepuedellamar =" + obj.transaccionesquepuedellamar;
+
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";

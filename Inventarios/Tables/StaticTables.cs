@@ -55,6 +55,8 @@
                 new  CodigoNombre{ id="3", nombre= "Proveedor"   },
                 new  CodigoNombre{ id="4", nombre= "Vendedor"   },
                 new  CodigoNombre{ id="5", nombre= "ClienteProveedor"   },
+                new  CodigoNombre{ id="6", nombre= "Usuarios"   }
+
             };
 
             TiposDeCuentaBancaria = new List<CodigoNombre>()
