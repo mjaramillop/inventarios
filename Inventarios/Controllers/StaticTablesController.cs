@@ -77,15 +77,28 @@ namespace Inventarios.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("{filtro}")]
         [ActionName("GetTiposDeAgente")]
-        public List<CodigoNombre>? GetTiposDeAgente()
+        public List<CodigoNombre>? GetTiposDeAgente(string filtro)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
-            return _statictables.TiposDeAgente;
+            return _statictables.TiposDeAgente.Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
 
         }
+
+
+        [HttpGet("{id}")]
+        [ActionName("GetTipoDeAgenteById")]
+        public List<CodigoNombre>? GetTipoDeAgenteById( string id  )
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+            return _statictables.TiposDeAgente.Where(a => a.id.Equals(id)).ToList();
+
+        }
+
+
 
 
 

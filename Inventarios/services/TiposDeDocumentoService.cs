@@ -66,6 +66,8 @@ namespace Inventarios.services
         public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
         {
 
+
+
             var list = _access.ListDocumentosPermisos(id);
             return list;
 

@@ -8,6 +8,29 @@ namespace Inventarios.Map
     {
 
 
+        public static FormasDePagoDTO FormasDePagoToFormasDePagoDTO(FormasDePago obj)
+        {
+            FormasDePagoDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public static List<FormasDePagoDTO> ListFormasDePagoToFormasDePagoDTO(List<FormasDePago> list)
+        {
+            List<FormasDePagoDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(FormasDePagoToFormasDePagoDTO(s));
+            }
+            return listdto;
+        }
+
+
         public static ConceptosNotaDebitoCreditoDTO ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(ConceptosNotaDebitoCredito obj)
         {
             ConceptosNotaDebitoCreditoDTO dto = new();
@@ -17,6 +40,7 @@ namespace Inventarios.Map
 
             return dto;
         }
+
 
         public static List<ConceptosNotaDebitoCreditoDTO> ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(List<ConceptosNotaDebitoCredito> list)
         {

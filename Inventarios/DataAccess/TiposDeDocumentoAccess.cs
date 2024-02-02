@@ -134,7 +134,7 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
         {
-            var list = _context.TiposDeDocumento.Where(a => !a.estadodelregistro.Contains("I")).OrderBy(a => a.nombre).ToList();
+            var list = _context.TiposDeDocumento.Where(a => a.estadodelregistro.Contains("A")).OrderBy(a => a.nombre).ToList();
 
             Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
             string? tiposdedocumento = obj.tiposdedocumento;

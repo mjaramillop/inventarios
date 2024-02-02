@@ -70,6 +70,8 @@ builder.Services.AddScoped<TiposDeDocumentoAccess>();
 builder.Services.AddScoped<ProveedoresAccess>();
 builder.Services.AddScoped<CiudadesAccess>();
 builder.Services.AddScoped<MensajesDelSistemaAccess>();
+builder.Services.AddScoped<FormasDePagoAccess>();
+
 
 
 
@@ -85,6 +87,8 @@ builder.Services.AddScoped<TiposDeDocumentoService>();
 builder.Services.AddScoped<ProveedoresService>();
 builder.Services.AddScoped<CiudadesService>();
 builder.Services.AddScoped<MensajesDelSistemaService>();
+builder.Services.AddScoped<FormasDePagoService>();
+
 
 
 

@@ -97,6 +97,13 @@ namespace Inventarios.Controllers
         public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id )
         {
             if (_jwtservice.UserAthenticated() == false) return null;
+
+            if (id == 0 )
+            {
+
+                id = _jwtservice.Id;
+            }
+
             List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
             return list;
         }
