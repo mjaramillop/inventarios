@@ -7,14 +7,12 @@ namespace Inventarios.services
 {
     public class TiposDeDocumentoService
     {
-
         private readonly TiposDeDocumentoAccess _access;
         public List<TiposDeDocumentoDTO>? list;
 
         public TiposDeDocumentoService(TiposDeDocumentoAccess access)
         {
             _access = access;
-
         }
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
@@ -56,21 +54,29 @@ namespace Inventarios.services
 
         public List<TiposDeDocumentoDTO>? ListCodigoNombre(string filtro)
         {
-
             var list = _access.ListCodigoNombre(filtro);
             return list;
-
-
         }
 
         public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
         {
-
-
-
             var list = _access.ListDocumentosPermisos(id);
             return list;
-
         }
+
+        public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id)
+        {
+            var list = _access.DarAccesoTotal(id);
+            return list;
+        }
+
+
+        public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id)
+        {
+            var list = _access.DarRestriccionTotal(id);
+            return list;
+        }
+
+
     }
 }

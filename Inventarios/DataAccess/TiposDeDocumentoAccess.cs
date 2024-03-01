@@ -2,7 +2,6 @@
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models;
-using Inventarios.Token;
 
 namespace Inventarios.DataAccess
 {
@@ -42,20 +41,19 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeDocumentoDTO>? Update(TiposDeDocumento? obj)
         {
-           
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
 
             var obj_ = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.id);
             if (obj_ != null)
             {
                 obj_.nombre = obj.nombre;
-                obj_.abreviatura= obj.abreviatura;
-                obj_.consecutivo= obj.consecutivo;  
-                obj_.cuentacontabledebito= obj.cuentacontabledebito;
-                obj_.cuentacontablecredito= obj.cuentacontablecredito;
-                obj_.despacha= obj.despacha;
-                obj_.recibe= obj.recibe;
-                obj_.pidefechadeldocumento= obj.pidefechadeldocumento;
+                obj_.abreviatura = obj.abreviatura;
+                obj_.consecutivo = obj.consecutivo;
+                obj_.cuentacontabledebito = obj.cuentacontabledebito;
+                obj_.cuentacontablecredito = obj.cuentacontablecredito;
+                obj_.despacha = obj.despacha;
+                obj_.recibe = obj.recibe;
+             
                 obj_.pidefechadevencimiento = obj.pidefechadevencimiento;
                 obj_.pideprograma = obj.pideprograma;
                 obj_.pideconceptonotadebitocredito = obj.pideconceptonotadebitocredito;
@@ -89,13 +87,9 @@ namespace Inventarios.DataAccess
                 obj_.eldocumentoseimprimeanombrededespachaorecibe = obj.eldocumentoseimprimeanombrededespachaorecibe;
                 obj_.esunanota = obj.esunanota;
                 obj_.esuninventarioinicial = obj.esuninventarioinicial;
-                obj_.titulodespacha = obj.titulodespacha;   
-                obj_.titulorecibe = obj.titulorecibe;   
-                obj_.puedeincluiritems = obj.puedeincluiritems;
-                obj_.puedemodificaritems = obj.puedemodificaritems;
-                obj_.esuncampodeescritura = obj.esuncampodeescritura;
-                obj_.esuncampodelectura = obj.esuncampodelectura;   
-                obj_.esuncampovisible = obj.esuncampovisible;
+                obj_.titulodespacha = obj.titulodespacha;
+                obj_.titulorecibe = obj.titulorecibe;
+               
                 obj_.transaccionesquepuedellamar = obj.transaccionesquepuedellamar;
                 obj_.estadodelregistro = obj.estadodelregistro;
 
@@ -111,7 +105,7 @@ namespace Inventarios.DataAccess
             list = _context.TiposDeDocumento.Where(a => a.id == id).ToList();
             return list;
         }
-
+       
         public List<TiposDeDocumentoDTO>? List(string filtro)
         {
             list = _context.TiposDeDocumento.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
@@ -134,47 +128,79 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
         {
-            var list = _context.TiposDeDocumento.Where(a => a.estadodelregistro.Contains("A")).OrderBy(a => a.nombre).ToList();
-
             Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
             string? tiposdedocumento = obj.tiposdedocumento;
 
             List<TiposDeDocumentoPermisosDTO> listapermisos = new List<TiposDeDocumentoPermisosDTO>();
 
-            foreach (var s in list)
-            {
-                TiposDeDocumentoPermisosDTO obj1 = new TiposDeDocumentoPermisosDTO();
-                obj1.nombre = s.nombre;
-                obj1.id = s.id;
-                obj1.agregar = false;
-                obj1.borrar = false;
-                obj1.modificar = false;
-                obj1.anular = false;
-                obj1.imprimir = false;
-                obj1.estadodelregistro = s.estadodelregistro;
+            if (tiposdedocumento.Trim().Length <= 1) tiposdedocumento = "";
 
-                listapermisos.Add(obj1);
-            }
-
-            string[] permisos = obj.tiposdedocumento.Split(",");
+            string[] permisos = tiposdedocumento.Split(",");
             for (int i = 1; i < permisos.Length - 1; i++)
             {
                 string codigotipodedocumento = permisos[i].Substring(0, permisos[i].IndexOf("="));
 
-                foreach (var s in listapermisos)
+                List<TiposDeDocumento> ls = new List<TiposDeDocumento>();
+                list = _context.TiposDeDocumento.Where(a => a.id == Convert.ToInt32(codigotipodedocumento)).ToList();
+                if (list.Count > 0)
                 {
-                    if (s.id == Convert.ToInt32(codigotipodedocumento))
-                    {
-                        if (permisos[i].IndexOf("A") >= 0) s.agregar = true;
-                        if (permisos[i].IndexOf("M") >= 0) s.modificar = true;
-                        if (permisos[i].IndexOf("B") >= 0) s.borrar = true;
-                        if (permisos[i].IndexOf("I") >= 0) s.imprimir = true;
-                        if (permisos[i].IndexOf("N") >= 0) s.anular = true;
-                    }
+                    TiposDeDocumentoPermisosDTO obj1 = new TiposDeDocumentoPermisosDTO();
+
+                    obj1.nombre = list[0].nombre;
+                    obj1.id = list[0].id;
+                    obj1.agregar = false;
+                    obj1.borrar = false;
+                    obj1.modificar = false;
+                    obj1.anular = false;
+                    obj1.imprimir = false;
+                    obj1.estadodelregistro = list[0].estadodelregistro;
+
+                    if (permisos[i].IndexOf("A") >= 0) obj1.agregar = true;
+                    if (permisos[i].IndexOf("M") >= 0) obj1.modificar = true;
+                    if (permisos[i].IndexOf("B") >= 0) obj1.borrar = true;
+                    if (permisos[i].IndexOf("I") >= 0) obj1.imprimir = true;
+                    if (permisos[i].IndexOf("N") >= 0) obj1.anular = true;
+                    listapermisos.Add(obj1);
                 }
             }
 
             return listapermisos;
+        }
+
+        public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id)
+        {
+            List<TiposDeDocumento> list = new List<TiposDeDocumento>();
+            list = _context.TiposDeDocumento.ToList();
+
+            string tiposdedocumentoquepuedeaccesar = ",";
+
+            foreach (var s in list)
+            {
+                tiposdedocumentoquepuedeaccesar = tiposdedocumentoquepuedeaccesar + s.id + "=AMBIN,";
+            }
+
+            var obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
+
+            obj.tiposdedocumento = tiposdedocumentoquepuedeaccesar;
+
+            _context.SaveChanges();
+            this.Log2(obj, "Modifico usuario");
+
+            return ListDocumentosPermisos(id);
+        }
+
+        public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id)
+        {
+            string tiposdedocumentoquepuedeaccesar = ",";
+
+            var obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
+
+            obj.tiposdedocumento = tiposdedocumentoquepuedeaccesar;
+
+            _context.SaveChanges();
+            this.Log2(obj, "Modifico usuario");
+
+            return ListDocumentosPermisos(id);
         }
 
         public void Log(TiposDeDocumento obj, string operacion)
@@ -219,16 +245,22 @@ namespace Inventarios.DataAccess
             comando = comando + "esuninventarioinicial = " + obj.esuninventarioinicial + "\n";
             comando = comando + "titulodespacha  = " + obj.titulodespacha;
             comando = comando + "titulorecibe =" + obj.titulorecibe;
-            comando = comando + "puedeincluiritems =" + obj.puedeincluiritems;
-            comando = comando + "puedemodificaritems =" + obj.puedemodificaritems;
-            comando = comando + "esuncampodeescritura =" + obj.esuncampodeescritura;
-            comando = comando + "esuncampodelectura =" + obj.esuncampodelectura;
-            comando = comando + "esuncampovisible =" + obj.esuncampovisible;
+           
             comando = comando + "transaccionesquepuedellamar =" + obj.transaccionesquepuedellamar;
-
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
+
+            _logacces.Add(comando);
+        }
+
+        public void Log2(Usuarios obj, string operacion)
+        {
+            string comando = "";
+            comando = comando + "operacion " + operacion + "\n";
+
+            comando = comando + "id = " + obj.id + "\n";
+            comando = comando + "tipos de documento a accesar = " + obj.tiposdedocumento + "\n";
 
             _logacces.Add(comando);
         }

@@ -22,7 +22,7 @@ public partial class TiposDeDocumento
 
     public string? recibe { get; set; }
 
-    public string? pidefechadeldocumento { get; set; }
+   
 
     public string? pidefechadevencimiento { get; set; }
 
@@ -92,21 +92,14 @@ public partial class TiposDeDocumento
 
     public string? estadodelregistro { get; set; }
 
-    public string? esuncampodelectura { get; set; }
-
-    public string? esuncampodeescritura { get; set; }
-
-    public string? esuncampovisible { get; set; }
-
+  
     public string? titulodespacha { get; set; }
 
     public string? titulorecibe { get; set; }
 
     public string? transaccionesquepuedellamar { get; set; }
 
-    public string? puedeincluiritems { get; set; }
-
-    public string? puedemodificaritems { get; set; }
+   
 
 
 }

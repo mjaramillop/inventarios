@@ -25,7 +25,6 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<ConceptosNotaDebitoCredito> ConceptosNotaDebitoCredito { get; set; }
 
-  
     public virtual DbSet<FormasDePago> FormasDePago { get; set; }
 
     public virtual DbSet<Formula> Formulas { get; set; }
@@ -239,7 +238,6 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-    
         modelBuilder.Entity<FormasDePago>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK_TABLA_FORMAS_DE_PAGO");
@@ -388,11 +386,11 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("CANTIDADPOREMPAQUE");
             entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
             entity.Property(e => e.codigodescuento1).HasColumnName("CODIGODESCUENTO1");
-        
+
             entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
-          
+
             entity.Property(e => e.codigoretencion1).HasColumnName("CODIGORETENCION1");
-         
+
             entity.Property(e => e.costodeproduccionporunidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTODEPRODUCCIONPORUNIDAD");
@@ -461,15 +459,15 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.porcentajedeiva1)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("PORCENTAJEDEIVA1");
-          
+
             entity.Property(e => e.porcentajederetencion1)
                 .HasColumnType("numeric(5, 2)")
                 .HasColumnName("PORCENTAJEDERETENCION1");
-          
+
             entity.Property(e => e.porcentajedescuento1)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("PORCENTAJEDESCUENTO1");
-           
+
             entity.Property(e => e.producto)
                 .HasMaxLength(30)
                 .IsUnicode(false)
@@ -503,14 +501,14 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("USUARIO_QUE_ACTUALIZO");
             entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
-         
+
             entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
-       
+
             entity.Property(e => e.valorneto)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("VALORNETO");
             entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
-       
+
             entity.Property(e => e.valorunitario)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("VALORUNITARIO");
@@ -588,7 +586,7 @@ public partial class InventariosContext : DbContext
         {
             entity.ToTable("PROVEEDORES");
 
-            entity.HasIndex(e => e.nombre, "IX_PROVEEDORES");
+            entity.HasIndex(e =>  e.nombre, "IX_PROVEEDORES");
 
             entity.HasIndex(e => e.nit, "IX_PROVEEDORES_1").IsUnique();
 
@@ -690,7 +688,6 @@ public partial class InventariosContext : DbContext
               .HasMaxLength(1)
               .IsUnicode(false)
               .HasColumnName("tipodecuenta");
-
         });
 
         modelBuilder.Entity<Saldos>(entity =>
@@ -835,10 +832,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("pideempaque");
-            entity.Property(e => e.pidefechadeldocumento)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("PIDEFECHADELDOCUMENTO");
+          
             entity.Property(e => e.pidefechadevencimiento)
                 .HasMaxLength(1)
                 .IsUnicode(false)
@@ -915,18 +909,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("tipoagenterecibe");
-            entity.Property(e => e.esuncampodeescritura)
-               .HasMaxLength(1)
-               .IsUnicode(false)
-               .HasColumnName("esuncampodeescritura");
-            entity.Property(e => e.esuncampodelectura)
-            .HasMaxLength(1)
-            .IsUnicode(false)
-            .HasColumnName("esuncampodelectura");
-            entity.Property(e => e.esuncampovisible)
-            .HasMaxLength(1)
-            .IsUnicode(false)
-            .HasColumnName("esuncampovisible");
+
             entity.Property(e => e.titulodespacha)
             .HasMaxLength(50)
             .IsUnicode(false)
@@ -939,16 +922,6 @@ public partial class InventariosContext : DbContext
     .HasMaxLength(50)
     .IsUnicode(false)
     .HasColumnName("transaccionesquepuedellamar");
-
-            entity.Property(e => e.puedeincluiritems)
-.HasMaxLength(50)
-.IsUnicode(false)
-.HasColumnName("puedeincluiritems");
-
-            entity.Property(e => e.puedemodificaritems)
-.HasMaxLength(50)
-.IsUnicode(false)
-.HasColumnName("puedemodificaritems");
         });
 
         modelBuilder.Entity<Tiposdeprograma>(entity =>

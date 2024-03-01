@@ -86,47 +86,7 @@ namespace Inventarios.Controllers
             return list;
         }
 
-        [HttpGet]
-        [ActionName("GetTransaccionesAutorizadas")]
-        public List<UserTiposDeDocumentoDTO>? GetTransaccionesAutorizadas()
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-
-            List<UserTiposDeDocumentoDTO> list = new List<UserTiposDeDocumentoDTO>();
-
-
-
-            string[]? tiposdedocumento = _jwtservice.tiposdedocumento?.Split(',');
-           
-            for (int i = 0; i < tiposdedocumento.Length - 1; i++)
-            {
-                UserTiposDeDocumentoDTO userTiposDeDocumentoDTO = new UserTiposDeDocumentoDTO();
-                userTiposDeDocumentoDTO.tipodedocumento =tiposdedocumento[i];
-                list.Add(userTiposDeDocumentoDTO);
-
-            }
-
-            return list;
-        }
-
-        [HttpGet]
-        [ActionName("GetProgramasAutorizados")]
-        public List<UserProgramasDTO>? GetProgramasAutorizados()
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-            List<UserProgramasDTO> list = new List<UserProgramasDTO>();
-
-            string[] programas = _jwtservice.programas.Split(',');
-
-            for (int i = 0; i < programas.Length - 1; i++)
-            {
-                UserProgramasDTO userProgramasDTO = new UserProgramasDTO();
-                userProgramasDTO.programa = programas[i];
-                list.Add(userProgramasDTO);
-            }
-
-            return list;
-        }
+      
 
         [HttpGet]
         [ActionName("GetId")]

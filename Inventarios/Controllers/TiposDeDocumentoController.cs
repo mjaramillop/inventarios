@@ -11,10 +11,6 @@ namespace Inventarios.Controllers
     [ApiController]
     public class TiposDeDocumentoController : ControllerBase
     {
-
-
-
-
         private readonly TiposDeDocumentoService _service;
         private readonly JwtService _jwtservice;
         private List<TiposDeDocumentoDTO>? list;
@@ -63,6 +59,29 @@ namespace Inventarios.Controllers
             return list;
         }
 
+        [HttpGet("{id}")]
+        [ActionName("GetByIdIfHasAccess")]
+        public List<TiposDeDocumento>? GetByIdIfHasAccess(int id)
+        {
+            List<TiposDeDocumento> list = new List<TiposDeDocumento> { };
+
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+            if (_jwtservice.tiposdedocumento.IndexOf("," +id +"=" )<0)
+            {
+                TiposDeDocumento tdo = new TiposDeDocumento();  
+                tdo.id = id;
+                tdo.nombre = " No tienes acceso a esta transaccion";
+                list.Add(tdo);
+                return list;
+            }
+
+            list = _service.GetById(id);
+            return list;
+        }
+
+
+
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
         public List<TiposDeDocumentoDTO>? GetAll(string filtro = "")
@@ -81,7 +100,6 @@ namespace Inventarios.Controllers
             return list;
         }
 
-
         [HttpGet("{filtro}")]
         [ActionName("GetAllCodigoNombre")]
         public List<TiposDeDocumentoDTO>? GetAllCodigoNombre(string filtro = "")
@@ -94,22 +112,47 @@ namespace Inventarios.Controllers
 
         [HttpGet("{id}")]
         [ActionName("GetListDocumentosPermisos")]
-        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id )
+        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
-            if (id == 0 )
-            {
+            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
+            return list;
+        }
 
-                id = _jwtservice.Id;
-            }
+        [HttpGet()]
+        [ActionName("GetListDocumentosPermisosUserLoged")]
+        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisosUserLoged()
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+            int id = _jwtservice.Id;
 
             List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
             return list;
         }
 
 
+        [HttpGet("{id}")]
+        [ActionName("GetDarAccesoTotal")]
+        public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id)
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
 
+            List<TiposDeDocumentoPermisosDTO>? list = _service.DarAccesoTotal(id);
+            return list;
+        }
+
+
+        [HttpGet("{id}")]
+        [ActionName("GetDarRestriccionTotal")]
+        public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id)
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+            List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id);
+            return list;
+        }
 
 
     }
