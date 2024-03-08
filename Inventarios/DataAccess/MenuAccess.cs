@@ -74,11 +74,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListMenuToListMenuDTO(list);
         }
 
-        public List<MenuDTO>? ListActive(string filtro)
-        {
-            list = _context.Menus.ToList().OrderBy(a => a.orden).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListMenuToListMenuDTO(list);
-        }
+       
 
         public void Log(Menu obj, string operacion)
         {

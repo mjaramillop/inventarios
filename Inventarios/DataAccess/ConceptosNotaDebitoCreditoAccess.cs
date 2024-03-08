@@ -71,11 +71,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
         }
 
-        public List<ConceptosNotaDebitoCreditoDTO>? ListActive(string filtro)
-        {
-            list = _context.ConceptosNotaDebitoCredito.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
-        }
+      
 
         public void Log(ConceptosNotaDebitoCredito obj, string operacion)
         {

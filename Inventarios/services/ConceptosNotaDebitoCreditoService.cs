@@ -46,11 +46,7 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<ConceptosNotaDebitoCreditoDTO>? ListActive(string filtro)
-        {
-            var list = _access.ListActive(filtro);
-            return list;
-        }
+       
 
     }
 }

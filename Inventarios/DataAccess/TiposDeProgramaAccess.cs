@@ -71,11 +71,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
         }
 
-        public List<TiposDeProgramaDTO>? ListActive(string filtro)
-        {
-            list = _context.TiposDePrograma.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
-        }
+      
 
         public void Log(TiposDePrograma obj, string operacion)
         {

@@ -112,12 +112,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
-        public List<TiposDeDocumentoDTO> ListActive(string filtro)
-        {
-            list = _context.TiposDeDocumento.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
-        }
-
+      
         public List<TiposDeDocumentoDTO> ListCodigoNombre(string filtro)
         {
             var list = from pro in _context.TiposDeDocumento

@@ -95,12 +95,6 @@ namespace Inventarios.DataAccess
             return Mapping.ListProveedoresToProveedoresDTO(list);
         }
 
-        public List<ProveedoresDTO>? ListActive(string filtro)
-        {
-            list = _context.Proveedores.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListProveedoresToProveedoresDTO(list);
-        }
-
         public void Log(Proveedores obj, string operacion)
         {
             string comando = "";

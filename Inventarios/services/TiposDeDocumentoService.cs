@@ -46,12 +46,7 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<TiposDeDocumentoDTO>? ListActive(string filtro)
-        {
-            var list = _access.ListActive(filtro);
-            return list;
-        }
-
+      
         public List<TiposDeDocumentoDTO>? ListCodigoNombre(string filtro)
         {
             var list = _access.ListCodigoNombre(filtro);

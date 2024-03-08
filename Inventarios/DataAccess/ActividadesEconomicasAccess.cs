@@ -72,12 +72,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
-        public List<ActividadesEconomicasDTO>? ListActive(string filtro)
-        {
-            list = _context.Actividadeseconomicas.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
-        }
-
+       
         public void Log(ActividadesEconomicas obj, string operacion)
         {
             string comando = "";

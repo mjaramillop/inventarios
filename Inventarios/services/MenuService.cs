@@ -47,11 +47,7 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<MenuDTO>? ListActive(string filtro )
-        {
-            var list = _access.ListActive(filtro);
-            return list;
-        }
+       
 
 
 

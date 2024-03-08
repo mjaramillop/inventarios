@@ -47,12 +47,7 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<PerfilesDTO> ListActive(string filtro)
-        {
-            var list = _access.ListActive(filtro);
-            return list;
-        }
-
+       
 
         public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
         {

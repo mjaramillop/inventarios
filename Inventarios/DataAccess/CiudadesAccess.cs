@@ -101,23 +101,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListCiudadesToCiudadesDTO(list);
         }
 
-        public List<CiudadesDTO>? ListActive(string filtro)
-        {
-            list = _context.Ciudades.ToList()
-                .OrderBy(a => a.nivel1)
-                .OrderBy(a => a.nivel2)
-                .OrderBy(a => a.nivel3)
-                .OrderBy(a => a.nivel4)
-                .OrderBy(a => a.nivel5)
-                .Where(a => a.estadodelregistro != "I")
-                 .Where(a => a.nivel1.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase) ||
-                 a.nivel2.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase) ||
-                 a.nivel3.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase) ||
-                 a.nivel4.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase) ||
-                 a.nivel5.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-
-            return Mapping.ListCiudadesToCiudadesDTO(list);
-        }
+       
 
         public List<CiudadesDTO>? UpdateNiveles(CiudadesUpdateNiveles obj)
         {

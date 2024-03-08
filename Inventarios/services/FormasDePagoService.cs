@@ -47,11 +47,6 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<FormasDePagoDTO>? ListActive(string filtro)
-        {
-            var list = _access.ListActive(filtro);
-            return list;
-        }
-
+       
     }
 }

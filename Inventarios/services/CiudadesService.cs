@@ -48,11 +48,7 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<CiudadesDTO>? ListActive(string filtro)
-        {
-            var list = _access.ListActive(filtro);
-            return list;
-        }
+     
 
         public List<CiudadesDTO>? UpdateNiveles(CiudadesUpdateNiveles obj)
         {

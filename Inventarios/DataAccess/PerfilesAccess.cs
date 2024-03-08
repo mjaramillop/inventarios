@@ -74,12 +74,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListPerfilesToPerfilesDTO(list);
         }
 
-        public List<PerfilesDTO>? ListActive(string filtro)
-        {
-            list = _context.Perfiles.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListPerfilesToPerfilesDTO(list);
-        }
-
+       
 
 
         public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)

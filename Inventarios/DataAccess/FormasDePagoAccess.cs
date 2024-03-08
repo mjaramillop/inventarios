@@ -71,11 +71,7 @@ namespace Inventarios.DataAccess
             return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
         }
 
-        public List<FormasDePagoDTO>? ListActive(string filtro)
-        {
-            list = _context.FormasDePago.ToList().OrderBy(a => a.nombre).Where(a => a.estadodelregistro != "I").Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
-        }
+     
 
         public void Log(FormasDePago obj, string operacion)
         {
