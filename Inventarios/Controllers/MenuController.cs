@@ -72,16 +72,7 @@ namespace Inventarios.Controllers
             return list;
         }
 
-        [HttpGet("{filtro}")]
-        [ActionName("GetAllActive")]
-        public List<MenuDTO>? GetAllActive(string filtro = "")
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.ListActive(filtro);
-            return list;
-        }
-
-
+      
 
 
 

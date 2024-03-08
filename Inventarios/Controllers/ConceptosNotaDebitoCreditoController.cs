@@ -72,15 +72,7 @@ namespace Inventarios.Controllers
         }
 
 
-        [HttpGet("{filtro}")]
-     
-        [ActionName("GetAllActive")]
-        public List<ConceptosNotaDebitoCreditoDTO>? GetAllActive(string filtro = "")
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.ListActive(filtro);
-            return list;
-        }
+      
 
 
 
