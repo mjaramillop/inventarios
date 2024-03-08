@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers
 {
-
     [Route("[controller]/[action]")]
     [ApiController]
     public class FormasDePagoController : ControllerBase
@@ -86,5 +85,4 @@ namespace Inventarios.Controllers
 
 
     }
-
 }

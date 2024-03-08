@@ -25,7 +25,7 @@ namespace Inventarios.DataAccess
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             _context.FormasDePago.Add(obj);
             _context.SaveChanges();
-            this.Log(obj, "Agrego Actividades Economicas");
+            this.Log(obj, "Agrego Formas de pago");
             list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
             return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
         }
@@ -35,7 +35,7 @@ namespace Inventarios.DataAccess
             var obj = _context.FormasDePago.FirstOrDefault(a => a.id == id);
             _context.FormasDePago.Remove(obj);
             _context.SaveChanges();
-            this.Log(obj, "Borro Actividades Economicas");
+            this.Log(obj, "Borro Formas de pago");
             obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
             return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
@@ -53,7 +53,7 @@ namespace Inventarios.DataAccess
                 obj_.estadodelregistro = obj.estadodelregistro;
 
                 _context.SaveChanges();
-                this.Log(obj, "Modifico FormasDePago");
+                this.Log(obj, "Modifico Formas de pago");
             }
             list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
             return Mapping.ListFormasDePagoToFormasDePagoDTO(list);

@@ -67,20 +67,14 @@ namespace Inventarios.Controllers
 
             if (_jwtservice.UserAthenticated() == false) return null;
 
-            if (_jwtservice.tiposdedocumento.IndexOf("," +id +"=" )<0)
+            if (_jwtservice.tiposdedocumento.IndexOf("," + id + "=") < 0)
             {
-                TiposDeDocumento tdo = new TiposDeDocumento();  
-                tdo.id = id;
-                tdo.nombre = " No tienes acceso a esta transaccion";
-                list.Add(tdo);
                 return list;
             }
 
             list = _service.GetById(id);
             return list;
         }
-
-
 
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
@@ -109,7 +103,6 @@ namespace Inventarios.Controllers
             return list;
         }
 
-
         [HttpGet("{id}")]
         [ActionName("GetListDocumentosPermisos")]
         public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id)
@@ -132,7 +125,6 @@ namespace Inventarios.Controllers
             return list;
         }
 
-
         [HttpGet("{id}")]
         [ActionName("GetDarAccesoTotal")]
         public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id)
@@ -143,7 +135,6 @@ namespace Inventarios.Controllers
             return list;
         }
 
-
         [HttpGet("{id}")]
         [ActionName("GetDarRestriccionTotal")]
         public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id)
@@ -153,7 +144,5 @@ namespace Inventarios.Controllers
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id);
             return list;
         }
-
-
     }
 }

@@ -49,7 +49,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<TiposDeDocumento> TiposDeDocumento { get; set; }
 
-    public virtual DbSet<Tiposdeprograma> Tiposdeprogramas { get; set; }
+    public virtual DbSet<TiposDePrograma> TiposDePrograma { get; set; }
 
     public virtual DbSet<TmpMovimientodeinventario> TmpMovimientodeinventarios { get; set; }
 
@@ -924,19 +924,19 @@ public partial class InventariosContext : DbContext
     .HasColumnName("transaccionesquepuedellamar");
         });
 
-        modelBuilder.Entity<Tiposdeprograma>(entity =>
+        modelBuilder.Entity<TiposDePrograma>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_TABLA_TIPOS_DE_PROGRAMAS");
+            entity.HasKey(e => e.id).HasName("PK_TABLA_TIPOS_DE_PROGRAMAS");
 
             entity.ToTable("TIPOSDEPROGRAMAS");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.nombre)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");

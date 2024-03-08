@@ -8,6 +8,31 @@ namespace Inventarios.Map
     {
 
 
+        public static TiposDeProgramaDTO TiposDeProgramaToTiposDeProgramaDTO(TiposDePrograma obj)
+        {
+            TiposDeProgramaDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public static List<TiposDeProgramaDTO> ListTiposDeProgramaToTiposDeProgramaDTO(List<TiposDePrograma> list)
+        {
+            List<TiposDeProgramaDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(TiposDeProgramaToTiposDeProgramaDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+
         public static FormasDePagoDTO FormasDePagoToFormasDePagoDTO(FormasDePago obj)
         {
             FormasDePagoDTO dto = new();
