@@ -21,6 +21,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Scaffold-DbContext "Server=DESKTOP-56QVMV6\SQLEXPRESS;Database=inventarios;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 builder.Services.AddSwaggerGen(c =>
 {
+
+  
+
     c.SwaggerDoc("v1", 
         new OpenApiInfo 
         { Title = "Mi aplicacion de inventarios", 

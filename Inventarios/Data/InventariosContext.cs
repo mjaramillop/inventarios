@@ -27,7 +27,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<FormasDePago> FormasDePago { get; set; }
 
-    public virtual DbSet<Formula> Formulas { get; set; }
+    public virtual DbSet<Formulas> Formulas { get; set; }
 
     public virtual DbSet<Iva> Ivas { get; set; }
 
@@ -256,24 +256,24 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-        modelBuilder.Entity<Formula>(entity =>
+        modelBuilder.Entity<Formulas>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_FORMULAS_1");
+            entity.HasKey(e => e.id).HasName("PK_FORMULAS_1");
 
             entity.ToTable("FORMULAS");
 
-            entity.HasIndex(e => new { e.Formula1, e.Componente }, "IX_FORMULAS").IsUnique();
+            entity.HasIndex(e => new { e.formula, e.componente }, "IX_FORMULAS").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.Cantidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("CANTIDAD");
-            entity.Property(e => e.Componente)
+            entity.Property(e => e.componente)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("COMPONENTE");
 
-            entity.Property(e => e.Formula1)
+            entity.Property(e => e.formula)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("FORMULA");

@@ -4,6 +4,7 @@ using Inventarios.services;
 using Inventarios.Token;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Inventarios.Controllers
 {
@@ -65,9 +66,10 @@ namespace Inventarios.Controllers
         }
 
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro?}")]
         [ActionName("GetAll")]
-        public List<MensajesDelSistemaDTO>? GetAll(string filtro)
+       
+        public List<MensajesDelSistemaDTO>? GetAll(string filtro="")
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
@@ -75,16 +77,7 @@ namespace Inventarios.Controllers
         }
 
 
-        [HttpGet]
-        [ActionName("GetAllActive")]
-        public List<MensajesDelSistemaDTO>? GetAllActive()
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.ListActive();
-            return list;
-        }
-
-
+     
 
 
     }
