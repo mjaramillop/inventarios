@@ -260,23 +260,19 @@ public partial class InventariosContext : DbContext
         {
             entity.HasKey(e => e.id).HasName("PK_FORMULAS_1");
 
+           
+
             entity.ToTable("FORMULAS");
 
             entity.HasIndex(e => new { e.formula, e.componente }, "IX_FORMULAS").IsUnique();
 
             entity.Property(e => e.id).HasColumnName("ID");
-            entity.Property(e => e.Cantidad)
+            entity.Property(e => e.cantidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("CANTIDAD");
-            entity.Property(e => e.componente)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("COMPONENTE");
+            entity.Property(e => e.componente).HasColumnName("COMPONENTE");
 
-            entity.Property(e => e.formula)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("FORMULA");
+            entity.Property(e => e.formula).HasColumnName("FORMULA");
         });
 
         modelBuilder.Entity<Iva>(entity =>

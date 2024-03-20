@@ -11,13 +11,16 @@ namespace Inventarios.DataAccess
 
         private readonly LogAccess _logacces;
 
+        private readonly Mapping _mapping;
+
         private List<FormasDePago>? list;
 
-        public FormasDePagoAccess(InventariosContext context, LogAccess logacces)
+        public FormasDePagoAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
 
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<FormasDePagoDTO>? Add(FormasDePago obj)
@@ -27,7 +30,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Formas de pago");
             list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
         }
 
         public List<FormasDePagoDTO> Delete(int id)
@@ -36,27 +39,24 @@ namespace Inventarios.DataAccess
             _context.FormasDePago.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Formas de pago");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
         }
 
         public List<FormasDePagoDTO>? Update(FormasDePago? obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.FormasDePago.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.nombre = obj.nombre;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Formas de pago");
-            }
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Formas de pago");
+
             list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
         }
 
         public List<FormasDePago> GetById(int id)
@@ -68,10 +68,8 @@ namespace Inventarios.DataAccess
         public List<FormasDePagoDTO>? List(string filtro)
         {
             list = _context.FormasDePago.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
         }
-
-     
 
         public void Log(FormasDePago obj, string operacion)
         {

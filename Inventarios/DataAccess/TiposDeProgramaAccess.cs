@@ -10,14 +10,16 @@ namespace Inventarios.DataAccess
         private readonly InventariosContext _context;
 
         private readonly LogAccess _logacces;
+        private readonly Mapping _mapping;
 
         private List<TiposDePrograma>? list;
 
-        public TiposDeProgramaAccess(InventariosContext context, LogAccess logacces)
+        public TiposDeProgramaAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
 
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<TiposDeProgramaDTO>? Add(TiposDePrograma obj)
@@ -27,7 +29,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Tipos de programa");
             list = _context.TiposDePrograma.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
+            return _mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
         }
 
         public List<TiposDeProgramaDTO> Delete(int id)
@@ -36,27 +38,24 @@ namespace Inventarios.DataAccess
             _context.TiposDePrograma.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Tipos de programa");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.TiposDePrograma.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
+            return _mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
         }
 
         public List<TiposDeProgramaDTO>? Update(TiposDePrograma? obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.TiposDePrograma.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.nombre = obj.nombre;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Tipos de programa");
-            }
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Tipos de programa");
+
             list = _context.TiposDePrograma.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
+            return _mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
         }
 
         public List<TiposDePrograma> GetById(int id)
@@ -68,10 +67,8 @@ namespace Inventarios.DataAccess
         public List<TiposDeProgramaDTO>? List(string filtro)
         {
             list = _context.TiposDePrograma.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
+            return _mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
         }
-
-      
 
         public void Log(TiposDePrograma obj, string operacion)
         {

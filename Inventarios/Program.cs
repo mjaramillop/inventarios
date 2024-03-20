@@ -14,6 +14,7 @@ using Inventarios.Models;
 using Inventarios.ModelsParameter;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using Inventarios.Map;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,10 +78,6 @@ builder.Services.AddScoped<FormasDePagoAccess>();
 builder.Services.AddScoped<TiposDeProgramaAccess>();
 
 
-
-
-
-
 // services
 builder.Services.AddScoped<ConceptosNotaDebitoCreditoService>();
 builder.Services.AddScoped<LogService>();
@@ -96,9 +93,10 @@ builder.Services.AddScoped<FormasDePagoService>();
 builder.Services.AddScoped<TiposDeProgramaService>();
 
 
+//mapping
+builder.Services.AddScoped<Mapping>();
 
-
-
+//utils
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddSingleton<StaticTables>();
 

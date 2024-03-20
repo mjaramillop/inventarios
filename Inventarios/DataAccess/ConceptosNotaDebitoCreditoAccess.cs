@@ -11,13 +11,16 @@ namespace Inventarios.DataAccess
 
         private readonly LogAccess _logacces;
 
+        private readonly Mapping _mapping;
+
         private List<ConceptosNotaDebitoCredito>? list;
 
-        public ConceptosNotaDebitoCreditoAccess(InventariosContext context, LogAccess logacces)
+        public ConceptosNotaDebitoCreditoAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
 
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
@@ -27,7 +30,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Conceptos Nota debito credito");
             list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
         }
 
         public List<ConceptosNotaDebitoCreditoDTO> Delete(int id)
@@ -36,27 +39,25 @@ namespace Inventarios.DataAccess
             _context.ConceptosNotaDebitoCredito.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Conceptos nota debito credito");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
         }
 
         public List<ConceptosNotaDebitoCreditoDTO>? Update(ConceptosNotaDebitoCredito? obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.nombre = obj.nombre;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Conceptos Nota Debito Credito");
-            }
+            //
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Conceptos Nota Debito Credito");
+
             list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
         }
 
         public List<ConceptosNotaDebitoCredito> GetById(int id)
@@ -68,10 +69,8 @@ namespace Inventarios.DataAccess
         public List<ConceptosNotaDebitoCreditoDTO>? List(string filtro)
         {
             list = _context.ConceptosNotaDebitoCredito.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
         }
-
-      
 
         public void Log(ConceptosNotaDebitoCredito obj, string operacion)
         {

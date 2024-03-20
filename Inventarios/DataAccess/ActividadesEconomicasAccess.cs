@@ -9,16 +9,19 @@ namespace Inventarios.DataAccess
     public class ActividadesEconomicasAccess
     {
         private readonly InventariosContext _context;
-     
+
         private readonly LogAccess _logacces;
-      
+
+        private readonly Mapping _mapping;
+
         private List<ActividadesEconomicas>? list;
 
-        public ActividadesEconomicasAccess(InventariosContext context,  LogAccess logacces)
+        public ActividadesEconomicasAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
-          
+
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
@@ -28,7 +31,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Actividades Economicas");
             list = _context.Actividadeseconomicas.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
         public List<ActividadesEconomicasDTO> Delete(int id)
@@ -37,27 +40,25 @@ namespace Inventarios.DataAccess
             _context.Actividadeseconomicas.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Actividades Economicas");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.Actividadeseconomicas.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
         public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas? obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.Actividadeseconomicas.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.nombre = obj.nombre;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Actividadeseconomicas");
-            }
+            //
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Actividadeseconomicas");
+
             list = _context.Actividadeseconomicas.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
         public List<ActividadesEconomicas> GetById(int id)
@@ -69,10 +70,9 @@ namespace Inventarios.DataAccess
         public List<ActividadesEconomicasDTO>? List(string filtro)
         {
             list = _context.Actividadeseconomicas.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
-       
         public void Log(ActividadesEconomicas obj, string operacion)
         {
             string comando = "";

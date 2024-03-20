@@ -10,12 +10,15 @@ namespace Inventarios.DataAccess
     {
         private readonly InventariosContext _context;
         private readonly LogAccess _logacces;
+        private readonly Mapping _mapping;
+
         private List<Proveedores>? list;
 
-        public ProveedoresAccess(InventariosContext context,LogAccess logacces)
+        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<ProveedoresDTO> Add(Proveedores obj)
@@ -26,7 +29,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Proveedores");
             list = _context.Proveedores.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListProveedoresToProveedoresDTO(list);
+            return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
         public List<ProveedoresDTO>? Delete(int id)
@@ -35,52 +38,49 @@ namespace Inventarios.DataAccess
             _context.Proveedores.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Proveedores");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.Proveedores.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListProveedoresToProveedoresDTO(list);
+            return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
         public List<ProveedoresDTO>? Update(Proveedores? obj)
         {
-
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
 
             var obj_ = _context.Proveedores.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
-                obj_.direccion = obj.direccion;
-                obj_.ciudad = obj.ciudad;
-                obj_.telefono = obj.telefono;
-                obj_.celular1 = obj.celular1;
-                obj_.celular2 = obj.celular2;
-                obj_.email1 = obj.email1;
-                obj_.email2 = obj.email2;
-                obj_.nit = obj.nit;
-                obj_.fechadeingreso = obj.fechadeingreso;
-                obj_.observaciones = obj.observaciones;
-                obj_.contactos = obj.contactos;
-                obj_.actividadcomercial = obj.actividadcomercial;
-                obj_.seleretienefuente = obj.seleretienefuente;
-                obj_.seleretieneiva = obj.seleretieneiva;
-                obj_.seleretieneica = obj.seleretieneica;
-                obj_.puedecobrariva = obj.puedecobrariva;
-                obj_.espersonanaturalojuridica = obj.espersonanaturalojuridica;
-                obj_.declararenta = obj.declararenta;
-                obj_.esgrancontribuyente = obj.esgrancontribuyente;
-                obj_.tipoderegimen = obj.tipoderegimen;
-                obj_.clasificacion = obj.clasificacion;
-                obj_.tipodeagente = obj.tipodeagente;
-                obj_.cuentacontable = obj.cuentacontable;
-                obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Proveedores");
-            }
+            obj_.nombre = obj.nombre;
+            obj_.direccion = obj.direccion;
+            obj_.ciudad = obj.ciudad;
+            obj_.telefono = obj.telefono;
+            obj_.celular1 = obj.celular1;
+            obj_.celular2 = obj.celular2;
+            obj_.email1 = obj.email1;
+            obj_.email2 = obj.email2;
+            obj_.nit = obj.nit;
+            obj_.fechadeingreso = obj.fechadeingreso;
+            obj_.observaciones = obj.observaciones;
+            obj_.contactos = obj.contactos;
+            obj_.actividadcomercial = obj.actividadcomercial;
+            obj_.seleretienefuente = obj.seleretienefuente;
+            obj_.seleretieneiva = obj.seleretieneiva;
+            obj_.seleretieneica = obj.seleretieneica;
+            obj_.puedecobrariva = obj.puedecobrariva;
+            obj_.espersonanaturalojuridica = obj.espersonanaturalojuridica;
+            obj_.declararenta = obj.declararenta;
+            obj_.esgrancontribuyente = obj.esgrancontribuyente;
+            obj_.tipoderegimen = obj.tipoderegimen;
+            obj_.clasificacion = obj.clasificacion;
+            obj_.tipodeagente = obj.tipodeagente;
+            obj_.cuentacontable = obj.cuentacontable;
+            obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
+            //
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Proveedores");
+
             list = _context.Proveedores.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListProveedoresToProveedoresDTO(list);
+            return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
         public List<Proveedores> GetById(int id)
@@ -92,14 +92,14 @@ namespace Inventarios.DataAccess
         public List<ProveedoresDTO>? List(string filtro)
         {
             list = _context.Proveedores.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListProveedoresToProveedoresDTO(list);
+            return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
         public void Log(Proveedores obj, string operacion)
         {
             string comando = "";
             comando = comando + "operacion " + operacion + "\n";
-         
+
             comando = comando + "id = " + obj.id + "\n";
             comando = comando + "Nombre = " + obj.nombre + "\n";
 
@@ -127,7 +127,6 @@ namespace Inventarios.DataAccess
             comando = comando + "tipodeagente = " + obj.tipodeagente;
             comando = comando + "cuentacontable = " + obj.cuentacontable;
             comando = comando + "codigoderetencionaaplicar = " + obj.codigoderetencionaaplicar;
-          
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";

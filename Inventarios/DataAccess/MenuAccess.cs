@@ -10,14 +10,15 @@ namespace Inventarios.DataAccess
     {
         private readonly InventariosContext _context;
         private readonly LogAccess _logacces;
-
+        private readonly Mapping _mapping;
 
         private List<Menu>? list;
 
-        public MenuAccess(InventariosContext context,  LogAccess logacces)
+        public MenuAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
-           _logacces = logacces;   
+            _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<MenuDTO>? Add(Menu? obj)
@@ -28,7 +29,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego menu");
             list = _context.Menus.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListMenuToListMenuDTO(list);
+            return _mapping.ListMenuToListMenuDTO(list);
         }
 
         public List<MenuDTO>? Delete(int id)
@@ -37,9 +38,8 @@ namespace Inventarios.DataAccess
             _context.Menus.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro menu");
-            obj.nombre = "Registro borrado satsifactoriamente";
             list = _context.Menus.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListMenuToListMenuDTO(list);
+            return _mapping.ListMenuToListMenuDTO(list);
         }
 
         public List<MenuDTO>? Update(Menu obj)
@@ -47,19 +47,16 @@ namespace Inventarios.DataAccess
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
 
             var obj_ = _context.Menus.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
-                obj_.paginaweb = obj.paginaweb;
+            obj_.nombre = obj.nombre;
+            obj_.paginaweb = obj.paginaweb;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
-               
-                _context.SaveChanges();
-                this.Log(obj, "Modifico menu");
-            }
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico menu");
+
             list = _context.Menus.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListMenuToListMenuDTO(list);
+            return _mapping.ListMenuToListMenuDTO(list);
         }
 
         public List<Menu>? GetById(int id)
@@ -71,10 +68,8 @@ namespace Inventarios.DataAccess
         public List<MenuDTO>? List(string filtro)
         {
             list = _context.Menus.ToList().OrderBy(a => a.orden).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListMenuToListMenuDTO(list);
+            return _mapping.ListMenuToListMenuDTO(list);
         }
-
-       
 
         public void Log(Menu obj, string operacion)
         {
@@ -86,7 +81,7 @@ namespace Inventarios.DataAccess
             comando = comando + "Pagina web = " + obj.paginaweb + "\n";
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-          
+
             _logacces.Add(comando);
         }
     }

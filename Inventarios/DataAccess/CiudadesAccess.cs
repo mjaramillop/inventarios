@@ -11,15 +11,18 @@ namespace Inventarios.DataAccess
     public class CiudadesAccess
     {
         private readonly InventariosContext _context;
-      
+
         private readonly LogAccess _logacces;
+        private readonly Mapping _mapping;
+
         private List<Ciudades>? list;
 
-        public CiudadesAccess(InventariosContext context, LogAccess logacces)
+        public CiudadesAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
-           
+
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<CiudadesDTO>? Add(Ciudades obj)
@@ -28,14 +31,12 @@ namespace Inventarios.DataAccess
 
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
 
-          
-         
             _context.Ciudades.Add(obj);
             _context.SaveChanges();
-          
+
             this.Log(obj, "Agrego Ciudad");
             list = _context.Ciudades.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListCiudadesToCiudadesDTO(list);
+            return _mapping.ListCiudadesToCiudadesDTO(list);
         }
 
         public List<CiudadesDTO> Delete(int id)
@@ -44,39 +45,34 @@ namespace Inventarios.DataAccess
             _context.Ciudades.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Ciudad");
-            obj.nivel1 = "Registro borrado satisfactoriamente";
             list = _context.Ciudades.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListCiudadesToCiudadesDTO(list);
+            return _mapping.ListCiudadesToCiudadesDTO(list);
         }
 
         public List<CiudadesDTO>? Update(Ciudades obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.Ciudades.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.codigo1 = obj.codigo1;
-                obj_.codigo2 = obj.codigo2;
-                obj_.codigo3 = obj.codigo3;
-                obj_.codigo4 = obj.codigo4;
-                obj_.codigo5 = obj.codigo5;
-                obj_.nivel1 = obj.nivel1;
-                obj_.nivel2 = obj.nivel2;
-                obj_.nivel3 = obj.nivel3;
-                obj_.nivel4 = obj.nivel4;
-                obj_.nivel5 = obj.nivel5;
+            obj_.codigo1 = obj.codigo1;
+            obj_.codigo2 = obj.codigo2;
+            obj_.codigo3 = obj.codigo3;
+            obj_.codigo4 = obj.codigo4;
+            obj_.codigo5 = obj.codigo5;
+            obj_.nivel1 = obj.nivel1;
+            obj_.nivel2 = obj.nivel2;
+            obj_.nivel3 = obj.nivel3;
+            obj_.nivel4 = obj.nivel4;
+            obj_.nivel5 = obj.nivel5;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
+            //
+            obj_.estadodelregistro = obj.estadodelregistro;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Ciudad");
-            }
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Ciudad");
+
             list = _context.Ciudades.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListCiudadesToCiudadesDTO(list);
+            return _mapping.ListCiudadesToCiudadesDTO(list);
         }
-
-    
 
         public List<Ciudades>? GetById(int id)
         {
@@ -98,16 +94,12 @@ namespace Inventarios.DataAccess
                  a.nivel4.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase) ||
                  a.nivel5.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
 
-            return Mapping.ListCiudadesToCiudadesDTO(list);
+            return _mapping.ListCiudadesToCiudadesDTO(list);
         }
-
-       
 
         public List<CiudadesDTO>? UpdateNiveles(CiudadesUpdateNiveles obj)
         {
-
             List<Ciudades>? list = null;
-
 
             if (obj.filtrocodigo1remplazar.Trim().Length > 0)
             {
@@ -117,7 +109,6 @@ namespace Inventarios.DataAccess
                 _context.SaveChanges();
             }
 
-
             if (obj.filtronivel1remplazar.Trim().Length > 0)
             {
                 list = _context.Ciudades.ToList()
@@ -125,7 +116,6 @@ namespace Inventarios.DataAccess
                 list.ForEach(c => { c.nivel1 = obj.filtronivel1remplazarpor; });
                 _context.SaveChanges();
             }
-
 
             if (obj.filtrocodigo2remplazar.Trim().Length > 0)
             {
@@ -135,7 +125,6 @@ namespace Inventarios.DataAccess
                 _context.SaveChanges();
             }
 
-
             if (obj.filtronivel2remplazar.Trim().Length > 0)
             {
                 list = _context.Ciudades.ToList()
@@ -143,7 +132,6 @@ namespace Inventarios.DataAccess
                 list.ForEach(c => { c.nivel2 = obj.filtronivel2remplazarpor; });
                 _context.SaveChanges();
             }
-
 
             if (obj.filtrocodigo3remplazar.Trim().Length > 0)
             {
@@ -153,7 +141,6 @@ namespace Inventarios.DataAccess
                 _context.SaveChanges();
             }
 
-
             if (obj.filtronivel3remplazar.Trim().Length > 0)
             {
                 list = _context.Ciudades.ToList()
@@ -161,7 +148,6 @@ namespace Inventarios.DataAccess
                 list.ForEach(c => { c.nivel3 = obj.filtronivel3remplazarpor; });
                 _context.SaveChanges();
             }
-
 
             if (obj.filtrocodigo4remplazar.Trim().Length > 0)
             {
@@ -171,7 +157,6 @@ namespace Inventarios.DataAccess
                 _context.SaveChanges();
             }
 
-
             if (obj.filtronivel4remplazar.Trim().Length > 0)
             {
                 list = _context.Ciudades.ToList()
@@ -179,8 +164,6 @@ namespace Inventarios.DataAccess
                 list.ForEach(c => { c.nivel4 = obj.filtronivel4remplazarpor; });
                 _context.SaveChanges();
             }
-
-
 
             if (obj.filtrocodigo5remplazar.Trim().Length > 0)
             {
@@ -190,7 +173,6 @@ namespace Inventarios.DataAccess
                 _context.SaveChanges();
             }
 
-
             if (obj.filtronivel5remplazar.Trim().Length > 0)
             {
                 list = _context.Ciudades.ToList()
@@ -198,7 +180,6 @@ namespace Inventarios.DataAccess
                 list.ForEach(c => { c.nivel5 = obj.filtronivel5remplazarpor; });
                 _context.SaveChanges();
             }
-
 
             list = _context.Ciudades
                 .OrderBy(a => a.nivel1)
@@ -213,10 +194,8 @@ namespace Inventarios.DataAccess
                  a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
                  a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
 
-            return Mapping.ListCiudadesToCiudadesDTO(list);
+            return _mapping.ListCiudadesToCiudadesDTO(list);
         }
-
-
 
         public void Log(Ciudades obj, string operacion)
         {

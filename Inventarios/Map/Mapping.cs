@@ -1,14 +1,61 @@
-﻿using Inventarios.DTO;
+﻿using Inventarios.Data;
+using Inventarios.DataAccess;
+using Inventarios.DTO;
 using Inventarios.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace Inventarios.Map
 {
-    public static class Mapping
+    public  class Mapping
     {
 
+        private readonly InventariosContext _context;
 
-        public static TiposDeProgramaDTO TiposDeProgramaToTiposDeProgramaDTO(TiposDePrograma obj)
+
+        public Mapping(InventariosContext context)
+        {
+            _context = context;
+
+           
+        }
+
+
+        public  FormulasDTO FormulasToFormulasDTO(Formulas obj)
+        {
+
+            Producto producto= new Producto();
+            producto =  _context.Productos.FirstOrDefault(a => a.Id == obj.formula);
+            Producto componente= new Producto();
+            componente = _context.Productos.FirstOrDefault(a => a.Id == obj.componente);
+
+            FormulasDTO dto = new();
+            dto.id = obj.id;
+            dto.formula= obj.formula;
+            dto.nombreformula = producto.Nombre;
+            dto.componente=obj.componente;
+            dto.nombrecomponente = componente.Nombre;
+            dto.cantidad = obj.cantidad;
+
+        
+
+            return dto;
+        }
+
+
+        public  List<FormulasDTO> ListFormulasToFormulasDTO(List<Formulas> list)
+        {
+            List<FormulasDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(FormulasToFormulasDTO(s));
+            }
+            return listdto;
+        }
+
+
+        public  TiposDeProgramaDTO TiposDeProgramaToTiposDeProgramaDTO(TiposDePrograma obj)
         {
             TiposDeProgramaDTO dto = new();
             dto.id = obj.id;
@@ -19,7 +66,7 @@ namespace Inventarios.Map
         }
 
 
-        public static List<TiposDeProgramaDTO> ListTiposDeProgramaToTiposDeProgramaDTO(List<TiposDePrograma> list)
+        public  List<TiposDeProgramaDTO> ListTiposDeProgramaToTiposDeProgramaDTO(List<TiposDePrograma> list)
         {
             List<TiposDeProgramaDTO> listdto = new();
 
@@ -33,7 +80,7 @@ namespace Inventarios.Map
 
 
 
-        public static FormasDePagoDTO FormasDePagoToFormasDePagoDTO(FormasDePago obj)
+        public  FormasDePagoDTO FormasDePagoToFormasDePagoDTO(FormasDePago obj)
         {
             FormasDePagoDTO dto = new();
             dto.id = obj.id;
@@ -44,7 +91,7 @@ namespace Inventarios.Map
         }
 
 
-        public static List<FormasDePagoDTO> ListFormasDePagoToFormasDePagoDTO(List<FormasDePago> list)
+        public  List<FormasDePagoDTO> ListFormasDePagoToFormasDePagoDTO(List<FormasDePago> list)
         {
             List<FormasDePagoDTO> listdto = new();
 
@@ -56,7 +103,7 @@ namespace Inventarios.Map
         }
 
 
-        public static ConceptosNotaDebitoCreditoDTO ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(ConceptosNotaDebitoCredito obj)
+        public  ConceptosNotaDebitoCreditoDTO ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(ConceptosNotaDebitoCredito obj)
         {
             ConceptosNotaDebitoCreditoDTO dto = new();
             dto.id = obj.id;
@@ -67,7 +114,7 @@ namespace Inventarios.Map
         }
 
 
-        public static List<ConceptosNotaDebitoCreditoDTO> ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(List<ConceptosNotaDebitoCredito> list)
+        public  List<ConceptosNotaDebitoCreditoDTO> ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(List<ConceptosNotaDebitoCredito> list)
         {
             List<ConceptosNotaDebitoCreditoDTO> listdto = new();
 
@@ -80,7 +127,7 @@ namespace Inventarios.Map
 
 
 
-        public static MensajesDelSistemaDTO MensajesDelSistemaToMensajesDelSistemaDTO(Mensajesdelsistema obj)
+        public  MensajesDelSistemaDTO MensajesDelSistemaToMensajesDelSistemaDTO(Mensajesdelsistema obj)
         {
             MensajesDelSistemaDTO dto = new();
             dto.id=obj.id;
@@ -91,7 +138,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<MensajesDelSistemaDTO> ListMensajesDelSistemaToMensajesDelSistemaDTO(List<Mensajesdelsistema> list)
+        public  List<MensajesDelSistemaDTO> ListMensajesDelSistemaToMensajesDelSistemaDTO(List<Mensajesdelsistema> list)
         {
             List<MensajesDelSistemaDTO> listdto = new();
 
@@ -106,7 +153,7 @@ namespace Inventarios.Map
 
 
 
-        public static LogDTO LogToLogDTO(Log obj)
+        public  LogDTO LogToLogDTO(Log obj)
         {
             LogDTO dto = new();
             dto.id = obj.id;
@@ -117,7 +164,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<LogDTO> ListLogToLogDTO(List<Log> list)
+        public  List<LogDTO> ListLogToLogDTO(List<Log> list)
         {
             List<LogDTO> listdto = new();
 
@@ -128,7 +175,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static List<LogDTO> TableLogToLogDTO(DataTable? list)
+        public  List<LogDTO> TableLogToLogDTO(DataTable? list)
         {
             List<LogDTO> listdto = new();
 
@@ -151,7 +198,7 @@ namespace Inventarios.Map
 
 
 
-        public static ProveedoresDTO ProveedoresToProveedoresDTO(Proveedores obj)
+        public  ProveedoresDTO ProveedoresToProveedoresDTO(Proveedores obj)
         {
             ProveedoresDTO dto = new();
             dto.id = obj.id;
@@ -163,7 +210,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<ProveedoresDTO> ListProveedoresToProveedoresDTO(List<Proveedores> list)
+        public  List<ProveedoresDTO> ListProveedoresToProveedoresDTO(List<Proveedores> list)
         {
             List<ProveedoresDTO> listdto = new();
 
@@ -174,7 +221,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static TiposDeDocumentoDTO TiposDeDocumentoToTiposDeDocumentoDTO(TiposDeDocumento obj)
+        public  TiposDeDocumentoDTO TiposDeDocumentoToTiposDeDocumentoDTO(TiposDeDocumento obj)
         {
             TiposDeDocumentoDTO dto = new();
             dto.id = obj.id;
@@ -183,7 +230,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<TiposDeDocumentoDTO> ListTiposDeDocumentoToTiposDeDocumentoDTO(List<TiposDeDocumento> list)
+        public  List<TiposDeDocumentoDTO> ListTiposDeDocumentoToTiposDeDocumentoDTO(List<TiposDeDocumento> list)
         {
             List<TiposDeDocumentoDTO> listdto = new();
 
@@ -194,7 +241,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static PerfilesDTO PerfilesToPerfilesDTO(Perfiles obj)
+        public  PerfilesDTO PerfilesToPerfilesDTO(Perfiles obj)
         {
             PerfilesDTO dto = new();
             dto.id = obj.id;
@@ -205,7 +252,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<PerfilesDTO> ListPerfilesToPerfilesDTO(List<Perfiles> list)
+        public  List<PerfilesDTO> ListPerfilesToPerfilesDTO(List<Perfiles> list)
         {
             List<PerfilesDTO> listdto = new();
 
@@ -216,7 +263,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static ActividadesEconomicasDTO ActividadeseconomicasToActividadeseconomicasDTO(ActividadesEconomicas obj)
+        public  ActividadesEconomicasDTO ActividadeseconomicasToActividadeseconomicasDTO(ActividadesEconomicas obj)
         {
             ActividadesEconomicasDTO dto = new();
             dto.id = obj.id;
@@ -226,7 +273,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<ActividadesEconomicasDTO> ListActividadeseconomicasToActividadeseconomicasDTO(List<ActividadesEconomicas> list)
+        public  List<ActividadesEconomicasDTO> ListActividadeseconomicasToActividadeseconomicasDTO(List<ActividadesEconomicas> list)
         {
             List<ActividadesEconomicasDTO> listdto = new();
 
@@ -237,7 +284,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static CiudadesDTO CiudadesToCiudadesDTO(Ciudades obj)
+        public  CiudadesDTO CiudadesToCiudadesDTO(Ciudades obj)
         {
             CiudadesDTO dto = new();
             dto.id = obj.id;
@@ -255,7 +302,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<CiudadesDTO> ListCiudadesToCiudadesDTO(List<Ciudades> list)
+        public  List<CiudadesDTO> ListCiudadesToCiudadesDTO(List<Ciudades> list)
         {
             List<CiudadesDTO> listdto = new();
 
@@ -266,7 +313,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static MenuDTO MenuToMenuDTO(Menu menu)
+        public  MenuDTO MenuToMenuDTO(Menu menu)
         {
             MenuDTO dto = new();
             dto.id = menu.id;
@@ -278,7 +325,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<MenuDTO> ListMenuToListMenuDTO(List<Menu> list)
+        public  List<MenuDTO> ListMenuToListMenuDTO(List<Menu> list)
         {
             List<MenuDTO> listdto = new();
 
@@ -289,7 +336,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public static UsersDTO UsersToUsersDTO(Usuarios user)
+        public  UsersDTO UsersToUsersDTO(Usuarios user)
         {
             UsersDTO dto = new();
 
@@ -303,7 +350,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public static List<UsersDTO> ListUsersToListUsersDTO(List<Usuarios> list)
+        public  List<UsersDTO> ListUsersToListUsersDTO(List<Usuarios> list)
         {
             List<UsersDTO> listdto = new();
 

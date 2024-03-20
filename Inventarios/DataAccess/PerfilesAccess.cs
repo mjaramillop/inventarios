@@ -8,15 +8,17 @@ namespace Inventarios.DataAccess
 {
     public class PerfilesAccess
     {
-
         private readonly InventariosContext _context;
         private readonly LogAccess _logacces;
+        private readonly Mapping _mapping;
+
         private List<Perfiles>? list;
 
-        public PerfilesAccess(InventariosContext context, LogAccess logacces)
+        public PerfilesAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
-           _logacces = logacces;
+            _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<PerfilesDTO> Add(Perfiles obj)
@@ -27,7 +29,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Perfiles");
             list = _context.Perfiles.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListPerfilesToPerfilesDTO(list);
+            return _mapping.ListPerfilesToPerfilesDTO(list);
         }
 
         public List<PerfilesDTO> Delete(int id)
@@ -36,9 +38,8 @@ namespace Inventarios.DataAccess
             _context.Perfiles.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Perfiles");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.Perfiles.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListPerfilesToPerfilesDTO(list);
+            return _mapping.ListPerfilesToPerfilesDTO(list);
         }
 
         public List<PerfilesDTO> Update(Perfiles obj)
@@ -46,24 +47,21 @@ namespace Inventarios.DataAccess
             obj.estadodelregistro = obj.estadodelregistro?.ToUpper();
 
             var obj_ = _context.Perfiles.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
-                obj_.programas=obj.programas;
 
-                //
-                obj_.estadodelregistro = obj.estadodelregistro;
-              
-                _context.SaveChanges();
-                this.Log(obj, "Modifico Perfiles");
-            }
+            obj_.nombre = obj.nombre;
+            obj_.programas = obj.programas;
+
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico Perfiles");
+
             list = _context.Perfiles.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListPerfilesToPerfilesDTO(list);
+            return _mapping.ListPerfilesToPerfilesDTO(list);
         }
 
         public List<Perfiles> GetById(int id)
         {
-
             list = _context.Perfiles.Where(a => a.id == id).ToList();
             return list;
         }
@@ -71,11 +69,8 @@ namespace Inventarios.DataAccess
         public List<PerfilesDTO>? List(string filtro)
         {
             list = _context.Perfiles.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListPerfilesToPerfilesDTO(list);
+            return _mapping.ListPerfilesToPerfilesDTO(list);
         }
-
-       
-
 
         public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
         {
@@ -122,12 +117,10 @@ namespace Inventarios.DataAccess
             return listaprogramaspermisos;
         }
 
-
         public void Log(Perfiles obj, string operacion)
         {
             string comando = "";
             comando = comando + "operacion " + operacion + "\n";
-       
 
             comando = comando + "id = " + obj.id + "\n";
 
@@ -135,9 +128,8 @@ namespace Inventarios.DataAccess
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-          
+
             _logacces.Add(comando);
         }
-
     }
 }

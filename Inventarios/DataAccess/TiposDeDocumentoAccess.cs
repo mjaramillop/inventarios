@@ -9,12 +9,15 @@ namespace Inventarios.DataAccess
     {
         private readonly InventariosContext _context;
         private readonly LogAccess _logacces;
+        private readonly Mapping _mapping;
+
         private List<TiposDeDocumento>? list;
 
-        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces)
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
         {
             _context = context;
             _logacces = logacces;
+            _mapping = mapping;
         }
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
@@ -25,7 +28,7 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Agrego Tipos de Dcoumento");
             list = _context.TiposDeDocumento.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
         public List<TiposDeDocumentoDTO>? Delete(int id)
@@ -34,9 +37,8 @@ namespace Inventarios.DataAccess
             _context.TiposDeDocumento.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Tipos de Documento");
-            obj.nombre = "Registro borrado satisfactoriamente";
             list = _context.TiposDeDocumento.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
         public List<TiposDeDocumentoDTO>? Update(TiposDeDocumento? obj)
@@ -44,60 +46,59 @@ namespace Inventarios.DataAccess
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
 
             var obj_ = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.id);
-            if (obj_ != null)
-            {
-                obj_.nombre = obj.nombre;
-                obj_.abreviatura = obj.abreviatura;
-                obj_.consecutivo = obj.consecutivo;
-                obj_.cuentacontabledebito = obj.cuentacontabledebito;
-                obj_.cuentacontablecredito = obj.cuentacontablecredito;
-                obj_.despacha = obj.despacha;
-                obj_.recibe = obj.recibe;
-             
-                obj_.pidefechadevencimiento = obj.pidefechadevencimiento;
-                obj_.pideprograma = obj.pideprograma;
-                obj_.pideconceptonotadebitocredito = obj.pideconceptonotadebitocredito;
-                obj_.pidevendedor = obj.pidevendedor;
-                obj_.pidetipodedocumentoaafectar = obj.pidetipodedocumentoaafectar;
-                obj_.pideproducto = obj.pideproducto;
-                obj_.pidetalla = obj.pidetalla;
-                obj_.pidecolor = obj.pidecolor;
-                obj_.pideempaque = obj.pideempaque;
-                obj_.pidecantidad = obj.pidecantidad;
-                obj_.pidevalorunitario = obj.pidevalorunitario;
-                obj_.pidesubtotal = obj.pidesubtotal;
-                obj_.pidedescuentodetalle = obj.pidedescuentodetalle;
-                obj_.pideivadetalle = obj.pideivadetalle;
-                obj_.pidetipodedocumentoaafectardetalle = obj.pidetipodedocumentoaafectardetalle;
-                obj_.pideconsecutivoautomatico = obj.pideconsecutivoautomatico;
-                obj_.eldocumentoseimprime = obj.eldocumentoseimprime;
-                obj_.esunacompra = obj.esunacompra;
-                obj_.esunaventa = obj.esunaventa;
-                obj_.esunpago = obj.esunpago;
-                obj_.restarcartera = obj.restarcartera;
-                obj_.sumarcartera = obj.sumarcartera;
-                obj_.restainventario = obj.restainventario;
-                obj_.sumainventario = obj.sumainventario;
-                obj_.saldarcantidadesdeldocumentollamado = obj.saldarcantidadesdeldocumentollamado;
-                obj_.leyendaimpresaeneldocumento = obj.leyendaimpresaeneldocumento;
-                obj_.pidefisico = obj.pidefisico;
-                obj_.tipoagentedespacha = obj.tipoagentedespacha;
-                obj_.tipoagenterecibe = obj.tipoagenterecibe;
-                obj_.eldocumentoallamarsolosepuedellamarunavez = obj.eldocumentoallamarsolosepuedellamarunavez;
-                obj_.eldocumentoseimprimeanombrededespachaorecibe = obj.eldocumentoseimprimeanombrededespachaorecibe;
-                obj_.esunanota = obj.esunanota;
-                obj_.esuninventarioinicial = obj.esuninventarioinicial;
-                obj_.titulodespacha = obj.titulodespacha;
-                obj_.titulorecibe = obj.titulorecibe;
-               
-                obj_.transaccionesquepuedellamar = obj.transaccionesquepuedellamar;
-                obj_.estadodelregistro = obj.estadodelregistro;
 
-                _context.SaveChanges();
-                this.Log(obj, "Modifico TiposDeDocumento");
-            }
+            obj_.nombre = obj.nombre;
+            obj_.abreviatura = obj.abreviatura;
+            obj_.consecutivo = obj.consecutivo;
+            obj_.cuentacontabledebito = obj.cuentacontabledebito;
+            obj_.cuentacontablecredito = obj.cuentacontablecredito;
+            obj_.despacha = obj.despacha;
+            obj_.recibe = obj.recibe;
+
+            obj_.pidefechadevencimiento = obj.pidefechadevencimiento;
+            obj_.pideprograma = obj.pideprograma;
+            obj_.pideconceptonotadebitocredito = obj.pideconceptonotadebitocredito;
+            obj_.pidevendedor = obj.pidevendedor;
+            obj_.pidetipodedocumentoaafectar = obj.pidetipodedocumentoaafectar;
+            obj_.pideproducto = obj.pideproducto;
+            obj_.pidetalla = obj.pidetalla;
+            obj_.pidecolor = obj.pidecolor;
+            obj_.pideempaque = obj.pideempaque;
+            obj_.pidecantidad = obj.pidecantidad;
+            obj_.pidevalorunitario = obj.pidevalorunitario;
+            obj_.pidesubtotal = obj.pidesubtotal;
+            obj_.pidedescuentodetalle = obj.pidedescuentodetalle;
+            obj_.pideivadetalle = obj.pideivadetalle;
+            obj_.pidetipodedocumentoaafectardetalle = obj.pidetipodedocumentoaafectardetalle;
+            obj_.pideconsecutivoautomatico = obj.pideconsecutivoautomatico;
+            obj_.eldocumentoseimprime = obj.eldocumentoseimprime;
+            obj_.esunacompra = obj.esunacompra;
+            obj_.esunaventa = obj.esunaventa;
+            obj_.esunpago = obj.esunpago;
+            obj_.restarcartera = obj.restarcartera;
+            obj_.sumarcartera = obj.sumarcartera;
+            obj_.restainventario = obj.restainventario;
+            obj_.sumainventario = obj.sumainventario;
+            obj_.saldarcantidadesdeldocumentollamado = obj.saldarcantidadesdeldocumentollamado;
+            obj_.leyendaimpresaeneldocumento = obj.leyendaimpresaeneldocumento;
+            obj_.pidefisico = obj.pidefisico;
+            obj_.tipoagentedespacha = obj.tipoagentedespacha;
+            obj_.tipoagenterecibe = obj.tipoagenterecibe;
+            obj_.eldocumentoallamarsolosepuedellamarunavez = obj.eldocumentoallamarsolosepuedellamarunavez;
+            obj_.eldocumentoseimprimeanombrededespachaorecibe = obj.eldocumentoseimprimeanombrededespachaorecibe;
+            obj_.esunanota = obj.esunanota;
+            obj_.esuninventarioinicial = obj.esuninventarioinicial;
+            obj_.titulodespacha = obj.titulodespacha;
+            obj_.titulorecibe = obj.titulorecibe;
+
+            obj_.transaccionesquepuedellamar = obj.transaccionesquepuedellamar;
+            obj_.estadodelregistro = obj.estadodelregistro;
+
+            _context.SaveChanges();
+            this.Log(obj, "Modifico TiposDeDocumento");
+
             list = _context.TiposDeDocumento.Where(a => a.id == obj.id).ToList();
-            return Mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
         public List<TiposDeDocumento> GetById(int id)
@@ -105,14 +106,13 @@ namespace Inventarios.DataAccess
             list = _context.TiposDeDocumento.Where(a => a.id == id).ToList();
             return list;
         }
-       
+
         public List<TiposDeDocumentoDTO>? List(string filtro)
         {
             list = _context.TiposDeDocumento.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
-            return Mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
-      
         public List<TiposDeDocumentoDTO> ListCodigoNombre(string filtro)
         {
             var list = from pro in _context.TiposDeDocumento
@@ -240,7 +240,7 @@ namespace Inventarios.DataAccess
             comando = comando + "esuninventarioinicial = " + obj.esuninventarioinicial + "\n";
             comando = comando + "titulodespacha  = " + obj.titulodespacha;
             comando = comando + "titulorecibe =" + obj.titulorecibe;
-           
+
             comando = comando + "transaccionesquepuedellamar =" + obj.transaccionesquepuedellamar;
 
             //
