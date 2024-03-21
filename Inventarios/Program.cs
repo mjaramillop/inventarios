@@ -76,6 +76,8 @@ builder.Services.AddScoped<CiudadesAccess>();
 builder.Services.AddScoped<MensajesDelSistemaAccess>();
 builder.Services.AddScoped<FormasDePagoAccess>();
 builder.Services.AddScoped<TiposDeProgramaAccess>();
+builder.Services.AddScoped<FormulasAccess>();
+
 
 
 // services
@@ -91,6 +93,8 @@ builder.Services.AddScoped<CiudadesService>();
 builder.Services.AddScoped<MensajesDelSistemaService>();
 builder.Services.AddScoped<FormasDePagoService>();
 builder.Services.AddScoped<TiposDeProgramaService>();
+builder.Services.AddScoped<FormulasService>();
+
 
 
 //mapping

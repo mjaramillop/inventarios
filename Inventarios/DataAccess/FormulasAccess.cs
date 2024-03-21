@@ -65,10 +65,10 @@ namespace Inventarios.DataAccess
 
         public List<FormulasDTO>? List(string filtro)
         {
-           List<Formulas> list = (from p in _context.Productos
-                        join c in _context.Formulas on p.Id equals c.formula
-                        where p.Nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)
-                        select new Formulas { id = c.id, formula = c.formula, componente = c.componente, cantidad = c.cantidad }).ToList();
+           var  list = (from p in _context.Productos
+                        join c in _context.Formulas on p.id equals c.formula
+                        where p.nombre.Contains(filtro.Trim())
+                        select c).ToList() ;
             return _mapping.ListFormulasToFormulasDTO(list);
         }
 

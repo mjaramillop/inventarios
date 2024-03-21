@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 namespace Inventarios.Models;
 
+
 public partial class Usuarios
 {
     public int id { get; set; }
 
+   
     public string? area { get; set; }
 
     public string? nombre { get; set; }

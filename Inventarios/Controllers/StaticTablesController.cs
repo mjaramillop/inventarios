@@ -15,7 +15,7 @@ namespace Inventarios.Controllers
 
       
         private readonly JwtService _jwtservice;
-        private readonly StaticTables _statictables;
+        private readonly StaticTables _statictables ;
 
 
         public StaticTablesController( StaticTables statictables, JwtService jwtservice)

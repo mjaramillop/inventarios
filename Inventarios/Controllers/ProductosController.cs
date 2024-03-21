@@ -7,20 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers
 {
+
     [Route("[controller]/[action]")]
     [ApiController]
 
-    
 
-    public class ActividadesEconomicasController : ControllerBase
+
+    public class ProductosController : ControllerBase
     {
 
 
-        private readonly ActividadesEconomicasService _service;
+        private readonly ProductosService _service;
         private readonly JwtService _jwtservice;
-        private List<ActividadesEconomicasDTO>? list;
+        private List<ProductosDTO>? list;
 
-        public ActividadesEconomicasController(ActividadesEconomicasService service, JwtService jwtservice)
+        public ProductosController(ProductosService service, JwtService jwtservice)
         {
             _service = service;
             _jwtservice = jwtservice;
@@ -28,7 +29,7 @@ namespace Inventarios.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
+        public List<ProductosDTO>? Add(Productos obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
@@ -37,7 +38,7 @@ namespace Inventarios.Controllers
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<ActividadesEconomicasDTO>? Delete(int id)
+        public List<ProductosDTO>? Delete(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -47,7 +48,7 @@ namespace Inventarios.Controllers
 
         [HttpPut]
         [ActionName("Update")]
-        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas obj)
+        public List<ProductosDTO>? Update(Productos obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -57,30 +58,27 @@ namespace Inventarios.Controllers
 
         [HttpGet("{id}")]
         [ActionName("GetById")]
-        public List<ActividadesEconomicas>? GetById(int id)
+        public List<Productos>? GetById(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            List<ActividadesEconomicas> list = _service.GetById(id);
+            List<Productos> list = _service.GetById(id);
             return list;
         }
 
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
-        public List<ActividadesEconomicasDTO>? GetAll(string filtro = "")
+        public List<ProductosDTO>? GetAll(string filtro = "")
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
             return list;
         }
 
-      
+
 
 
 
 
     }
-
-
-
 
 }

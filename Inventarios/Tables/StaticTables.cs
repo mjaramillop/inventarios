@@ -1,4 +1,6 @@
-﻿namespace Inventarios.Tables
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace Inventarios.Tables
 {
     public class StaticTables
     {
@@ -84,6 +86,6 @@
     public class CodigoNombre
     {
         public string? id { get; set; }
-        public string? nombre { get; set; }
+        public string? nombre { get; set; } 
     }
 }

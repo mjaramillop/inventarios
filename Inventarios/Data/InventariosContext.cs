@@ -41,7 +41,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Perfiles> Perfiles { get; set; }
 
-    public virtual DbSet<Producto> Productos { get; set; }
+    public virtual DbSet<Productos> Productos { get; set; }
 
     public virtual DbSet<Proveedores> Proveedores { get; set; }
 
@@ -533,27 +533,20 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-        modelBuilder.Entity<Producto>(entity =>
+        modelBuilder.Entity<Productos>(entity =>
         {
             entity.ToTable("PRODUCTOS");
 
-            entity.HasIndex(e => e.Nombre, "IX_PRODUCTOS");
+            entity.HasIndex(e => e.nombre, "IX_PRODUCTOS");
 
-            entity.HasIndex(e => e.Codigodebarras, "IX_PRODUCTOS_1").IsUnique();
+            entity.HasIndex(e => e.id, "PK_PRODUCTOS").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.Clasificacion).HasColumnName("CLASIFICACION");
-            entity.Property(e => e.Codigodebarras)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("CODIGODEBARRAS");
-            entity.Property(e => e.Codigoiva1).HasColumnName("CODIGOIVA1");
-            entity.Property(e => e.Codigoiva2).HasColumnName("CODIGOIVA2");
-            entity.Property(e => e.Codigoiva3).HasColumnName("CODIGOIVA3");
-            entity.Property(e => e.Costodeproduccion)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTODEPRODUCCION");
-            entity.Property(e => e.Costoultimo)
+          
+            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
+          
+            entity.Property(e => e.costoultimo)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTOULTIMO");
             entity.Property(e => e.estadodelregistro)
@@ -561,21 +554,16 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
-            entity.Property(e => e.Generico)
-                .HasMaxLength(300)
-                .IsUnicode(false)
-                .HasColumnName("GENERICO");
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.nombre)
                 .HasMaxLength(300)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");
-            entity.Property(e => e.Precio1)
+            entity.Property(e => e.precio1)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("PRECIO1");
-            entity.Property(e => e.Unidaddemedida)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("UNIDADDEMEDIDA");
+            entity.Property(e => e.unidaddemedida).HasColumnName("UNIDADDEMEDIDA");
+            entity.Property(e => e.secargalinventario).HasColumnName("SECARGAALINVENTARIO");
+
         });
 
         modelBuilder.Entity<Proveedores>(entity =>
@@ -1093,17 +1081,17 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Unidadesdemedida>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_TABLA_UNIDADES_DE_MEDIDA");
+            entity.HasKey(e => e.id).HasName("PK_TABLA_UNIDADES_DE_MEDIDA");
 
             entity.ToTable("UNIDADESDEMEDIDA");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.nombre)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");

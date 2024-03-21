@@ -2,6 +2,7 @@
 using Inventarios.DataAccess;
 using Inventarios.DTO;
 using Inventarios.Models;
+using Inventarios.Tables;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
@@ -11,31 +12,78 @@ namespace Inventarios.Map
     {
 
         private readonly InventariosContext _context;
+      
 
 
         public Mapping(InventariosContext context)
         {
             _context = context;
+           
 
            
         }
 
 
-        public  FormulasDTO FormulasToFormulasDTO(Formulas obj)
+
+
+        public ProductosDTO ProductosToProductosDTO(Productos obj)
         {
 
-            Producto producto= new Producto();
-            producto =  _context.Productos.FirstOrDefault(a => a.Id == obj.formula);
-            Producto componente= new Producto();
-            componente = _context.Productos.FirstOrDefault(a => a.Id == obj.componente);
+            Unidadesdemedida unidadesdemedida = _context.Unidadesdemedida.FirstOrDefault(a => a.id == obj.unidaddemedida);
+
+
+            ProductosDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.precio1 = obj.precio1;  
+            dto.costoultimo = obj.costoultimo;
+            dto.secargalinventario = obj.secargalinventario;
+            dto.codigoiva1 = obj.codigoiva1;    
+            dto.Clasificacion = obj.Clasificacion;  
+            dto.unidaddemedida = obj.unidaddemedida;
+            dto.nombreunidaddemedida = unidadesdemedida.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public List<ProductosDTO> ListProductosToProductosDTO(List<Productos> list)
+        {
+            List<ProductosDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(ProductosToProductosDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+
+        public FormulasDTO FormulasToFormulasDTO(Formulas obj)
+        {
+
+            Productos producto= new Productos();
+            producto =  _context.Productos.FirstOrDefault(a => a.id == obj.formula);
+            Productos componente= new Productos();
+            componente = _context.Productos.FirstOrDefault(a => a.id == obj.componente);
+
+            Unidadesdemedida unidadesdemedida  = _context.Unidadesdemedida.FirstOrDefault(a => a.id == componente.unidaddemedida);
+
+
 
             FormulasDTO dto = new();
             dto.id = obj.id;
             dto.formula= obj.formula;
-            dto.nombreformula = producto.Nombre;
+            dto.nombreformula = producto.nombre;
             dto.componente=obj.componente;
-            dto.nombrecomponente = componente.Nombre;
+            dto.nombrecomponente = componente.nombre;
             dto.cantidad = obj.cantidad;
+            dto.unidaddemedida = componente.unidaddemedida;
+            dto.nombreunidaddemedida = unidadesdemedida.nombre;
+
 
         
 

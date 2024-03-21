@@ -30,8 +30,8 @@ namespace Inventarios.Controllers
         /// <summary>
         /// Trae el log del sistema basado en filtros
         /// </summary>
-        /// <returns> Log
-        // GET: api/Employee
+     
+       
 
         [HttpPut]
         [ActionName("filtrar")]
