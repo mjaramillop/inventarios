@@ -29,7 +29,7 @@ namespace Inventarios.Map
         public ProductosDTO ProductosToProductosDTO(Productos obj)
         {
 
-            Unidadesdemedida unidadesdemedida = _context.Unidadesdemedida.FirstOrDefault(a => a.id == obj.unidaddemedida);
+            UnidadesDeMedida unidadesdemedida = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == obj.unidaddemedida);
 
 
             ProductosDTO dto = new();
@@ -39,10 +39,14 @@ namespace Inventarios.Map
             dto.costoultimo = obj.costoultimo;
             dto.secargalinventario = obj.secargalinventario;
             dto.codigoiva1 = obj.codigoiva1;    
-            dto.Clasificacion = obj.Clasificacion;  
             dto.unidaddemedida = obj.unidaddemedida;
             dto.nombreunidaddemedida = unidadesdemedida.nombre;
             dto.estadodelregistro = obj.estadodelregistro;
+            dto.nivel1 = obj.nivel1;
+            dto.nivel2= obj.nivel2;
+            dto.nivel3=obj.nivel3;
+            dto.nivel4= obj.nivel4; 
+            dto.nivel5= obj.nivel5;
 
             return dto;
         }
@@ -70,7 +74,7 @@ namespace Inventarios.Map
             Productos componente= new Productos();
             componente = _context.Productos.FirstOrDefault(a => a.id == obj.componente);
 
-            Unidadesdemedida unidadesdemedida  = _context.Unidadesdemedida.FirstOrDefault(a => a.id == componente.unidaddemedida);
+            UnidadesDeMedida unidadesdemedida  = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == componente.unidaddemedida);
 
 
 
@@ -251,10 +255,13 @@ namespace Inventarios.Map
             ProveedoresDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
-            dto.ciudad = obj.ciudad;
-            dto.ciudad = obj.ciudad;
             dto.telefono = obj.telefono;
             dto.estadodelregistro = obj.estadodelregistro;
+            dto.nivel1 = obj.nivel1;
+            dto.nivel2 = obj.nivel2;
+            dto.nivel3 = obj.nivel3;
+            dto.nivel4 = obj.nivel4;
+            dto.nivel5 = obj.nivel5;
             return dto;
         }
 
@@ -332,35 +339,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public  CiudadesDTO CiudadesToCiudadesDTO(Ciudades obj)
-        {
-            CiudadesDTO dto = new();
-            dto.id = obj.id;
-            dto.codigo1 = obj.codigo1;
-            dto.codigo2 = obj.codigo2;
-            dto.codigo3 = obj.codigo3;
-            dto.codigo4 = obj.codigo4;
-            dto.codigo5 = obj.codigo5;
-            dto.nivel1 = obj.nivel1;
-            dto.nivel2 = obj.nivel2;
-            dto.nivel3 = obj.nivel3;
-
-            dto.estadodelregistro = obj.estadodelregistro;
-
-            return dto;
-        }
-
-        public  List<CiudadesDTO> ListCiudadesToCiudadesDTO(List<Ciudades> list)
-        {
-            List<CiudadesDTO> listdto = new();
-
-            foreach (var s in list)
-            {
-                listdto.Add(CiudadesToCiudadesDTO(s));
-            }
-            return listdto;
-        }
-
+      
         public  MenuDTO MenuToMenuDTO(Menu menu)
         {
             MenuDTO dto = new();

@@ -1,6 +1,7 @@
 ﻿using Inventarios.DataAccess;
 using Inventarios.DTO;
 using Inventarios.Models;
+using Inventarios.ModelsParameter;
 
 namespace Inventarios.services
 {
@@ -47,6 +48,14 @@ namespace Inventarios.services
             return list;
         }
 
+
+
+
+        public List<ProductosDTO>? UpdateNiveles(UpdateNiveles obj)
+        {
+            list = _access.UpdateNiveles(obj);
+            return list;
+        }
 
 
 

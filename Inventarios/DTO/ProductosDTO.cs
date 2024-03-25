@@ -18,11 +18,16 @@
 
         public int? codigoiva1 { get; set; }
 
-        public int? Clasificacion { get; set; }
-
+    
         public string? estadodelregistro { get; set; }
 
         public string? secargalinventario { get; set; }
+
+        public string? nivel1 { get; set; }
+        public string? nivel2 { get; set; }
+        public string? nivel3 { get; set; }
+        public string? nivel4 { get; set; }
+        public string? nivel5 { get; set; }
 
     }
 }

@@ -12,9 +12,7 @@ public partial class Proveedores
 
     public string? direccion { get; set; }
 
-    public string? ciudad { get; set; }
-
-    public string? telefono { get; set; }
+     public string? telefono { get; set; }
 
     public string? celular1 { get; set; }
 
@@ -50,8 +48,7 @@ public partial class Proveedores
 
     public int? tipoderegimen { get; set; }
 
-    public int? clasificacion { get; set; }
-
+  
     public int? tipodeagente { get; set; }
 
     public string? cuentacontable { get; set; }
@@ -63,5 +60,11 @@ public partial class Proveedores
     public string? cuentabancaria { get; set; }
 
     public string? tipodecuenta { get; set; }
- 
+
+    public string? nivel1 { get; set; }
+    public string? nivel2 { get; set; }
+    public string? nivel3 { get; set; }
+    public string? nivel4 { get; set; }
+    public string? nivel5 { get; set; }
+
 }

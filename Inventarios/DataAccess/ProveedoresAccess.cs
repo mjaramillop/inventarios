@@ -2,7 +2,7 @@
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models;
-using Inventarios.Token;
+using Inventarios.ModelsParameter;
 
 namespace Inventarios.DataAccess
 {
@@ -50,7 +50,6 @@ namespace Inventarios.DataAccess
 
             obj_.nombre = obj.nombre;
             obj_.direccion = obj.direccion;
-            obj_.ciudad = obj.ciudad;
             obj_.telefono = obj.telefono;
             obj_.celular1 = obj.celular1;
             obj_.celular2 = obj.celular2;
@@ -69,12 +68,17 @@ namespace Inventarios.DataAccess
             obj_.declararenta = obj.declararenta;
             obj_.esgrancontribuyente = obj.esgrancontribuyente;
             obj_.tipoderegimen = obj.tipoderegimen;
-            obj_.clasificacion = obj.clasificacion;
+
             obj_.tipodeagente = obj.tipodeagente;
             obj_.cuentacontable = obj.cuentacontable;
             obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
             //
             obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.nivel1 = obj.nivel1;
+            obj_.nivel2 = obj.nivel2;
+            obj_.nivel3 = obj.nivel3;
+            obj_.nivel4 = obj.nivel4;
+            obj_.nivel5 = obj.nivel5;
 
             _context.SaveChanges();
             this.Log(obj, "Modifico Proveedores");
@@ -95,6 +99,97 @@ namespace Inventarios.DataAccess
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
+
+
+
+
+
+
+        public List<ProveedoresDTO>? UpdateNiveles(UpdateNiveles obj)
+        {
+            List<Proveedores>? list = null;
+
+            if (obj.filtronivel1remplazar.Trim().Length > 0)
+            {
+                list = _context.Proveedores.ToList()
+                     .Where(a => a.nivel1.Contains((obj.filtronivel1remplazar.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
+                list.ForEach(c => { c.nivel1 = obj.filtronivel1remplazarpor; });
+                _context.SaveChanges();
+            }
+
+
+
+            if (obj.filtronivel2remplazar.Trim().Length > 0)
+            {
+                list = _context.Proveedores.ToList()
+                     .Where(a => a.nivel2.Contains((obj.filtronivel2remplazar.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
+                list.ForEach(c => { c.nivel2 = obj.filtronivel2remplazarpor; });
+                _context.SaveChanges();
+            }
+
+
+
+            if (obj.filtronivel3remplazar.Trim().Length > 0)
+            {
+                list = _context.Proveedores.ToList()
+                     .Where(a => a.nivel3.Contains((obj.filtronivel3remplazar.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
+                list.ForEach(c => { c.nivel3 = obj.filtronivel3remplazarpor; });
+                _context.SaveChanges();
+            }
+
+
+
+            if (obj.filtronivel4remplazar.Trim().Length > 0)
+            {
+                list = _context.Proveedores.ToList()
+                     .Where(a => a.nivel4.Contains((obj.filtronivel4remplazar.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
+                list.ForEach(c => { c.nivel4 = obj.filtronivel4remplazarpor; });
+                _context.SaveChanges();
+            }
+
+
+
+            if (obj.filtronivel5remplazar.Trim().Length > 0)
+            {
+                list = _context.Proveedores.ToList()
+                     .Where(a => a.nivel5.Contains((obj.filtronivel5remplazar.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
+                list.ForEach(c => { c.nivel5 = obj.filtronivel5remplazarpor; });
+                _context.SaveChanges();
+            }
+
+
+
+
+
+            list = _context.Proveedores
+                .OrderBy(a => a.nivel1)
+                .OrderBy(a => a.nivel2)
+                .OrderBy(a => a.nivel3)
+                .OrderBy(a => a.nivel4)
+                .OrderBy(a => a.nivel5)
+                .Where(a =>
+                 a.nivel1.Contains(obj.filtronivel1remplazarpor) ||
+                 a.nivel2.Contains(obj.filtronivel2remplazarpor) ||
+                 a.nivel3.Contains(obj.filtronivel3remplazarpor) ||
+                 a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
+                 a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
+
+            return _mapping.ListProveedoresToProveedoresDTO(list);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public void Log(Proveedores obj, string operacion)
         {
             string comando = "";
@@ -104,7 +199,6 @@ namespace Inventarios.DataAccess
             comando = comando + "Nombre = " + obj.nombre + "\n";
 
             comando = comando + "+direccion = " + obj.direccion;
-            comando = comando + "ciudad = " + obj.ciudad;
             comando = comando + "telefono = " + obj.telefono;
             comando = comando + "celular1 = " + obj.celular1;
             comando = comando + "celular2 = " + obj.celular2;
@@ -123,10 +217,15 @@ namespace Inventarios.DataAccess
             comando = comando + "declararenta = " + obj.declararenta;
             comando = comando + "esgrancontribuyente = " + obj.esgrancontribuyente;
             comando = comando + "tipoderegimen = " + obj.tipoderegimen;
-            comando = comando + "clasificacion = " + obj.clasificacion;
             comando = comando + "tipodeagente = " + obj.tipodeagente;
             comando = comando + "cuentacontable = " + obj.cuentacontable;
             comando = comando + "codigoderetencionaaplicar = " + obj.codigoderetencionaaplicar;
+            comando = comando + "NIVEL 1 " + obj.nivel1;
+            comando = comando + "NIVEL 2 " + obj.nivel2;
+            comando = comando + "NIVEL 3 " + obj.nivel3;
+            comando = comando + "NIVEL 4 " + obj.nivel4;
+            comando = comando + "NIVEL 5 " + obj.nivel5;
+
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";

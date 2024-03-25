@@ -1,5 +1,6 @@
 ﻿using Inventarios.DTO;
 using Inventarios.Models;
+using Inventarios.ModelsParameter;
 using Inventarios.services;
 using Inventarios.Token;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +75,16 @@ namespace Inventarios.Controllers
             return list;
         }
 
+
+        [HttpPut]
+        [ActionName("UpdateNiveles")]
+        public List<ProductosDTO>? UpdateNiveles(UpdateNiveles obj)
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+            list = _service.UpdateNiveles(obj);
+            return list;
+        }
 
 
 

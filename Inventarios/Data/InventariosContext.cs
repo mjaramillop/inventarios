@@ -17,9 +17,9 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<ActividadesEconomicas> Actividadeseconomicas { get; set; }
 
-    public virtual DbSet<Ciudades> Ciudades { get; set; }
+ 
 
-    public virtual DbSet<Clasificaciondemateriasprima> Clasificaciondemateriasprimas { get; set; }
+  
 
     public virtual DbSet<Colore> Colores { get; set; }
 
@@ -53,7 +53,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<TmpMovimientodeinventario> TmpMovimientodeinventarios { get; set; }
 
-    public virtual DbSet<Unidadesdemedida> Unidadesdemedida { get; set; }
+    public virtual DbSet<UnidadesDeMedida> UnidadesDeMedida { get; set; }
 
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
@@ -84,121 +84,8 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-        modelBuilder.Entity<Ciudades>(entity =>
-        {
-            entity.HasKey(e => e.id).HasName("PK_CIUDADES");
+    
 
-            entity.ToTable("CIUDADES");
-
-            entity.HasIndex(e => new { e.nivel1, e.nivel2, e.nivel3, e.nivel4, e.nivel5 }, "IX_CIUDADES").IsUnique();
-
-            entity.HasIndex(e => new { e.codigo1, e.codigo2, e.codigo3, e.codigo4, e.codigo5 }, "IX_CIUDADES_1").IsUnique();
-
-            entity.Property(e => e.id).HasColumnName("ID");
-            entity.Property(e => e.codigo1)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("CODIGO1");
-            entity.Property(e => e.codigo2)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("CODIGO2");
-            entity.Property(e => e.codigo3)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("CODIGO3");
-            entity.Property(e => e.codigo4)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("CODIGO4");
-            entity.Property(e => e.codigo5)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("CODIGO5");
-            entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("ESTADO_DEL_REGISTRO");
-            entity.Property(e => e.nivel1)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("NIVEL1");
-            entity.Property(e => e.nivel2)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("NIVEL2");
-            entity.Property(e => e.nivel3)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("NIVEL3");
-            entity.Property(e => e.nivel4)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("NIVEL4");
-            entity.Property(e => e.nivel5)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("NIVEL5");
-        });
-
-        modelBuilder.Entity<Clasificaciondemateriasprima>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_TABLA_DE_CLASIFICACION_DE_MATERIAS_PRIMAS");
-
-            entity.ToTable("CLASIFICACIONDEMATERIASPRIMAS");
-
-            entity.HasIndex(e => new { e.nivel1, e.nivel2, e.nivel3, e.nivel4, e.nivel5 }, "IX_TABLA_CLASIFICACION_DE_MATERIAS_PRIMAS");
-
-            entity.Property(e => e.codigo1)
-       .HasMaxLength(10)
-       .IsUnicode(false)
-       .HasColumnName("CODIGO1");
-            entity.Property(e => e.nivel1)
-              .HasMaxLength(30)
-              .IsUnicode(false)
-              .HasColumnName("NIVEL1");
-
-            entity.Property(e => e.codigo2)
-              .HasMaxLength(10)
-              .IsUnicode(false)
-              .HasColumnName("CODIGO2");
-            entity.Property(e => e.nivel2)
-              .HasMaxLength(30)
-              .IsUnicode(false)
-              .HasColumnName("NIVEL2");
-
-            entity.Property(e => e.codigo3)
-                          .HasMaxLength(10)
-                          .IsUnicode(false)
-                          .HasColumnName("CODIGO3");
-            entity.Property(e => e.nivel3)
-              .HasMaxLength(30)
-              .IsUnicode(false)
-              .HasColumnName("NIVEL3");
-
-            entity.Property(e => e.codigo4)
-                          .HasMaxLength(10)
-                          .IsUnicode(false)
-                          .HasColumnName("CODIGO4");
-            entity.Property(e => e.nivel4)
-              .HasMaxLength(30)
-              .IsUnicode(false)
-              .HasColumnName("NIVEL4");
-
-            entity.Property(e => e.codigo5)
-                          .HasMaxLength(10)
-                          .IsUnicode(false)
-                          .HasColumnName("CODIGO5");
-            entity.Property(e => e.nivel5)
-              .HasMaxLength(30)
-              .IsUnicode(false)
-              .HasColumnName("NIVEL5");
-
-            entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("ESTADO_DEL_REGISTRO");
-        });
 
         modelBuilder.Entity<Colore>(entity =>
         {
@@ -259,8 +146,6 @@ public partial class InventariosContext : DbContext
         modelBuilder.Entity<Formulas>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK_FORMULAS_1");
-
-           
 
             entity.ToTable("FORMULAS");
 
@@ -538,41 +423,73 @@ public partial class InventariosContext : DbContext
             entity.ToTable("PRODUCTOS");
 
             entity.HasIndex(e => e.nombre, "IX_PRODUCTOS");
-
             entity.HasIndex(e => e.id, "PK_PRODUCTOS").IsUnique();
+            entity.HasIndex(e => e.nivel1, "IX_PRODUCTOS_1");
+            entity.HasIndex(e => e.nivel2, "IX_PRODUCTOS_2");
+            entity.HasIndex(e => e.nivel3, "IX_PRODUCTOS_3");
+            entity.HasIndex(e => e.nivel4, "IX_PRODUCTOS_4");
+            entity.HasIndex(e => e.nivel5, "IX_PRODUCTOS_5");
 
             entity.Property(e => e.id).HasColumnName("ID");
-            entity.Property(e => e.Clasificacion).HasColumnName("CLASIFICACION");
-          
-            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
-          
+            entity.Property(e => e.nombre)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
             entity.Property(e => e.costoultimo)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTOULTIMO");
+             .HasColumnType("decimal(18, 5)")
+             .HasColumnName("COSTOULTIMO");
+
+            entity.Property(e => e.precio1)
+            .HasColumnType("decimal(18, 5)")
+            .HasColumnName("PRECIO1");
+
+            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
+
             entity.Property(e => e.estadodelregistro)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
-            entity.Property(e => e.nombre)
-                .HasMaxLength(300)
-                .IsUnicode(false)
-                .HasColumnName("NOMBRE");
-            entity.Property(e => e.precio1)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("PRECIO1");
             entity.Property(e => e.unidaddemedida).HasColumnName("UNIDADDEMEDIDA");
             entity.Property(e => e.secargalinventario).HasColumnName("SECARGAALINVENTARIO");
+            entity.Property(e => e.nivel1)
+             .HasMaxLength(50)
+             .IsUnicode(false)
+             .HasColumnName("NIVEL1");
+            entity.Property(e => e.nivel2)
+            .HasMaxLength(50)
+            .IsUnicode(false)
+            .HasColumnName("NIVEL2");
 
+            entity.Property(e => e.nivel3)
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnName("NIVEL3");
+
+            entity.Property(e => e.nivel4)
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnName("NIVEL4");
+
+            entity.Property(e => e.nivel5)
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnName("NIVEL5");
         });
 
         modelBuilder.Entity<Proveedores>(entity =>
         {
             entity.ToTable("PROVEEDORES");
 
-            entity.HasIndex(e =>  e.nombre, "IX_PROVEEDORES");
+            entity.HasIndex(e => e.nombre, "IX_PROVEEDORES");
 
-            entity.HasIndex(e => e.nit, "IX_PROVEEDORES_1").IsUnique();
+            entity.HasIndex(e => e.nit, "PK_PROVEEDORES").IsUnique();
+
+            entity.HasIndex(e => e.nivel1, "IX_PROVEEDORES_1");
+            entity.HasIndex(e => e.nivel2, "IX_PROVEEDORES_2");
+            entity.HasIndex(e => e.nivel3, "IX_PROVEEDORES_3");
+            entity.HasIndex(e => e.nivel4, "IX_PROVEEDORES_4");
+            entity.HasIndex(e => e.nivel5, "IX_PROVEEDORES_5");
 
             entity.Property(e => e.id).HasColumnName("id");
             entity.Property(e => e.actividadcomercial).HasColumnName("actividadcomercial");
@@ -584,11 +501,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("celular2");
-            entity.Property(e => e.ciudad)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("ciudad");
-            entity.Property(e => e.clasificacion).HasColumnName("CLASIFICACION");
+                  
             entity.Property(e => e.codigoderetencionaaplicar).HasColumnName("codigoderetencionaaplicar");
             entity.Property(e => e.contactos)
                 .HasMaxLength(300)
@@ -672,6 +585,32 @@ public partial class InventariosContext : DbContext
               .HasMaxLength(1)
               .IsUnicode(false)
               .HasColumnName("tipodecuenta");
+
+
+            entity.Property(e => e.nivel1)
+         .HasMaxLength(50)
+         .IsUnicode(false)
+         .HasColumnName("NIVEL1");
+            entity.Property(e => e.nivel2)
+            .HasMaxLength(50)
+            .IsUnicode(false)
+            .HasColumnName("NIVEL2");
+
+            entity.Property(e => e.nivel3)
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnName("NIVEL3");
+
+            entity.Property(e => e.nivel4)
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnName("NIVEL4");
+
+            entity.Property(e => e.nivel5)
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnName("NIVEL5");
+
         });
 
         modelBuilder.Entity<Saldos>(entity =>
@@ -816,7 +755,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("pideempaque");
-          
+
             entity.Property(e => e.pidefechadevencimiento)
                 .HasMaxLength(1)
                 .IsUnicode(false)
@@ -1079,7 +1018,7 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.Vendedor).HasColumnName("VENDEDOR");
         });
 
-        modelBuilder.Entity<Unidadesdemedida>(entity =>
+        modelBuilder.Entity<UnidadesDeMedida>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK_TABLA_UNIDADES_DE_MEDIDA");
 
