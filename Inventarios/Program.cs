@@ -76,6 +76,8 @@ builder.Services.AddScoped<MensajesDelSistemaAccess>();
 builder.Services.AddScoped<FormasDePagoAccess>();
 builder.Services.AddScoped<TiposDeProgramaAccess>();
 builder.Services.AddScoped<FormulasAccess>();
+builder.Services.AddScoped<UnidadesDeMedidaAccess>();
+
 
 
 
@@ -92,6 +94,8 @@ builder.Services.AddScoped<MensajesDelSistemaService>();
 builder.Services.AddScoped<FormasDePagoService>();
 builder.Services.AddScoped<TiposDeProgramaService>();
 builder.Services.AddScoped<FormulasService>();
+builder.Services.AddScoped<UnidadesDeMedidaService>();
+
 
 
 

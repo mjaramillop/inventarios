@@ -26,6 +26,30 @@ namespace Inventarios.Map
 
 
 
+        public UnidadesDeMedidaDTO UnidadesDeMedidaToUnidadesDeMedidaDTO(UnidadesDeMedida obj)
+        {
+            UnidadesDeMedidaDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public List<UnidadesDeMedidaDTO> ListUnidadesDeMedidaToUnidadesDeMedidaDTO(List<UnidadesDeMedida> list)
+        {
+            List<UnidadesDeMedidaDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(UnidadesDeMedidaToUnidadesDeMedidaDTO(s));
+            }
+            return listdto;
+        }
+
+
+
         public ProductosDTO ProductosToProductosDTO(Productos obj)
         {
 
