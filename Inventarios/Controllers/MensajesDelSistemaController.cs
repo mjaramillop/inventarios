@@ -77,7 +77,18 @@ namespace Inventarios.Controllers
         }
 
 
-     
+
+        [HttpGet]
+        [ActionName("GetAllActive")]
+
+        public List<MensajesDelSistemaDTO>? GetAllActive()
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+            list = _service.ListActive();
+            return list;
+        }
+
+
 
 
     }
