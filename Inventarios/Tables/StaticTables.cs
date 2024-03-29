@@ -58,7 +58,6 @@ namespace Inventarios.Tables
                 new  CodigoNombre{ id="4", nombre= "Vendedor"   },
                 new  CodigoNombre{ id="5", nombre= "ClienteProveedor"   },
                 new  CodigoNombre{ id="6", nombre= "Usuarios"   }
-
             };
 
             TiposDeCuentaBancaria = new List<CodigoNombre>()
@@ -86,6 +85,6 @@ namespace Inventarios.Tables
     public class CodigoNombre
     {
         public string? id { get; set; }
-        public string? nombre { get; set; } 
+        public string? nombre { get; set; }
     }
 }

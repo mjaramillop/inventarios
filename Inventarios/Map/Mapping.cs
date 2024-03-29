@@ -25,6 +25,31 @@ namespace Inventarios.Map
 
 
 
+        public IvasDTO IvasToIvasDTO(Ivas obj)
+        {
+            IvasDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.porcentaje = obj.porcentaje;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public List<IvasDTO> ListIvasToIvasDTO(List<Ivas> list)
+        {
+            List<IvasDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(IvasToIvasDTO(s));
+            }
+            return listdto;
+        }
+
+
+
 
         public UnidadesDeMedidaDTO UnidadesDeMedidaToUnidadesDeMedidaDTO(UnidadesDeMedida obj)
         {

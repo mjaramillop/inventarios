@@ -7,20 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers
 {
+
     [Route("[controller]/[action]")]
     [ApiController]
 
-    
 
-    public class ActividadesEconomicasController : ControllerBase
+
+    public class IvasController : ControllerBase
     {
 
 
-        private readonly ActividadesEconomicasService _service;
+        private readonly IvasService _service;
         private readonly JwtService _jwtservice;
-        private List<ActividadesEconomicasDTO>? list;
+        private List<IvasDTO>? list;
 
-        public ActividadesEconomicasController(ActividadesEconomicasService service, JwtService jwtservice)
+        public IvasController(IvasService service, JwtService jwtservice)
         {
             _service = service;
             _jwtservice = jwtservice;
@@ -28,7 +29,7 @@ namespace Inventarios.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
+        public List<IvasDTO>? Add(Ivas obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
@@ -37,7 +38,7 @@ namespace Inventarios.Controllers
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<ActividadesEconomicasDTO>? Delete(int id)
+        public List<IvasDTO>? Delete(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -47,7 +48,7 @@ namespace Inventarios.Controllers
 
         [HttpPut]
         [ActionName("Update")]
-        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas obj)
+        public List<IvasDTO>? Update(Ivas obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -57,16 +58,16 @@ namespace Inventarios.Controllers
 
         [HttpGet("{id}")]
         [ActionName("GetById")]
-        public List<ActividadesEconomicas>? GetById(int id)
+        public List<Ivas>? GetById(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            List<ActividadesEconomicas> list = _service.GetById(id);
+            List<Ivas> list = _service.GetById(id);
             return list;
         }
 
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
-        public List<ActividadesEconomicasDTO>? GetAll(string filtro = "")
+        public List<IvasDTO>? GetAll(string filtro = "")
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
@@ -88,8 +89,5 @@ namespace Inventarios.Controllers
 
 
     }
-
-
-
 
 }

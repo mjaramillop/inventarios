@@ -29,7 +29,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Formulas> Formulas { get; set; }
 
-    public virtual DbSet<Iva> Ivas { get; set; }
+    public virtual DbSet<Ivas> Ivas { get; set; }
 
     public virtual DbSet<Log> Logs { get; set; }
 
@@ -160,21 +160,21 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.formula).HasColumnName("FORMULA");
         });
 
-        modelBuilder.Entity<Iva>(entity =>
+        modelBuilder.Entity<Ivas>(entity =>
         {
             entity.ToTable("IVAS");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.nombre)
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");
-            entity.Property(e => e.Porcentaje)
+            entity.Property(e => e.porcentaje)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("porcentaje");
         });
