@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Inventarios.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Inventarios.Tables
 {
@@ -82,9 +83,5 @@ namespace Inventarios.Tables
         }
     }
 
-    public class CodigoNombre
-    {
-        public string? id { get; set; }
-        public string? nombre { get; set; }
-    }
+   
 }

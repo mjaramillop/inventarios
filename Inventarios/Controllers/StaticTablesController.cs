@@ -1,4 +1,5 @@
 ﻿using Inventarios.DTO;
+using Inventarios.Models;
 using Inventarios.services;
 using Inventarios.Tables;
 using Inventarios.Token;
