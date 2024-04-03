@@ -457,22 +457,22 @@ public partial class InventariosContext : DbContext
              .IsUnicode(false)
              .HasColumnName("NIVEL1");
             entity.Property(e => e.nivel2)
-            .HasMaxLength(50)
+            .HasMaxLength(100)
             .IsUnicode(false)
             .HasColumnName("NIVEL2");
 
             entity.Property(e => e.nivel3)
-                        .HasMaxLength(50)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnName("NIVEL3");
 
             entity.Property(e => e.nivel4)
-                        .HasMaxLength(50)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnName("NIVEL4");
 
             entity.Property(e => e.nivel5)
-                        .HasMaxLength(50)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnName("NIVEL5");
         });

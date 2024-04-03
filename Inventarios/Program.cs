@@ -77,6 +77,8 @@ builder.Services.AddScoped<FormasDePagoAccess>();
 builder.Services.AddScoped<TiposDeProgramaAccess>();
 builder.Services.AddScoped<FormulasAccess>();
 builder.Services.AddScoped<UnidadesDeMedidaAccess>();
+builder.Services.AddScoped<IvasAccess>();
+builder.Services.AddScoped<ProductosAccess>();
 
 
 
@@ -95,6 +97,9 @@ builder.Services.AddScoped<FormasDePagoService>();
 builder.Services.AddScoped<TiposDeProgramaService>();
 builder.Services.AddScoped<FormulasService>();
 builder.Services.AddScoped<UnidadesDeMedidaService>();
+builder.Services.AddScoped<IvasService>();
+builder.Services.AddScoped<ProductosService>();
+
 
 
 

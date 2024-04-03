@@ -75,18 +75,6 @@ namespace Inventarios.Controllers
         }
 
 
-        [HttpGet]
-        public ContentResult Index()
-        {
-            var html = "<p>Welcome to Code Maze</p>";
-            return new ContentResult
-            {
-                Content = html,
-                ContentType = "text/html"
-            };
-        }
-
-
 
     }
 

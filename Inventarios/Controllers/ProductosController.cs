@@ -76,16 +76,40 @@ namespace Inventarios.Controllers
         }
 
 
-        [HttpPut]
-        [ActionName("UpdateNiveles")]
-        public List<ProductosDTO>? UpdateNiveles(UpdateNiveles obj)
+
+
+        [HttpGet("{nivel}")]
+        [ActionName("GetNivel")]
+        public List<CodigoNombre>? GetNivel(int nivel)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-
-            list = _service.UpdateNiveles(obj);
+            List<CodigoNombre> list = _service.GetNivel(nivel);
             return list;
         }
 
+
+
+        [HttpPut]
+        [ActionName("UpdateNiveles")]
+        public List<CodigoNombreDTO>? UpdateNiveles(UpdateNiveles obj)
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+
+            return _service.UpdateNiveles(obj);
+        }
+
+
+
+        [HttpPut]
+        [ActionName("CambiarPrecios")]
+        public List<CodigoNombreDTO>? CambiarPrecios( CambiarPrecios obj)
+        {
+            if (_jwtservice.UserAthenticated() == false) return null;
+
+
+            return _service.CambiarPrecios(obj);
+        }
 
 
 

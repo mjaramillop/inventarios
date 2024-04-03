@@ -161,18 +161,18 @@ namespace Inventarios.DataAccess
 
 
 
-            list = _context.Proveedores
-                .OrderBy(a => a.nivel1)
-                .OrderBy(a => a.nivel2)
-                .OrderBy(a => a.nivel3)
-                .OrderBy(a => a.nivel4)
-                .OrderBy(a => a.nivel5)
-                .Where(a =>
-                 a.nivel1.Contains(obj.filtronivel1remplazarpor) ||
-                 a.nivel2.Contains(obj.filtronivel2remplazarpor) ||
-                 a.nivel3.Contains(obj.filtronivel3remplazarpor) ||
-                 a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
-                 a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
+            //list = _context.Proveedores
+            //    .OrderBy(a => a.nivel1)
+            //    .OrderBy(a => a.nivel2)
+            //    .OrderBy(a => a.nivel3)
+            //    .OrderBy(a => a.nivel4)
+            //    .OrderBy(a => a.nivel5)
+            //    .Where(a =>
+            //     a.nivel1.Contains(obj.filtronivel1remplazarpor) ||
+            //     a.nivel2.Contains(obj.filtronivel2remplazarpor) ||
+            //     a.nivel3.Contains(obj.filtronivel3remplazarpor) ||
+            //     a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
+            //     a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
 
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }

@@ -2,19 +2,18 @@
 using Inventarios.DTO;
 using Inventarios.Models;
 using Inventarios.ModelsParameter;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventarios.services
 {
     public class ProductosService
     {
-
         private readonly ProductosAccess _access;
         public List<ProductosDTO>? list;
 
         public ProductosService(ProductosAccess access)
         {
             _access = access;
-
         }
 
         public List<ProductosDTO>? Add(Productos obj)
@@ -48,17 +47,26 @@ namespace Inventarios.services
             return list;
         }
 
-
-
-
-        public List<ProductosDTO>? UpdateNiveles(UpdateNiveles obj)
+        public List<CodigoNombre>? GetNivel(int nivel)
         {
-            list = _access.UpdateNiveles(obj);
+            List<CodigoNombre>? list = new List<CodigoNombre>();
+
+            list = _access.GetNivel(nivel);
+
             return list;
         }
 
+        public List<CodigoNombreDTO>? UpdateNiveles(UpdateNiveles obj)
+        {
+          
+            return _access.UpdateNiveles(obj);
+        }
 
+        public List<CodigoNombreDTO>? CambiarPrecios(CambiarPrecios obj)
+        {
 
+            return _access.CambiarPrecios(obj);
+        }
 
     }
 }

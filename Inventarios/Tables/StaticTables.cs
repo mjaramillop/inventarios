@@ -75,8 +75,8 @@ namespace Inventarios.Tables
 
             TiposDeRetencion = new List<CodigoNombre>()
             {
-                   new  CodigoNombre{ id="0",nombre="No Aplica"   },
-                 new  CodigoNombre{ id="1",nombre="Fuente"   },
+                new  CodigoNombre{ id="0",nombre="No Aplica"   },
+                new  CodigoNombre{ id="1",nombre="Fuente"   },
                 new   CodigoNombre{ id="2", nombre= "Iva"   },
                 new   CodigoNombre{ id="3", nombre= "Ica"   },
             };
