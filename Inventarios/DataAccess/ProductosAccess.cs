@@ -215,6 +215,8 @@ namespace Inventarios.DataAccess
 
             string mensajedeerror = "";
 
+            if (obj.porcentajedeincremento == 0) mensajedeerror = "El porcentaje de error no puede swer menor o igual a cero";
+
             objetoerror.nombre = mensajedeerror;
             if (mensajedeerror.Trim().Length > 0) objetoerror.id = "Error";
 
