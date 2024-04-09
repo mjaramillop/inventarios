@@ -3,6 +3,7 @@ using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models;
 using Inventarios.ModelsParameter;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
 {
@@ -16,12 +17,15 @@ namespace Inventarios.DataAccess
 
         private List<Productos>? list;
 
-        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        private readonly Validaciones _validaciones;
+
+        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
+            _validaciones = validaciones;
         }
 
         public List<ProductosDTO>? Add(Productos obj)
@@ -121,17 +125,13 @@ namespace Inventarios.DataAccess
                 if (obj.filtronivel4remplazar.Trim() == obj.filtronivel5remplazar) objetoerror.nombre = "El nivel 4 no puede ser igual al nivel 5";
             }
 
-         
             List<CodigoNombreDTO> listadeerrores = new List<CodigoNombreDTO>();
 
             if (objetoerror.nombre.Trim().Length > 0)
             {
                 listadeerrores.Add(objetoerror);
                 return listadeerrores;
-
             }
-
-
 
             if (obj.filtronivel1remplazar.Trim().Length > 0)
             {
@@ -188,14 +188,12 @@ namespace Inventarios.DataAccess
                 }
             }
 
-
             if (list.Count == 0)
             {
                 objetoerror.nombre = "No hubo filas para actualizar";
-                listadeerrores.Add(objetoerror) ;
+                listadeerrores.Add(objetoerror);
                 return listadeerrores;
             }
-
 
             //list = _context.Productos
             //    .OrderBy(a => a.nivel1)
@@ -222,18 +220,14 @@ namespace Inventarios.DataAccess
             List<CodigoNombreDTO> listadeerrores = new List<CodigoNombreDTO>();
             CodigoNombreDTO objetoerror = new CodigoNombreDTO();
 
+            _validaciones.Validarvalordiferentedecero("Porcentaje de incremento de precio", obj.porcentajedeincremento);
 
-            if (obj.porcentajedeincremento == 0) objetoerror.nombre = "El porcentaje de error no puede ser igual a cero";
-                   
-          
-
-            if (objetoerror.nombre.Trim().Length > 0)
+            if (_validaciones.mensajedeerror.Trim().Length > 0)
             {
+                objetoerror.nombre = _validaciones.mensajedeerror;
                 listadeerrores.Add(objetoerror);
                 return listadeerrores;
-
             }
-              
 
             list = _context.Productos.ToList()
              .Where(a =>
@@ -243,7 +237,7 @@ namespace Inventarios.DataAccess
             a.nivel4.Contains(obj.nivel4.Trim()) &&
             a.nivel5.Contains(obj.nivel5.Trim())).ToList();
 
-            decimal descuento = Convert.ToDecimal(  Convert.ToDecimal( obj.porcentajedeincremento) / 100);
+            decimal descuento = Convert.ToDecimal(Convert.ToDecimal(obj.porcentajedeincremento) / 100);
 
             list.ForEach(c => { c.precio1 = c.precio1 + (c.precio1 * descuento); });
             _context.SaveChanges();
@@ -255,7 +249,7 @@ namespace Inventarios.DataAccess
                 return listadeerrores;
             }
 
-            if (objetoerror.nombre.Trim().Length==0) objetoerror.nombre = "Precio cambiado exitosamente";
+            if (objetoerror.nombre.Trim().Length == 0) objetoerror.nombre = "Precio cambiado exitosamente";
 
             listadeerrores.Add(objetoerror);
 

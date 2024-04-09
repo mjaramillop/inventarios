@@ -15,6 +15,7 @@ using Inventarios.ModelsParameter;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Inventarios.Map;
+using Inventarios.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,9 @@ builder.Services.AddSession( options => {     options.IdleTimeout= TimeSpan.From
 
 
 
+
+
+
 //data access
 builder.Services.AddScoped<ConceptosNotaDebitoCreditoAccess>();
 builder.Services.AddScoped<LogAccess>(); 
@@ -79,6 +83,7 @@ builder.Services.AddScoped<FormulasAccess>();
 builder.Services.AddScoped<UnidadesDeMedidaAccess>();
 builder.Services.AddScoped<IvasAccess>();
 builder.Services.AddScoped<ProductosAccess>();
+
 
 
 
@@ -102,14 +107,14 @@ builder.Services.AddScoped<ProductosService>();
 
 
 
-
-
 //mapping
 builder.Services.AddScoped<Mapping>();
 
 //utils
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddSingleton<StaticTables>();
+builder.Services.AddScoped<Validaciones>();
+
 
 // conexion de datos
 
