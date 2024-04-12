@@ -70,6 +70,7 @@ namespace Inventarios.DataAccess
 
         public List<MensajesDelSistemaDTO>? List(string filtro)
         {
+          
             list = _context.Mensajesdelsistema.ToList().Where(a => a.mensaje.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
         }

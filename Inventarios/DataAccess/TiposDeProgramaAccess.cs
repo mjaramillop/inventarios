@@ -69,6 +69,8 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeProgramaDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.TiposDePrograma.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListTiposDeProgramaToTiposDeProgramaDTO(list);
         }

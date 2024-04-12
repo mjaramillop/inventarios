@@ -72,6 +72,8 @@ namespace Inventarios.DataAccess
 
         public List<IvasDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.Ivas.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListIvasToIvasDTO(list);
         }

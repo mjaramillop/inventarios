@@ -83,6 +83,9 @@ namespace Inventarios.DataAccess
 
         public List<ProductosDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
+
             list = _context.Productos
                .OrderBy(a => a.nombre)
                 .OrderBy(a => a.nivel5)

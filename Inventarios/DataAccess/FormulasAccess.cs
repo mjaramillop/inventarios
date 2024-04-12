@@ -68,7 +68,9 @@ namespace Inventarios.DataAccess
 
         public List<FormulasDTO>? List(string filtro)
         {
-           var  list = (from p in _context.Productos
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
+            var  list = (from p in _context.Productos
                         join c in _context.Formulas on p.id equals c.formula
                         where p.nombre.Contains(filtro.Trim())
                         select c).ToList() ;

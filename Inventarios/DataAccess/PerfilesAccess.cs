@@ -70,6 +70,8 @@ namespace Inventarios.DataAccess
 
         public List<PerfilesDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.Perfiles.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListPerfilesToPerfilesDTO(list);
         }

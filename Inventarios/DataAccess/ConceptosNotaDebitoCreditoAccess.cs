@@ -71,6 +71,8 @@ namespace Inventarios.DataAccess
 
         public List<ConceptosNotaDebitoCreditoDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.ConceptosNotaDebitoCredito.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
         }
