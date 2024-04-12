@@ -13,12 +13,14 @@ namespace Inventarios.DataAccess
         private readonly Mapping _mapping;
 
         private List<Perfiles>? list;
+        private readonly IConfiguration _iconfiguration;
 
-        public PerfilesAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        public PerfilesAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<PerfilesDTO> Add(Perfiles obj)

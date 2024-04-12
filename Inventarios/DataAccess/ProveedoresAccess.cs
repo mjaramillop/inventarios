@@ -13,12 +13,14 @@ namespace Inventarios.DataAccess
         private readonly Mapping _mapping;
 
         private List<Proveedores>? list;
+        private readonly IConfiguration _iconfiguration;
 
-        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<ProveedoresDTO> Add(Proveedores obj)

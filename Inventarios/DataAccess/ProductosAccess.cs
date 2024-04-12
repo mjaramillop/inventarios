@@ -19,13 +19,16 @@ namespace Inventarios.DataAccess
 
         private readonly Validaciones _validaciones;
 
-        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones)
+        private readonly IConfiguration _iconfiguration;
+
+        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones, IConfiguration iconfiguration)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
             _validaciones = validaciones;
+            _iconfiguration = iconfiguration;
         }
 
         public List<ProductosDTO>? Add(Productos obj)

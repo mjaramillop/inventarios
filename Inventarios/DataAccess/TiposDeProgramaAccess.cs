@@ -14,12 +14,15 @@ namespace Inventarios.DataAccess
 
         private List<TiposDePrograma>? list;
 
-        public TiposDeProgramaAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        private readonly IConfiguration _iconfiguration;
+
+        public TiposDeProgramaAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<TiposDeProgramaDTO>? Add(TiposDePrograma obj)

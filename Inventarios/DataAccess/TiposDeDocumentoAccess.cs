@@ -2,6 +2,8 @@
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models;
+using Microsoft.Extensions.Configuration;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Inventarios.DataAccess
 {
@@ -10,14 +12,16 @@ namespace Inventarios.DataAccess
         private readonly InventariosContext _context;
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
+        private readonly IConfiguration _iconfiguration;
 
         private List<TiposDeDocumento>? list;
 
-        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfigutarion;
         }
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
@@ -109,6 +113,8 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeDocumentoDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+          filtro= filtro.Replace(caracterdebusqueda, "");
             list = _context.TiposDeDocumento.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }

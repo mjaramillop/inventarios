@@ -16,12 +16,15 @@ namespace Inventarios.DataAccess
 
         private List<UnidadesDeMedida>? list;
 
-        public UnidadesDeMedidaAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        private readonly IConfiguration _iconfiguration;
+
+        public UnidadesDeMedidaAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)

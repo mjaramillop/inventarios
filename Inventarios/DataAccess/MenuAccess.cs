@@ -13,12 +13,13 @@ namespace Inventarios.DataAccess
         private readonly Mapping _mapping;
 
         private List<Menu>? list;
-
-        public MenuAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        private readonly IConfiguration _iconfiguration;
+        public MenuAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<MenuDTO>? Add(Menu? obj)

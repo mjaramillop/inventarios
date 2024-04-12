@@ -16,12 +16,15 @@ namespace Inventarios.DataAccess
 
         private List<ActividadesEconomicas>? list;
 
-        public ActividadesEconomicasAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        private readonly IConfiguration _iconfiguration;
+
+        public ActividadesEconomicasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)

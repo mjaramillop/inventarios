@@ -15,12 +15,15 @@ namespace Inventarios.DataAccess
 
         private List<Formulas>? list;
 
-        public FormulasAccess(InventariosContext context, LogAccess logacces, Mapping mapping)
+        private readonly IConfiguration _iconfiguration;
+
+        public FormulasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<FormulasDTO>? Add(Formulas obj)

@@ -16,14 +16,15 @@ namespace Inventarios.DataAccess
         private readonly JwtService _jwtservice;
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
+      
 
-
-        public LogAccess(InventariosContext context, JwtService jwtservice, IConfiguration iconfigutarion, Mapping mapping)
+        public LogAccess(InventariosContext context, JwtService jwtservice, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             _jwtservice = jwtservice;
             _iconfiguration = iconfigutarion;
-            _mapping = mapping; 
+            _mapping = mapping;
+            
         }
 
         public void Add(string registro)

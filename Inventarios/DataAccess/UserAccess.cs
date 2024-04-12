@@ -14,13 +14,15 @@ namespace Inventarios.DataAccess
         private readonly Mapping _mapping;
 
         private List<Usuarios>? list;
+        private readonly IConfiguration _iconfiguration;
 
-        public UserAccess(InventariosContext context, JwtService jwtservice, LogAccess logacces, Mapping mapping)
+        public UserAccess(InventariosContext context, JwtService jwtservice, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             _jwtservice = jwtservice;
             _logacces = logacces;
             _mapping = mapping;
+            _iconfiguration = iconfiguration;
         }
 
         public List<UsersDTO>? Add(Usuarios obj)
