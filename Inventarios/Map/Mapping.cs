@@ -25,6 +25,31 @@ namespace Inventarios.Map
 
 
 
+
+        public ProgramasDTO ProgramasToProgramasDTO(Programas obj)
+        {
+            ProgramasDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public List<ProgramasDTO> ListProgramasToProgramasDTO(List<Programas> list)
+        {
+            List<ProgramasDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(ProgramasToProgramasDTO(s));
+            }
+            return listdto;
+        }
+
+
+
         public IvasDTO IvasToIvasDTO(Ivas obj)
         {
             IvasDTO dto = new();

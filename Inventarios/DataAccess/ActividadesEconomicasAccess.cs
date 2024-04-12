@@ -30,27 +30,27 @@ namespace Inventarios.DataAccess
         public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
-            _context.Actividadeseconomicas.Add(obj);
+            _context.ActividadesEconomicas.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Actividades Economicas");
-            list = _context.Actividadeseconomicas.Where(a => a.id == obj.id).ToList();
+            list = _context.ActividadesEconomicas.Where(a => a.id == obj.id).ToList();
             return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
         public List<ActividadesEconomicasDTO> Delete(int id)
         {
-            var obj = _context.Actividadeseconomicas.FirstOrDefault(a => a.id == id);
-            _context.Actividadeseconomicas.Remove(obj);
+            var obj = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == id);
+            _context.ActividadesEconomicas.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Actividades Economicas");
-            list = _context.Actividadeseconomicas.Where(a => a.id == obj.id).ToList();
+            list = _context.ActividadesEconomicas.Where(a => a.id == obj.id).ToList();
             return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
         public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas? obj)
         {
             obj.estadodelregistro = obj.estadodelregistro.ToUpper();
-            var obj_ = _context.Actividadeseconomicas.FirstOrDefault(a => a.id == obj.id);
+            var obj_ = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
 
@@ -60,13 +60,13 @@ namespace Inventarios.DataAccess
             _context.SaveChanges();
             this.Log(obj, "Modifico Actividadeseconomicas");
 
-            list = _context.Actividadeseconomicas.Where(a => a.id == obj.id).ToList();
+            list = _context.ActividadesEconomicas.Where(a => a.id == obj.id).ToList();
             return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 
         public List<ActividadesEconomicas> GetById(int id)
         {
-            list = _context.Actividadeseconomicas.Where(a => a.id == id).ToList();
+            list = _context.ActividadesEconomicas.Where(a => a.id == id).ToList();
             return list;
         }
 
@@ -74,7 +74,7 @@ namespace Inventarios.DataAccess
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
-            list = _context.Actividadeseconomicas.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
+            list = _context.ActividadesEconomicas.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
         }
 

@@ -15,13 +15,12 @@ public partial class InventariosContext : DbContext
         _iconfiguration = configutarion_;
     }
 
-    public virtual DbSet<ActividadesEconomicas> Actividadeseconomicas { get; set; }
+    public virtual DbSet<Programas> Programas { get; set; }
 
- 
+    public virtual DbSet<ActividadesEconomicas> ActividadesEconomicas { get; set; }
 
-  
 
-    public virtual DbSet<Colore> Colores { get; set; }
+    public virtual DbSet<Colores> Colores { get; set; }
 
     public virtual DbSet<ConceptosNotaDebitoCredito> ConceptosNotaDebitoCredito { get; set; }
 
@@ -69,7 +68,7 @@ public partial class InventariosContext : DbContext
         {
             entity.HasKey(e => e.id).HasName("PK_TABLA_ACTIVIDADES_ECONOMICAS");
 
-            entity.ToTable("ACTIVIDADESECONOMICAS");
+            entity.ToTable("Programas");
 
             entity.Property(e => e.id).HasColumnName("ID").ValueGeneratedOnAdd();
 
@@ -87,7 +86,7 @@ public partial class InventariosContext : DbContext
     
 
 
-        modelBuilder.Entity<Colore>(entity =>
+        modelBuilder.Entity<Colores>(entity =>
         {
             entity
                 .HasNoKey()
@@ -98,10 +97,10 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
-            entity.Property(e => e.Id)
+            entity.Property(e => e.id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("ID");
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");
@@ -847,7 +846,7 @@ public partial class InventariosContext : DbContext
     .HasColumnName("transaccionesquepuedellamar");
         });
 
-        modelBuilder.Entity<TiposDePrograma>(entity =>
+        modelBuilder.Entity<Programas>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK_TABLA_TIPOS_DE_PROGRAMAS");
 

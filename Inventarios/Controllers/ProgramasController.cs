@@ -5,19 +5,25 @@ using Inventarios.Token;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
+
+
 namespace Inventarios.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class TiposDeProgramaController : ControllerBase
+
+
+
+    public class ProgramasController : ControllerBase
     {
 
 
-        private readonly TiposDeProgramaService _service;
+        private readonly ProgramasService _service;
         private readonly JwtService _jwtservice;
-        private List<TiposDeProgramaDTO>? list;
+        private List<ProgramasDTO>? list;
 
-        public TiposDeProgramaController(TiposDeProgramaService service, JwtService jwtservice)
+        public ProgramasController(ProgramasService service, JwtService jwtservice)
         {
             _service = service;
             _jwtservice = jwtservice;
@@ -25,7 +31,7 @@ namespace Inventarios.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public List<TiposDeProgramaDTO>? Add(TiposDePrograma obj)
+        public List<ProgramasDTO>? Add(Programas obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
@@ -34,7 +40,7 @@ namespace Inventarios.Controllers
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<TiposDeProgramaDTO>? Delete(int id)
+        public List<ProgramasDTO>? Delete(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -44,7 +50,7 @@ namespace Inventarios.Controllers
 
         [HttpPut]
         [ActionName("Update")]
-        public List<TiposDeProgramaDTO>? Update(TiposDePrograma obj)
+        public List<ProgramasDTO>? Update(Programas obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -54,17 +60,16 @@ namespace Inventarios.Controllers
 
         [HttpGet("{id}")]
         [ActionName("GetById")]
-        public List<TiposDePrograma>? GetById(int id)
+        public List<Programas>? GetById(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            List<TiposDePrograma> list = _service.GetById(id);
+            List<Programas> list = _service.GetById(id);
             return list;
         }
 
         [HttpGet("{filtro}")]
-
         [ActionName("GetAll")]
-        public List<TiposDeProgramaDTO>? GetAll(string filtro = "")
+        public List<ProgramasDTO>? GetAll(string filtro = "")
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
@@ -72,9 +77,22 @@ namespace Inventarios.Controllers
         }
 
 
-      
+        [HttpGet]
+        public ContentResult Index()
+        {
+            var html = "<p>Welcome to Code Maze</p>";
+            return new ContentResult
+            {
+                Content = html,
+                ContentType = "text/html"
+            };
+        }
 
 
 
     }
+
+
+
+
 }
