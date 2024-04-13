@@ -850,7 +850,7 @@ public partial class InventariosContext : DbContext
         {
             entity.HasKey(e => e.id).HasName("PK_TABLA_TIPOS_DE_PROGRAMAS");
 
-            entity.ToTable("TIPOSDEPROGRAMAS");
+            entity.ToTable("PROGRAMAS");
 
             entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
