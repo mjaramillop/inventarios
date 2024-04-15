@@ -108,6 +108,12 @@ namespace Inventarios.DataAccess
         public List<TiposDeDocumento> GetById(int id)
         {
             list = _context.TiposDeDocumento.Where(a => a.id == id).ToList();
+            var obj1_ = _context.Proveedores.FirstOrDefault(a => a.id ==  Convert.ToInt32( list[0].despacha));
+            list[0].nombredespacha = obj1_.nombre;
+            var obj2_ = _context.Proveedores.FirstOrDefault(a => a.id == Convert.ToInt32(list[0].recibe));
+            list[0].nombrerecibe = obj2_.nombre;
+
+
             return list;
         }
 

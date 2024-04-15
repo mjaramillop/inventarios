@@ -63,9 +63,9 @@ namespace Inventarios.DataAccess
 
             comando = "DELETE  FROM LOG WHERE FECHA_DE_ACTUALIZACION <" + "'" + fecha + "'";
 
-            Rutinas ru = new(_iconfiguration);
+            Utils.Utils ru = new(_iconfiguration);
 
-            string mensaje = ru.rtn_ejecutarsql(comando);
+            string mensaje = ru.ejecutarsql(comando);
             if (mensaje.Trim().Length == 0) mensaje = "Registros eliminados correctamente antes del " + fecha;
 
             return new List<Mensaje>   { new Mensaje() { mensaje = mensaje } };

@@ -1,16 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace Inventarios.Utils
 {
-    public class Rutinas
+    public class Utils
     {
         public int TiempoDeEspera = 600; // 600 segundos
 
         private readonly IConfiguration _iconfiguration;
 
-        public Rutinas(IConfiguration iconfigutarion)
+        public Utils(IConfiguration iconfigutarion)
 
         {
             _iconfiguration = iconfigutarion;
@@ -18,7 +19,7 @@ namespace Inventarios.Utils
 
 
 
-        public string rtn_ejecutarsql(string comando)
+        public string ejecutarsql(string comando)
         {
 
             comando = comando.Trim();
@@ -44,7 +45,7 @@ namespace Inventarios.Utils
             return xmensaje;
         }
 
-        public DataTable rtn_creartabla(string comando)
+        public DataTable creartabla(string comando)
         {
             System.Data.DataTable table = new DataTable();
             DataSet xdataset = new DataSet();
@@ -71,7 +72,7 @@ namespace Inventarios.Utils
             return table;
         }
 
-        public string rtn_MontoEscrito(string valor)
+        public string MontoEscrito(string valor)
         {
             string[] datos = new string[1000];
             datos[0] = "";
@@ -1179,5 +1180,19 @@ namespace Inventarios.Utils
 
             return valorenletras;
         }
+
+
+        public List<string> CalcularFechaDeVencimiento (string fecha , int plazo)
+        {
+            DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
+
+            List<string> result = new List<string>();
+            result.Add(fechadevencimiento.ToString(("dd/MM/yyyy")));
+            return result;
+
+
+
+        }
+
     }
 }

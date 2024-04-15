@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inventarios.Models;
 
@@ -99,7 +100,14 @@ public partial class TiposDeDocumento
 
     public string? transaccionesquepuedellamar { get; set; }
 
-   
+
+    [NotMapped]
+    public string nombredespacha { get; set; }
+    [NotMapped]
+    public string nombrerecibe { get; set; }
+
+
+
 
 
 }

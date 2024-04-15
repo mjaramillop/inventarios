@@ -28,8 +28,8 @@ namespace Inventarios.DataAccess
         {
             string comando = "";
             comando = "delete from mensajesdelsistema where fecha_hasta < getdate()  ";
-            Rutinas ru = new(_iconfiguration);
-            string mensaje = ru.rtn_ejecutarsql(comando);
+            Utils.Utils ru = new(_iconfiguration);
+            string mensaje = ru.ejecutarsql(comando);
 
             _context.Mensajesdelsistema.Add(obj);
             _context.SaveChanges();
