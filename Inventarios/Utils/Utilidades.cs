@@ -5,13 +5,13 @@ using System.Data;
 
 namespace Inventarios.Utils
 {
-    public class Utils
+    public class Utilidades
     {
         public int TiempoDeEspera = 600; // 600 segundos
 
         private readonly IConfiguration _iconfiguration;
 
-        public Utils(IConfiguration iconfigutarion)
+        public Utilidades(IConfiguration iconfigutarion)
 
         {
             _iconfiguration = iconfigutarion;

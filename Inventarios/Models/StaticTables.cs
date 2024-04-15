@@ -1,7 +1,6 @@
-﻿using Inventarios.Models;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 
-namespace Inventarios.Tables
+namespace Inventarios.Models
 {
     public class StaticTables
     {
@@ -83,5 +82,5 @@ namespace Inventarios.Tables
         }
     }
 
-   
+
 }

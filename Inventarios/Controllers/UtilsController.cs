@@ -1,5 +1,6 @@
 ﻿using Inventarios.services;
 using Inventarios.Token;
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,10 +11,10 @@ namespace Inventarios.Controllers
     [ApiController]
     public class UtilsController : ControllerBase
     {
-        private readonly  Inventarios.Utils.Utils _utils;
+        private readonly  Utilidades _utils;
 
 
-        public UtilsController(Inventarios.Utils.Utils utils)
+        public UtilsController(Inventarios.Utils.Utilidades utils)
         {
           
             _utils = utils;

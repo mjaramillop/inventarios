@@ -2,7 +2,6 @@
 using Inventarios.DataAccess;
 using Inventarios.DTO;
 using Inventarios.Models;
-using Inventarios.Tables;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 

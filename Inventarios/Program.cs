@@ -3,7 +3,6 @@ using Inventarios.Data;
 using Inventarios.DataAccess;
 using Inventarios.services;
 using Inventarios.Token;
-using Inventarios.Tables;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -114,6 +113,8 @@ builder.Services.AddScoped<Mapping>();
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddSingleton<StaticTables>();
 builder.Services.AddScoped<Validaciones>();
+builder.Services.AddScoped<Utilidades>();
+
 
 
 // conexion de datos
