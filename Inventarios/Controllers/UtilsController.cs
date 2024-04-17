@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class UtilsController : ControllerBase
     {
@@ -23,7 +23,8 @@ namespace Inventarios.Controllers
 
 
         // GET api/<UtilsController>/5
-        [HttpGet("{fecha}/{id}")]
+        [HttpGet("{fecha}/{plazo}")]
+        [ActionName("CalcularFechaDeVencimiento")]
         public List<string>  CalcularFechaDeVencimiento(string fecha , int plazo)
         {
 

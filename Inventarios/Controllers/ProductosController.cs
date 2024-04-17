@@ -91,7 +91,7 @@ namespace Inventarios.Controllers
 
         [HttpPut]
         [ActionName("UpdateNiveles")]
-        public List<CodigoNombreDTO>? UpdateNiveles(UpdateNiveles obj)
+        public List<string>? UpdateNiveles(UpdateNiveles obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
@@ -103,7 +103,7 @@ namespace Inventarios.Controllers
 
         [HttpPut]
         [ActionName("CambiarPrecios")]
-        public List<CodigoNombreDTO>? CambiarPrecios( CambiarPrecios obj)
+        public List<string>? CambiarPrecios( CambiarPrecios obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 

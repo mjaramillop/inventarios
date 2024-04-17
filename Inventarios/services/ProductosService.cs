@@ -56,13 +56,13 @@ namespace Inventarios.services
             return list;
         }
 
-        public List<CodigoNombreDTO>? UpdateNiveles(UpdateNiveles obj)
+        public List<string>? UpdateNiveles(UpdateNiveles obj)
         {
           
             return _access.UpdateNiveles(obj);
         }
 
-        public List<CodigoNombreDTO>? CambiarPrecios(CambiarPrecios obj)
+        public List<string>? CambiarPrecios(CambiarPrecios obj)
         {
 
             return _access.CambiarPrecios(obj);

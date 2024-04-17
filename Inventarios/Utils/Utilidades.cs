@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Linq.Dynamic.Core.Tokenizer;
 
 namespace Inventarios.Utils
 {
@@ -1184,6 +1185,9 @@ namespace Inventarios.Utils
 
         public List<string> CalcularFechaDeVencimiento (string fecha , int plazo)
         {
+
+            fecha= fecha.Replace("%2F", "/");
+
             DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
 
             List<string> result = new List<string>();

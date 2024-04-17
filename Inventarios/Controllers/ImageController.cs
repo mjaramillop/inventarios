@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Drawing;
+using System.Net.Http.Headers;
 
 namespace Inventarios.Controllers
 {
@@ -10,11 +12,11 @@ namespace Inventarios.Controllers
     public class ImageController : ControllerBase
     {
 
-        
+    
 
         public ImageController()
         {
-           
+         
         }
 
 
@@ -50,7 +52,53 @@ namespace Inventarios.Controllers
             return File(image, "image/jpeg");
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetImageProduct(int id)
+        {
 
+
+            string route = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
+
+
+            route = route + "\\" + id.ToString() + ".jpg";
+
+            var image = System.IO.File.OpenRead(route);
+            return File(image, "image/jpeg");
+        }
+
+
+
+        [HttpPost]
+      
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
+            if (!Directory.Exists(uploads))
+            {
+                Directory.CreateDirectory(uploads);
+            }
+            if (file.Length > 0)
+            {
+                var filePath = Path.Combine(uploads, file.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            return Ok();
+        }
+
+    
+
+
+        [HttpGet("{id}")]
+      
+        public IActionResult Download(int id)
+        {
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
+            var filepath = Path.Combine(uploads,  id.ToString()+ ".jpg");
+            return File(System.IO.File.ReadAllBytes(filepath), "image/jpg", System.IO.Path.GetFileName(filepath));
+        }
 
 
     }

@@ -105,37 +105,37 @@ namespace Inventarios.DataAccess
             return _mapping.ListProductosToProductosDTO(list);
         }
 
-        public List<CodigoNombreDTO>? UpdateNiveles(UpdateNiveles obj)
+        public List<string>? UpdateNiveles(UpdateNiveles obj)
         {
             List<Productos>? list = null;
 
-            CodigoNombreDTO objetoerror = new CodigoNombreDTO();
+            string mensajedeerror = "";
 
             if ((obj.filtronivel1remplazar.Trim().Length + obj.filtronivel2remplazar.Trim().Length) > 0)
             {
-                if (obj.filtronivel1remplazar.Trim() == obj.filtronivel2remplazar) objetoerror.nombre = "El nivel 1 no puede ser igual al nivel 2";
+                if (obj.filtronivel1remplazar.Trim() == obj.filtronivel2remplazar) mensajedeerror = "El nivel 1 no puede ser igual al nivel 2";
             }
 
             if ((obj.filtronivel2remplazar.Trim().Length + obj.filtronivel3remplazar.Trim().Length) > 0)
             {
-                if (obj.filtronivel2remplazar.Trim() == obj.filtronivel3remplazar) objetoerror.nombre = "El nivel 2 no puede ser igual al nivel 3";
+                if (obj.filtronivel2remplazar.Trim() == obj.filtronivel3remplazar) mensajedeerror = "El nivel 2 no puede ser igual al nivel 3";
             }
 
             if ((obj.filtronivel3remplazar.Trim().Length + obj.filtronivel4remplazar.Trim().Length) > 0)
             {
-                if (obj.filtronivel3remplazar.Trim() == obj.filtronivel4remplazar) objetoerror.nombre = "El nivel 3 no puede ser igual al nivel 4";
+                if (obj.filtronivel3remplazar.Trim() == obj.filtronivel4remplazar) mensajedeerror = "El nivel 3 no puede ser igual al nivel 4";
             }
 
             if ((obj.filtronivel4remplazar.Trim().Length + obj.filtronivel5remplazar.Trim().Length) > 0)
             {
-                if (obj.filtronivel4remplazar.Trim() == obj.filtronivel5remplazar) objetoerror.nombre = "El nivel 4 no puede ser igual al nivel 5";
+                if (obj.filtronivel4remplazar.Trim() == obj.filtronivel5remplazar) mensajedeerror = "El nivel 4 no puede ser igual al nivel 5";
             }
 
-            List<CodigoNombreDTO> listadeerrores = new List<CodigoNombreDTO>();
+            List<string> listadeerrores = new List<string>();
 
-            if (objetoerror.nombre.Trim().Length > 0)
+            if (mensajedeerror.Trim().Length > 0)
             {
-                listadeerrores.Add(objetoerror);
+                listadeerrores.Add(mensajedeerror);
                 return listadeerrores;
             }
 
@@ -196,8 +196,8 @@ namespace Inventarios.DataAccess
 
             if (list.Count == 0)
             {
-                objetoerror.nombre = "No hubo filas para actualizar";
-                listadeerrores.Add(objetoerror);
+                mensajedeerror = "No hubo filas para actualizar";
+                listadeerrores.Add(mensajedeerror);
                 return listadeerrores;
             }
 
@@ -214,24 +214,23 @@ namespace Inventarios.DataAccess
             //     a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
             //     a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
 
-            objetoerror.nombre = "Filas actualizadas existosamente";
-            listadeerrores.Add(objetoerror);
+            mensajedeerror = "Filas actualizadas existosamente";
+            listadeerrores.Add(mensajedeerror);
 
             return listadeerrores;
         }
 
-        public List<CodigoNombreDTO>? CambiarPrecios(CambiarPrecios obj)
+        public List<string>? CambiarPrecios(CambiarPrecios obj)
         {
             List<Productos>? list = null;
-            List<CodigoNombreDTO> listadeerrores = new List<CodigoNombreDTO>();
-            CodigoNombreDTO objetoerror = new CodigoNombreDTO();
+            List<string> listadeerrores = new List<string>();
 
+            _validaciones.mensajedeerror = "";
             _validaciones.Validarvalordiferentedecero("Porcentaje de incremento de precio", obj.porcentajedeincremento);
 
             if (_validaciones.mensajedeerror.Trim().Length > 0)
             {
-                objetoerror.nombre = _validaciones.mensajedeerror;
-                listadeerrores.Add(objetoerror);
+                listadeerrores.Add(_validaciones.mensajedeerror);
                 return listadeerrores;
             }
 
@@ -250,14 +249,14 @@ namespace Inventarios.DataAccess
 
             if (list.Count == 0)
             {
-                objetoerror.nombre = "No hubo filas para actualizar";
-                listadeerrores.Add(objetoerror);
+                _validaciones.mensajedeerror = "No hubo filas para actualizar";
+                listadeerrores.Add(_validaciones.mensajedeerror);
                 return listadeerrores;
             }
 
-            if (objetoerror.nombre.Trim().Length == 0) objetoerror.nombre = "Precio cambiado exitosamente";
+            if (_validaciones.mensajedeerror.Trim().Length == 0) _validaciones.mensajedeerror = "Precio cambiado exitosamente";
 
-            listadeerrores.Add(objetoerror);
+            listadeerrores.Add(_validaciones.mensajedeerror);
 
             return listadeerrores;
         }

@@ -108,11 +108,16 @@ namespace Inventarios.DataAccess
         public List<TiposDeDocumento> GetById(int id)
         {
             list = _context.TiposDeDocumento.Where(a => a.id == id).ToList();
-            var obj1_ = _context.Proveedores.FirstOrDefault(a => a.id ==  Convert.ToInt32( list[0].despacha));
-            list[0].nombredespacha = obj1_.nombre;
-            var obj2_ = _context.Proveedores.FirstOrDefault(a => a.id == Convert.ToInt32(list[0].recibe));
-            list[0].nombrerecibe = obj2_.nombre;
-
+            if (list[0].despacha.Trim().Length > 0)
+            {
+                var obj1_ = _context.Proveedores.FirstOrDefault(a => a.id == Convert.ToInt32(list[0].despacha));
+                list[0].nombredespacha = obj1_.nombre;
+            }
+            if (list[0].recibe.Trim().Length > 0)
+            {
+                var obj2_ = _context.Proveedores.FirstOrDefault(a => a.id == Convert.ToInt32(list[0].recibe));
+                list[0].nombrerecibe = obj2_.nombre;
+            }
 
             return list;
         }
@@ -120,7 +125,7 @@ namespace Inventarios.DataAccess
         public List<TiposDeDocumentoDTO>? List(string filtro)
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
-          filtro= filtro.Replace(caracterdebusqueda, "");
+            filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.TiposDeDocumento.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }

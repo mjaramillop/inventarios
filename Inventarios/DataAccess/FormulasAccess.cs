@@ -2,6 +2,7 @@
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models;
+using System.Linq;
 
 namespace Inventarios.DataAccess
 {
@@ -30,6 +31,8 @@ namespace Inventarios.DataAccess
         {
             _context.Formulas.Add(obj);
             _context.SaveChanges();
+            ActualizarCostoDeLaFormula(obj.formula);
+
             this.Log(obj, "Agrego Formula");
             list = _context.Formulas.Where(a => a.id == obj.id).ToList();
             return _mapping.ListFormulasToFormulasDTO(list);
@@ -40,6 +43,7 @@ namespace Inventarios.DataAccess
             var obj = _context.Formulas.FirstOrDefault(a => a.id == id);
             _context.Formulas.Remove(obj);
             _context.SaveChanges();
+            ActualizarCostoDeLaFormula(obj.formula);
             this.Log(obj, "Borro Formula");
 
             list = _context.Formulas.Where(a => a.id == obj.id).ToList();
@@ -54,6 +58,7 @@ namespace Inventarios.DataAccess
             obj_.componente = obj.componente;
             obj_.cantidad = obj.cantidad;
             _context.SaveChanges();
+            ActualizarCostoDeLaFormula(obj.formula);
             this.Log(obj, "Modifico Formula");
 
             list = _context.Formulas.Where(a => a.id == obj.id).ToList();
@@ -70,11 +75,35 @@ namespace Inventarios.DataAccess
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
-            var  list = (from p in _context.Productos
+            var list = (from p in _context.Productos
                         join c in _context.Formulas on p.id equals c.formula
                         where p.nombre.Contains(filtro.Trim())
-                        select c).ToList() ;
+                        select c).ToList();
             return _mapping.ListFormulasToFormulasDTO(list);
+        }
+
+        public void ActualizarCostoDeLaFormula(int formula)
+        {
+            List<Formulas> listformulas = new List<Formulas>();
+
+            listformulas = _context.Formulas.Where(a => a.formula == formula).ToList();
+            decimal? totalcostodelaformula = 0;
+
+            foreach (var s in listformulas)
+            {
+                Productos producto = new Productos();
+                int idcomponente = s.componente;
+                producto = _context.Productos.Find(idcomponente);
+                decimal? costodelcomponente = s.cantidad * producto.costoultimo;
+                totalcostodelaformula = totalcostodelaformula + costodelcomponente;
+            }
+
+            Productos formulaaactualizar = new Productos();
+            formulaaactualizar = _context.Productos.FirstOrDefault(a => a.id == formula);
+
+            formulaaactualizar.costoultimo = totalcostodelaformula;
+
+            _context.SaveChanges();
         }
 
         public void Log(Formulas obj, string operacion)
