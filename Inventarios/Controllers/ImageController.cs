@@ -60,9 +60,14 @@ namespace Inventarios.Controllers
             string route = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
 
 
-            route = route + "\\" + id.ToString() + ".jpg";
+            string routefinal = route + "\\" + id.ToString() + ".jpg";
 
-            var image = System.IO.File.OpenRead(route);
+            if (!System.IO.File.Exists(routefinal))
+            { 
+                routefinal = route + "\\" + "0.jpg";
+            }
+
+            var image = System.IO.File.OpenRead(routefinal);
             return File(image, "image/jpeg");
         }
 

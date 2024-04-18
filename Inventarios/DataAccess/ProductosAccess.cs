@@ -46,6 +46,15 @@ namespace Inventarios.DataAccess
             var obj = _context.Productos.FirstOrDefault(a => a.id == id);
             _context.Productos.Remove(obj);
             _context.SaveChanges();
+
+
+            string route = Path.Combine(Directory.GetCurrentDirectory(), "imagesproducts");
+
+
+            route = route + "\\" + id.ToString() + ".jpg";
+
+            System.IO.File.Delete(route);
+
             this.Log(obj, "Borro Producto");
             list = _context.Productos.Where(a => a.id == obj.id).ToList();
             return _mapping.ListProductosToProductosDTO(list);
