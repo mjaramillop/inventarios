@@ -28,7 +28,7 @@ namespace Inventarios.DataAccess
 
         public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+          
             _context.ConceptosNotaDebitoCredito.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Conceptos Nota debito credito");
@@ -48,7 +48,7 @@ namespace Inventarios.DataAccess
 
         public List<ConceptosNotaDebitoCreditoDTO>? Update(ConceptosNotaDebitoCredito? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+          
             var obj_ = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;

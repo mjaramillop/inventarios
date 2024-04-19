@@ -82,6 +82,11 @@ builder.Services.AddScoped<FormulasAccess>();
 builder.Services.AddScoped<UnidadesDeMedidaAccess>();
 builder.Services.AddScoped<IvasAccess>();
 builder.Services.AddScoped<ProductosAccess>();
+////  singleton
+builder.Services.AddScoped<EstadosDeUnRegistroAccess >();
+
+
+
 
 
 
@@ -103,6 +108,9 @@ builder.Services.AddScoped<FormulasService>();
 builder.Services.AddScoped<UnidadesDeMedidaService>();
 builder.Services.AddScoped<IvasService>();
 builder.Services.AddScoped<ProductosService>();
+////  singleton
+builder.Services.AddScoped<EstadosDeUnRegistroService>();
+
 
 
 

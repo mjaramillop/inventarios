@@ -14,7 +14,7 @@ public partial class Menu
 
     public string? paginaweb { get; set; }
 
-    public string? estadodelregistro { get; set; }
+    public int? estadodelregistro { get; set; }
 
 
  

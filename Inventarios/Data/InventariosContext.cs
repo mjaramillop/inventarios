@@ -18,6 +18,7 @@ public partial class InventariosContext : DbContext
     public virtual DbSet<Programas> Programas { get; set; }
 
     public virtual DbSet<ActividadesEconomicas> ActividadesEconomicas { get; set; }
+    public virtual DbSet<EstadosDeUnRegistro> EstadosDeUnRegistro { get; set; }
 
 
     public virtual DbSet<Colores> Colores { get; set; }
@@ -29,6 +30,8 @@ public partial class InventariosContext : DbContext
     public virtual DbSet<Formulas> Formulas { get; set; }
 
     public virtual DbSet<Ivas> Ivas { get; set; }
+
+    public virtual DbSet<Retenciones> Retenciones { get; set; }
 
     public virtual DbSet<Log> Logs { get; set; }
 
@@ -48,7 +51,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<TiposDeDocumento> TiposDeDocumento { get; set; }
 
-    public virtual DbSet<TiposDePrograma> TiposDePrograma { get; set; }
+ 
 
     public virtual DbSet<TmpMovimientodeinventario> TmpMovimientodeinventarios { get; set; }
 
@@ -68,12 +71,11 @@ public partial class InventariosContext : DbContext
         {
             entity.HasKey(e => e.id).HasName("PK_TABLA_ACTIVIDADES_ECONOMICAS");
 
-            entity.ToTable("Programas");
+            entity.ToTable("Actividadeseconomicas");
 
             entity.Property(e => e.id).HasColumnName("ID").ValueGeneratedOnAdd();
 
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -83,7 +85,25 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-    
+
+        modelBuilder.Entity<EstadosDeUnRegistro>(entity =>
+        {
+
+            entity.HasKey(e => e.id).HasName("IX_ESTADOSDEUNREGISTRO");
+            entity.ToTable("Estadosdeunregistro");
+
+
+            entity.Property(e => e.id)
+              .HasMaxLength(1)
+              .IsUnicode(false)
+              .HasColumnName("ID");
+
+            entity.Property(e => e.nombre)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
 
 
         modelBuilder.Entity<Colores>(entity =>
@@ -93,7 +113,6 @@ public partial class InventariosContext : DbContext
                 .ToTable("COLORES");
 
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -114,7 +133,6 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -126,13 +144,12 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<FormasDePago>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK_TABLA_FORMAS_DE_PAGO");
+            entity.HasKey(e => e.id).HasName("PK_FORMASDEPAGO");
 
             entity.ToTable("FORMASDEPAGO");
 
             entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -161,6 +178,7 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Ivas>(entity =>
         {
+            entity.HasKey(e => e.id).HasName("PK_IVAS");
             entity.ToTable("IVAS");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -177,6 +195,29 @@ public partial class InventariosContext : DbContext
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("porcentaje");
         });
+
+
+
+        modelBuilder.Entity<Retenciones>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("PK_RETENCIONES");
+            entity.ToTable("RETENCIONES");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+            entity.Property(e => e.estadodelregistro)
+                .IsUnicode(false)
+                .HasColumnName("ESTADO_DEL_REGISTRO");
+
+            entity.Property(e => e.nombre)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+            entity.Property(e => e.basedelaretencion)
+                .HasColumnType("decimal(5, 2)")
+                .HasColumnName("basedelaretencion");
+        });
+
+
 
         modelBuilder.Entity<Log>(entity =>
         {
@@ -215,7 +256,7 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Menu>(entity =>
         {
-            entity.HasKey(e => e.orden);
+          
 
             entity.ToTable("MENU");
 
@@ -224,7 +265,6 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ORDEN");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -294,7 +334,6 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("EL_DOCUMENTO_ESTA_CANCELADO");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
             entity.Property(e => e.fechadecreacion)
@@ -445,7 +484,6 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
 
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -535,7 +573,6 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("espersonanaturalojuridica");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -698,7 +735,6 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("eldocumentoseimprimeanombrededespachaorecibe");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
             entity.Property(e => e.esunacompra)
@@ -854,8 +890,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
-                .IsUnicode(false)
+                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
             entity.Property(e => e.nombre)
@@ -866,135 +901,135 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<TmpMovimientodeinventario>(entity =>
         {
+
+
+
             entity.ToTable("TMP_MOVIMIENTODEINVENTARIOS");
 
-            entity.HasIndex(e => new { e.Tipodedocumento, e.Numerodeldocumento }, "IX_TMP_MOVIMIENTODEINVENTARIOS");
+            entity.HasIndex(e => new { e.tipodedocumento, e.numerodeldocumento }, "IX_TMP_MOVIMIENTODEINVENTARIOS");
 
-            entity.Property(e => e.Id)
+            entity.HasIndex(e => new { e.id }, "PK_TMP_MOVIMIENTODEINVENTARIOS");
+
+         
+            entity.Property(e => e.id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("ID");
-            entity.Property(e => e.Banco).HasColumnName("BANCO");
-            entity.Property(e => e.Cantidad)
+            entity.Property(e => e.banco).HasColumnName("BANCO");
+            entity.Property(e => e.cantidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("CANTIDAD");
-            entity.Property(e => e.Cantidadporempaque)
+            entity.Property(e => e.cantidadporempaque)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("CANTIDADPOREMPAQUE");
-            entity.Property(e => e.Codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
-            entity.Property(e => e.Codigodescuento1).HasColumnName("CODIGODESCUENTO1");
-            entity.Property(e => e.Codigodescuento2).HasColumnName("CODIGODESCUENTO2");
-            entity.Property(e => e.Codigoiva1).HasColumnName("CODIGOIVA1");
-            entity.Property(e => e.Codigoiva2).HasColumnName("CODIGOIVA2");
-            entity.Property(e => e.Codigoretencion1).HasColumnName("CODIGORETENCION1");
-            entity.Property(e => e.Codigoretencion2).HasColumnName("CODIGORETENCION2");
-            entity.Property(e => e.Costodeproduccionporunidad)
+            entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
+            entity.Property(e => e.codigodescuento1).HasColumnName("CODIGODESCUENTO1");
+
+            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
+
+            entity.Property(e => e.codigoretencion1).HasColumnName("CODIGORETENCION1");
+
+            entity.Property(e => e.costodeproduccionporunidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTODEPRODUCCIONPORUNIDAD");
-            entity.Property(e => e.Costofleteporunidad)
+            entity.Property(e => e.costofleteporunidad)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("COSTOFLETEPORUNIDAD");
-            entity.Property(e => e.Costopromedioporunidad)
+            entity.Property(e => e.costopromedioporunidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTOPROMEDIOPORUNIDAD");
-            entity.Property(e => e.Costoultimoporunidad)
+            entity.Property(e => e.costoultimoporunidad)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTOULTIMOPORUNIDAD");
-            entity.Property(e => e.Despacha).HasColumnName("DESPACHA");
-            entity.Property(e => e.Despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
-            entity.Property(e => e.DetalleDelProducto)
+            entity.Property(e => e.despacha).HasColumnName("DESPACHA");
+            entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
+            entity.Property(e => e.detalleDelProducto)
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("DETALLE_DEL_PRODUCTO");
-            entity.Property(e => e.ElDocumentoEstaCancelado)
+            entity.Property(e => e.eldocumentoestacancelado)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("EL_DOCUMENTO_ESTA_CANCELADO");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
             entity.Property(e => e.fechadecreacion)
                 .HasColumnType("datetime")
                 .HasColumnName("FECHA_DE_CREACION");
-            entity.Property(e => e.FechaTrasladoRecibidoYAprobado)
+            entity.Property(e => e.fechatrasladorecibidoyaprobado)
                 .HasColumnType("datetime")
                 .HasColumnName("FECHA_TRASLADO_RECIBIDO_Y_APROBADO");
-            entity.Property(e => e.Fechadeldocumento)
+            entity.Property(e => e.fechadeldocumento)
+                .HasComment("la fecha que tiene  impreso el documento")
                 .HasColumnType("datetime")
                 .HasColumnName("FECHADELDOCUMENTO");
-            entity.Property(e => e.Fechadeprogramaciondelpago)
+            entity.Property(e => e.fechadeprogramaciondelpago)
                 .HasColumnType("datetime")
                 .HasColumnName("FECHADEPROGRAMACIONDELPAGO");
-            entity.Property(e => e.Fechadevencimientodeldocumento)
+            entity.Property(e => e.fechadevencimientodeldocumento)
                 .HasColumnType("datetime")
                 .HasColumnName("FECHADEVENCIMIENTODELDOCUMENTO");
-            entity.Property(e => e.Fletes).HasColumnName("FLETES");
-            entity.Property(e => e.Formadepago).HasColumnName("FORMADEPAGO");
-            entity.Property(e => e.Formula)
+            entity.Property(e => e.fletes).HasColumnName("FLETES");
+            entity.Property(e => e.formadepago).HasColumnName("FORMADEPAGO");
+            entity.Property(e => e.formula)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("FORMULA");
-            entity.Property(e => e.LaCantidadEstaDespachada)
+            entity.Property(e => e.lacantidadestadespachada)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("LA_CANTIDAD_ESTA_DESPACHADA");
-            entity.Property(e => e.Numerodeempaques)
+            entity.Property(e => e.numerodeempaques)
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("NUMERODEEMPAQUES");
-            entity.Property(e => e.Numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
-            entity.Property(e => e.Numerodeldocumentoaafectar).HasColumnName("NUMERODELDOCUMENTOAAFECTAR");
-            entity.Property(e => e.Numerodelpago)
+            entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
+            entity.Property(e => e.numerodeldocumentoaafectar).HasColumnName("NUMERODELDOCUMENTOAAFECTAR");
+            entity.Property(e => e.numerodelpago)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("NUMERODELPAGO");
-            entity.Property(e => e.Observaciones)
+            entity.Property(e => e.observaciones)
                 .HasMaxLength(3000)
                 .IsUnicode(false)
                 .HasColumnName("OBSERVACIONES");
-            entity.Property(e => e.Porcentajedeiva1)
+            entity.Property(e => e.porcentajedeiva1)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("PORCENTAJEDEIVA1");
-            entity.Property(e => e.Porcentajedeiva2)
-                .HasColumnType("decimal(5, 2)")
-                .HasColumnName("PORCENTAJEDEIVA2");
-            entity.Property(e => e.Porcentajederetencion1)
+
+            entity.Property(e => e.porcentajederetencion1)
                 .HasColumnType("numeric(5, 2)")
                 .HasColumnName("PORCENTAJEDERETENCION1");
-            entity.Property(e => e.Porcentajederetencion2)
-                .HasColumnType("numeric(5, 2)")
-                .HasColumnName("PORCENTAJEDERETENCION2");
-            entity.Property(e => e.Porcentajedescuento1)
+
+            entity.Property(e => e.porcentajedescuento1)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("PORCENTAJEDESCUENTO1");
-            entity.Property(e => e.Porcentajedescuento2)
-                .HasColumnType("decimal(5, 2)")
-                .HasColumnName("PORCENTAJEDESCUENTO2");
-            entity.Property(e => e.Producto)
+
+            entity.Property(e => e.producto)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("PRODUCTO");
-            entity.Property(e => e.Programa).HasColumnName("PROGRAMA");
-            entity.Property(e => e.Recibe).HasColumnName("RECIBE");
-            entity.Property(e => e.Recibeaafectar).HasColumnName("RECIBEAAFECTAR");
-            entity.Property(e => e.Subtotal)
+            entity.Property(e => e.programa).HasColumnName("PROGRAMA");
+            entity.Property(e => e.recibe).HasColumnName("RECIBE");
+            entity.Property(e => e.recibeaafectar).HasColumnName("RECIBEAAFECTAR");
+            entity.Property(e => e.subtotal)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("SUBTOTAL");
-            entity.Property(e => e.SumaORestaEnCartera)
+            entity.Property(e => e.sumaorestaencartera)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("SUMA_O_RESTA_EN_CARTERA");
-            entity.Property(e => e.SumaORestaEnInventario)
+            entity.Property(e => e.sumaorestaeninventario)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("SUMA_O_RESTA_EN_INVENTARIO");
-            entity.Property(e => e.Tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
-            entity.Property(e => e.Tipodedocumentoaafectar).HasColumnName("TIPODEDOCUMENTOAAFECTAR");
-            entity.Property(e => e.TrasladoRecibidoYAprobadoPor)
+            entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
+            entity.Property(e => e.tipodedocumentoaafectar).HasColumnName("TIPODEDOCUMENTOAAFECTAR");
+            entity.Property(e => e.trasladorecibidoyaprobadopor)
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
-            entity.Property(e => e.Unidaddeempaque)
+            entity.Property(e => e.unidaddeempaque)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("UNIDADDEEMPAQUE");
@@ -1002,19 +1037,44 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("USUARIO_QUE_ACTUALIZO");
-            entity.Property(e => e.Valordescuento1).HasColumnName("VALORDESCUENTO1");
-            entity.Property(e => e.Valordescuento2).HasColumnName("VALORDESCUENTO2");
-            entity.Property(e => e.Valoriva1).HasColumnName("VALORIVA1");
-            entity.Property(e => e.Valoriva2).HasColumnName("VALORIVA2");
-            entity.Property(e => e.Valorneto)
+            entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
+
+            entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
+
+            entity.Property(e => e.valorneto)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("VALORNETO");
-            entity.Property(e => e.Valorretencion1).HasColumnName("VALORRETENCION1");
-            entity.Property(e => e.Valorretencion2).HasColumnName("VALORRETENCION2");
-            entity.Property(e => e.Valorunitario)
+            entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
+
+            entity.Property(e => e.valorunitario)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("VALORUNITARIO");
-            entity.Property(e => e.Vendedor).HasColumnName("VENDEDOR");
+            entity.Property(e => e.vendedor).HasColumnName("VENDEDOR");
+        });
+
+        modelBuilder.Entity<Perfiles>(entity =>
+        {
+            entity.ToTable("PERFILES");
+
+            entity.Property(e => e.programas)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("PROGRAMAS");
+            entity.Property(e => e.estadodelregistro)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("ESTADO_DEL_REGISTRO");
+
+            entity.Property(e => e.id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("ID");
+            entity.Property(e => e.nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+
+
+
         });
 
         modelBuilder.Entity<UnidadesDeMedida>(entity =>
@@ -1025,7 +1085,6 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.id).HasColumnName("ID");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 
@@ -1058,7 +1117,6 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("DIRECCION");
             entity.Property(e => e.estadodelregistro)
-                .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO_DEL_REGISTRO");
 

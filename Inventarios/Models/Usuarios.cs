@@ -34,7 +34,7 @@ public partial class Usuarios
 
     public int? bodega { get; set; }
 
-    public string? estadodelregistro { get; set; }
+    public int? estadodelregistro { get; set; }
 
     
 }

@@ -9,7 +9,7 @@
 
         public string? paginaweb { get; set; }
 
-         public string? estadodelregistro { get; set; }
+         public int? estadodelregistro { get; set; }
 
         public string? permisos { get; set; }
 

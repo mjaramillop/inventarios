@@ -26,7 +26,7 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+          
 
             _context.TiposDeDocumento.Add(obj);
             _context.SaveChanges();
@@ -47,7 +47,7 @@ namespace Inventarios.DataAccess
 
         public List<TiposDeDocumentoDTO>? Update(TiposDeDocumento? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
 
             var obj_ = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.id);
 

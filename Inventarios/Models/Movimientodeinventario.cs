@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Inventarios.Models;
 
-public partial class Movimientodeinventario
+public class Movimientodeinventario
 {
     public decimal id { get; set; }
 
@@ -107,7 +107,7 @@ public partial class Movimientodeinventario
 
     public string? sumaorestaencartera { get; set; }
 
-    public string? estadodelregistro { get; set; }
+    public int? estadodelregistro { get; set; }
 
    
     public string? trasladorecibidoyaprobadopor { get; set; }

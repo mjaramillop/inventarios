@@ -27,7 +27,7 @@ namespace Inventarios.DataAccess
 
         public List<UsersDTO>? Add(Usuarios obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
 
             _context.Usuarios.Add(obj);
             _context.SaveChanges();
@@ -49,7 +49,7 @@ namespace Inventarios.DataAccess
 
         public List<UsersDTO> Update(Usuarios obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro?.ToUpper();
+            
 
             var obj_ = _context.Usuarios.FirstOrDefault(a => a.id == obj.id);
 

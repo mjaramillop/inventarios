@@ -19,7 +19,7 @@
         public int? codigoiva1 { get; set; }
 
     
-        public string? estadodelregistro { get; set; }
+        public int? estadodelregistro { get; set; }
 
         public string? secargalinventario { get; set; }
 

@@ -79,8 +79,7 @@ namespace Inventarios.Controllers
         [ActionName("ValidateToken")]
         public List<MenuDTO>? ValidateToken(string token)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
-
+        
             List<MenuDTO>? list = _service.ValidateToken(token);
 
             return list;

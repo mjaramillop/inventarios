@@ -29,7 +29,7 @@ namespace Inventarios.DataAccess
 
         public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
             _context.UnidadesDeMedida.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Unidad de medida");
@@ -49,7 +49,7 @@ namespace Inventarios.DataAccess
 
         public List<UnidadesDeMedidaDTO>? Update(UnidadesDeMedida? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
             var obj_ = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;

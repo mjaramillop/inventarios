@@ -8,6 +8,6 @@
 
         public decimal? porcentaje { get; set; }
 
-        public string? estadodelregistro { get; set; }
+        public int? estadodelregistro { get; set; }
     }
 }

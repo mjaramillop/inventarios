@@ -11,7 +11,7 @@ public  class Perfiles
     public string? nombre { get; set; }
 
  
-    public string? estadodelregistro { get; set; }
+    public int? estadodelregistro { get; set; }
 
 
     public string? programas { get; set; }

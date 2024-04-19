@@ -23,6 +23,52 @@ namespace Inventarios.Map
         }
 
 
+        public EstadosDeUnRegistroDTO EstadosDeUnRegistroToEstadosDeUnRegistroDTO(EstadosDeUnRegistro obj)
+        {
+            EstadosDeUnRegistroDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+           
+
+            return dto;
+        }
+
+
+        public List<EstadosDeUnRegistroDTO> ListEstadosDeUnRegistroToEstadosDeUnRegistroDTO(List<EstadosDeUnRegistro> list)
+        {
+            List<EstadosDeUnRegistroDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(EstadosDeUnRegistroToEstadosDeUnRegistroDTO(s));
+            }
+            return listdto;
+        }
+
+
+        public RetencionesDTO RetencionesToRetencionesDTO(Retenciones obj)
+        {
+            RetencionesDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+            dto.basedelaretencion = obj.basedelaretencion;
+            dto.estadodelregistro = obj.estadodelregistro;
+
+            return dto;
+        }
+
+
+        public List<RetencionesDTO> ListRetencionesToRetencionesDTO(List<Retenciones> list)
+        {
+            List<RetencionesDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(RetencionesToRetencionesDTO(s));
+            }
+            return listdto;
+        }
+
 
 
         public ProgramasDTO ProgramasToProgramasDTO(Programas obj)
@@ -180,27 +226,7 @@ namespace Inventarios.Map
         }
 
 
-        public  TiposDeProgramaDTO TiposDeProgramaToTiposDeProgramaDTO(TiposDePrograma obj)
-        {
-            TiposDeProgramaDTO dto = new();
-            dto.id = obj.id;
-            dto.nombre = obj.nombre;
-            dto.estadodelregistro = obj.estadodelregistro;
-
-            return dto;
-        }
-
-
-        public  List<TiposDeProgramaDTO> ListTiposDeProgramaToTiposDeProgramaDTO(List<TiposDePrograma> list)
-        {
-            List<TiposDeProgramaDTO> listdto = new();
-
-            foreach (var s in list)
-            {
-                listdto.Add(TiposDeProgramaToTiposDeProgramaDTO(s));
-            }
-            return listdto;
-        }
+     
 
 
 

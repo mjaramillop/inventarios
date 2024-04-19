@@ -24,7 +24,7 @@ namespace Inventarios.DataAccess
 
         public List<MenuDTO>? Add(Menu? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+         
 
             _context.Menus.Add(obj);
             _context.SaveChanges();
@@ -45,7 +45,7 @@ namespace Inventarios.DataAccess
 
         public List<MenuDTO>? Update(Menu obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+            
 
             var obj_ = _context.Menus.FirstOrDefault(a => a.id == obj.id);
             obj_.nombre = obj.nombre;

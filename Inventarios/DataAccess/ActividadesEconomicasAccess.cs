@@ -29,7 +29,6 @@ namespace Inventarios.DataAccess
 
         public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             _context.ActividadesEconomicas.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Actividades Economicas");
@@ -49,12 +48,10 @@ namespace Inventarios.DataAccess
 
         public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
             var obj_ = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
 
-            //
             obj_.estadodelregistro = obj.estadodelregistro;
 
             _context.SaveChanges();

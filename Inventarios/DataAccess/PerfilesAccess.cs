@@ -25,7 +25,7 @@ namespace Inventarios.DataAccess
 
         public List<PerfilesDTO> Add(Perfiles obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro?.ToUpper();
+           
 
             _context.Perfiles.Add(obj);
             _context.SaveChanges();
@@ -46,7 +46,7 @@ namespace Inventarios.DataAccess
 
         public List<PerfilesDTO> Update(Perfiles obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro?.ToUpper();
+           
 
             var obj_ = _context.Perfiles.FirstOrDefault(a => a.id == obj.id);
 
@@ -78,7 +78,7 @@ namespace Inventarios.DataAccess
 
         public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
         {
-            var list = _context.Menus.Where(a => !a.estadodelregistro.Contains("I")).OrderBy(a => a.nombre).ToList();
+            var list = _context.Menus.Where(a => a.estadodelregistro ==1).OrderBy(a => a.nombre).ToList();
 
             Perfiles? obj = _context.Perfiles.FirstOrDefault(a => a.id == id);
             string? programas = obj.programas;

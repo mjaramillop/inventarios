@@ -17,7 +17,7 @@ namespace Inventarios.Models
 
         public List<CodigoNombre> TiposDeRegimen { get; set; }
 
-        public List<CodigoNombre> TiposDeRetencion { get; set; }
+     
 
         public StaticTables()
         {
@@ -47,6 +47,13 @@ namespace Inventarios.Models
                 new  CodigoNombre{ id="XL", nombre= "Extreme"   },
                 new  CodigoNombre{ id="XXL", nombre= "DoubleExtreme"   },
                 new  CodigoNombre{ id="0", nombre= "No Aplica"   },
+                new  CodigoNombre{ id="2", nombre= "Talla 2"   },
+                new  CodigoNombre{ id="4", nombre= "Talla 4  "   },
+                new  CodigoNombre{ id="6", nombre= "Talla 6  "   },
+                new  CodigoNombre{ id="8", nombre= "Talla 8  "   },
+                new  CodigoNombre{ id="10", nombre= "Talla 10"   },
+                new  CodigoNombre{ id="12", nombre= "Talla 12"   },
+
             };
 
             TiposDeAgente = new List<CodigoNombre>()
@@ -72,13 +79,7 @@ namespace Inventarios.Models
                 new   CodigoNombre{ id="2", nombre= "Simplificado"   },
             };
 
-            TiposDeRetencion = new List<CodigoNombre>()
-            {
-                new  CodigoNombre{ id="0",nombre="No Aplica"   },
-                new  CodigoNombre{ id="1",nombre="Fuente"   },
-                new   CodigoNombre{ id="2", nombre= "Iva"   },
-                new   CodigoNombre{ id="3", nombre= "Ica"   },
-            };
+           
         }
     }
 

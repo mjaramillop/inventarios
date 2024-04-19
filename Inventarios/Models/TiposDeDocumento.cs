@@ -91,7 +91,7 @@ public partial class TiposDeDocumento
 
     public string? esuninventarioinicial { get; set; }
 
-    public string? estadodelregistro { get; set; }
+    public int? estadodelregistro { get; set; }
 
   
     public string? titulodespacha { get; set; }

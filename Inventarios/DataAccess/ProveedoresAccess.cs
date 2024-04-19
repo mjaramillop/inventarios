@@ -25,7 +25,7 @@ namespace Inventarios.DataAccess
 
         public List<ProveedoresDTO> Add(Proveedores obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro?.ToUpper();
+          
 
             _context.Proveedores.Add(obj);
             _context.SaveChanges();
@@ -46,7 +46,7 @@ namespace Inventarios.DataAccess
 
         public List<ProveedoresDTO>? Update(Proveedores? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
 
             var obj_ = _context.Proveedores.FirstOrDefault(a => a.id == obj.id);
 

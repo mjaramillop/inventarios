@@ -55,7 +55,7 @@ public partial class Proveedores
 
     public int? codigoderetencionaaplicar { get; set; }
 
-    public string? estadodelregistro { get; set; }
+    public int? estadodelregistro { get; set; }
 
     public string? cuentabancaria { get; set; }
 

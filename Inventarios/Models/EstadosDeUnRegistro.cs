@@ -1,12 +1,11 @@
-﻿namespace Inventarios.DTO
+﻿namespace Inventarios.Models
 {
-    public class EstadosDelRegistroDTO
+    public class EstadosDeUnRegistro
     {
 
         public int id { get; set; }
 
         public string? nombre { get; set; }
 
-      
     }
 }

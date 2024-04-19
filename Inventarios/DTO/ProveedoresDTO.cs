@@ -10,7 +10,7 @@
         public string? telefono { get; set; }
 
 
-        public string? estadodelregistro { get; set; }
+        public int? estadodelregistro { get; set; }
 
         public string? nivel1 { get; set; }
         public string? nivel2 { get; set; }

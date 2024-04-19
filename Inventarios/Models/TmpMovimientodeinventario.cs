@@ -3,136 +3,124 @@ using System;
 using System.Collections.Generic;
 
 namespace Inventarios.Models;
-
-public partial class TmpMovimientodeinventario
+public  class TmpMovimientodeinventario
 {
-    public decimal Id { get; set; }
 
-    public int Despacha { get; set; }
 
-    public int Recibe { get; set; }
+    public decimal id { get; set; }
 
-    public int Tipodedocumento { get; set; }
+    public int despacha { get; set; }
 
-    public int Numerodeldocumento { get; set; }
+    public int recibe { get; set; }
 
-    public int? Despachaaafectar { get; set; }
+    public int tipodedocumento { get; set; }
 
-    public int? Recibeaafectar { get; set; }
+    public int numerodeldocumento { get; set; }
 
-    public int? Tipodedocumentoaafectar { get; set; }
+    public int? despachaaafectar { get; set; }
 
-    public int? Numerodeldocumentoaafectar { get; set; }
+    public int? recibeaafectar { get; set; }
 
-    public DateTime? Fechadeldocumento { get; set; }
+    public int? tipodedocumentoaafectar { get; set; }
 
-    public DateTime? Fechadevencimientodeldocumento { get; set; }
+    public int? numerodeldocumentoaafectar { get; set; }
 
-    public int? Programa { get; set; }
+    /// <summary>
+    /// la fecha que tiene  impreso el documento
+    /// </summary>
+    public DateTime? fechadeldocumento { get; set; }
 
-    public int? Vendedor { get; set; }
+    public DateTime? fechadevencimientodeldocumento { get; set; }
 
-    public int? Formadepago { get; set; }
+    public int? programa { get; set; }
 
-    public string? Numerodelpago { get; set; }
+    public int? vendedor { get; set; }
 
-    public int? Banco { get; set; }
+    public int? formadepago { get; set; }
 
-    public int? Codigoconceptonotadebitocredito { get; set; }
+    public string? numerodelpago { get; set; }
 
-    public string? Observaciones { get; set; }
+    public int? banco { get; set; }
 
-    public string? Formula { get; set; }
+    public int? codigoconceptonotadebitocredito { get; set; }
 
-    public string? Producto { get; set; }
+    public string? observaciones { get; set; }
 
-    public string? DetalleDelProducto { get; set; }
+    public string? formula { get; set; }
 
-    public decimal? Numerodeempaques { get; set; }
+    public string? producto { get; set; }
 
-    public string? Unidaddeempaque { get; set; }
+    public string? detalleDelProducto { get; set; }
 
-    public decimal? Cantidadporempaque { get; set; }
+    public decimal? numerodeempaques { get; set; }
 
-    public decimal? Cantidad { get; set; }
+    public string? unidaddeempaque { get; set; }
 
-    public decimal? Valorunitario { get; set; }
+    public decimal? cantidadporempaque { get; set; }
 
-    public decimal? Costodeproduccionporunidad { get; set; }
+    public decimal? cantidad { get; set; }
 
-    public decimal? Costoultimoporunidad { get; set; }
+    public decimal? valorunitario { get; set; }
 
-    public decimal? Costopromedioporunidad { get; set; }
+    public decimal? costodeproduccionporunidad { get; set; }
 
-    public decimal? Costofleteporunidad { get; set; }
+    public decimal? costoultimoporunidad { get; set; }
 
-    public decimal? Subtotal { get; set; }
+    public decimal? costopromedioporunidad { get; set; }
 
-    public int? Codigodescuento1 { get; set; }
+    public decimal? costofleteporunidad { get; set; }
 
-    public decimal? Porcentajedescuento1 { get; set; }
+    public decimal? subtotal { get; set; }
 
-    public int? Valordescuento1 { get; set; }
+    public int? codigodescuento1 { get; set; }
 
-    public int? Codigodescuento2 { get; set; }
+    public decimal? porcentajedescuento1 { get; set; }
 
-    public decimal? Porcentajedescuento2 { get; set; }
+    public int? valordescuento1 { get; set; }
 
-    public int? Valordescuento2 { get; set; }
 
-    public int? Codigoiva1 { get; set; }
+    public int? codigoiva1 { get; set; }
 
-    public decimal? Porcentajedeiva1 { get; set; }
+    public decimal? porcentajedeiva1 { get; set; }
 
-    public int? Valoriva1 { get; set; }
-
-    public int? Codigoiva2 { get; set; }
-
-    public decimal? Porcentajedeiva2 { get; set; }
-
-    public int? Valoriva2 { get; set; }
-
-    public int? Fletes { get; set; }
-
-    public int? Codigoretencion1 { get; set; }
-
-    public decimal? Porcentajederetencion1 { get; set; }
-
-    public int? Valorretencion1 { get; set; }
-
-    public int? Codigoretencion2 { get; set; }
-
-    public decimal? Porcentajederetencion2 { get; set; }
-
-    public int? Valorretencion2 { get; set; }
-
-    public decimal? Valorneto { get; set; }
-
-    public DateTime? Fechadeprogramaciondelpago { get; set; }
-
-    public string? LaCantidadEstaDespachada { get; set; }
-
-    public string? ElDocumentoEstaCancelado { get; set; }
-
-    public string? SumaORestaEnInventario { get; set; }
-
-    public string? SumaORestaEnCartera { get; set; }
-
-    public string? estadodelregistro { get; set; }
-
-       public string? TrasladoRecibidoYAprobadoPor { get; set; }
-
-    public DateTime? FechaTrasladoRecibidoYAprobado { get; set; }
+    public int? valoriva1 { get; set; }
 
 
 
-  
+    public int? fletes { get; set; }
+
+    public int? codigoretencion1 { get; set; }
+
+    public decimal? porcentajederetencion1 { get; set; }
+
+    public int? valorretencion1 { get; set; }
+
+
+    public decimal? valorneto { get; set; }
+
+    public DateTime? fechadeprogramaciondelpago { get; set; }
+
+    public string? lacantidadestadespachada { get; set; }
+
+    public string? eldocumentoestacancelado { get; set; }
+
+    public string? sumaorestaeninventario { get; set; }
+
+    public string? sumaorestaencartera { get; set; }
+
+    public int? estadodelregistro { get; set; }
+
+
+    public string? trasladorecibidoyaprobadopor { get; set; }
+
+    public DateTime? fechatrasladorecibidoyaprobado { get; set; }
+
+
+
     public DateTime? fechadecreacion { get; set; }
 
-  
-    public DateTime? fechadeactualizacion { get; set; }
 
-  
+
     public string? usuarioqueactualizo { get; set; }
 
 }

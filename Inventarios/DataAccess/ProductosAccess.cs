@@ -33,7 +33,7 @@ namespace Inventarios.DataAccess
 
         public List<ProductosDTO>? Add(Productos obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
             _context.Productos.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Producto");
@@ -62,7 +62,7 @@ namespace Inventarios.DataAccess
 
         public List<ProductosDTO>? Update(Productos? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
             var obj_ = _context.Productos.FirstOrDefault(a => a.id == obj.id);
             obj_.nombre = obj.nombre;
             obj_.unidaddemedida = obj.unidaddemedida;
@@ -97,12 +97,7 @@ namespace Inventarios.DataAccess
 
             list = _context.Productos
                .OrderBy(a => a.nombre)
-                .OrderBy(a => a.nivel5)
-                .OrderBy(a => a.nivel4)
-                .OrderBy(a => a.nivel3)
-                .OrderBy(a => a.nivel2)
-                .OrderBy(a => a.nivel1)
-
+               
                 .Where(a =>
                  a.nombre.Contains(filtro) ||
                  a.nivel1.Contains(filtro) ||
@@ -276,11 +271,11 @@ namespace Inventarios.DataAccess
             list_ = _context.Productos.ToList();
 
             dynamic groupnivel = null;
-            if (nivel == 1) groupnivel = list_.GroupBy(u => u.nivel1).Select(grp => grp.ToList()).ToList();
-            if (nivel == 2) groupnivel = list_.GroupBy(u => u.nivel2).Select(grp => grp.ToList()).ToList();
-            if (nivel == 3) groupnivel = list_.GroupBy(u => u.nivel3).Select(grp => grp.ToList()).ToList();
-            if (nivel == 4) groupnivel = list_.GroupBy(u => u.nivel4).Select(grp => grp.ToList()).ToList();
-            if (nivel == 5) groupnivel = list_.GroupBy(u => u.nivel5).Select(grp => grp.ToList()).ToList();
+            if (nivel == 1) groupnivel = list_.Where(a => a.nivel1.Trim().Length>0).GroupBy(u => u.nivel1).Select(grp => grp.ToList()).ToList();
+            if (nivel == 2) groupnivel = list_.Where(a => a.nivel2.Trim().Length>0).GroupBy(u => u.nivel2).Select(grp => grp.ToList()).ToList();
+            if (nivel == 3) groupnivel = list_.Where(a => a.nivel3.Trim().Length > 0).GroupBy(u => u.nivel3).Select(grp => grp.ToList()).ToList();
+            if (nivel == 4) groupnivel = list_.Where(a => a.nivel4.Trim().Length > 0).GroupBy(u => u.nivel4).Select(grp => grp.ToList()).ToList();
+            if (nivel == 5) groupnivel = list_.Where(a => a.nivel5.Trim().Length > 0).GroupBy(u => u.nivel5).Select(grp => grp.ToList()).ToList();
 
             List<string> lista = new List<string>();
 
@@ -303,6 +298,7 @@ namespace Inventarios.DataAccess
                 CodigoNombre obj_ = new CodigoNombre();
                 obj_.id = s;
                 obj_.nombre = s;
+             //   if (obj_.nombre.Trim().Length>0)
                 listacodigonombre.Add(obj_);
             }
 

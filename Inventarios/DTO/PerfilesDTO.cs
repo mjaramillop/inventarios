@@ -7,7 +7,7 @@
 
         public string? nombre { get; set; }
 
-        public string? estadodelregistro { get; set; }
+        public int? estadodelregistro { get; set; }
 
 
 
@@ -20,7 +20,7 @@
 
         public string? nombre { get; set; }
 
-        public string? estadodelregistro { get; set; }
+        public int? estadodelregistro { get; set; }
         public bool? agregar { get; set; }
 
         public bool? borrar { get; set; }

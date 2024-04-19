@@ -27,7 +27,7 @@ namespace Inventarios.DataAccess
 
         public List<FormasDePagoDTO>? Add(FormasDePago obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+          
             _context.FormasDePago.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Formas de pago");
@@ -47,7 +47,7 @@ namespace Inventarios.DataAccess
 
         public List<FormasDePagoDTO>? Update(FormasDePago? obj)
         {
-            obj.estadodelregistro = obj.estadodelregistro.ToUpper();
+           
             var obj_ = _context.FormasDePago.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
