@@ -1,0 +1,21 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+
+namespace Inventarios.Models.Seguridad;
+
+public  class Menu
+{
+    public int id { get; set; }
+
+    public string orden { get; set; } = null!;
+
+    public string? nombre { get; set; }
+
+    public string? paginaweb { get; set; }
+
+    public int? estadodelregistro { get; set; }
+
+
+
+}

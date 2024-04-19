@@ -1,7 +1,6 @@
 
 using Inventarios.Data;
 using Inventarios.DataAccess;
-using Inventarios.services;
 using Inventarios.Token;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +14,10 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Inventarios.Map;
 using Inventarios.Utils;
+using Inventarios.DataAccess.TablasMaestras;
+using Inventarios.DataAccess.Seguridad;
+using Inventarios.services.TablasMaestras;
+using Inventarios.services.Seguridad;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,8 +85,11 @@ builder.Services.AddScoped<FormulasAccess>();
 builder.Services.AddScoped<UnidadesDeMedidaAccess>();
 builder.Services.AddScoped<IvasAccess>();
 builder.Services.AddScoped<ProductosAccess>();
-////  singleton
-builder.Services.AddScoped<EstadosDeUnRegistroAccess >();
+builder.Services.AddScoped<EstadosDeUnRegistroAccess>();
+builder.Services.AddScoped<ColoresAccess>();
+builder.Services.AddScoped<SiNoAccess>();
+builder.Services.AddScoped<SaldosAccess>();
+
 
 
 
@@ -108,8 +114,12 @@ builder.Services.AddScoped<FormulasService>();
 builder.Services.AddScoped<UnidadesDeMedidaService>();
 builder.Services.AddScoped<IvasService>();
 builder.Services.AddScoped<ProductosService>();
-////  singleton
 builder.Services.AddScoped<EstadosDeUnRegistroService>();
+builder.Services.AddScoped<ColoresService>();
+builder.Services.AddScoped<SiNoService>();
+builder.Services.AddScoped<SaldosService>();
+
+
 
 
 
@@ -119,7 +129,6 @@ builder.Services.AddScoped<Mapping>();
 
 //utils
 builder.Services.AddSingleton<JwtService>();
-builder.Services.AddSingleton<StaticTables>();
 builder.Services.AddScoped<Validaciones>();
 builder.Services.AddScoped<Utilidades>();
 

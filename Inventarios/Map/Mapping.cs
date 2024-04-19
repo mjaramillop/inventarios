@@ -1,7 +1,10 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess;
 using Inventarios.DTO;
-using Inventarios.Models;
+using Inventarios.DTO.Seguridad;
+using Inventarios.DTO.TablasMaestras;
+using Inventarios.Models.TablasMaestras;
+using Inventarios.Models.Seguridad;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
@@ -21,6 +24,93 @@ namespace Inventarios.Map
 
            
         }
+
+        public SaldosDTO SaldosToSaldosDTO(Saldos obj)
+        {
+            Productos producto = _context.Productos.FirstOrDefault(a => a.id == obj.producto);
+            Proveedores proveedor = _context.Proveedores.FirstOrDefault(a => a.id == obj.bodega);
+
+
+
+
+            SaldosDTO dto = new();
+            dto.id = obj.id;
+            dto.saldo = obj.saldo;
+            dto.saldoinicial = obj.saldoinicial;    
+            dto.saldofisico = obj.saldofisico;
+            dto.salidas = obj.salidas;
+            dto.fechadelaultimasalida = obj.fechadelaultimasalida;
+            dto.bodega = obj.bodega;
+            dto.costopromedio = obj.costopromedio;
+            dto.entradas = obj.entradas;
+            dto.fechadelaultimaentrada = obj.fechadelaultimaentrada;
+            dto.nombrebodega = proveedor.nombre;
+            dto.nombreproducto = producto.nombre;
+            dto.producto = obj.producto;
+            return dto;
+        }
+
+
+        public List<SaldosDTO> ListSaldosToSaldosDTO(List<Saldos> list)
+        {
+            List<SaldosDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(SaldosToSaldosDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+        public SiNoDTO SiNoToSiNoDTO(SiNo obj)
+        {
+            SiNoDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<SiNoDTO> ListSiNoToSiNoDTO(List<SiNo> list)
+        {
+            List<SiNoDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(SiNoToSiNoDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+
+        public ColoresDTO ColoresToColoresDTO(Colores obj)
+        {
+            ColoresDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<ColoresDTO> ListColoresToColoresDTO(List<Colores> list)
+        {
+            List<ColoresDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(ColoresToColoresDTO(s));
+            }
+            return listdto;
+        }
+
 
 
         public EstadosDeUnRegistroDTO EstadosDeUnRegistroToEstadosDeUnRegistroDTO(EstadosDeUnRegistro obj)
