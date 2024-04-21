@@ -3,6 +3,7 @@ using Inventarios.DTO;
 using Inventarios.Models;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
+using Inventarios.ModelsParameter.TablasMaestras;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventarios.services.TablasMaestras

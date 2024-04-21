@@ -3,7 +3,7 @@ using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models;
 using Inventarios.Models.Seguridad;
-using Inventarios.ModelsParameter;
+using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.Token;
 using Inventarios.Utils;
 using System.Data;

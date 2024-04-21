@@ -1183,10 +1183,10 @@ namespace Inventarios.Utils
         }
 
 
-        public List<string> CalcularFechaDeVencimiento (string fecha , int plazo)
+        public List<string> CalcularFechaDeVencimiento(string fecha, int plazo)
         {
 
-            fecha= fecha.Replace("%2F", "/");
+            fecha = fecha.Replace("%2F", "/");
 
             DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
 
@@ -1198,5 +1198,54 @@ namespace Inventarios.Utils
 
         }
 
+
+
+
+        /// <summary>
+        /// el primer PARAMETRO fecha1 es la fecha mayor
+        /// EL SEGUNDO PARAMETRO E LA FECHA MENOR
+        /// </summary>
+        /// <param name="fecha1"></param>
+        /// <param name="fecha2"></param>
+        /// <returns></returns>
+        public int rtn_restarfechas(DateTime fecha1, DateTime fecha2)
+        {
+
+            int xtotaldias = 0;
+            while (fecha2 < fecha1)
+            {
+                fecha2 = fecha2.AddDays(1);
+                xtotaldias = xtotaldias + 1;
+            }
+
+            return xtotaldias;
+        }
+
+
+
+
+        /// <summary>
+        /// el primer PARAMETRO fecha1 es la fecha mayor
+        /// EL SEGUNDO PARAMETRO E LA FECHA MENOR
+        /// no debe mandar fecha con la opcion ?
+        /// </summary>
+        /// <param name="fecha1"></param>
+        /// <param name="fecha2"></param>
+        /// <returns></returns>
+
+        public int RestarFechas(DateTime fechafinal, DateTime fechainicial)
+        {
+            int diferencia = 0;
+
+            if ((fechafinal != null) && (fechainicial!=null))
+            {
+
+                TimeSpan daysUntilVacation = fechafinal - fechainicial;
+                return daysUntilVacation.Days;
+            }
+
+            return diferencia;
+
+        }
     }
 }

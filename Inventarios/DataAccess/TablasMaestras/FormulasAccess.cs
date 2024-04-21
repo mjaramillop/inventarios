@@ -89,14 +89,14 @@ namespace Inventarios.DataAccess.TablasMaestras
             List<Formulas> listformulas = new List<Formulas>();
 
             listformulas = _context.Formulas.Where(a => a.formula == formula).ToList();
-            decimal? totalcostodelaformula = 0;
+            decimal totalcostodelaformula = 0;
 
             foreach (var s in listformulas)
             {
                 Productos producto = new Productos();
                 int idcomponente = s.componente;
                 producto = _context.Productos.Find(idcomponente);
-                decimal? costodelcomponente = s.cantidad * producto.costoultimo;
+                decimal costodelcomponente = s.cantidad * producto.costoultimo;
                 totalcostodelaformula = totalcostodelaformula + costodelcomponente;
             }
 

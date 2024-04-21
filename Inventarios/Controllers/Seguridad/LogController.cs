@@ -1,6 +1,6 @@
 ﻿using Inventarios.DTO;
 using Inventarios.Models;
-using Inventarios.ModelsParameter;
+using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.services.Seguridad;
 using Inventarios.Token;
 using Microsoft.AspNetCore.Http;

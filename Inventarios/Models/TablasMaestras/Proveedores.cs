@@ -6,6 +6,69 @@ namespace Inventarios.Models.TablasMaestras;
 
 public class Proveedores
 {
+    public Proveedores()
+    {
+        this.id = 0;
+
+        this.nombre = "";
+
+        this.direccion = "";
+
+        this.telefono = "";
+
+        this.celular1 = "";
+
+        this.celular2 = "";
+
+        this.email1 = "";
+
+        this.email2 = "";
+
+        this.nit = "";
+
+        this.fechadeingreso = DateTime.Now;
+
+        this.observaciones = "";
+
+        this.contactos = "";
+
+        this.actividadcomercial = 0;
+
+        this.seleretienefuente = "";
+
+        this.seleretieneiva = "";
+
+        this.seleretieneica = "";
+
+        this.puedecobrariva = "";
+
+        this.espersonanaturalojuridica = "";
+
+        this.declararenta = "";
+
+        this.esgrancontribuyente = "";
+
+        this.tipoderegimen = 0;
+
+        this.tipodeagente = 0;
+
+        this.cuentacontable = "";
+
+        this.codigoderetencionaaplicar = 0;
+
+        this.estadodelregistro = 0;
+
+        this.cuentabancaria = "";
+
+        this.tipodecuenta = "";
+
+        this.nivel1 = "";
+        this.nivel2 = "";
+        this.nivel3 = "";
+        this.nivel4 = "";
+        this.nivel5 = "";
+    }
+
     public int id { get; set; }
 
     public string? nombre { get; set; }
@@ -48,7 +111,6 @@ public class Proveedores
 
     public int? tipoderegimen { get; set; }
 
-
     public int? tipodeagente { get; set; }
 
     public string? cuentacontable { get; set; }
@@ -66,5 +128,4 @@ public class Proveedores
     public string? nivel3 { get; set; }
     public string? nivel4 { get; set; }
     public string? nivel5 { get; set; }
-
 }

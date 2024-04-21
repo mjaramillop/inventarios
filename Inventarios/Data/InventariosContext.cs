@@ -26,9 +26,21 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Colores> Colores { get; set; }
 
+    public virtual DbSet<Tallas> Tallas { get; set; }
+
+    public virtual DbSet<TiposDeAgente> TiposDeAgente { get; set; }
+
+    public virtual DbSet<TiposDeCuentaBancaria> TiposDecuentaBancaria { get; set; }
+
+    public virtual DbSet<TiposDePersona> TiposDePersona{ get; set; }
+
+
+    public virtual DbSet<TiposDeRegimen> TiposDeRegimen { get; set; }
+
+
+
+
     public virtual DbSet<EstadosDeUnRegistro> EstadosDeUnRegistro { get; set; }
-
-
 
 
     public virtual DbSet<ConceptosNotaDebitoCredito> ConceptosNotaDebitoCredito { get; set; }
@@ -58,8 +70,6 @@ public partial class InventariosContext : DbContext
     public virtual DbSet<Saldos> Saldos { get; set; }
 
     public virtual DbSet<TiposDeDocumento> TiposDeDocumento { get; set; }
-
- 
 
     public virtual DbSet<TmpMovimientodeinventario> TmpMovimientodeinventarios { get; set; }
 
@@ -112,6 +122,82 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");
         });
+
+
+        modelBuilder.Entity<Tallas>(entity =>
+        {
+
+
+            entity.ToTable("Tallas");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+         
+            entity.Property(e => e.nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
+        modelBuilder.Entity<TiposDeAgente>(entity =>
+        {
+
+
+            entity.ToTable("TiposDeAgente");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+
+            entity.Property(e => e.nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
+
+        modelBuilder.Entity<TiposDeCuentaBancaria>(entity =>
+        {
+
+
+            entity.ToTable("TiposDeCuentaBancaria");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+
+            entity.Property(e => e.nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
+        modelBuilder.Entity<TiposDePersona>(entity =>
+        {
+
+
+            entity.ToTable("TiposDePersona");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+
+            entity.Property(e => e.nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
+
+        modelBuilder.Entity<TiposDeRegimen>(entity =>
+        {
+
+
+            entity.ToTable("TiposDeRegimen");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+
+            entity.Property(e => e.nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
+
+
 
 
 
@@ -356,7 +442,7 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("COSTOULTIMOPORUNIDAD");
             entity.Property(e => e.despacha).HasColumnName("DESPACHA");
             entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
-            entity.Property(e => e.detalleDelProducto)
+            entity.Property(e => e.detalledelproducto)
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("DETALLE_DEL_PRODUCTO");
@@ -965,7 +1051,7 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("COSTOULTIMOPORUNIDAD");
             entity.Property(e => e.despacha).HasColumnName("DESPACHA");
             entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
-            entity.Property(e => e.detalleDelProducto)
+            entity.Property(e => e.detalledelproducto)
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("DETALLE_DEL_PRODUCTO");

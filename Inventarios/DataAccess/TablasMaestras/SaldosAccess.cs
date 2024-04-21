@@ -83,7 +83,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             return list;
         }
 
-        public List<SaldosDTO>? List(string filtro)
+        public List<SaldosDTO>? List(string filtro, string bodega )
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
@@ -91,7 +91,7 @@ namespace Inventarios.DataAccess.TablasMaestras
              list = (from s in _context.Saldos
                         join p in _context.Productos on s.producto equals p.id
                         join b in _context.Proveedores on s.bodega equals  b.id
-                        where p.nombre.Contains(filtro.Trim()) ||  b.nombre.Contains(filtro.Trim()) select s ).ToList() ;
+                        where p.nombre.Contains(filtro.Trim()) &&  b.nombre.Contains(bodega.Trim()) select s ).ToList() ;
 
 
             return _mapping.ListSaldosToSaldosDTO(list);

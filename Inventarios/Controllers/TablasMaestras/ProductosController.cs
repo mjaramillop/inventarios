@@ -2,6 +2,7 @@
 using Inventarios.Models;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
+using Inventarios.ModelsParameter.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
 using Microsoft.AspNetCore.Http;

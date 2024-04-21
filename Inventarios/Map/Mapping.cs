@@ -7,6 +7,8 @@ using Inventarios.Models.TablasMaestras;
 using Inventarios.Models.Seguridad;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System;
+using Inventarios.Utils;
 
 namespace Inventarios.Map
 {
@@ -14,12 +16,14 @@ namespace Inventarios.Map
     {
 
         private readonly InventariosContext _context;
+        private readonly Utilidades _utilidades;
       
 
 
-        public Mapping(InventariosContext context)
+        public Mapping(InventariosContext context , Utilidades utilidades)
         {
             _context = context;
+            _utilidades = utilidades;
            
 
            
@@ -47,6 +51,11 @@ namespace Inventarios.Map
             dto.nombrebodega = proveedor.nombre;
             dto.nombreproducto = producto.nombre;
             dto.producto = obj.producto;
+
+            dto.diassinrotar = _utilidades.RestarFechas(obj.fechadelaultimasalida, obj.fechadelaultimaentrada);
+
+          
+
             return dto;
         }
 

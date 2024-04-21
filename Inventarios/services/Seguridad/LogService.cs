@@ -1,7 +1,7 @@
 ﻿using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO;
 using Inventarios.Models;
-using Inventarios.ModelsParameter;
+using Inventarios.ModelsParameter.Seguridad;
 
 namespace Inventarios.services.Seguridad
 {

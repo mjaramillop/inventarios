@@ -5,6 +5,7 @@ using Inventarios.Map;
 using Inventarios.Models;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
+using Inventarios.ModelsParameter.TablasMaestras;
 using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras

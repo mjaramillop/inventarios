@@ -1,4 +1,4 @@
-﻿namespace Inventarios.ModelsParameter
+﻿namespace Inventarios.ModelsParameter.TablasMaestras
 {
     public class CambiarPrecios
     {
@@ -12,7 +12,7 @@
         public string? nivel4 { get; set; }
         public string? nivel5 { get; set; }
 
-        public int? porcentajedeincremento{ get; set; }
+        public int? porcentajedeincremento { get; set; }
 
     }
 }
