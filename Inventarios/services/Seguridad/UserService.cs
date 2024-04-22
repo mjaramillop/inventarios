@@ -52,9 +52,9 @@ namespace Inventarios.services.Seguridad
         }
 
 
-        public List<TokenDTO>? ValidateAccess(string login, string password)
+        public List<string>? ValidateAccess(string login, string password)
         {
-            List<TokenDTO> obj = _access.ValidateAccess(login, password);
+            List<string> obj = _access.ValidateAccess(login, password);
 
             return obj;
         }

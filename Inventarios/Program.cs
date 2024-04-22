@@ -89,6 +89,13 @@ builder.Services.AddScoped<EstadosDeUnRegistroAccess>();
 builder.Services.AddScoped<ColoresAccess>();
 builder.Services.AddScoped<SiNoAccess>();
 builder.Services.AddScoped<SaldosAccess>();
+builder.Services.AddScoped<TallasAccess>();
+builder.Services.AddScoped<TiposDeAgenteAccess>();
+builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
+builder.Services.AddScoped<TiposDePersonaAccess>();
+builder.Services.AddScoped<TiposDeRegimenAccess>();
+
+
 
 
 
@@ -118,6 +125,14 @@ builder.Services.AddScoped<EstadosDeUnRegistroService>();
 builder.Services.AddScoped<ColoresService>();
 builder.Services.AddScoped<SiNoService>();
 builder.Services.AddScoped<SaldosService>();
+builder.Services.AddScoped<TallasService>();
+builder.Services.AddScoped<TiposDeAgenteService>();
+builder.Services.AddScoped<TiposDeCuentaBancariaService>();
+builder.Services.AddScoped<TiposDePersonaService>();
+builder.Services.AddScoped<TiposDeRegimenService>();
+
+
+
 
 
 

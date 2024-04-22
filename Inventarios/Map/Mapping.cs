@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System;
 using Inventarios.Utils;
+using Inventarios.services.TablasMaestras;
 
 namespace Inventarios.Map
 {
@@ -17,7 +18,31 @@ namespace Inventarios.Map
 
         private readonly InventariosContext _context;
         private readonly Utilidades _utilidades;
-      
+
+
+
+
+        public TiposDeRegimenDTO TiposDeRegimenToTiposDeRegimenDTO(TiposDeRegimen obj)
+        {
+            TiposDeRegimenDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<TiposDeRegimenDTO> ListTiposDeRegimenToTiposDeRegimenDTO(List<TiposDeRegimen> list)
+        {
+            List<TiposDeRegimenDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(TiposDeRegimenToTiposDeRegimenDTO(s));
+            }
+            return listdto;
+        }
 
 
         public Mapping(InventariosContext context , Utilidades utilidades)
@@ -28,6 +53,103 @@ namespace Inventarios.Map
 
            
         }
+
+
+
+        public TiposDePersonaDTO TiposDePersonaToTiposDePersonaDTO(TiposDePersona obj)
+        {
+            TiposDePersonaDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<TiposDePersonaDTO> ListTiposDePersonaToTiposDePersonaDTO(List<TiposDePersona> list)
+        {
+            List<TiposDePersonaDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(TiposDePersonaToTiposDePersonaDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+        public TiposDeCuentaBancariaDTO TiposDeCuentaBancariaToTiposDeCuentaBancariaDTO(TiposDeCuentaBancaria obj)
+        {
+            TiposDeCuentaBancariaDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<TiposDeCuentaBancariaDTO> ListTiposDeCuentaBancariaToTiposDeCuentaBancariaDTO(List<TiposDeCuentaBancaria> list)
+        {
+            List<TiposDeCuentaBancariaDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(TiposDeCuentaBancariaToTiposDeCuentaBancariaDTO(s));
+            }
+            return listdto;
+        }
+
+
+
+        public TiposDeAgenteDTO TiposDeAgenteToTiposDeAgenteDTO(TiposDeAgente obj)
+        {
+            TiposDeAgenteDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<TiposDeAgenteDTO> ListTiposDeAgenteToTiposDeAgenteDTO(List<TiposDeAgente> list)
+        {
+            List<TiposDeAgenteDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(TiposDeAgenteToTiposDeAgenteDTO(s));
+            }
+            return listdto;
+        }
+
+
+        public TallasDTO TallasToTallasDTO(Tallas obj)
+        {
+            TallasDTO dto = new();
+            dto.id = obj.id;
+            dto.nombre = obj.nombre;
+
+
+            return dto;
+        }
+
+
+        public List<TallasDTO> ListTallasToTallasDTO(List<Tallas> list)
+        {
+            List<TallasDTO> listdto = new();
+
+            foreach (var s in list)
+            {
+                listdto.Add(TallasToTallasDTO(s));
+            }
+            return listdto;
+        }
+
+
 
         public SaldosDTO SaldosToSaldosDTO(Saldos obj)
         {

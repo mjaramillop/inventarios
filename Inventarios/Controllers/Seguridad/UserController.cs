@@ -69,9 +69,9 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpGet("{login}/{password}")]
         [ActionName("ValidateAccess")]
-        public List<TokenDTO> ValidateAccess(string login, string password)
+        public List<string> ValidateAccess(string login, string password)
         {
-            List<TokenDTO> list = _service.ValidateAccess(login, password);
+            List<string> list = _service.ValidateAccess(login, password);
 
             return list;
         }
@@ -103,7 +103,7 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpGet]
         [ActionName("Logout")]
-        public TokenDTO Logout()
+        public string Logout()
         {
             _jwtservice.jwt = "";
             _jwtservice.login = "";
@@ -111,7 +111,7 @@ namespace Inventarios.Controllers.Seguridad
             _jwtservice.Id = 0;
             _jwtservice.username = "";
 
-            return new TokenDTO() { token = "" };
+            return new string("") ;
         }
     }
 }

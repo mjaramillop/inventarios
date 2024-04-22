@@ -95,7 +95,7 @@ namespace Inventarios.DataAccess.Seguridad
 
         //  operations not basics
 
-        public List<TokenDTO> ValidateAccess(string login, string password)
+        public List<string> ValidateAccess(string login, string password)
         {
             login = login.ToUpper();
             password = password.ToUpper();
@@ -108,7 +108,7 @@ namespace Inventarios.DataAccess.Seguridad
             _jwtservice.password = "x";
             _jwtservice.login = "x";
 
-            if (list == null) return new List<TokenDTO>() { new TokenDTO() { token = jwt } };
+            if (list == null) return new List<string>() { new string(jwt)  };
 
             int? idperfil = 0;
             foreach (var s in list)
@@ -124,12 +124,12 @@ namespace Inventarios.DataAccess.Seguridad
                 idperfil = s.perfil;
             }
 
-            if (idperfil == 0) return new List<TokenDTO>() { new TokenDTO() { token = jwt } };
+            if (idperfil == 0) return new List<string>() { new string(jwt) };
 
             var perfil = _context.Perfiles.FirstOrDefault(a => a.id == idperfil);
             _jwtservice.programas = perfil.programas;
 
-            return new List<TokenDTO>() { new TokenDTO() { token = jwt } };
+            return new List<string>() { new string(jwt) };
         }
 
         public List<MenuDTO> ValidateToken(string token)

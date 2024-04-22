@@ -5,11 +5,11 @@
         public TiposDePersona()
         {
 
-            this.id = 0;
+            this.id = "";
             this.nombre = "";
 
         }
-        public int id { get; set; }
+        public string id { get; set; }
 
         public string nombre { get; set; }
 

@@ -30,7 +30,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<TiposDeAgente> TiposDeAgente { get; set; }
 
-    public virtual DbSet<TiposDeCuentaBancaria> TiposDecuentaBancaria { get; set; }
+    public virtual DbSet<TiposDeCuentaBancaria> TiposDeCuentaBancaria { get; set; }
 
     public virtual DbSet<TiposDePersona> TiposDePersona{ get; set; }
 
