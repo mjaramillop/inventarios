@@ -46,7 +46,6 @@
     <Folder Include="Controllers\ServicioAlCliente\" />
     <Folder Include="DataAccess\CapturaDeMovimiento\" />
     <Folder Include="DataAccess\ServicioAlCliente\" />
-    <Folder Include="DTO\CapturaDeMovimiento\" />
     <Folder Include="DTO\ServicioAlCliente\" />
     <Folder Include="ModelsParameter\CapturaDeMovimiento\" />
     <Folder Include="ModelsParameter\ServicioAlCliente\" />

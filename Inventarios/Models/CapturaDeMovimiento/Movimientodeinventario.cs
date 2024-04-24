@@ -21,12 +21,14 @@ public class Movimientodeinventario
         this.numerodelpago = "";
         this.banco = 0;
         this.codigoconceptonotadebitocredito = 0;
+        this.nombrecodigoconceptonotadebitocredito = "";
         this.observaciones = "";
         this.formula = 0;
         this.producto = 0;
         this.detalledelproducto = "";
         this.numerodeempaques = 0;
         this.unidaddeempaque = 0;
+        this.nombreunidaddeempaque = "";
         this.cantidadporempaque = 0;
         this.cantidad = 0;
         this.valorunitario = 0;
@@ -36,13 +38,16 @@ public class Movimientodeinventario
         this.costofleteporunidad = 0;
         this.subtotal = 0;
         this.codigodescuento1 = 0;
+        this.nombrecodigodescuento1 = "";
         this.porcentajedescuento1 = 0;
         this.valordescuento1 = 0;
         this.codigoiva1 = 0;
+        this.nombrecodigoiva1 = "";
         this.porcentajedeiva1 = 0;
         this.valoriva1 = 0;
         this.fletes = 0;
         this.codigoretencion1 = 0;
+        this.nombrecodigoretencion1 = "";
         this.porcentajederetencion1 = 0;
         this.valorretencion1 = 0;
         this.valorneto = 0;
@@ -95,6 +100,8 @@ public class Movimientodeinventario
 
     public int codigoconceptonotadebitocredito { get; set; }
 
+    public string nombrecodigoconceptonotadebitocredito { get; set; }
+
     public string observaciones { get; set; }
 
     public int formula { get; set; }
@@ -106,6 +113,9 @@ public class Movimientodeinventario
     public decimal numerodeempaques { get; set; }
 
     public int unidaddeempaque { get; set; }
+
+    public string nombreunidaddeempaque { get; set; }
+
 
     public decimal cantidadporempaque { get; set; }
 
@@ -125,11 +135,15 @@ public class Movimientodeinventario
 
     public int codigodescuento1 { get; set; }
 
+    public string nombrecodigodescuento1 { get; set; }
+
     public decimal porcentajedescuento1 { get; set; }
 
     public int valordescuento1 { get; set; }
 
     public int codigoiva1 { get; set; }
+
+    public string nombrecodigoiva1 { get; set; }
 
     public decimal porcentajedeiva1 { get; set; }
 
@@ -138,6 +152,8 @@ public class Movimientodeinventario
     public int fletes { get; set; }
 
     public int codigoretencion1 { get; set; }
+
+    public string nombrecodigoretencion1 { get; set; }
 
     public decimal porcentajederetencion1 { get; set; }
 
