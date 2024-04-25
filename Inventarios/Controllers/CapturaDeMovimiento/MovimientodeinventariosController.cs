@@ -56,8 +56,8 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
-        [HttpGet("{id}")]
-        [ActionName("GetById")]
+        [HttpGet("{tipodedocumento}/{numerodeldocumento}/{despacha}/{recibe}")]
+        [ActionName("GetByNumeroDeDocumento")]
         public List<Movimientodeinventarios>? GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
