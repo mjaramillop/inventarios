@@ -56,7 +56,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Menu> Menus { get; set; }
 
-    public virtual DbSet<Movimientodeinventario> Movimientodeinventario { get; set; }
+    public virtual DbSet<Movimientodeinventarios> Movimientodeinventarios { get; set; }
 
     public virtual DbSet<Perfiles> Perfiles { get; set; }
 
@@ -68,7 +68,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<TiposDeDocumento> TiposDeDocumento { get; set; }
 
-    public virtual DbSet<TmpMovimientodeinventario> TmpMovimientodeinventario { get; set; }
+    public virtual DbSet<Movimientodeinventarios> Movimientodeinventariostmp { get; set; }
 
     public virtual DbSet<UnidadesDeMedida> UnidadesDeMedida { get; set; }
 
@@ -354,8 +354,6 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("PAGINA_WEB");
         });
 
-     
-
         modelBuilder.Entity<Perfiles>(entity =>
         {
             entity.ToTable("PERFILES");
@@ -590,10 +588,22 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.fechadelaultimasalida)
                 .HasColumnType("datetime")
                 .HasColumnName("fechadelaultimasalida");
+
             entity.Property(e => e.producto)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("PRODUCTO");
+
+            entity.Property(e => e.talla)
+    .HasMaxLength(30)
+    .IsUnicode(false)
+    .HasColumnName("TALLA");
+
+            entity.Property(e => e.color)
+    .HasMaxLength(30)
+    .IsUnicode(false)
+    .HasColumnName("COLOR");
+
             entity.Property(e => e.saldo)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("saldo");
@@ -809,7 +819,6 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("NOMBRE");
         });
 
-
         modelBuilder.Entity<Perfiles>(entity =>
         {
             entity.ToTable("PERFILES");
@@ -898,167 +907,11 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("TIPOSDEDOCUMENTO");
         });
 
-        modelBuilder.Entity<TmpMovimientodeinventario>(entity =>
-        {
-            entity.ToTable("TMP_MOVIMIENTODEINVENTARIOS");
+        /////////////////////////////////////////////////////////////////
+        ///  MOVMIIENTO DE INVENTARIO
+        ///////////////////////////////////////////////////////////////
 
-            entity.HasIndex(e => new { e.tipodedocumento, e.numerodeldocumento }, "IX_TMP_MOVIMIENTODEINVENTARIOS");
-
-            entity.HasIndex(e => new { e.id }, "PK_TMP_MOVIMIENTODEINVENTARIOS");
-
-            entity.Property(e => e.id)
-    .ValueGeneratedOnAdd()
-    .HasColumnType("decimal(18, 0)")
-    .HasColumnName("ID");
-            entity.Property(e => e.banco).HasColumnName("BANCO");
-            entity.Property(e => e.cantidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("CANTIDAD");
-            entity.Property(e => e.cantidadporempaque)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("CANTIDADPOREMPAQUE");
-            entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
-            entity.Property(e => e.nombrecodigoconceptonotadebitocredito).HasColumnName("NOMBRECODIGOCONCEPTONOTADEBITOCREDITO");
-
-            entity.Property(e => e.codigodescuento1).HasColumnName("CODIGODESCUENTO1");
-            entity.Property(e => e.nombrecodigodescuento1).HasColumnName("NOMBRECODIGODESCUENTO1");
-
-            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
-            entity.Property(e => e.nombrecodigoiva1).HasColumnName("NOMBRECODIGOIVA1");
-
-            entity.Property(e => e.codigoretencion1).HasColumnName("CODIGORETENCION1");
-            entity.Property(e => e.nombrecodigoretencion1).HasColumnName("NOMBRECODIGORETENCION1");
-
-            entity.Property(e => e.costodeproduccionporunidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTODEPRODUCCIONPORUNIDAD");
-            entity.Property(e => e.costofleteporunidad)
-                .HasColumnType("decimal(18, 2)")
-                .HasColumnName("COSTOFLETEPORUNIDAD");
-            entity.Property(e => e.costopromedioporunidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTOPROMEDIOPORUNIDAD");
-            entity.Property(e => e.costoultimoporunidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTOULTIMOPORUNIDAD");
-            entity.Property(e => e.despacha).HasColumnName("DESPACHA");
-            entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
-            entity.Property(e => e.detalledelproducto)
-                .HasMaxLength(500)
-                .IsUnicode(false)
-                .HasColumnName("DETALLE_DEL_PRODUCTO");
-            entity.Property(e => e.eldocumentoestacancelado)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("EL_DOCUMENTO_ESTA_CANCELADO");
-            entity.Property(e => e.estadodelregistro)
-                .IsUnicode(false)
-                .HasColumnName("ESTADO_DEL_REGISTRO");
-            entity.Property(e => e.fechadecreacion)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHA_DE_CREACION");
-            entity.Property(e => e.fechatrasladorecibidoyaprobado)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHA_TRASLADO_RECIBIDO_Y_APROBADO");
-            entity.Property(e => e.fechadeldocumento)
-                .HasComment("la fecha que tiene  impreso el documento")
-                .HasColumnType("datetime")
-                .HasColumnName("FECHADELDOCUMENTO");
-            entity.Property(e => e.fechadeprogramaciondelpago)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHADEPROGRAMACIONDELPAGO");
-            entity.Property(e => e.fechadevencimientodeldocumento)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHADEVENCIMIENTODELDOCUMENTO");
-            entity.Property(e => e.fletes).HasColumnName("FLETES");
-            entity.Property(e => e.formadepago).HasColumnName("FORMADEPAGO");
-            entity.Property(e => e.formula)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("FORMULA");
-            entity.Property(e => e.lacantidadestadespachada)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("LA_CANTIDAD_ESTA_DESPACHADA");
-            entity.Property(e => e.numerodeempaques)
-                .HasColumnType("decimal(18, 0)")
-                .HasColumnName("NUMERODEEMPAQUES");
-            entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
-            entity.Property(e => e.numerodeldocumentoaafectar).HasColumnName("NUMERODELDOCUMENTOAAFECTAR");
-            entity.Property(e => e.numerodelpago)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("NUMERODELPAGO");
-            entity.Property(e => e.observaciones)
-                .HasMaxLength(3000)
-                .IsUnicode(false)
-                .HasColumnName("OBSERVACIONES");
-            entity.Property(e => e.porcentajedeiva1)
-                .HasColumnType("decimal(5, 2)")
-                .HasColumnName("PORCENTAJEDEIVA1");
-
-            entity.Property(e => e.porcentajederetencion1)
-                .HasColumnType("numeric(5, 2)")
-                .HasColumnName("PORCENTAJEDERETENCION1");
-
-            entity.Property(e => e.porcentajedescuento1)
-                .HasColumnType("decimal(5, 2)")
-                .HasColumnName("PORCENTAJEDESCUENTO1");
-
-            entity.Property(e => e.producto)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("PRODUCTO");
-            entity.Property(e => e.programa).HasColumnName("PROGRAMA");
-            entity.Property(e => e.recibe).HasColumnName("RECIBE");
-            entity.Property(e => e.recibeaafectar).HasColumnName("RECIBEAAFECTAR");
-            entity.Property(e => e.subtotal)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("SUBTOTAL");
-            entity.Property(e => e.sumaorestaencartera)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("SUMA_O_RESTA_EN_CARTERA");
-            entity.Property(e => e.sumaorestaeninventario)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("SUMA_O_RESTA_EN_INVENTARIO");
-            entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
-            entity.Property(e => e.tipodedocumentoaafectar).HasColumnName("TIPODEDOCUMENTOAAFECTAR");
-            entity.Property(e => e.trasladorecibidoyaprobadopor)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
-            entity.Property(e => e.unidaddeempaque)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("UNIDADDEEMPAQUE");
-            entity.Property(e => e.nombreunidaddeempaque)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("NOMBREUNIDADDEEMPAQUE");
-
-            entity.Property(e => e.usuarioqueactualizo)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("USUARIO_QUE_ACTUALIZO");
-            entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
-
-            entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
-
-            entity.Property(e => e.valorneto)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("VALORNETO");
-            entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
-
-            entity.Property(e => e.valorunitario)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("VALORUNITARIO");
-            entity.Property(e => e.vendedor).HasColumnName("VENDEDOR");
-        });
-
-
-        modelBuilder.Entity<Movimientodeinventario>(entity =>
+        modelBuilder.Entity<Movimientodeinventarios>(entity =>
         {
             entity.ToTable("MOVIMIENTODEINVENTARIOS");
 
@@ -1070,158 +923,608 @@ public partial class InventariosContext : DbContext
 
             entity.HasIndex(e => new { e.tipodedocumento, e.fechadecreacion }, "IX_MOVIMIENTODEINVENTARIOS_3");
 
+            /////////////////////
+            ///// ENCABEZADO
+            /////////////////////
+
             entity.Property(e => e.id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("ID");
-            entity.Property(e => e.banco).HasColumnName("BANCO");
-            entity.Property(e => e.cantidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("CANTIDAD");
-            entity.Property(e => e.cantidadporempaque)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("CANTIDADPOREMPAQUE");
-            entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
-            entity.Property(e => e.nombrecodigoconceptonotadebitocredito).HasColumnName("NOMBRECODIGOCONCEPTONOTADEBITOCREDITO");
 
-            entity.Property(e => e.codigodescuento1).HasColumnName("CODIGODESCUENTO1");
-            entity.Property(e => e.nombrecodigodescuento1).HasColumnName("NOMBRECODIGODESCUENTO1");
+            entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
 
-            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
-            entity.Property(e => e.nombrecodigoiva1).HasColumnName("NOMBRECODIGOIVA1");
+            entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
 
-            entity.Property(e => e.codigoretencion1).HasColumnName("CODIGORETENCION1");
-            entity.Property(e => e.nombrecodigoretencion1).HasColumnName("NOMBRECODIGORETENCION1");
-
-            entity.Property(e => e.costodeproduccionporunidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTODEPRODUCCIONPORUNIDAD");
-            entity.Property(e => e.costofleteporunidad)
-                .HasColumnType("decimal(18, 2)")
-                .HasColumnName("COSTOFLETEPORUNIDAD");
-            entity.Property(e => e.costopromedioporunidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTOPROMEDIOPORUNIDAD");
-            entity.Property(e => e.costoultimoporunidad)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("COSTOULTIMOPORUNIDAD");
             entity.Property(e => e.despacha).HasColumnName("DESPACHA");
-            entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
-            entity.Property(e => e.detalledelproducto)
+
+            entity.Property(e => e.nombredespacha)
                 .HasMaxLength(500)
                 .IsUnicode(false)
-                .HasColumnName("DETALLE_DEL_PRODUCTO");
-            entity.Property(e => e.eldocumentoestacancelado)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("EL_DOCUMENTO_ESTA_CANCELADO");
-            entity.Property(e => e.estadodelregistro)
-                .IsUnicode(false)
-                .HasColumnName("ESTADO_DEL_REGISTRO");
-            entity.Property(e => e.fechadecreacion)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHA_DE_CREACION");
-            entity.Property(e => e.fechatrasladorecibidoyaprobado)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHA_TRASLADO_RECIBIDO_Y_APROBADO");
+                .HasColumnName("NOMBREDESPACHA");
+
+            entity.Property(e => e.recibe).HasColumnName("RECIBE");
+
+            entity.Property(e => e.nombrerecibe)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBRERECIBE");
+
             entity.Property(e => e.fechadeldocumento)
                 .HasComment("la fecha que tiene  impreso el documento")
                 .HasColumnType("datetime")
                 .HasColumnName("FECHADELDOCUMENTO");
-            entity.Property(e => e.fechadeprogramaciondelpago)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHADEPROGRAMACIONDELPAGO");
+
             entity.Property(e => e.fechadevencimientodeldocumento)
-                .HasColumnType("datetime")
-                .HasColumnName("FECHADEVENCIMIENTODELDOCUMENTO");
-            entity.Property(e => e.fletes).HasColumnName("FLETES");
-            entity.Property(e => e.formadepago).HasColumnName("FORMADEPAGO");
-            entity.Property(e => e.formula)
-                .HasMaxLength(30)
+               .HasColumnType("datetime")
+               .HasColumnName("FECHADEVENCIMIENTODELDOCUMENTO");
+
+            entity.Property(e => e.programa).HasColumnName("PROGRAMA");
+
+            entity.Property(e => e.nombreprograma)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBREPROGRAMA");
+
+            entity.Property(e => e.vendedor).HasColumnName("VENDEDOR");
+
+            entity.Property(e => e.nombrevendedor)
+                .HasMaxLength(10)
                 .IsUnicode(false)
-                .HasColumnName("FORMULA");
-            entity.Property(e => e.lacantidadestadespachada)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("LA_CANTIDAD_ESTA_DESPACHADA");
-            entity.Property(e => e.numerodeempaques)
-                .HasColumnType("decimal(18, 0)")
-                .HasColumnName("NUMERODEEMPAQUES");
-            entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
+                .HasColumnName("NOMBREVENDEDOR");
+
+            entity.Property(e => e.tipodedocumentoaafectar).HasColumnName("TIPODEDOCUMENTOAAFECTAR");
+
+            entity.Property(e => e.nombretipodedocumentoaafectar)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBRETIPODEDOCUMENTOAAFECTAR");
+
             entity.Property(e => e.numerodeldocumentoaafectar).HasColumnName("NUMERODELDOCUMENTOAAFECTAR");
+
+            entity.Property(e => e.recibeaafectar).HasColumnName("RECIBEAAFECTAR");
+
+            entity.Property(e => e.nombrerecibeaafectar)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBRERECIBEAAFECTAR");
+
+            entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
+
+            entity.Property(e => e.nombredespachaaafectar)
+             .HasMaxLength(500)
+             .IsUnicode(false)
+             .HasColumnName("NOMBREDESPACHAAAFECTAR");
+
+            /////////////////////
+            ///CAPTURA CARTERA
+            /////////////////////
+
+            entity.Property(e => e.formadepago).HasColumnName("FORMADEPAGO");
+
+            entity.Property(e => e.nombreformadepago)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("NOMBREFORMADEPAGO");
+
             entity.Property(e => e.numerodelpago)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("NUMERODELPAGO");
+
+            entity.Property(e => e.banco).HasColumnName("BANCO");
+
+            entity.Property(e => e.nombrebanco)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("NOMBREBANCO");
+
+            entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
+
+            entity.Property(e => e.nombreconceptonotadebitocredito).HasColumnName("NOMBRECODIGOCONCEPTONOTADEBITOCREDITO");
+
             entity.Property(e => e.observaciones)
                 .HasMaxLength(3000)
                 .IsUnicode(false)
                 .HasColumnName("OBSERVACIONES");
-            entity.Property(e => e.porcentajedeiva1)
-                .HasColumnType("decimal(5, 2)")
-                .HasColumnName("PORCENTAJEDEIVA1");
 
-            entity.Property(e => e.porcentajederetencion1)
-                .HasColumnType("numeric(5, 2)")
-                .HasColumnName("PORCENTAJEDERETENCION1");
+            //////////////////////
+            ///// CAPTURA PRODUCTO
+            /////////////////////
 
-            entity.Property(e => e.porcentajedescuento1)
-                .HasColumnType("decimal(5, 2)")
-                .HasColumnName("PORCENTAJEDESCUENTO1");
+            entity.Property(e => e.formula)
+    .HasMaxLength(30)
+    .IsUnicode(false)
+    .HasColumnName("FORMULA");
+
+            entity.Property(e => e.nombreformula)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREFORMULA");
 
             entity.Property(e => e.producto)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("PRODUCTO");
-            entity.Property(e => e.programa).HasColumnName("PROGRAMA");
-            entity.Property(e => e.recibe).HasColumnName("RECIBE");
-            entity.Property(e => e.recibeaafectar).HasColumnName("RECIBEAAFECTAR");
-            entity.Property(e => e.subtotal)
-                .HasColumnType("decimal(18, 5)")
-                .HasColumnName("SUBTOTAL");
-            entity.Property(e => e.sumaorestaencartera)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("SUMA_O_RESTA_EN_CARTERA");
-            entity.Property(e => e.sumaorestaeninventario)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("SUMA_O_RESTA_EN_INVENTARIO");
-            entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
-            entity.Property(e => e.tipodedocumentoaafectar).HasColumnName("TIPODEDOCUMENTOAAFECTAR");
-            entity.Property(e => e.trasladorecibidoyaprobadopor)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
+
+            entity.Property(e => e.nombreproducto)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREPRODUCTO");
+
+            entity.Property(e => e.unidaddemedida)
+              .HasMaxLength(30)
+              .IsUnicode(false)
+              .HasColumnName("UNIDADDEMEDIDA");
+
+            entity.Property(e => e.nombreunidaddemedida)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREUNIDADDEMEDIDA");
+
+            entity.Property(e => e.talla)
+             .HasMaxLength(30)
+             .IsUnicode(false)
+             .HasColumnName("TALLA");
+
+            entity.Property(e => e.nombretalla)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRETALLA");
+
+            entity.Property(e => e.color)
+             .HasMaxLength(30)
+             .IsUnicode(false)
+             .HasColumnName("COLOR");
+
+            entity.Property(e => e.nombrecolor)
+                     .HasMaxLength(500)
+                     .IsUnicode(false)
+                    .HasColumnName("NOMBRECOLOR");
+
+            entity.Property(e => e.numerodeempaques)
+             .HasColumnType("decimal(18, 0)")
+             .HasColumnName("NUMERODEEMPAQUES");
+
             entity.Property(e => e.unidaddeempaque)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("UNIDADDEEMPAQUE");
+
             entity.Property(e => e.nombreunidaddeempaque)
-                .HasMaxLength(10)
+            .HasMaxLength(10)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREUNIDADDEEMPAQUE");
+
+            entity.Property(e => e.cantidadporempaque)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("CANTIDADPOREMPAQUE");
+
+            entity.Property(e => e.cantidad)
+               .HasColumnType("decimal(18, 5)")
+                .HasColumnName("CANTIDAD");
+
+            entity.Property(e => e.valorunitario)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("VALORUNITARIO");
+
+            ////////////////////////////////
+            /// SECCION COSTEO DEL REGISTRO
+            /// ///////////////////////////
+
+            entity.Property(e => e.costoultimoporunidad)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("COSTOULTIMOPORUNIDAD");
+
+            entity.Property(e => e.costofleteporunidad)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("COSTOFLETEPORUNIDAD");
+
+            //////////////////////////////////
+            ///SECCION FLAGS
+            /////////////////////////////////
+
+            entity.Property(e => e.eldocumentoestacancelado)
+                .HasMaxLength(1)
                 .IsUnicode(false)
-                .HasColumnName("NOMBREUNIDADDEEMPAQUE");
+                .HasColumnName("EL_DOCUMENTO_ESTA_CANCELADO");
+
+            entity.Property(e => e.estadodelregistro)
+                .IsUnicode(false)
+                .HasColumnName("ESTADO_DEL_REGISTRO");
+
+            entity.Property(e => e.fechadecreacion)
+                .HasColumnType("datetime")
+                .HasColumnName("FECHA_DE_CREACION");
+
+            entity.Property(e => e.fechatrasladorecibidoyaprobado)
+
+                .HasColumnType("datetime")
+                .HasColumnName("FECHA_TRASLADO_RECIBIDO_Y_APROBADO");
+
+            entity.Property(e => e.fechadeprogramaciondelpago)
+                .HasColumnType("datetime")
+                .HasColumnName("FECHADEPROGRAMACIONDELPAGO");
+
+            entity.Property(e => e.lacantidadestadespachada)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("LA_CANTIDAD_ESTA_DESPACHADA");
+
+            entity.Property(e => e.sumaorestaencartera)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("SUMA_O_RESTA_EN_CARTERA");
+
+            entity.Property(e => e.sumaorestaeninventario)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("SUMA_O_RESTA_EN_INVENTARIO");
+
+            entity.Property(e => e.trasladorecibidoyaprobadopor)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
 
             entity.Property(e => e.usuarioqueactualizo)
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("USUARIO_QUE_ACTUALIZO");
+
+            ////////////////////////////////
+            /// LIQUIDACION DOCUMENTO
+            /// ///////////////////////////
+
+            entity.Property(e => e.subtotal)
+                    .HasColumnType("decimal(18, 5)")
+                    .HasColumnName("SUBTOTAL");
+
+            entity.Property(e => e.codigodescuento1).HasColumnName("CODIGODESCUENTO1");
+
+            entity.Property(e => e.nombrecodigodescuento1).HasColumnName("NOMBRECODIGODESCUENTO1");
+
+            entity.Property(e => e.porcentajedescuento1)
+              .HasColumnType("decimal(5, 2)")
+              .HasColumnName("PORCENTAJEDESCUENTO1");
+
             entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
 
+            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
+
+            entity.Property(e => e.nombrecodigoiva1).HasColumnName("NOMBRECODIGOIVA1");
+
+            entity.Property(e => e.porcentajedeiva1)
+                .HasColumnType("decimal(5, 2)")
+                .HasColumnName("PORCENTAJEDEIVA1");
+
             entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
+
+            entity.Property(e => e.fletes).HasColumnName("FLETES");
+
+            entity.Property(e => e.codigoretencion1).HasColumnName("CODIGORETENCION1");
+
+            entity.Property(e => e.nombrecodigoretencion1).HasColumnName("NOMBRECODIGORETENCION1");
+
+            entity.Property(e => e.porcentajederetencion1)
+                .HasColumnType("numeric(5, 2)")
+                .HasColumnName("PORCENTAJEDERETENCION1");
+
+            entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
 
             entity.Property(e => e.valorneto)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("VALORNETO");
-            entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
+        });
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ///                                                                                          ///
+        /// MOVIMIENTO TEMPORAL                                                                      ///
+        ///                                                                                          /// 
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+        modelBuilder.Entity<Movimientodeinventarios>(entity =>
+        {
+            entity.ToTable("MOVIMIENTODEINVENTARIOSTMP");
+
+            entity.HasIndex(e => new { e.tipodedocumento, e.numerodeldocumento }, "IX_MOVIMIENTODEINVENTARIOSTMP_1");
+
+            entity.HasIndex(e => new { e.id }, "IX_MOVIMIENTODEINVENTARIOSTMP");
+
+            /////////////////////
+            ///// ENCABEZADO
+            /////////////////////
+
+            entity.Property(e => e.id)
+                .ValueGeneratedOnAdd()
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("ID");
+
+            entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
+
+            entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
+
+            entity.Property(e => e.despacha).HasColumnName("DESPACHA");
+
+            entity.Property(e => e.nombredespacha)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("NOMBREDESPACHA");
+
+            entity.Property(e => e.recibe).HasColumnName("RECIBE");
+
+            entity.Property(e => e.nombrerecibe)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBRERECIBE");
+
+            entity.Property(e => e.fechadeldocumento)
+                .HasComment("la fecha que tiene  impreso el documento")
+                .HasColumnType("datetime")
+                .HasColumnName("FECHADELDOCUMENTO");
+
+            entity.Property(e => e.fechadevencimientodeldocumento)
+               .HasColumnType("datetime")
+               .HasColumnName("FECHADEVENCIMIENTODELDOCUMENTO");
+
+            entity.Property(e => e.programa).HasColumnName("PROGRAMA");
+
+            entity.Property(e => e.nombreprograma)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBREPROGRAMA");
+
+            entity.Property(e => e.vendedor).HasColumnName("VENDEDOR");
+
+            entity.Property(e => e.nombrevendedor)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("NOMBREVENDEDOR");
+
+            entity.Property(e => e.tipodedocumentoaafectar).HasColumnName("TIPODEDOCUMENTOAAFECTAR");
+
+            entity.Property(e => e.nombretipodedocumentoaafectar)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBRETIPODEDOCUMENTOAAFECTAR");
+
+            entity.Property(e => e.numerodeldocumentoaafectar).HasColumnName("NUMERODELDOCUMENTOAAFECTAR");
+
+            entity.Property(e => e.recibeaafectar).HasColumnName("RECIBEAAFECTAR");
+
+            entity.Property(e => e.nombrerecibeaafectar)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                 .HasColumnName("NOMBRERECIBEAAFECTAR");
+
+            entity.Property(e => e.despachaaafectar).HasColumnName("DESPACHAAAFECTAR");
+
+            entity.Property(e => e.nombredespachaaafectar)
+             .HasMaxLength(500)
+             .IsUnicode(false)
+             .HasColumnName("NOMBREDESPACHAAAFECTAR");
+
+            /////////////////////
+            ///CAPTURA CARTERA
+            /////////////////////
+
+            entity.Property(e => e.formadepago).HasColumnName("FORMADEPAGO");
+
+            entity.Property(e => e.nombreformadepago)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("NOMBREFORMADEPAGO");
+
+            entity.Property(e => e.numerodelpago)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("NUMERODELPAGO");
+
+            entity.Property(e => e.banco).HasColumnName("BANCO");
+
+            entity.Property(e => e.nombrebanco)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("NOMBREBANCO");
+
+            entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
+
+            entity.Property(e => e.nombreconceptonotadebitocredito).HasColumnName("NOMBRECODIGOCONCEPTONOTADEBITOCREDITO");
+
+            entity.Property(e => e.observaciones)
+                .HasMaxLength(3000)
+                .IsUnicode(false)
+                .HasColumnName("OBSERVACIONES");
+
+            //////////////////////
+            ///// CAPTURA PRODUCTO
+            /////////////////////
+          
+
+            entity.Property(e => e.formula)
+    .HasMaxLength(30)
+    .IsUnicode(false)
+    .HasColumnName("FORMULA");
+
+            entity.Property(e => e.nombreformula)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREFORMULA");
+
+            entity.Property(e => e.producto)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("PRODUCTO");
+
+            entity.Property(e => e.nombreproducto)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREPRODUCTO");
+
+            entity.Property(e => e.unidaddemedida)
+            .HasMaxLength(30)
+            .IsUnicode(false)
+            .HasColumnName("UNIDADDEMEDIDA");
+
+            entity.Property(e => e.nombreunidaddemedida)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREUNIDADDEMEDIDA");
+
+            entity.Property(e => e.talla)
+             .HasMaxLength(30)
+             .IsUnicode(false)
+             .HasColumnName("TALLA");
+
+            entity.Property(e => e.nombretalla)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRETALLA");
+
+            entity.Property(e => e.color)
+             .HasMaxLength(30)
+             .IsUnicode(false)
+             .HasColumnName("COLOR");
+
+            entity.Property(e => e.nombrecolor)
+                     .HasMaxLength(500)
+                     .IsUnicode(false)
+                    .HasColumnName("NOMBRECOLOR");
+
+            entity.Property(e => e.numerodeempaques)
+             .HasColumnType("decimal(18, 0)")
+             .HasColumnName("NUMERODEEMPAQUES");
+
+            entity.Property(e => e.unidaddeempaque)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("UNIDADDEEMPAQUE");
+
+            entity.Property(e => e.nombreunidaddeempaque)
+            .HasMaxLength(10)
+            .IsUnicode(false)
+            .HasColumnName("NOMBREUNIDADDEEMPAQUE");
+
+            entity.Property(e => e.cantidadporempaque)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("CANTIDADPOREMPAQUE");
+
+            entity.Property(e => e.cantidad)
+               .HasColumnType("decimal(18, 5)")
+                .HasColumnName("CANTIDAD");
 
             entity.Property(e => e.valorunitario)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("VALORUNITARIO");
-            entity.Property(e => e.vendedor).HasColumnName("VENDEDOR");
-        });
 
-     
+            ////////////////////////////////
+            /// SECCION COSTEO DEL REGISTRO
+            /// ///////////////////////////
+
+            entity.Property(e => e.costoultimoporunidad)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("COSTOULTIMOPORUNIDAD");
+
+            entity.Property(e => e.costofleteporunidad)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("COSTOFLETEPORUNIDAD");
+
+            //////////////////////////////////
+            ///SECCION FLAGS
+            /////////////////////////////////
+
+            entity.Property(e => e.eldocumentoestacancelado)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("EL_DOCUMENTO_ESTA_CANCELADO");
+
+            entity.Property(e => e.estadodelregistro)
+                .IsUnicode(false)
+                .HasColumnName("ESTADO_DEL_REGISTRO");
+
+            entity.Property(e => e.fechadecreacion)
+                .HasColumnType("datetime")
+                .HasColumnName("FECHA_DE_CREACION");
+
+            entity.Property(e => e.fechatrasladorecibidoyaprobado)
+
+                .HasColumnType("datetime")
+                .HasColumnName("FECHA_TRASLADO_RECIBIDO_Y_APROBADO");
+
+            entity.Property(e => e.fechadeprogramaciondelpago)
+                .HasColumnType("datetime")
+                .HasColumnName("FECHADEPROGRAMACIONDELPAGO");
+
+            entity.Property(e => e.lacantidadestadespachada)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("LA_CANTIDAD_ESTA_DESPACHADA");
+
+            entity.Property(e => e.sumaorestaencartera)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("SUMA_O_RESTA_EN_CARTERA");
+
+            entity.Property(e => e.sumaorestaeninventario)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("SUMA_O_RESTA_EN_INVENTARIO");
+
+            entity.Property(e => e.trasladorecibidoyaprobadopor)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
+
+            entity.Property(e => e.usuarioqueactualizo)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("USUARIO_QUE_ACTUALIZO");
+
+            ////////////////////////////////
+            /// LIQUIDACION DOCUMENTO
+            /// ///////////////////////////
+
+            entity.Property(e => e.subtotal)
+                    .HasColumnType("decimal(18, 5)")
+                    .HasColumnName("SUBTOTAL");
+
+            entity.Property(e => e.codigodescuento1).HasColumnName("CODIGODESCUENTO1");
+
+            entity.Property(e => e.nombrecodigodescuento1).HasColumnName("NOMBRECODIGODESCUENTO1");
+
+            entity.Property(e => e.porcentajedescuento1)
+              .HasColumnType("decimal(5, 2)")
+              .HasColumnName("PORCENTAJEDESCUENTO1");
+
+            entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
+
+            entity.Property(e => e.codigoiva1).HasColumnName("CODIGOIVA1");
+
+            entity.Property(e => e.nombrecodigoiva1).HasColumnName("NOMBRECODIGOIVA1");
+
+            entity.Property(e => e.porcentajedeiva1)
+                .HasColumnType("decimal(5, 2)")
+                .HasColumnName("PORCENTAJEDEIVA1");
+
+            entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
+
+            entity.Property(e => e.fletes).HasColumnName("FLETES");
+
+            entity.Property(e => e.codigoretencion1).HasColumnName("CODIGORETENCION1");
+
+            entity.Property(e => e.nombrecodigoretencion1).HasColumnName("NOMBRECODIGORETENCION1");
+
+            entity.Property(e => e.porcentajederetencion1)
+                .HasColumnType("numeric(5, 2)")
+                .HasColumnName("PORCENTAJEDERETENCION1");
+
+            entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
+
+            entity.Property(e => e.valorneto)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("VALORNETO");
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

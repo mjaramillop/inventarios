@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Inventarios.Models.CapturaDeMovimiento;
 
 namespace Inventarios.Models.CapturaDeMovimiento;
-public class TmpMovimientodeinventario : Movimientodeinventario
+public class Movimientodeinventariostmp : Movimientodeinventarios
 {
 
 

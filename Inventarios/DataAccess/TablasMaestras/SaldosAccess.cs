@@ -51,9 +51,10 @@ namespace Inventarios.DataAccess.TablasMaestras
         public List<SaldosDTO>? Update(Saldos? obj)
         {
 
-          
 
-            var obj_ = _context.Saldos.Where(n => n.producto == obj.producto  ).FirstOrDefault(a=>a.bodega==obj.bodega );
+
+            var obj_ = _context.Saldos.Where(n => n.producto == obj.producto && n.talla == obj.talla && n.color == obj.color && n.bodega==obj.bodega ).ToList()[0]; 
+            //.FirstOrDefault(a=>a.bodega==obj.bodega );
 
              
             obj_.costopromedio = obj.costopromedio;
@@ -106,6 +107,9 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "id = " + obj.id + "\n";
             comando = comando + "Bodega = " + obj.bodega + "\n";
             comando = comando + "Producto = " + obj.producto + "\n";
+            comando = comando + "Talla = " + obj.talla + "\n";
+            comando = comando + "Color = " + obj.color + "\n";
+
             comando = comando + "Saldo inicial = " + obj.saldoinicial + "\n";
             comando = comando + "Entradas      = " + obj.entradas + "\n";
             comando = comando + "Salidas       = " + obj.salidas      + "\n";

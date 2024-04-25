@@ -18,6 +18,16 @@ namespace Inventarios.Map
 
         private readonly InventariosContext _context;
         private readonly Utilidades _utilidades;
+        public Mapping(InventariosContext context, Utilidades utilidades)
+        {
+            _context = context;
+            _utilidades = utilidades;
+
+        }
+
+
+
+
 
 
 
@@ -45,16 +55,7 @@ namespace Inventarios.Map
         }
 
 
-        public Mapping(InventariosContext context , Utilidades utilidades)
-        {
-            _context = context;
-            _utilidades = utilidades;
-           
-
-           
-        }
-
-
+     
 
         public TiposDePersonaDTO TiposDePersonaToTiposDePersonaDTO(TiposDePersona obj)
         {
