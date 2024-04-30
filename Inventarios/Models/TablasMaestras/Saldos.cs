@@ -11,8 +11,7 @@ public class Saldos
 
         this.id = 0;
         this.producto = 0;
-        this.talla = 0; 
-        this.color = 0;
+      
 
         this.bodega = 0;
         this.saldoinicial = 0;
@@ -33,9 +32,7 @@ public class Saldos
 public int id { get; set; }
 
     public int producto { get; set; }
-    public int talla { get; set; }
-    public int color { get; set; }
-
+   
 
     public int bodega { get; set; }
 

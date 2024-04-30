@@ -572,6 +572,8 @@ public partial class InventariosContext : DbContext
             entity.ToTable("SALDOS");
 
             entity.HasIndex(e => new { e.producto, e.bodega }, "IX_SALDOS").IsUnique();
+            entity.HasIndex(e => new { e.id }, "PK_SALDOS");
+
 
             entity.Property(e => e.id).HasColumnName("id");
             entity.Property(e => e.bodega).HasColumnName("bodega");
@@ -593,16 +595,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("PRODUCTO");
-
-            entity.Property(e => e.talla)
-    .HasMaxLength(30)
-    .IsUnicode(false)
-    .HasColumnName("TALLA");
-
-            entity.Property(e => e.color)
-    .HasMaxLength(30)
-    .IsUnicode(false)
-    .HasColumnName("COLOR");
+  
 
             entity.Property(e => e.saldo)
                 .HasColumnType("decimal(18, 5)")
@@ -1052,6 +1045,29 @@ public partial class InventariosContext : DbContext
             .IsUnicode(false)
             .HasColumnName("NOMBREPRODUCTO");
 
+            entity.Property(e => e.talla)
+    .HasMaxLength(30)
+    .IsUnicode(false)
+    .HasColumnName("TALLA");
+
+            entity.Property(e => e.nombretalla)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBRETALLA");
+
+
+            entity.Property(e => e.color)
+    .HasMaxLength(30)
+    .IsUnicode(false)
+    .HasColumnName("COLOR");
+
+            entity.Property(e => e.nombrecolor)
+            .HasMaxLength(500)
+            .IsUnicode(false)
+            .HasColumnName("NOMBRECOLOR");
+
+
+
             entity.Property(e => e.unidaddemedida)
               .HasMaxLength(30)
               .IsUnicode(false)
@@ -1062,25 +1078,7 @@ public partial class InventariosContext : DbContext
             .IsUnicode(false)
             .HasColumnName("NOMBREUNIDADDEMEDIDA");
 
-            entity.Property(e => e.talla)
-             .HasMaxLength(30)
-             .IsUnicode(false)
-             .HasColumnName("TALLA");
-
-            entity.Property(e => e.nombretalla)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMBRETALLA");
-
-            entity.Property(e => e.color)
-             .HasMaxLength(30)
-             .IsUnicode(false)
-             .HasColumnName("COLOR");
-
-            entity.Property(e => e.nombrecolor)
-                     .HasMaxLength(500)
-                     .IsUnicode(false)
-                    .HasColumnName("NOMBRECOLOR");
+        
 
             entity.Property(e => e.numerodeempaques)
              .HasColumnType("decimal(18, 0)")
@@ -1372,25 +1370,7 @@ public partial class InventariosContext : DbContext
             .IsUnicode(false)
             .HasColumnName("NOMBREUNIDADDEMEDIDA");
 
-            entity.Property(e => e.talla)
-             .HasMaxLength(30)
-             .IsUnicode(false)
-             .HasColumnName("TALLA");
-
-            entity.Property(e => e.nombretalla)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMBRETALLA");
-
-            entity.Property(e => e.color)
-             .HasMaxLength(30)
-             .IsUnicode(false)
-             .HasColumnName("COLOR");
-
-            entity.Property(e => e.nombrecolor)
-                     .HasMaxLength(500)
-                     .IsUnicode(false)
-                    .HasColumnName("NOMBRECOLOR");
+       
 
             entity.Property(e => e.numerodeempaques)
              .HasColumnType("decimal(18, 0)")

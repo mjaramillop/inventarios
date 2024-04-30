@@ -53,7 +53,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
 
 
-            var obj_ = _context.Saldos.Where(n => n.producto == obj.producto && n.talla == obj.talla && n.color == obj.color && n.bodega==obj.bodega ).ToList()[0]; 
+            var obj_ = _context.Saldos.Where(n => n.producto == obj.producto  && n.bodega==obj.bodega ).ToList()[0]; 
             //.FirstOrDefault(a=>a.bodega==obj.bodega );
 
              
@@ -107,9 +107,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "id = " + obj.id + "\n";
             comando = comando + "Bodega = " + obj.bodega + "\n";
             comando = comando + "Producto = " + obj.producto + "\n";
-            comando = comando + "Talla = " + obj.talla + "\n";
-            comando = comando + "Color = " + obj.color + "\n";
-
+        
             comando = comando + "Saldo inicial = " + obj.saldoinicial + "\n";
             comando = comando + "Entradas      = " + obj.entradas + "\n";
             comando = comando + "Salidas       = " + obj.salidas      + "\n";
