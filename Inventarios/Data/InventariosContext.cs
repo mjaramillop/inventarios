@@ -948,6 +948,9 @@ public partial class InventariosContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("FECHADELDOCUMENTO");
 
+            entity.Property(e => e.plazo).HasColumnName("PLAZO");
+
+
             entity.Property(e => e.fechadevencimientodeldocumento)
                .HasColumnType("datetime")
                .HasColumnName("FECHADEVENCIMIENTODELDOCUMENTO");
@@ -1261,6 +1264,8 @@ public partial class InventariosContext : DbContext
                 .HasComment("la fecha que tiene  impreso el documento")
                 .HasColumnType("datetime")
                 .HasColumnName("FECHADELDOCUMENTO");
+
+            entity.Property(e => e.plazo).HasColumnName("PLAZO");
 
             entity.Property(e => e.fechadevencimientodeldocumento)
                .HasColumnType("datetime")

@@ -61,10 +61,10 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpGet("{id}")]
         [ActionName("GetById")]
-        public List<Productos>? GetById(int id)
+        public List<ProductosDTO>? GetById(int id)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            List<Productos> list = _service.GetById(id);
+            list = _service.GetById(id);
             return list;
         }
 

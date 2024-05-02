@@ -46,12 +46,10 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-
-
-        public List<string> AddDocument(int tipodedocumento, int numerodeldocumento)
+        public List<string> AddDocument(Movimientodeinventarios obj)
         {
             string mensajedeerror = "";
-            mensajedeerror = ValidarAntesDeCargarAlMovimiento(tipodedocumento, numerodeldocumento);
+            mensajedeerror = ValidarAntesDeCargarAlMovimiento(obj);
             if (mensajedeerror.Trim().Length > 0) return new List<string> { mensajedeerror };
 
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
@@ -59,7 +57,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             int consecutivo = Convert.ToInt32(objtipodedocumento.consecutivo);
             consecutivo = consecutivo + 1;
 
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodeldocumento).ToList();
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento).ToList();
 
             try
             {
@@ -152,6 +150,78 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             try
             {
                 var obj_ = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
+
+                obj_.despacha = obj.despacha;
+                obj_.nombredespacha = obj.nombredespacha;
+                obj_.recibe = obj.recibe;
+                obj_.nombrerecibe = obj.nombrerecibe;
+                obj_.tipodedocumento = obj.tipodedocumento;
+                obj_.nombretipodedocumento = obj.nombretipodedocumento;
+                obj_.numerodeldocumento = obj.numerodeldocumento;
+                obj_.despachaaafectar = obj.despachaaafectar;
+                obj_.nombredespachaaafectar = obj.nombredespachaaafectar;
+                obj_.recibeaafectar = obj.recibeaafectar;
+                obj_.nombrerecibeaafectar = obj.nombrerecibeaafectar;
+                obj_.tipodedocumentoaafectar = obj.tipodedocumentoaafectar;
+                obj_.nombretipodedocumentoaafectar = obj.nombretipodedocumentoaafectar;
+                obj_.numerodeldocumentoaafectar = obj.numerodeldocumentoaafectar;
+                obj_.fechadeldocumento = obj.fechadeldocumento;
+                obj_.fechadevencimientodeldocumento = obj.fechadevencimientodeldocumento;
+                obj_.programa = obj.programa;
+                obj_.nombreprograma = obj.nombreprograma;
+                obj_.vendedor = obj.vendedor;
+                obj_.nombrevendedor = obj.nombrevendedor;
+                obj_.formadepago = obj.formadepago;
+                obj_.nombreformadepago = obj.nombreformadepago;
+                obj_.numerodelpago = obj.numerodelpago;
+                obj_.banco = obj.banco;
+                obj_.nombrebanco = obj.nombrebanco;
+                obj_.codigoconceptonotadebitocredito = obj.codigoconceptonotadebitocredito;
+                obj_.nombreconceptonotadebitocredito = obj.nombreconceptonotadebitocredito;
+                obj_.observaciones = obj.observaciones;
+                obj_.formula = obj.formula;
+                obj_.nombreformula = obj.nombreformula;
+                obj_.producto = obj.producto;
+                obj_.talla = obj.talla;
+                obj_.color = obj.color;
+                obj_.nombreproducto = obj.nombreproducto;
+                obj_.nombretalla = obj.nombretalla;
+                obj_.nombrecolor = obj.nombrecolor;
+                obj_.nombreunidaddemedida = obj.nombreunidaddemedida;
+                obj_.numerodeempaques = obj.numerodeempaques;
+                obj_.unidaddeempaque = obj.unidaddeempaque;
+                obj_.nombreunidaddeempaque = obj.nombreunidaddeempaque;
+                obj_.cantidadporempaque = obj.cantidadporempaque;
+                obj_.cantidad = obj.cantidad;
+                obj_.valorunitario = obj.valorunitario;
+                obj_.costoultimoporunidad = obj.costoultimoporunidad;
+                obj_.costofleteporunidad = obj.costofleteporunidad;
+                obj_.subtotal = obj.subtotal;
+                obj_.codigodescuento1 = obj.codigodescuento1;
+                obj_.nombrecodigodescuento1 = obj.nombrecodigodescuento1;
+                obj_.porcentajedescuento1 = obj.porcentajedescuento1;
+                obj_.valordescuento1 = obj.valordescuento1;
+                obj_.codigoiva1 = obj.codigoiva1;
+                obj_.nombrecodigoiva1 = obj.nombrecodigoiva1;
+                obj_.porcentajedeiva1 = obj.porcentajedeiva1;
+                obj_.valoriva1 = obj.valoriva1;
+                obj_.fletes = obj.fletes;
+                obj_.codigoretencion1 = obj.codigoretencion1;
+                obj_.nombrecodigoretencion1 = obj.nombrecodigoretencion1;
+                obj_.porcentajederetencion1 = obj.porcentajederetencion1;
+                obj_.valorretencion1 = obj.valorretencion1;
+                obj_.valorneto = obj.valorneto;
+                obj_.fechadeprogramaciondelpago = obj.fechadeprogramaciondelpago;
+                obj_.lacantidadestadespachada = obj.lacantidadestadespachada;
+                obj_.eldocumentoestacancelado = obj.eldocumentoestacancelado;
+                obj_.sumaorestaeninventario = obj.sumaorestaeninventario;
+                obj_.sumaorestaencartera = obj.sumaorestaencartera;
+                obj_.estadodelregistro = obj.estadodelregistro;
+                obj_.trasladorecibidoyaprobadopor = obj.trasladorecibidoyaprobadopor;
+                obj_.fechatrasladorecibidoyaprobado = obj.fechatrasladorecibidoyaprobado;
+                obj_.fechadecreacion = obj.fechadecreacion;
+                obj_.usuarioqueactualizo = obj.usuarioqueactualizo;
+
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -169,47 +239,52 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return list;
         }
 
-        private string ValidarAntesDeCargarAlMovimiento(int tipodedocumento, int numerodeldocumento)
+        private string ValidarAntesDeCargarAlMovimiento(Movimientodeinventarios obj)
         {
             string mensajedeerror = "";
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodeldocumento).ToList();
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento).ToList();
 
-            /////////////////////////////////////////////////////////////////////////
-            // encabezado
-            ////////////////////////////////////////////////////////////////////////
             // valida tipo de documento
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumento);
             int consecutivo = Convert.ToInt32(objtipodedocumento.consecutivo);
             consecutivo = consecutivo + 1;
 
+            if (objtipodedocumento == null) mensajedeerror = mensajedeerror + "El tipo de documento esta errado" + "\n";
+
             // trae el nombre despacha
             Proveedores? objdespacha = new Proveedores();
             objdespacha = _context.Proveedores.FirstOrDefault(a => a.id == list[0].despacha);
+            if (objdespacha == null) mensajedeerror = mensajedeerror + "La entidasd emisora esta errada" + "\n";
 
-            // trae el nombre recibe
             Proveedores? objrecibe = new Proveedores();
-            objdespacha = _context.Proveedores.FirstOrDefault(a => a.id == list[0].recibe);
+            objrecibe = _context.Proveedores.FirstOrDefault(a => a.id == list[0].recibe);
+            if (objrecibe == null) mensajedeerror = mensajedeerror + "La entidasd receptora esta errada" + "\n";
 
             // tipodedocumento a afectar
             TiposDeDocumento? objtipodedocumentoaafectar = new TiposDeDocumento();
             objtipodedocumentoaafectar = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumentoaafectar);
+            if (objtipodedocumentoaafectar == null) mensajedeerror = mensajedeerror + "El tipo de documento a afectar esta errado" + "\n";
 
             // trae el nombre despacha a  afectar
             Proveedores? objdespachaaafectar = new Proveedores();
             objdespachaaafectar = _context.Proveedores.FirstOrDefault(a => a.id == list[0].despachaaafectar);
+            if (objdespachaaafectar == null) mensajedeerror = mensajedeerror + "El emisor a afectar esta errado" + "\n";
 
             // trae el nombre recibe a afectar
             Proveedores? objrecibeaafectar = new Proveedores();
             objrecibeaafectar = _context.Proveedores.FirstOrDefault(a => a.id == list[0].recibeaafectar);
+            if (objrecibeaafectar == null) mensajedeerror = mensajedeerror + "El receptor a afectar esta errado" + "\n";
 
             // programa
             Programas? objprogramas = new Programas();
             objprogramas = _context.Programas.FirstOrDefault(a => a.id == list[0].programa);
+            if (objprogramas == null) mensajedeerror = mensajedeerror + "El programa esta errado" + "\n";
 
             // vendedor
             Proveedores? objvendedor = new Proveedores();
             objvendedor = _context.Proveedores.FirstOrDefault(a => a.id == list[0].vendedor);
+            if (objvendedor == null) mensajedeerror = mensajedeerror + "El vendedor esta errado" + "\n";
 
             //////////////////////////////////////
             /// detalle
@@ -217,6 +292,17 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             foreach (var item in list)
             {
+                mensajedeerror = "";
+
+                if (objtipodedocumento == null) mensajedeerror = mensajedeerror + "El tipo de documento esta errado" + "\n";
+                if (objdespacha == null) mensajedeerror = mensajedeerror + "La entidad emisora esta errada" + "\n";
+                if (objrecibe == null) mensajedeerror = mensajedeerror + "La entidad receptora esta errada" + "\n";
+                if (objtipodedocumentoaafectar == null) mensajedeerror = mensajedeerror + "El tipo de documento a afectar esta errado" + "\n";
+                if (objdespachaaafectar == null) mensajedeerror = mensajedeerror + "El emisor a afectar esta errado" + "\n";
+                if (objrecibeaafectar == null) mensajedeerror = mensajedeerror + "El receptor a afectar esta errado" + "\n";
+                if (objprogramas == null) mensajedeerror = mensajedeerror + "El programa esta errado" + "\n";
+                if (objvendedor == null) mensajedeerror = mensajedeerror + "El vendedor esta errado" + "\n";
+
                 // formas de pago
                 FormasDePago? objformasdepago = new FormasDePago();
                 objformasdepago = _context.FormasDePago.FirstOrDefault(a => a.id == item.formadepago);
@@ -257,11 +343,47 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 objunidaddeempaque = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == item.unidaddeempaque);
                 if (objunidaddeempaque == null) mensajedeerror = mensajedeerror + "El codigo de la unidad de empaque  es invalido , Item No  " + item.id.ToString() + "\n";
 
+
+                // valores
                 if (item.cantidad < 0) mensajedeerror = mensajedeerror + "La cantidad no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
-
                 if (item.valorunitario < 0) mensajedeerror = mensajedeerror + "El valor unitario no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
-
                 if (item.fletes < 0) mensajedeerror = mensajedeerror + "El flete no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
+                if (item.valordescuento1 < 0) mensajedeerror = mensajedeerror + "El descuento no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
+
+                obj.nombretipodedocumento = objtipodedocumento.nombre;
+                obj.nombredespacha = objdespacha.nombre;
+                obj.nombrerecibe = objrecibe.nombre;
+                obj.nombretipodedocumentoaafectar = objtipodedocumentoaafectar.nombre;
+                obj.nombredespachaaafectar = objdespachaaafectar.nombre;
+                obj.nombrerecibeaafectar = objrecibeaafectar.nombre;
+                obj.nombreprograma = objprogramas.nombre;
+                obj.nombrevendedor = objvendedor.nombre;
+                obj.fechadeldocumento = obj.fechadeldocumento.AddDays(obj.plazo);
+                obj.nombreformadepago = objformasdepago.nombre;
+                obj.nombreconceptonotadebitocredito = objconceptosnotadebitocredito.nombre;
+                obj.nombrebanco = objbanco.nombre;
+                obj.nombreproducto = objproducto.nombre;
+                obj.nombreunidaddemedida = objunidaddemedida.nombre;
+                obj.nombretalla = objtallas.nombre;
+                obj.nombrecolor = objcolores.nombre;
+                obj.nombreunidaddeempaque = objunidaddeempaque.nombre;
+
+                if (objtipodedocumento.pideempaque != "S")
+                {
+                    string codigotipodeempqueunidad = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:codigotipodeempaqueunidad");
+                    obj.numerodeempaques = 1;
+                    obj.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
+                    obj.cantidadporempaque = obj.cantidad;
+                }
+
+                obj.cantidad = obj.numerodeempaques * obj.cantidadporempaque;
+
+                obj.subtotal = obj.valorunitario * obj.cantidad;
+                obj.valorneto = obj.subtotal - obj.valordescuento1 + obj.valoriva1 - obj.valorretencion1;
+
+                if (mensajedeerror.Trim().Length == 0) Update(obj);
+
+                if (mensajedeerror.Trim().Length > 0) break;
             }
 
             return mensajedeerror;
@@ -275,7 +397,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             comando = comando + "id = " + obj.id + "\n";
 
             comando = comando + "tipo de documento = " + obj.tipodedocumento + "\n";
-            comando = comando + "Nombre de odcumento = " + obj.nombretipoddedocumennto + "\n";
+            comando = comando + "Nombre de odcumento = " + obj.nombretipodedocumento + "\n";
             comando = comando + "numero del documento  = " + obj.numerodeldocumento + "\n";
             comando = comando + "emisor  = " + obj.despacha + "\n";
             comando = comando + "emisor  = " + obj.nombredespacha + "\n";

@@ -87,10 +87,10 @@ namespace Inventarios.DataAccess.TablasMaestras
             return _mapping.ListProductosToProductosDTO(list);
         }
 
-        public List<Productos> GetById(int id)
+        public List<ProductosDTO> GetById(int id)
         {
             list = _context.Productos.Where(a => a.id == id).ToList();
-            return list;
+            return _mapping.ListProductosToProductosDTO(list);
         }
 
         public List<ProductosDTO>? List(string filtro)

@@ -36,16 +36,16 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-        public List<Productos>? GetById(int id)
+        public List<ProductosDTO>? GetById(int id)
         {
-            List<Productos> list = _access.GetById(id);
+             list = _access.GetById(id);
 
             return list;
         }
 
         public List<ProductosDTO>? List(string filtro)
         {
-            var list = _access.List(filtro);
+            list = _access.List(filtro);
             return list;
         }
 

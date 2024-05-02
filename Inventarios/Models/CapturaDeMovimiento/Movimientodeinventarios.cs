@@ -1,4 +1,6 @@
-﻿namespace Inventarios.Models.CapturaDeMovimiento;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Inventarios.Models.CapturaDeMovimiento;
 
 public class Movimientodeinventarios
 {
@@ -10,7 +12,7 @@ public class Movimientodeinventarios
         this.recibe = 0;
         this.nombrerecibe = "";
         this.tipodedocumento = 0;
-        this.nombretipoddedocumennto = "";
+        this.nombretipodedocumento = "";
         this.numerodeldocumento = 0;
         this.despachaaafectar = 0;
         this.nombredespachaaafectar = "";
@@ -20,6 +22,7 @@ public class Movimientodeinventarios
         this.nombretipodedocumentoaafectar = "";
         this.numerodeldocumentoaafectar = 0;
         this.fechadeldocumento = System.DateTime.Now;
+        this.plazo = 0;
         this.fechadevencimientodeldocumento = System.DateTime.Now;
         this.programa = 0;
         this.nombreprograma = "";
@@ -75,6 +78,7 @@ public class Movimientodeinventarios
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
         this.usuarioqueactualizo = "";
+     
     }
 
     public decimal id { get; set; }
@@ -89,7 +93,7 @@ public class Movimientodeinventarios
 
     public int tipodedocumento { get; set; }
 
-    public string nombretipoddedocumennto { get; set; }
+    public string nombretipodedocumento { get; set; }
 
     public int numerodeldocumento { get; set; }
 
@@ -108,6 +112,8 @@ public class Movimientodeinventarios
     public int numerodeldocumentoaafectar { get; set; }
 
     public DateTime fechadeldocumento { get; set; }
+
+    public int plazo { get; set; }
 
     public DateTime fechadevencimientodeldocumento { get; set; }
 
@@ -216,4 +222,6 @@ public class Movimientodeinventarios
     public DateTime fechadecreacion { get; set; }
 
     public string usuarioqueactualizo { get; set; }
+
+    
 }
