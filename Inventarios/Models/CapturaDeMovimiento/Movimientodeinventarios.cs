@@ -78,6 +78,7 @@ public class Movimientodeinventarios
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
         this.usuarioqueactualizo = "";
+
      
     }
 
@@ -222,6 +223,10 @@ public class Movimientodeinventarios
     public DateTime fechadecreacion { get; set; }
 
     public string usuarioqueactualizo { get; set; }
+
+    public string consecutivousuario { get; set; }  
+
+    public int idusuario { get; set; }
 
     
 }

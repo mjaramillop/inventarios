@@ -6,7 +6,7 @@ using Inventarios.Models.CapturaDeMovimiento;
 namespace Inventarios.Models.CapturaDeMovimiento;
 public class Movimientodeinventariostmp : Movimientodeinventarios
 {
-
+   
 
 
 }

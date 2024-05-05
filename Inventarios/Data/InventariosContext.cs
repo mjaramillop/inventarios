@@ -1172,6 +1172,14 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("USUARIO_QUE_ACTUALIZO");
 
+            entity.Property(e => e.consecutivousuario)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("CONSECUTIVOUSUARIO");
+
+
+            entity.Property(e => e.idusuario).HasColumnName("IDUSUARIO");
+
             ////////////////////////////////
             /// LIQUIDACION DOCUMENTO
             /// ///////////////////////////
@@ -1229,7 +1237,7 @@ public partial class InventariosContext : DbContext
         {
             entity.ToTable("MOVIMIENTODEINVENTARIOSTMP");
 
-            entity.HasIndex(e => new { e.tipodedocumento, e.numerodeldocumento }, "IX_MOVIMIENTODEINVENTARIOSTMP_1");
+            entity.HasIndex(e => new { e.tipodedocumento, e.consecutivousuario }, "IX_MOVIMIENTODEINVENTARIOSTMP_1");
 
             entity.HasIndex(e => new { e.id }, "IX_MOVIMIENTODEINVENTARIOSTMP");
 
@@ -1465,6 +1473,15 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("USUARIO_QUE_ACTUALIZO");
+
+
+            entity.Property(e => e.consecutivousuario)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("CONSECUTIVOUSUARIO");
+
+
+            entity.Property(e => e.idusuario).HasColumnName("IDUSUARIO");
 
             ////////////////////////////////
             /// LIQUIDACION DOCUMENTO

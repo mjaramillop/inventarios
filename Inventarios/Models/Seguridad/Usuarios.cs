@@ -21,6 +21,7 @@ public class Usuarios
         this.tiposdedocumento = "";
         this.bodega = 0;
         this.estadodelregistro = 0;
+        this.consecutivo = 0;
     }
 
     public int id { get; set; }
@@ -48,4 +49,6 @@ public class Usuarios
     public int bodega { get; set; }
 
     public int estadodelregistro { get; set; }
+
+    public int consecutivo { get; set; }
 }
