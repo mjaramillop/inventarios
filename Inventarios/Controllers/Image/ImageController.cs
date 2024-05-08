@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Inventarios.Controllers
+namespace Inventarios.Controllers.Image
 {
     [Route("[controller]/[action]")]
     [ApiController]
@@ -96,7 +96,7 @@ namespace Inventarios.Controllers
         {
             var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
             var filepath = Path.Combine(uploads, id.ToString() + ".jpg");
-            return File(System.IO.File.ReadAllBytes(filepath), "image/jpg", System.IO.Path.GetFileName(filepath));
+            return File(System.IO.File.ReadAllBytes(filepath), "image/jpg", Path.GetFileName(filepath));
         }
     }
 }
