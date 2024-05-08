@@ -13,11 +13,11 @@ using Inventarios.ModelsParameter;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Inventarios.Map;
-using Inventarios.Utils;
 using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.services.TablasMaestras;
 using Inventarios.services.Seguridad;
+using Inventarios.DataAccess.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,8 +94,8 @@ builder.Services.AddScoped<TiposDeAgenteAccess>();
 builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
 builder.Services.AddScoped<TiposDePersonaAccess>();
 builder.Services.AddScoped<TiposDeRegimenAccess>();
-builder.Services.AddScoped<Utilidades>();
-builder.Services.AddScoped<Validaciones>();
+builder.Services.AddScoped<UtilidadesAccess>();
+builder.Services.AddScoped<ValidacionesAccess>();
 
 
 
@@ -148,8 +148,8 @@ builder.Services.AddScoped<Mapping>();
 
 //utils
 builder.Services.AddSingleton<JwtService>();
-builder.Services.AddScoped<Validaciones>();
-builder.Services.AddScoped<Utilidades>();
+builder.Services.AddScoped<ValidacionesAccess>();
+builder.Services.AddScoped<UtilidadesAccess>();
 
 
 

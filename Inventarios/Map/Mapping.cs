@@ -8,8 +8,8 @@ using Inventarios.Models.Seguridad;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System;
-using Inventarios.Utils;
 using Inventarios.services.TablasMaestras;
+using Inventarios.DataAccess.Utils;
 
 namespace Inventarios.Map
 {
@@ -17,8 +17,8 @@ namespace Inventarios.Map
     {
 
         private readonly InventariosContext _context;
-        private readonly Utilidades _utilidades;
-        public Mapping(InventariosContext context, Utilidades utilidades)
+        private readonly UtilidadesAccess _utilidades;
+        public Mapping(InventariosContext context, UtilidadesAccess utilidades)
         {
             _context = context;
             _utilidades = utilidades;
@@ -175,7 +175,7 @@ namespace Inventarios.Map
             dto.nombreproducto = producto.nombre;
             dto.producto = obj.producto;
 
-            dto.diassinrotar = _utilidades.RestarFechas(obj.fechadelaultimasalida, obj.fechadelaultimaentrada);
+            dto.diassinrotar = _utilidades.restarfechas(obj.fechadelaultimasalida, obj.fechadelaultimaentrada);
 
           
 

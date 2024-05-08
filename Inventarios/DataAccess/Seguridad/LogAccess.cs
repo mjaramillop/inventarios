@@ -1,10 +1,10 @@
 ﻿using Inventarios.Data;
+using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.Token;
-using Inventarios.Utils;
 using System.Data;
 using System.Linq.Dynamic.Core;
 
@@ -59,7 +59,7 @@ namespace Inventarios.DataAccess.Seguridad
 
             comando = "DELETE  FROM LOG WHERE FECHA_DE_ACTUALIZACION <" + "'" + fecha + "'";
 
-            Utilidades ru = new(_iconfiguration);
+            UtilidadesAccess ru = new(_iconfiguration);
 
             string mensaje = ru.ejecutarsql(comando);
             if (mensaje.Trim().Length == 0) mensaje = "Registros eliminados correctamente antes del " + fecha;

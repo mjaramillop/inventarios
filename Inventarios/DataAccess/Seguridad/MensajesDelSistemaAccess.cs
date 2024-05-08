@@ -1,9 +1,9 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
+using Inventarios.DataAccess.Utils;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
-using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
 {
@@ -28,7 +28,7 @@ namespace Inventarios.DataAccess
         {
             string comando = "";
             comando = "delete from mensajesdelsistema where fecha_hasta < getdate()  ";
-            Utilidades ru = new(_iconfiguration);
+            UtilidadesAccess ru = new(_iconfiguration);
             string mensaje = ru.ejecutarsql(comando);
 
             _context.Mensajesdelsistema.Add(obj);

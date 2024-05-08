@@ -1,5 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Drawing;
+﻿using System.Drawing;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
@@ -7,47 +6,55 @@ using Inventarios.Map;
 using Inventarios.Token;
 using Inventarios.Models.Seguridad;
 
-namespace Inventarios.Utils
+namespace Inventarios.DataAccess.Utils
 {
-    public class Validaciones
+    public class ValidacionesAccess
     {
         private readonly InventariosContext _context;
 
-        public Validaciones(InventariosContext context)
+        public ValidacionesAccess(InventariosContext context)
         {
             _context = context;
         }
 
         public string mensajedeerror { get; set; }
 
-        public Validaciones()
+        public ValidacionesAccess()
         {
             this.mensajedeerror = "";
         }
 
-        public void Validarvalormayorquecero(string campo, int? valor)
+        public string Validarvalormayorquecero(string campo, int? valor)
         {
             if (valor <= 0)
             {
                 this.mensajedeerror = this.mensajedeerror + campo + " no puede ser menor que cero " + '\n';
+                return this.mensajedeerror; 
             }
+            return "";
         }
 
-        public void Validarvalordiferentedecero(string campo, int? valor)
+        public string Validarvalordiferentedecero(string campo, int? valor)
         {
             if (valor == 0)
             {
                 this.mensajedeerror = this.mensajedeerror + campo + " no puede ser  cero " + '\n';
+                return this.mensajedeerror;
+                
             }
+            return "";
         }
 
-        public void Validarvalormenorquecero(string campo, int? valor)
+        public string Validarvalormenorquecero(string campo, int? valor)
         {
             if (valor < 0)
             {
                 this.mensajedeerror = this.mensajedeerror + campo + " no puede ser  menor que cero " + '\n';
+                return this.mensajedeerror;
             }
+            return "";
         }
+
 
         // valida tipo de documento
         public string ValidarTipoDeDocumento(int tipodedocumento)
@@ -325,18 +332,6 @@ namespace Inventarios.Utils
 
             return objusuarios.nombre;
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

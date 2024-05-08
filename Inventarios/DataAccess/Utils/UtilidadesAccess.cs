@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq.Dynamic.Core.Tokenizer;
 
-namespace Inventarios.Utils
+namespace Inventarios.DataAccess.Utils
 {
-    public class Utilidades
+    public class UtilidadesAccess
     {
         public int TiempoDeEspera = 600; // 600 segundos
 
         private readonly IConfiguration _iconfiguration;
 
-        public Utilidades(IConfiguration iconfigutarion)
+        public UtilidadesAccess(IConfiguration iconfigutarion)
 
         {
             _iconfiguration = iconfigutarion;
@@ -48,7 +48,7 @@ namespace Inventarios.Utils
 
         public DataTable creartabla(string comando)
         {
-            System.Data.DataTable table = new DataTable();
+            DataTable table = new DataTable();
             DataSet xdataset = new DataSet();
 
             SqlConnection xconexion = new SqlConnection(_iconfiguration.GetConnectionString("connectionstring"));
@@ -1191,14 +1191,12 @@ namespace Inventarios.Utils
             DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
 
             List<string> result = new List<string>();
-            result.Add(fechadevencimiento.ToString(("dd/MM/yyyy")));
+            result.Add(fechadevencimiento.ToString("dd/MM/yyyy"));
             return result;
 
 
 
         }
-
-
 
 
         /// <summary>
@@ -1208,7 +1206,7 @@ namespace Inventarios.Utils
         /// <param name="fecha1"></param>
         /// <param name="fecha2"></param>
         /// <returns></returns>
-        public int rtn_restarfechas(DateTime fecha1, DateTime fecha2)
+        public int restarfechas(DateTime fecha1, DateTime fecha2)
         {
 
             int xtotaldias = 0;
@@ -1224,28 +1222,5 @@ namespace Inventarios.Utils
 
 
 
-        /// <summary>
-        /// el primer PARAMETRO fecha1 es la fecha mayor
-        /// EL SEGUNDO PARAMETRO E LA FECHA MENOR
-        /// no debe mandar fecha con la opcion ?
-        /// </summary>
-        /// <param name="fecha1"></param>
-        /// <param name="fecha2"></param>
-        /// <returns></returns>
-
-        public int RestarFechas(DateTime fechafinal, DateTime fechainicial)
-        {
-            int diferencia = 0;
-
-            if ((fechafinal != null) && (fechainicial!=null))
-            {
-
-                TimeSpan daysUntilVacation = fechafinal - fechainicial;
-                return daysUntilVacation.Days;
-            }
-
-            return diferencia;
-
-        }
     }
 }

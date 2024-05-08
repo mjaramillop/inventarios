@@ -1,11 +1,11 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
+using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.ModelsParameter.TablasMaestras;
-using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -19,11 +19,11 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private List<Productos>? list;
 
-        private readonly Validaciones _validaciones;
+        private readonly ValidacionesAccess _validaciones;
 
         private readonly IConfiguration _iconfiguration;
 
-        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones, IConfiguration iconfiguration)
+        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, ValidacionesAccess validaciones, IConfiguration iconfiguration)
         {
             _context = context;
 

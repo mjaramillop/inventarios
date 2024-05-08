@@ -1,10 +1,10 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
+using Inventarios.DataAccess.Utils;
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.Token;
-using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento
 {
@@ -22,9 +22,9 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         private readonly JwtService _jwtservice;
 
-        private readonly Validaciones _validaciones;
+        private readonly ValidacionesAccess _validaciones;
 
-        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, Validaciones validaciones)
+        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, ValidacionesAccess validaciones)
         {
             _context = context;
             _logacces = logacces;

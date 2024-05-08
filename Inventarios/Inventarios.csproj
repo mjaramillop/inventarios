@@ -47,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Validaciones\" />
     <Folder Include="Controllers\ServicioAlCliente\" />
     <Folder Include="DataAccess\ServicioAlCliente\" />
     <Folder Include="DTO\CapturaDeMovimiento\" />
