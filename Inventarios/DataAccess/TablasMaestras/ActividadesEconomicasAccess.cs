@@ -4,8 +4,6 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
 
-
-
 namespace Inventarios.DataAccess.TablasMaestras
 {
     public class ActividadesEconomicasAccess

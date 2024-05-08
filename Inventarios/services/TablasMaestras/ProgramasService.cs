@@ -6,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class ProgramasService
     {
-
         private readonly ProgramasAccess _access;
         public List<ProgramasDTO>? list;
 
         public ProgramasService(ProgramasAccess access)
         {
             _access = access;
-
         }
 
         public List<ProgramasDTO>? Add(Programas obj)
@@ -46,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

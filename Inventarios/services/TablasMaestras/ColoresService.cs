@@ -1,8 +1,4 @@
-﻿
-
-
-
-using Inventarios.DataAccess.TablasMaestras;
+﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 
@@ -10,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class ColoresService
     {
-
         private readonly ColoresAccess _access;
         public List<ColoresDTO>? list;
 
         public ColoresService(ColoresAccess access)
         {
             _access = access;
-
         }
 
         public List<ColoresDTO>? Add(Colores obj)
@@ -50,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

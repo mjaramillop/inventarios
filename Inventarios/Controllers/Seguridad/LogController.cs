@@ -1,22 +1,15 @@
 ﻿using Inventarios.DTO;
-using Inventarios.Models;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.services.Seguridad;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.Annotations;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Runtime.InteropServices;
 
 namespace Inventarios.Controllers.Seguridad
 {
-
     [Route("[controller]/[action]")]
     [ApiController]
     public class LogController : ControllerBase
     {
-
         private readonly LogService _service;
         private readonly JwtService _jwtservice;
         private List<LogDTO>? list;
@@ -31,8 +24,6 @@ namespace Inventarios.Controllers.Seguridad
         /// Trae el log del sistema basado en filtros
         /// </summary>
 
-
-
         [HttpPut]
         [ActionName("filtrar")]
         public List<LogDTO>? filtrar(LogConsultar obj)
@@ -42,7 +33,6 @@ namespace Inventarios.Controllers.Seguridad
             return list;
         }
 
-
         /// <summary>
         /// formato de fecha a-m-d
         /// </summary>
@@ -51,17 +41,11 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpDelete("{fecha}")]
         [ActionName("DeleteLog")]
-
-
         public List<string>? DeleteLog(string fecha)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             List<string> list = _service.DeleteLog(fecha);
             return list;
         }
-
-
-
-
     }
 }

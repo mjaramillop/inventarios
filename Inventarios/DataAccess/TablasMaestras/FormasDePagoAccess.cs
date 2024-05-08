@@ -28,7 +28,6 @@ namespace Inventarios.DataAccess
 
         public List<FormasDePagoDTO>? Add(FormasDePago obj)
         {
-          
             _context.FormasDePago.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Formas de pago");
@@ -48,7 +47,6 @@ namespace Inventarios.DataAccess
 
         public List<FormasDePagoDTO>? Update(FormasDePago? obj)
         {
-           
             var obj_ = _context.FormasDePago.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -64,7 +62,6 @@ namespace Inventarios.DataAccess
 
         public List<FormasDePago> GetById(int id)
         {
-         
             list = _context.FormasDePago.Where(a => a.id == id).ToList();
             return list;
         }

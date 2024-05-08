@@ -2,19 +2,16 @@
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 
-
 namespace Inventarios.services.TablasMaestras
 {
     public class ActividadesEconomicasService
     {
-
         private readonly ActividadesEconomicasAccess _access;
         public List<ActividadesEconomicasDTO>? list;
 
         public ActividadesEconomicasService(ActividadesEconomicasAccess access)
         {
             _access = access;
-
         }
 
         public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
@@ -47,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

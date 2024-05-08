@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Inventarios.Models.Seguridad;
+﻿namespace Inventarios.Models.Seguridad;
 
 public class Log
 {
-
     public Log()
     {
         this.id = 0;
         this.descripciondelaoperacion = "";
-        this.fechadeactualizacion=DateTime.Now;
-
+        this.fechadeactualizacion = DateTime.Now;
     }
+
     public int id { get; set; }
 
     public string descripciondelaoperacion { get; set; }

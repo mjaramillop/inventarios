@@ -1,21 +1,17 @@
-﻿
-using Inventarios.DataAccess.TablasMaestras;
+﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
-
 
 namespace Inventarios.services.TablasMaestras
 {
     public class SiNoService
     {
-
         private readonly SiNoAccess _access;
         public List<SiNoDTO>? list;
 
         public SiNoService(SiNoAccess access)
         {
             _access = access;
-
         }
 
         public List<SiNoDTO>? Add(SiNo obj)
@@ -48,18 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }
-
-
-
-
-
-
-
-

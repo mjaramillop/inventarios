@@ -3,7 +3,6 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
-using System.Linq;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -68,7 +67,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<Formulas> GetById(int id)
         {
-          
             list = _context.Formulas.Where(a => a.id == id).ToList();
             return list;
         }

@@ -23,7 +23,7 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpPost]
         [ActionName("Add")]
-        public List<UsersDTO>? Add(Usuarios obj)
+        public List<UsersDTO>? Add(Usuarios? obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
@@ -80,13 +80,10 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("ValidateToken")]
         public List<MenuDTO>? ValidateToken(string token)
         {
-
             List<MenuDTO>? list = _service.ValidateToken(token);
 
             return list;
         }
-
-
 
         [HttpGet]
         [ActionName("GetId")]
@@ -111,7 +108,7 @@ namespace Inventarios.Controllers.Seguridad
             _jwtservice.Id = 0;
             _jwtservice.username = "";
 
-            return new string("") ;
+            return new string("");
         }
     }
 }

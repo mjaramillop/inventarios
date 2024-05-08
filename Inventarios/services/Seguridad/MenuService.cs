@@ -1,7 +1,6 @@
 ﻿using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Models.Seguridad;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.services.Seguridad
 {
@@ -13,7 +12,6 @@ namespace Inventarios.services.Seguridad
         public MenuService(MenuAccess access)
         {
             _access = access;
-
         }
 
         public List<MenuDTO>? Add(Menu obj)
@@ -46,11 +44,5 @@ namespace Inventarios.services.Seguridad
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
-
     }
 }

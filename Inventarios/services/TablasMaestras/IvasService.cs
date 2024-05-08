@@ -4,17 +4,14 @@ using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.services.TablasMaestras
 {
-
     public class IvasService
     {
-
         private readonly IvasAccess _access;
         public List<IvasDTO>? list;
 
         public IvasService(IvasAccess access)
         {
             _access = access;
-
         }
 
         public List<IvasDTO>? Add(Ivas obj)
@@ -47,11 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
-
 }

@@ -2,23 +2,14 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-
-
 
 namespace Inventarios.Controllers.TablasMaestras
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
-
-
     public class ProgramasController : ControllerBase
     {
-
-
         private readonly ProgramasService _service;
         private readonly JwtService _jwtservice;
         private List<ProgramasDTO>? list;
@@ -77,13 +68,5 @@ namespace Inventarios.Controllers.TablasMaestras
             list = _service.List(filtro);
             return list;
         }
-
-
-
-
     }
-
-
-
-
 }

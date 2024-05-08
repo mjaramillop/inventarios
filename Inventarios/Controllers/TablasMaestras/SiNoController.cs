@@ -2,21 +2,14 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Inventarios.Controllers.TablasMaestras
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
-
-
     public class SiNoController : ControllerBase
     {
-
-
         private readonly SiNoService _service;
         private readonly JwtService _jwtservice;
         private List<SiNoDTO>? list;
@@ -69,19 +62,10 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetAll")]
         public List<SiNoDTO>? GetAll(string filtro = "")
         {
-
-            if (filtro == "undefined") filtro=""; 
+            if (filtro == "undefined") filtro = "";
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
             return list;
         }
-
-        
-
-
     }
-
-
-
-
 }

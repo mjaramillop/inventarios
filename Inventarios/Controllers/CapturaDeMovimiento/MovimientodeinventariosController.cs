@@ -1,22 +1,14 @@
-﻿using Inventarios.DTO.TablasMaestras;
-using Inventarios.Models.CapturaDeMovimiento;
-using Inventarios.Models.TablasMaestras;
+﻿using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.services.CapturaDeMovimiento;
-using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.CapturaDeMovimiento
 {
-
     [Route("[controller]/[action]")]
     [ApiController]
-
     public class MovimientodeinventariosController : ControllerBase
     {
-
-
         private readonly MovimientodeinventariosService _service;
         private readonly JwtService _jwtservice;
         private List<Movimientodeinventarios>? list;
@@ -61,12 +53,8 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         public List<Movimientodeinventarios>? GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.GetByNumeroDeDocumento(tipodedocumento,numerodedocumento,despacha,recibe );
+            list = _service.GetByNumeroDeDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
             return list;
         }
-
-
-
     }
-
 }

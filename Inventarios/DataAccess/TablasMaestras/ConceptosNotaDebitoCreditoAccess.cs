@@ -29,7 +29,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
         {
-
             _context.ConceptosNotaDebitoCredito.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Conceptos Nota debito credito");
@@ -49,7 +48,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ConceptosNotaDebitoCreditoDTO>? Update(ConceptosNotaDebitoCredito? obj)
         {
-
             var obj_ = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -66,7 +64,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ConceptosNotaDebitoCredito> GetById(int id)
         {
-          
             list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == id).ToList();
             return list;
         }

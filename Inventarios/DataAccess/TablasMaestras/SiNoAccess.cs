@@ -1,8 +1,4 @@
-﻿
-
-
-
-using Inventarios.Data;
+﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
@@ -56,8 +52,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             obj_.nombre = obj.nombre;
 
-          
-
             _context.SaveChanges();
             Log(obj, "Modifico Color");
 
@@ -67,7 +61,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<SiNo> GetById(string id)
         {
-          
             list = _context.SiNo.Where(a => a.id == id).ToList();
             return list;
         }
@@ -90,7 +83,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "Nombre = " + obj.nombre + "\n";
 
             //
-         
 
             _logacces.Add(comando);
         }

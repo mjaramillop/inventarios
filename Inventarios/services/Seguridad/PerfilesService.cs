@@ -6,14 +6,12 @@ namespace Inventarios.services.Seguridad
 {
     public class PerfilesService
     {
-
         private readonly PerfilesAccess _access;
         public List<PerfilesDTO>? list;
 
         public PerfilesService(PerfilesAccess access)
         {
             _access = access;
-
         }
 
         public List<PerfilesDTO> Add(Perfiles obj)
@@ -47,15 +45,10 @@ namespace Inventarios.services.Seguridad
             return list;
         }
 
-
-
         public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
         {
-
             var list = _access.ListProgramasPermisos(id);
             return list;
-
         }
-
     }
 }

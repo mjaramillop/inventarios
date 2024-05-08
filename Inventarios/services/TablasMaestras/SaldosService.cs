@@ -1,8 +1,4 @@
-﻿
-
-
-
-using Inventarios.DataAccess.TablasMaestras;
+﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 
@@ -10,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class SaldosService
     {
-
         private readonly SaldosAccess _access;
         public List<SaldosDTO>? list;
 
         public SaldosService(SaldosAccess access)
         {
             _access = access;
-
         }
 
         public List<SaldosDTO>? Add(Saldos obj)
@@ -45,15 +39,10 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-        public List<SaldosDTO>? List(string filtro,string bodega)
+        public List<SaldosDTO>? List(string filtro, string bodega)
         {
-            var list = _access.List(filtro,bodega);
+            var list = _access.List(filtro, bodega);
             return list;
         }
-
-
-
-
-
     }
 }

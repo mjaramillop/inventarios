@@ -4,7 +4,7 @@ using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.OpenApi.Models;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento
 {
@@ -22,14 +22,16 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         private readonly JwtService _jwtservice;
 
-        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration , JwtService jwtservice)
+        private readonly Validaciones _validaciones;
+
+        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, Validaciones validaciones)
         {
             _context = context;
-
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
             _jwtservice = jwtservice;
+            _validaciones = validaciones;
         }
 
         public List<string> Add(Movimientodeinventarios obj)
@@ -140,7 +142,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 obj_.porcentajederetencion1 = obj.porcentajederetencion1;
                 obj_.valorretencion1 = obj.valorretencion1;
                 obj_.valorneto = obj.valorneto;
-            
 
                 _context.SaveChanges();
             }
@@ -150,51 +151,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             }
 
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro modificado correctamente";
-            return new List<string> { mensajedeerror };
-        }
-        public List<string> AddDocument(Movimientodeinventarios obj)
-        {
-            string mensajedeerror = "";
-            mensajedeerror = ValidarAntesDeCargarAlMovimiento(obj);
-            if (mensajedeerror.Trim().Length > 0) return new List<string> { mensajedeerror };
-
-            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
-            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
-
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
-
-            // cargamos documento temporal al movimiento de inventarios definitivo
-            try
-            {
-                foreach (var item in list)
-                {
-                    
-                    _context.Movimientodeinventarios.Add(item);
-                    _context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                mensajedeerror = mensajedeerror + "Error " + ex.Message;
-                return new List<string> { mensajedeerror };
-            }
-
-            // actualizamos consecutivo en tipos de documento
-            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
-            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumento);
-            objtipodedocumento.consecutivo = objtipodedocumento.consecutivo+1;
-            _context.SaveChanges();
-
-            // actualizamos consecutivo usuario
-            objusuario.consecutivo = objusuario.consecutivo + 1;
-            _context.SaveChanges();
-
-
-
-
-            Log(list[0], "Agrego Movimiento de inventario");
-
-            if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Movimiento cargado correctamente";
             return new List<string> { mensajedeerror };
         }
 
@@ -240,166 +196,149 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-      
-
         public List<Movimientodeinventarios> GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
             list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
             return list;
         }
 
-        private string ValidarAntesDeCargarAlMovimiento(Movimientodeinventarios obj)
+        public List<string> AddDocument(int tipodedocumento)
         {
-            string mensajedeerror = "";
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento).ToList();
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
+            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
 
-            // valida tipo de documento
+            string mensajedeerror = "";
+            mensajedeerror = ValidarAntesDeCargarAlMovimiento(tipodedocumento, consecutivousuario);
+            if (mensajedeerror.Trim().Length > 0) return new List<string> { mensajedeerror };
+
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
+
+            // cargamos documento temporal al movimiento de inventarios definitivo
+            try
+            {
+                foreach (var item in list)
+                {
+                    _context.Movimientodeinventarios.Add(item);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                mensajedeerror = mensajedeerror + "Error " + ex.Message;
+                return new List<string> { mensajedeerror };
+            }
+
+            // actualizamos consecutivo en tipos de documento
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumento);
+            objtipodedocumento.consecutivo = objtipodedocumento.consecutivo + 1;
+            _context.SaveChanges();
+
+            // actualizamos consecutivo usuario
+            objusuario.consecutivo = objusuario.consecutivo + 1;
+            _context.SaveChanges();
+
+            Log(list[0], "Agrego Movimiento de inventario");
+
+            if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Movimiento cargado correctamente";
+            return new List<string> { mensajedeerror };
+        }
+
+        private string ValidarAntesDeCargarAlMovimiento(int tipodedocumento, string consecutivousuario)
+        {
+            _validaciones.mensajedeerror = "";
+            // valida tipo de documento
+            string nombretipodedocumento = _validaciones.ValidarTipoDeDocumento(tipodedocumento);
+            if (_validaciones.mensajedeerror.Trim().Length > 0)
+            {
+                return _validaciones.mensajedeerror;
+            }
+            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
             int consecutivo = Convert.ToInt32(objtipodedocumento.consecutivo);
             consecutivo = consecutivo + 1;
 
-            if (objtipodedocumento == null) mensajedeerror = mensajedeerror + "El tipo de documento esta errado" + "\n";
+            // trae datos de encabezado del documento
+            Movimientodeinventarios obj = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario);
+            string nombredespacha = _validaciones.ValidarDespacha(obj.despacha);
+            string nombrerecibe = _validaciones.ValidarRecibe(obj.recibe);
+            string nombretipodedocumentoaafectar = _validaciones.ValidarTipoDeDocumentoaAfectar(obj.tipodedocumentoaafectar);
+            string nombredespachaaafectar = _validaciones.ValidarDespachaaAfectar(obj.despachaaafectar);
+            string nombrerecibeaafectar = _validaciones.ValidarRecibeaAfectar(obj.recibeaafectar);
+            string nombreprograma = _validaciones.ValidarPrograma(obj.programa);
+            string nombrevendedor = _validaciones.ValidarVendedor(obj.vendedor);
 
-            // trae el nombre despacha
-            Proveedores? objdespacha = new Proveedores();
-            objdespacha = _context.Proveedores.FirstOrDefault(a => a.id == list[0].despacha);
-            if (objdespacha == null) mensajedeerror = mensajedeerror + "La entidasd emisora esta errada" + "\n";
-
-            Proveedores? objrecibe = new Proveedores();
-            objrecibe = _context.Proveedores.FirstOrDefault(a => a.id == list[0].recibe);
-            if (objrecibe == null) mensajedeerror = mensajedeerror + "La entidasd receptora esta errada" + "\n";
-
-            // tipodedocumento a afectar
-            TiposDeDocumento? objtipodedocumentoaafectar = new TiposDeDocumento();
-            objtipodedocumentoaafectar = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumentoaafectar);
-            if (objtipodedocumentoaafectar == null) mensajedeerror = mensajedeerror + "El tipo de documento a afectar esta errado" + "\n";
-
-            // trae el nombre despacha a  afectar
-            Proveedores? objdespachaaafectar = new Proveedores();
-            objdespachaaafectar = _context.Proveedores.FirstOrDefault(a => a.id == list[0].despachaaafectar);
-            if (objdespachaaafectar == null) mensajedeerror = mensajedeerror + "El emisor a afectar esta errado" + "\n";
-
-            // trae el nombre recibe a afectar
-            Proveedores? objrecibeaafectar = new Proveedores();
-            objrecibeaafectar = _context.Proveedores.FirstOrDefault(a => a.id == list[0].recibeaafectar);
-            if (objrecibeaafectar == null) mensajedeerror = mensajedeerror + "El receptor a afectar esta errado" + "\n";
-
-            // programa
-            Programas? objprogramas = new Programas();
-            objprogramas = _context.Programas.FirstOrDefault(a => a.id == list[0].programa);
-            if (objprogramas == null) mensajedeerror = mensajedeerror + "El programa esta errado" + "\n";
-
-            // vendedor
-            Proveedores? objvendedor = new Proveedores();
-            objvendedor = _context.Proveedores.FirstOrDefault(a => a.id == list[0].vendedor);
-            if (objvendedor == null) mensajedeerror = mensajedeerror + "El vendedor esta errado" + "\n";
+            if (_validaciones.mensajedeerror.Trim().Length > 0)
+            {
+                return _validaciones.mensajedeerror;
+            }
 
             //////////////////////////////////////
             /// detalle
             //////////////////////////////////////
+            ///
+            _validaciones.mensajedeerror = "";
+
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).ToList();
 
             foreach (var item in list)
             {
-                mensajedeerror = "";
+                _validaciones.mensajedeerror = "";
 
-                if (objtipodedocumento == null) mensajedeerror = mensajedeerror + "El tipo de documento esta errado" + "\n";
-                if (objdespacha == null) mensajedeerror = mensajedeerror + "La entidad emisora esta errada" + "\n";
-                if (objrecibe == null) mensajedeerror = mensajedeerror + "La entidad receptora esta errada" + "\n";
-                if (objtipodedocumentoaafectar == null) mensajedeerror = mensajedeerror + "El tipo de documento a afectar esta errado" + "\n";
-                if (objdespachaaafectar == null) mensajedeerror = mensajedeerror + "El emisor a afectar esta errado" + "\n";
-                if (objrecibeaafectar == null) mensajedeerror = mensajedeerror + "El receptor a afectar esta errado" + "\n";
-                if (objprogramas == null) mensajedeerror = mensajedeerror + "El programa esta errado" + "\n";
-                if (objvendedor == null) mensajedeerror = mensajedeerror + "El vendedor esta errado" + "\n";
+                _validaciones.Validarvalormenorquecero("Cantidad", Convert.ToInt32(item.cantidad));
+                _validaciones.Validarvalormenorquecero("Valor unitario", Convert.ToInt32(item.valorunitario));
+                _validaciones.Validarvalormenorquecero("Valor fletes", Convert.ToInt32(item.fletes));
+                _validaciones.Validarvalormenorquecero("Valor descuento", Convert.ToInt32(item.valordescuento1));
 
-                // formas de pago
-                FormasDePago? objformasdepago = new FormasDePago();
-                objformasdepago = _context.FormasDePago.FirstOrDefault(a => a.id == item.formadepago);
-                if (objformasdepago == null) mensajedeerror = mensajedeerror + "El codigo de forma de pago es invalido , Item No  " + item.id.ToString() + "\n";
+                // consulta cada item de cada documento para actulizarlo en la base de datos
+                Movimientodeinventarios obj_ = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == item.id);
 
-                //  Concepto nota debito credito
-                ConceptosNotaDebitoCredito? objconceptosnotadebitocredito = new ConceptosNotaDebitoCredito();
-                objconceptosnotadebitocredito = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == item.codigoconceptonotadebitocredito);
-                if (objconceptosnotadebitocredito == null) mensajedeerror = mensajedeerror + "El codigo del concepto nota debito y credito es invalido , Item No  " + item.id.ToString() + "\n";
+                obj_.numerodeldocumento = consecutivo;
+                obj_.nombretipodedocumento = nombretipodedocumento;
+                obj_.nombredespacha = nombredespacha;
+                obj_.nombrerecibe = nombrerecibe;
+                obj_.nombretipodedocumentoaafectar = nombretipodedocumentoaafectar;
+                obj_.nombredespachaaafectar = nombredespachaaafectar;
+                obj_.nombrerecibeaafectar = nombrerecibeaafectar;
+                obj_.nombreprograma = nombreprograma;
+                obj_.nombrevendedor = nombrevendedor;
+                obj_.fechadevencimientodeldocumento = obj_.fechadeldocumento.AddDays(obj.plazo);
 
-                //  Banco
-                Proveedores? objbanco = new Proveedores();
-                objbanco = _context.Proveedores.FirstOrDefault(a => a.id == item.banco);
-                if (objbanco == null) mensajedeerror = mensajedeerror + "El codigo del banco es invalido , Item No  " + item.id.ToString() + "\n";
+                obj_.nombreformadepago = _validaciones.ValidarFormaDePago(item.formadepago);
+                obj_.nombreconceptonotadebitocredito = _validaciones.ValidarConceptoNotaDebitoCredito(item.codigoconceptonotadebitocredito);
+                obj_.nombrebanco = _validaciones.ValidarBanco(item.banco);
+                obj_.nombreproducto = _validaciones.ValidarProducto(item.producto);
+                obj_.nombreunidaddemedida = _validaciones.ValidarUnidadDeMedida(item.unidaddemedida);
+                obj_.nombretalla = _validaciones.ValidarTalla(item.talla);
+                obj_.nombrecolor = _validaciones.ValidarColor(item.color);
+                obj_.nombreunidaddeempaque = _validaciones.ValidarUnidadDeEmpaque(item.unidaddeempaque);
 
-                //  Producto
-                Productos? objproducto = new Productos();
-                objproducto = _context.Productos.FirstOrDefault(a => a.id == item.producto);
-                if (objproducto == null) mensajedeerror = mensajedeerror + "El codigo del producto es invalido , Item No  " + item.id.ToString() + "\n";
-
-                //  Unidad de medida
-                UnidadesDeMedida? objunidaddemedida = new UnidadesDeMedida();
-                objunidaddemedida = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == objproducto.unidaddemedida);
-                if (objunidaddemedida == null) mensajedeerror = mensajedeerror + "El codigo de la unidad de medida es invalido , Item No  " + item.id.ToString() + "\n";
-
-                //  Talla
-                Tallas? objtallas = new Tallas();
-                objtallas = _context.Tallas.FirstOrDefault(a => a.id == item.talla);
-                if (objtallas == null) mensajedeerror = mensajedeerror + "El codigo de la talla es invalido , Item No  " + item.id.ToString() + "\n";
-
-                //  Colores
-                Colores? objcolores = new Colores();
-                objcolores = _context.Colores.FirstOrDefault(a => a.id == item.color);
-                if (objcolores == null) mensajedeerror = mensajedeerror + "El codigo del color es invalido , Item No  " + item.id.ToString() + "\n";
-
-                //  Unidad de empaque
-                UnidadesDeMedida? objunidaddeempaque = new UnidadesDeMedida();
-                objunidaddeempaque = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == item.unidaddeempaque);
-                if (objunidaddeempaque == null) mensajedeerror = mensajedeerror + "El codigo de la unidad de empaque  es invalido , Item No  " + item.id.ToString() + "\n";
-
-
-                // valores
-                if (item.cantidad < 0) mensajedeerror = mensajedeerror + "La cantidad no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
-                if (item.valorunitario < 0) mensajedeerror = mensajedeerror + "El valor unitario no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
-                if (item.fletes < 0) mensajedeerror = mensajedeerror + "El flete no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
-                if (item.valordescuento1 < 0) mensajedeerror = mensajedeerror + "El descuento no puede ser menor a cero, Item No  " + item.id.ToString() + "\n";
-
-
-                obj.numerodeldocumento = consecutivo;
-                obj.nombretipodedocumento = objtipodedocumento.nombre;
-                obj.nombredespacha = objdespacha.nombre;
-                obj.nombrerecibe = objrecibe.nombre;
-                obj.nombretipodedocumentoaafectar = objtipodedocumentoaafectar.nombre;
-                obj.nombredespachaaafectar = objdespachaaafectar.nombre;
-                obj.nombrerecibeaafectar = objrecibeaafectar.nombre;
-                obj.nombreprograma = objprogramas.nombre;
-                obj.nombrevendedor = objvendedor.nombre;
-                obj.fechadeldocumento = obj.fechadeldocumento.AddDays(obj.plazo);
-                obj.nombreformadepago = objformasdepago.nombre;
-                obj.nombreconceptonotadebitocredito = objconceptosnotadebitocredito.nombre;
-                obj.nombrebanco = objbanco.nombre;
-                obj.nombreproducto = objproducto.nombre;
-                obj.nombreunidaddemedida = objunidaddemedida.nombre;
-                obj.nombretalla = objtallas.nombre;
-                obj.nombrecolor = objcolores.nombre;
-                obj.nombreunidaddeempaque = objunidaddeempaque.nombre;
-                obj.sumaorestaencartera = objtipodedocumento.sumarcartera;
-                obj.sumaorestaeninventario = objtipodedocumento.sumainventario;
+                obj_.sumaorestaencartera = objtipodedocumento.sumarcartera;
+                obj_.sumaorestaeninventario = objtipodedocumento.sumainventario;
 
                 if (objtipodedocumento.pideempaque != "S")
                 {
                     string codigotipodeempqueunidad = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:codigotipodeempaqueunidad");
-                    obj.numerodeempaques = 1;
-                    obj.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
-                    obj.cantidadporempaque = obj.cantidad;
+                    obj_.numerodeempaques = 1;
+                    obj_.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
+                    obj_.cantidadporempaque = obj_.cantidad;
                 }
 
-                obj.cantidad = obj.numerodeempaques * obj.cantidadporempaque;
+                obj_.cantidad = obj_.numerodeempaques * obj_.cantidadporempaque;
 
-                obj.subtotal = obj.valorunitario * obj.cantidad;
-                obj.valorneto = obj.subtotal - obj.valordescuento1 + obj.valoriva1 + obj.fletes - obj.valorretencion1;
+                obj_.subtotal = obj_.valorunitario * obj_.cantidad;
+                obj_.valorneto = obj_.subtotal - obj_.valordescuento1 + obj_.valoriva1 + obj_.fletes - obj_.valorretencion1;
 
-                if (mensajedeerror.Trim().Length == 0) Update(obj);
+                if (_validaciones.mensajedeerror.Trim().Length == 0) Update(obj_);
 
-                if (mensajedeerror.Trim().Length > 0) break;
+                if (_validaciones.mensajedeerror.Trim().Length > 0)
+                {
+                    _validaciones.mensajedeerror = _validaciones.mensajedeerror + " Id No " + item.id.ToString();
+                    break;
+                }
             }
 
-            return mensajedeerror;
+            return _validaciones.mensajedeerror;
         }
 
         public void Log(Movimientodeinventarios obj, string operacion)

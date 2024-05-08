@@ -4,18 +4,14 @@ using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.services.TablasMaestras
 {
-
-
     public class UnidadesDeMedidaService
     {
-
         private readonly UnidadesDeMedidaAccess _access;
         public List<UnidadesDeMedidaDTO>? list;
 
         public UnidadesDeMedidaService(UnidadesDeMedidaAccess access)
         {
             _access = access;
-
         }
 
         public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)
@@ -48,11 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
-
 }

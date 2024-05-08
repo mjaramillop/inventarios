@@ -2,7 +2,6 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,8 +10,6 @@ namespace Inventarios.Controllers.TablasMaestras
     [ApiController]
     public class ConceptosNotaDebitoCreditoController : ControllerBase
     {
-
-
         private readonly ConceptosNotaDebitoCreditoService _service;
         private readonly JwtService _jwtservice;
         private List<ConceptosNotaDebitoCreditoDTO>? list;
@@ -62,7 +59,6 @@ namespace Inventarios.Controllers.TablasMaestras
         }
 
         [HttpGet("{filtro}")]
-
         [ActionName("GetAll")]
         public List<ConceptosNotaDebitoCreditoDTO>? GetAll(string filtro = "")
         {
@@ -72,11 +68,5 @@ namespace Inventarios.Controllers.TablasMaestras
             list = _service.List(filtro);
             return list;
         }
-
-
-
-
-
-
     }
 }

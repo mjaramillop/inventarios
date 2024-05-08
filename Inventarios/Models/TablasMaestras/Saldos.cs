@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Inventarios.Models.TablasMaestras;
+﻿namespace Inventarios.Models.TablasMaestras;
 
 public class Saldos
 {
-
-
-    public Saldos() {
-
+    public Saldos()
+    {
         this.id = 0;
         this.producto = 0;
-      
 
         this.bodega = 0;
         this.saldoinicial = 0;
@@ -21,18 +15,14 @@ public class Saldos
         this.saldofisico = 0;
         this.costopromedio = 0;
         this.fechadelaultimaentrada = DateTime.Now;
-        this.fechadelaultimasalida =  DateTime.Now;
-        this.stockminimo =0;
-        this.stockmaximo =0;
-   
-    
+        this.fechadelaultimasalida = DateTime.Now;
+        this.stockminimo = 0;
+        this.stockmaximo = 0;
     }
 
-
-public int id { get; set; }
+    public int id { get; set; }
 
     public int producto { get; set; }
-   
 
     public int bodega { get; set; }
 
@@ -55,6 +45,4 @@ public int id { get; set; }
     public decimal stockminimo { get; set; }
 
     public decimal stockmaximo { get; set; }
-
-
 }

@@ -1,10 +1,8 @@
 ﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO;
-using Inventarios.Models;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.ModelsParameter.TablasMaestras;
-using Microsoft.EntityFrameworkCore;
 
 namespace Inventarios.services.TablasMaestras
 {
@@ -38,7 +36,7 @@ namespace Inventarios.services.TablasMaestras
 
         public List<ProductosDTO>? GetById(int id)
         {
-             list = _access.GetById(id);
+            list = _access.GetById(id);
 
             return list;
         }
@@ -60,15 +58,12 @@ namespace Inventarios.services.TablasMaestras
 
         public List<string>? UpdateNiveles(UpdateNiveles obj)
         {
-
             return _access.UpdateNiveles(obj);
         }
 
         public List<string>? CambiarPrecios(CambiarPrecios obj)
         {
-
             return _access.CambiarPrecios(obj);
         }
-
     }
 }

@@ -2,7 +2,6 @@
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
-using Inventarios.Token;
 
 namespace Inventarios.DataAccess.Seguridad
 {
@@ -24,8 +23,6 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<MenuDTO>? Add(Menu? obj)
         {
-
-
             _context.Menus.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego menu");
@@ -45,8 +42,6 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<MenuDTO>? Update(Menu obj)
         {
-
-
             var obj_ = _context.Menus.FirstOrDefault(a => a.id == obj.id);
             obj_.nombre = obj.nombre;
             obj_.paginaweb = obj.paginaweb;

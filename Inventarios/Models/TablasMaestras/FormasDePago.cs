@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Inventarios.Models.TablasMaestras;
+﻿namespace Inventarios.Models.TablasMaestras;
 
 public partial class FormasDePago
 {
@@ -11,7 +7,4 @@ public partial class FormasDePago
     public string? nombre { get; set; }
 
     public int? estadodelregistro { get; set; }
-
-
-
 }

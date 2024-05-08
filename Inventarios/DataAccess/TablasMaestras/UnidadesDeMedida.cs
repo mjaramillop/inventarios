@@ -6,7 +6,6 @@ using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
-
     public class UnidadesDeMedidaAccess
     {
         private readonly InventariosContext _context;
@@ -30,7 +29,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)
         {
-
             _context.UnidadesDeMedida.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Unidad de medida");
@@ -50,7 +48,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<UnidadesDeMedidaDTO>? Update(UnidadesDeMedida? obj)
         {
-
             var obj_ = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -67,7 +64,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<UnidadesDeMedida> GetById(int id)
         {
-         
             list = _context.UnidadesDeMedida.Where(a => a.id == id).ToList();
             return list;
         }
@@ -95,5 +91,4 @@ namespace Inventarios.DataAccess.TablasMaestras
             _logacces.Add(comando);
         }
     }
-
 }

@@ -2,20 +2,14 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
-
-
     public class SaldosController : ControllerBase
     {
-
-
         private readonly SaldosService _service;
         private readonly JwtService _jwtservice;
         private List<SaldosDTO>? list;
@@ -66,21 +60,14 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpGet("{filtro}/{bodega}")]
         [ActionName("GetAll")]
-        public List<SaldosDTO>? GetAll(string filtro = "",string bodega="")
+        public List<SaldosDTO>? GetAll(string filtro = "", string bodega = "")
         {
             if (filtro == "undefined") filtro = "";
             if (bodega == "undefined") bodega = "";
 
             if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.List(filtro,bodega);
+            list = _service.List(filtro, bodega);
             return list;
         }
-
-
-
     }
-
-
-
-
 }

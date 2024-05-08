@@ -29,7 +29,6 @@ namespace Inventarios.DataAccess
 
         public List<IvasDTO>? Add(Ivas obj)
         {
-          
             _context.Ivas.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Iva");
@@ -49,11 +48,10 @@ namespace Inventarios.DataAccess
 
         public List<IvasDTO>? Update(Ivas? obj)
         {
-          
             var obj_ = _context.Ivas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
-            obj_.porcentaje=obj.porcentaje;
+            obj_.porcentaje = obj.porcentaje;
 
             //
             obj_.estadodelregistro = obj.estadodelregistro;
@@ -67,7 +65,6 @@ namespace Inventarios.DataAccess
 
         public List<Ivas> GetById(int id)
         {
-         
             list = _context.Ivas.Where(a => a.id == id).ToList();
             return list;
         }

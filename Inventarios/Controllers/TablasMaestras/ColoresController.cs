@@ -2,21 +2,14 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Inventarios.Controllers.TablasMaestras
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
-
-
     public class ColoresController : ControllerBase
     {
-
-
         private readonly ColoresService _service;
         private readonly JwtService _jwtservice;
         private List<ColoresDTO>? list;
@@ -75,12 +68,5 @@ namespace Inventarios.Controllers.TablasMaestras
             list = _service.List(filtro);
             return list;
         }
-
-
-
     }
-
-
-
-
 }

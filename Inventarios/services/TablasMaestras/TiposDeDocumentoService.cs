@@ -1,7 +1,6 @@
 ﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
-using Microsoft.EntityFrameworkCore;
 
 namespace Inventarios.services.TablasMaestras
 {
@@ -46,7 +45,6 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-
         public List<TiposDeDocumentoDTO>? ListCodigoNombre(string filtro)
         {
             var list = _access.ListCodigoNombre(filtro);
@@ -65,13 +63,10 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-
         public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id)
         {
             var list = _access.DarRestriccionTotal(id);
             return list;
         }
-
-
     }
 }

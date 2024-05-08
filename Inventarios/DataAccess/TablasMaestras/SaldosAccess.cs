@@ -1,6 +1,4 @@
-﻿
-
-using Inventarios.Data;
+﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
@@ -50,16 +48,12 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<SaldosDTO>? Update(Saldos? obj)
         {
-
-
-
-            var obj_ = _context.Saldos.Where(n => n.producto == obj.producto  && n.bodega==obj.bodega ).ToList()[0]; 
+            var obj_ = _context.Saldos.Where(n => n.producto == obj.producto && n.bodega == obj.bodega).ToList()[0];
             //.FirstOrDefault(a=>a.bodega==obj.bodega );
 
-             
             obj_.costopromedio = obj.costopromedio;
             obj_.saldofisico = obj.saldofisico;
-            obj_.saldofisico= obj.saldofisico;
+            obj_.saldofisico = obj.saldofisico;
             obj_.saldo = obj.saldo;
             obj_.saldoinicial = obj.saldoinicial;
             obj_.salidas = obj.salidas;
@@ -68,7 +62,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.fechadelaultimasalida = obj.fechadelaultimasalida;
             obj_.stockmaximo = obj.stockmaximo;
             obj_.stockminimo = obj.stockminimo;
-        
 
             _context.SaveChanges();
             Log(obj, "Modifico Saldo");
@@ -79,25 +72,23 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<Saldos> GetById(int id)
         {
-
             list = _context.Saldos.Where(a => a.id == id).ToList();
             return list;
         }
 
-        public List<SaldosDTO>? List(string filtro, string bodega )
+        public List<SaldosDTO>? List(string filtro, string bodega)
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
 
-             list = (from s in _context.Saldos
-                        join p in _context.Productos on s.producto equals p.id
-                        join b in _context.Proveedores on s.bodega equals  b.id
-                        where p.nombre.Contains(filtro.Trim()) &&  b.nombre.Contains(bodega.Trim()) select s ).ToList() ;
-
+            list = (from s in _context.Saldos
+                    join p in _context.Productos on s.producto equals p.id
+                    join b in _context.Proveedores on s.bodega equals b.id
+                    where p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())
+                    select s).ToList();
 
             return _mapping.ListSaldosToSaldosDTO(list);
         }
-
 
         public void Log(Saldos obj, string operacion)
         {
@@ -107,19 +98,17 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "id = " + obj.id + "\n";
             comando = comando + "Bodega = " + obj.bodega + "\n";
             comando = comando + "Producto = " + obj.producto + "\n";
-        
+
             comando = comando + "Saldo inicial = " + obj.saldoinicial + "\n";
             comando = comando + "Entradas      = " + obj.entradas + "\n";
-            comando = comando + "Salidas       = " + obj.salidas      + "\n";
-            comando = comando + "Saldo         = " + obj.saldo        + "\n";
-            comando = comando + "Fecha Ultima entrada = " + obj.fechadelaultimaentrada.ToString()+ "\n";
+            comando = comando + "Salidas       = " + obj.salidas + "\n";
+            comando = comando + "Saldo         = " + obj.saldo + "\n";
+            comando = comando + "Fecha Ultima entrada = " + obj.fechadelaultimaentrada.ToString() + "\n";
             comando = comando + "Fecha Ultima salida = " + obj.fechadelaultimasalida.ToString() + "\n";
             comando = comando + "Stock minimo = " + obj.stockminimo + "\n";
             comando = comando + "Stock maximo = " + obj.stockmaximo + "\n";
-
 
             _logacces.Add(comando);
         }
     }
 }
-

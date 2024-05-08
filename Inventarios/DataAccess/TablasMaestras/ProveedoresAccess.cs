@@ -26,8 +26,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ProveedoresDTO> Add(Proveedores obj)
         {
-
-
             _context.Proveedores.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Proveedores");
@@ -47,8 +45,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ProveedoresDTO>? Update(Proveedores? obj)
         {
-
-
             var obj_ = _context.Proveedores.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -92,7 +88,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<Proveedores> GetById(int id)
         {
-          
             list = _context.Proveedores.Where(a => a.id == id).ToList();
             return list;
         }
@@ -104,12 +99,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             list = _context.Proveedores.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains(filtro.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
-
-
-
-
-
-
 
         public List<ProveedoresDTO>? UpdateNiveles(UpdateNiveles obj)
         {
@@ -123,8 +112,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 _context.SaveChanges();
             }
 
-
-
             if (obj.filtronivel2remplazar.Trim().Length > 0)
             {
                 list = _context.Proveedores.ToList()
@@ -132,8 +119,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 list.ForEach(c => { c.nivel2 = obj.filtronivel2remplazarpor; });
                 _context.SaveChanges();
             }
-
-
 
             if (obj.filtronivel3remplazar.Trim().Length > 0)
             {
@@ -143,8 +128,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 _context.SaveChanges();
             }
 
-
-
             if (obj.filtronivel4remplazar.Trim().Length > 0)
             {
                 list = _context.Proveedores.ToList()
@@ -153,8 +136,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 _context.SaveChanges();
             }
 
-
-
             if (obj.filtronivel5remplazar.Trim().Length > 0)
             {
                 list = _context.Proveedores.ToList()
@@ -162,10 +143,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 list.ForEach(c => { c.nivel5 = obj.filtronivel5remplazarpor; });
                 _context.SaveChanges();
             }
-
-
-
-
 
             //list = _context.Proveedores
             //    .OrderBy(a => a.nivel1)
@@ -182,19 +159,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public void Log(Proveedores obj, string operacion)
         {
@@ -231,7 +195,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "NIVEL 3 " + obj.nivel3;
             comando = comando + "NIVEL 4 " + obj.nivel4;
             comando = comando + "NIVEL 5 " + obj.nivel5;
-
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";

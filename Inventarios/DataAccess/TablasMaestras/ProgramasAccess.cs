@@ -4,9 +4,6 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
 
-
-
-
 namespace Inventarios.DataAccess
 {
     public class ProgramasAccess
@@ -32,7 +29,6 @@ namespace Inventarios.DataAccess
 
         public List<ProgramasDTO>? Add(Programas obj)
         {
-           
             _context.Programas.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Actividades Economicas");
@@ -52,7 +48,6 @@ namespace Inventarios.DataAccess
 
         public List<ProgramasDTO>? Update(Programas? obj)
         {
-           
             var obj_ = _context.Programas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -69,7 +64,6 @@ namespace Inventarios.DataAccess
 
         public List<Programas> GetById(int id)
         {
-           
             list = _context.Programas.Where(a => a.id == id).ToList();
             return list;
         }

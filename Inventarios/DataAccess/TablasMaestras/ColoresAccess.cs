@@ -63,7 +63,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<Colores> GetById(int id)
         {
-         
             list = _context.Colores.Where(a => a.id == id).ToList();
             return list;
         }

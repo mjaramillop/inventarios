@@ -61,7 +61,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<EstadosDeUnRegistro> GetById(int id)
         {
-           
             list = _context.EstadosDeUnRegistro.Where(a => a.id == id).ToList();
             return list;
         }
@@ -82,8 +81,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "id = " + obj.id + "\n";
 
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-
 
             _logacces.Add(comando);
         }

@@ -2,19 +2,17 @@
 using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Models.Seguridad;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.services.Seguridad
 {
     public class UserService
     {
         private readonly UserAccess _access;
-        List<UsersDTO>? list;
+        private List<UsersDTO>? list;
 
         public UserService(UserAccess access)
         {
             _access = access;
-
         }
 
         public List<UsersDTO> Add(Usuarios obj)
@@ -23,15 +21,11 @@ namespace Inventarios.services.Seguridad
             return list;
         }
 
-
-
         public List<UsersDTO>? Delete(int id)
         {
             list = _access.Delete(id);
             return list;
         }
-
-
 
         public List<UsersDTO>? Update(Usuarios obj)
         {
@@ -51,7 +45,6 @@ namespace Inventarios.services.Seguridad
             return list;
         }
 
-
         public List<string>? ValidateAccess(string login, string password)
         {
             List<string> obj = _access.ValidateAccess(login, password);
@@ -59,17 +52,11 @@ namespace Inventarios.services.Seguridad
             return obj;
         }
 
-
-
         public List<MenuDTO>? ValidateToken(string token)
         {
             List<MenuDTO>? obj = _access.ValidateToken(token);
 
             return obj;
         }
-
-
-
-
     }
 }

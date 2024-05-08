@@ -4,7 +4,6 @@ using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.services.TablasMaestras
 {
-
     public class FormasDePagoService
     {
         private readonly FormasDePagoAccess _access;
@@ -13,7 +12,6 @@ namespace Inventarios.services.TablasMaestras
         public FormasDePagoService(FormasDePagoAccess access)
         {
             _access = access;
-
         }
 
         public List<FormasDePagoDTO>? Add(FormasDePago obj)
@@ -46,7 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
     }
 }

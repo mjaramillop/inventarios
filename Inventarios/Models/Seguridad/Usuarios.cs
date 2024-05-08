@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Inventarios.Models.Seguridad;
+﻿namespace Inventarios.Models.Seguridad;
 
 public class Usuarios
 {

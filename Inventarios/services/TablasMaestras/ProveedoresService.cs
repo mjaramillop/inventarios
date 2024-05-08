@@ -7,14 +7,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class ProveedoresService
     {
-
         private readonly ProveedoresAccess _access;
         public List<ProveedoresDTO>? list;
 
         public ProveedoresService(ProveedoresAccess access)
         {
             _access = access;
-
         }
 
         public List<ProveedoresDTO> Add(Proveedores obj)
@@ -48,16 +46,10 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-
-
-
         public List<ProveedoresDTO>? UpdateNiveles(UpdateNiveles obj)
         {
             list = _access.UpdateNiveles(obj);
             return list;
-
-
         }
     }
-
 }

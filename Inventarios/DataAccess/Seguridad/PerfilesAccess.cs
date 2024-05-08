@@ -3,7 +3,6 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
-using Inventarios.Token;
 
 namespace Inventarios.DataAccess
 {
@@ -26,8 +25,6 @@ namespace Inventarios.DataAccess
 
         public List<PerfilesDTO> Add(Perfiles obj)
         {
-           
-
             _context.Perfiles.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Perfiles");
@@ -47,8 +44,6 @@ namespace Inventarios.DataAccess
 
         public List<PerfilesDTO> Update(Perfiles obj)
         {
-           
-
             var obj_ = _context.Perfiles.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -65,7 +60,6 @@ namespace Inventarios.DataAccess
 
         public List<Perfiles> GetById(int id)
         {
-          
             list = _context.Perfiles.Where(a => a.id == id).ToList();
             return list;
         }
@@ -80,7 +74,7 @@ namespace Inventarios.DataAccess
 
         public List<ProgramasPermisosDTO>? ListProgramasPermisos(int id)
         {
-            var list = _context.Menus.Where(a => a.estadodelregistro ==1).OrderBy(a => a.nombre).ToList();
+            var list = _context.Menus.Where(a => a.estadodelregistro == 1).OrderBy(a => a.nombre).ToList();
 
             Perfiles? obj = _context.Perfiles.FirstOrDefault(a => a.id == id);
             string? programas = obj.programas;

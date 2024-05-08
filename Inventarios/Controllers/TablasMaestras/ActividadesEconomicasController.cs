@@ -2,7 +2,6 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -10,12 +9,8 @@ namespace Inventarios.Controllers.TablasMaestras
     [Route("[controller]/[action]")]
     [ApiController]
 
-
-
     public class ActividadesEconomicasController : ControllerBase
     {
-
-
         private readonly ActividadesEconomicasService _service;
         private readonly JwtService _jwtservice;
         private List<ActividadesEconomicasDTO>? list;
@@ -75,7 +70,6 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-
         [HttpGet]
         public ContentResult Index()
         {
@@ -86,12 +80,5 @@ namespace Inventarios.Controllers.TablasMaestras
                 ContentType = "text/html"
             };
         }
-
-
-
     }
-
-
-
-
 }

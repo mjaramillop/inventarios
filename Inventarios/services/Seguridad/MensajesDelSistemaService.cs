@@ -6,14 +6,12 @@ namespace Inventarios.services.Seguridad
 {
     public class MensajesDelSistemaService
     {
-
         private readonly MensajesDelSistemaAccess _access;
         public List<MensajesDelSistemaDTO>? list;
 
         public MensajesDelSistemaService(MensajesDelSistemaAccess access)
         {
             _access = access;
-
         }
 
         public List<MensajesDelSistemaDTO>? Add(Mensajesdelsistema obj)
@@ -34,7 +32,6 @@ namespace Inventarios.services.Seguridad
             return list;
         }
 
-
         public List<Mensajesdelsistema>? GetById(int id)
         {
             List<Mensajesdelsistema> list = _access.GetById(id);
@@ -42,20 +39,16 @@ namespace Inventarios.services.Seguridad
             return list;
         }
 
-
-
         public List<MensajesDelSistemaDTO>? List(string filtro)
         {
             var list = _access.List(filtro);
             return list;
         }
+
         public List<MensajesDelSistemaDTO>? ListActive()
         {
             var list = _access.ListActive();
             return list;
         }
-
-
-
     }
 }

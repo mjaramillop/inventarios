@@ -2,7 +2,6 @@
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO;
 using Inventarios.Map;
-using Inventarios.Models;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.ModelsParameter.TablasMaestras;
@@ -36,7 +35,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ProductosDTO>? Add(Productos obj)
         {
-
             _context.Productos.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Producto");
@@ -50,9 +48,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.Productos.Remove(obj);
             _context.SaveChanges();
 
-
             string route = Path.Combine(Directory.GetCurrentDirectory(), "imagesproducts");
-
 
             route = route + "\\" + id.ToString() + ".jpg";
 
@@ -65,7 +61,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<ProductosDTO>? Update(Productos? obj)
         {
-
             var obj_ = _context.Productos.FirstOrDefault(a => a.id == obj.id);
             obj_.nombre = obj.nombre;
             obj_.unidaddemedida = obj.unidaddemedida;
@@ -298,7 +293,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             foreach (var s in lista.Distinct())
             {
-           
                 listacodigonombre.Add(s.ToString());
             }
 

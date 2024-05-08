@@ -29,7 +29,6 @@ namespace Inventarios.DataAccess
 
         public List<RetencionesDTO>? Add(Retenciones obj)
         {
-          
             _context.Retenciones.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Retencion");
@@ -49,7 +48,6 @@ namespace Inventarios.DataAccess
 
         public List<RetencionesDTO>? Update(Retenciones? obj)
         {
-           
             var obj_ = _context.Retenciones.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -67,7 +65,6 @@ namespace Inventarios.DataAccess
 
         public List<Retenciones> GetById(int id)
         {
-          
             list = _context.Retenciones.Where(a => a.id == id).ToList();
             return list;
         }

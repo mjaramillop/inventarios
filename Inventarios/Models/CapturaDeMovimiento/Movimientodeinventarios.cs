@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Inventarios.Models.CapturaDeMovimiento;
+﻿namespace Inventarios.Models.CapturaDeMovimiento;
 
 public class Movimientodeinventarios
 {
@@ -78,8 +76,6 @@ public class Movimientodeinventarios
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
         this.usuarioqueactualizo = "";
-
-     
     }
 
     public decimal id { get; set; }
@@ -132,7 +128,7 @@ public class Movimientodeinventarios
 
     public int banco { get; set; }
 
-    public string nombrebanco { get; set; } 
+    public string nombrebanco { get; set; }
 
     public int codigoconceptonotadebitocredito { get; set; }
 
@@ -145,9 +141,9 @@ public class Movimientodeinventarios
     public string nombreformula { get; set; }
     public int producto { get; set; }
 
-    public int unidaddemedida { get; set; }  
+    public int unidaddemedida { get; set; }
 
-    public string nombreunidaddemedida { get; set; }    
+    public string nombreunidaddemedida { get; set; }
     public int talla { get; set; }
     public int color { get; set; }
 
@@ -167,10 +163,7 @@ public class Movimientodeinventarios
 
     public decimal valorunitario { get; set; }
 
-   
-
     public decimal costoultimoporunidad { get; set; }
-     
 
     public decimal costofleteporunidad { get; set; }
 
@@ -224,9 +217,7 @@ public class Movimientodeinventarios
 
     public string usuarioqueactualizo { get; set; }
 
-    public string consecutivousuario { get; set; }  
+    public string consecutivousuario { get; set; }
 
     public int idusuario { get; set; }
-
-    
 }

@@ -1,7 +1,4 @@
-﻿
-
-
-using Inventarios.DataAccess.TablasMaestras;
+﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 
@@ -9,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class TallasService
     {
-
         private readonly TallasAccess _access;
         public List<TallasDTO>? list;
 
         public TallasService(TallasAccess access)
         {
             _access = access;
-
         }
 
         public List<TallasDTO>? Add(Tallas obj)
@@ -49,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

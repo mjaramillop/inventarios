@@ -1,6 +1,4 @@
-﻿
-
-using Inventarios.DataAccess.TablasMaestras;
+﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 
@@ -8,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class TiposDeAgenteService
     {
-
         private readonly TiposDeAgenteAccess _access;
         public List<TiposDeAgenteDTO>? list;
 
         public TiposDeAgenteService(TiposDeAgenteAccess access)
         {
             _access = access;
-
         }
 
         public List<TiposDeAgenteDTO>? Add(TiposDeAgente obj)
@@ -48,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

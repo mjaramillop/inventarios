@@ -6,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class EstadosDeUnRegistroService
     {
-
         private readonly EstadosDeUnRegistroAccess _access;
         public List<EstadosDeUnRegistroDTO>? list;
 
         public EstadosDeUnRegistroService(EstadosDeUnRegistroAccess access)
         {
             _access = access;
-
         }
 
         public List<EstadosDeUnRegistroDTO>? Add(EstadosDeUnRegistro obj)
@@ -46,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

@@ -1,8 +1,4 @@
-﻿
-
-
-
-using Inventarios.DataAccess.TablasMaestras;
+﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 
@@ -10,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class TiposDeCuentaBancariaService
     {
-
         private readonly TiposDeCuentaBancariaAccess _access;
         public List<TiposDeCuentaBancariaDTO>? list;
 
         public TiposDeCuentaBancariaService(TiposDeCuentaBancariaAccess access)
         {
             _access = access;
-
         }
 
         public List<TiposDeCuentaBancariaDTO>? Add(TiposDeCuentaBancaria obj)
@@ -50,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

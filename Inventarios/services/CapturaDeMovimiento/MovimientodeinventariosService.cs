@@ -1,8 +1,5 @@
 ﻿using Inventarios.DataAccess.CapturaDeMovimiento;
-using Inventarios.DataAccess.TablasMaestras;
-using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.CapturaDeMovimiento;
-using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.services.CapturaDeMovimiento
 {
@@ -40,6 +37,5 @@ namespace Inventarios.services.CapturaDeMovimiento
 
             return list;
         }
-
     }
 }

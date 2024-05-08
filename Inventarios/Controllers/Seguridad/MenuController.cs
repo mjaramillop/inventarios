@@ -10,11 +10,6 @@ namespace Inventarios.Controllers.Seguridad
     [ApiController]
     public class MenuController : ControllerBase
     {
-
-
-
-
-
         private readonly MenuService _service;
         private readonly JwtService _jwtservice;
         private List<MenuDTO>? list;
@@ -71,13 +66,5 @@ namespace Inventarios.Controllers.Seguridad
             list = _service.List(filtro);
             return list;
         }
-
-
-
-
-
-
-
-
     }
 }

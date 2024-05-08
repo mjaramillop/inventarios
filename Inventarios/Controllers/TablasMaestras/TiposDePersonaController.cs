@@ -1,23 +1,15 @@
-﻿
-using Inventarios.DTO.TablasMaestras;
+﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Inventarios.Controllers.TablasMaestras
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
-
-
     public class TiposDePersonaController : ControllerBase
     {
-
-
         private readonly TiposDePersonaService _service;
         private readonly JwtService _jwtservice;
         private List<TiposDePersonaDTO>? list;
@@ -70,19 +62,10 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetAll")]
         public List<TiposDePersonaDTO>? GetAll(string filtro = "")
         {
-
             if (filtro == "undefined") filtro = "";
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.List(filtro);
             return list;
         }
-
-
-
-
     }
-
-
-
-
 }

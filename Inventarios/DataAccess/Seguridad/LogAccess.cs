@@ -1,7 +1,6 @@
 ﻿using Inventarios.Data;
 using Inventarios.DTO;
 using Inventarios.Map;
-using Inventarios.Models;
 using Inventarios.Models.Seguridad;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.Token;
@@ -18,14 +17,12 @@ namespace Inventarios.DataAccess.Seguridad
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
 
-
         public LogAccess(InventariosContext context, JwtService jwtservice, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             _jwtservice = jwtservice;
             _iconfiguration = iconfigutarion;
             _mapping = mapping;
-
         }
 
         public void Add(string registro)
@@ -53,8 +50,6 @@ namespace Inventarios.DataAccess.Seguridad
 
             var list = _context.Logs.OrderByDescending(a => a.fechadeactualizacion).Where(comando).ToList();
 
-
-
             return _mapping.ListLogToLogDTO(list);
         }
 
@@ -69,7 +64,7 @@ namespace Inventarios.DataAccess.Seguridad
             string mensaje = ru.ejecutarsql(comando);
             if (mensaje.Trim().Length == 0) mensaje = "Registros eliminados correctamente antes del " + fecha;
 
-            return new List<string>() {  mensaje  };
+            return new List<string>() { mensaje };
         }
     }
 }

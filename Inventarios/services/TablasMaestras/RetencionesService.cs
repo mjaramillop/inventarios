@@ -6,14 +6,12 @@ namespace Inventarios.services.TablasMaestras
 {
     public class RetencionesService
     {
-
         private readonly RetencionesAccess _access;
         public List<RetencionesDTO>? list;
 
         public RetencionesService(RetencionesAccess access)
         {
             _access = access;
-
         }
 
         public List<RetencionesDTO>? Add(Retenciones obj)
@@ -46,10 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
 }

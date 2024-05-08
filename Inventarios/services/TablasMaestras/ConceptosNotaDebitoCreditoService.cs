@@ -12,7 +12,6 @@ namespace Inventarios.services.TablasMaestras
         public ConceptosNotaDebitoCreditoService(ConceptosNotaDebitoCreditoAccess access)
         {
             _access = access;
-
         }
 
         public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
@@ -45,8 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
     }
 }

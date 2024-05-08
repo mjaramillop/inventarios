@@ -1,25 +1,17 @@
 ﻿using Inventarios.DTO;
-using Inventarios.Models;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.ModelsParameter.TablasMaestras;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
 {
-
     [Route("[controller]/[action]")]
     [ApiController]
-
-
-
     public class ProductosController : ControllerBase
     {
-
-
         private readonly ProductosService _service;
         private readonly JwtService _jwtservice;
         private List<ProductosDTO>? list;
@@ -79,9 +71,6 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-
-
-
         [HttpGet("{nivel}")]
         [ActionName("GetNivel")]
         public List<string>? GetNivel(int nivel)
@@ -91,19 +80,14 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-
-
         [HttpPut]
         [ActionName("UpdateNiveles")]
         public List<string>? UpdateNiveles(UpdateNiveles obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
-
             return _service.UpdateNiveles(obj);
         }
-
-
 
         [HttpPut]
         [ActionName("CambiarPrecios")]
@@ -111,13 +95,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (_jwtservice.UserAthenticated() == false) return null;
 
-
             return _service.CambiarPrecios(obj);
         }
-
-
-
-
     }
-
 }

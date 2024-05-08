@@ -94,6 +94,10 @@ builder.Services.AddScoped<TiposDeAgenteAccess>();
 builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
 builder.Services.AddScoped<TiposDePersonaAccess>();
 builder.Services.AddScoped<TiposDeRegimenAccess>();
+builder.Services.AddScoped<Utilidades>();
+builder.Services.AddScoped<Validaciones>();
+
+
 
 
 

@@ -4,17 +4,14 @@ using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.services.TablasMaestras
 {
-
     public class FormulasService
     {
-
         private readonly FormulasAccess _access;
         public List<FormulasDTO>? list;
 
         public FormulasService(FormulasAccess access)
         {
             _access = access;
-
         }
 
         public List<FormulasDTO>? Add(Formulas obj)
@@ -47,11 +44,5 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro);
             return list;
         }
-
-
-
-
-
     }
-
 }

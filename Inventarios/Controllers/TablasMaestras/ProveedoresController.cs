@@ -3,7 +3,6 @@ using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.services.TablasMaestras;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -12,8 +11,6 @@ namespace Inventarios.Controllers.TablasMaestras
     [ApiController]
     public class ProveedoresController : ControllerBase
     {
-
-
         private readonly ProveedoresService _service;
         private readonly JwtService _jwtservice;
         private List<ProveedoresDTO>? list;
@@ -73,8 +70,6 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-
-
         [HttpPut]
         [ActionName("UpdateNiveles")]
         public List<ProveedoresDTO>? UpdateNiveles(UpdateNiveles obj)
@@ -84,9 +79,5 @@ namespace Inventarios.Controllers.TablasMaestras
             list = _service.UpdateNiveles(obj);
             return list;
         }
-
-
-
-
     }
 }

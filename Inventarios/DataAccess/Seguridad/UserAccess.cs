@@ -14,7 +14,6 @@ namespace Inventarios.DataAccess.Seguridad
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
 
-
         private List<Usuarios>? list;
         private readonly IConfiguration _iconfiguration;
 
@@ -29,8 +28,6 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<UsersDTO>? Add(Usuarios obj)
         {
-
-
             _context.Usuarios.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego usuario");
@@ -44,6 +41,12 @@ namespace Inventarios.DataAccess.Seguridad
 
             if (obj != null) _context.Usuarios.Remove(obj);
             _context.SaveChanges();
+
+            // borra la imagen del usuario
+            string route = Path.Combine(Directory.GetCurrentDirectory(), "imagesusers");
+            route = route + "\\" + id.ToString() + ".jpg";
+            File.Delete(route);
+
             Log(obj, "Borro usuario");
             list = _context.Usuarios.Where(a => a.id == obj.id).ToList();
             return _mapping.ListUsersToListUsersDTO(list);
@@ -51,8 +54,6 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<UsersDTO> Update(Usuarios obj)
         {
-
-
             var obj_ = _context.Usuarios.FirstOrDefault(a => a.id == obj.id);
 
             obj_.correoelectronico = obj.correoelectronico;
@@ -79,9 +80,7 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<Usuarios> GetById(int id)
         {
-
-         
-            list  = _context.Usuarios.Where(a => a.id == id).ToList();
+            list = _context.Usuarios.Where(a => a.id == id).ToList();
             return list;
         }
 
@@ -108,7 +107,7 @@ namespace Inventarios.DataAccess.Seguridad
             _jwtservice.password = "x";
             _jwtservice.login = "x";
 
-            if (list == null) return new List<string>() { new string(jwt)  };
+            if (list == null) return new List<string>() { new string(jwt) };
 
             int? idperfil = 0;
             foreach (var s in list)

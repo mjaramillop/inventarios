@@ -2,10 +2,8 @@
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
-using Inventarios.Models.TablasMaestras;
 using Inventarios.Models.Seguridad;
-using Microsoft.Extensions.Configuration;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -28,8 +26,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
         {
-
-
             _context.TiposDeDocumento.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Tipos de Dcoumento");
@@ -49,8 +45,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<TiposDeDocumentoDTO>? Update(TiposDeDocumento? obj)
         {
-
-
             var obj_ = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -88,7 +82,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.saldarcantidadesdeldocumentollamado = obj.saldarcantidadesdeldocumentollamado;
             obj_.leyendaimpresaeneldocumento = obj.leyendaimpresaeneldocumento;
             obj_.pidefisico = obj.pidefisico;
-          
+
             obj_.eldocumentoallamarsolosepuedellamarunavez = obj.eldocumentoallamarsolosepuedellamarunavez;
             obj_.eldocumentoseimprimeanombrededespachaorecibe = obj.eldocumentoseimprimeanombrededespachaorecibe;
             obj_.esunanota = obj.esunanota;
@@ -252,7 +246,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "saldarcantidadesdeldocumentollamado = " + obj.saldarcantidadesdeldocumentollamado + "\n";
             comando = comando + "leyendaimpresaeneldocumento = " + obj.leyendaimpresaeneldocumento + "\n";
             comando = comando + "pidefisico = " + obj.pidefisico + "\n";
-        
+
             comando = comando + "eldocumentoallamarsolosepuedellamarunavez = " + obj.eldocumentoallamarsolosepuedellamarunavez + "\n";
             comando = comando + "eldocumentoseimprimeanombrededespachaorecibe = " + obj.eldocumentoseimprimeanombrededespachaorecibe + "\n";
             comando = comando + "esunanota = " + obj.esunanota + "\n";

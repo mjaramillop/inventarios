@@ -3,7 +3,6 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
-using Inventarios.Token;
 using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
@@ -71,7 +70,6 @@ namespace Inventarios.DataAccess
 
         public List<MensajesDelSistemaDTO>? List(string filtro)
         {
-          
             list = _context.Mensajesdelsistema.ToList().Where(a => a.mensaje.Contains((filtro.Trim()), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
         }

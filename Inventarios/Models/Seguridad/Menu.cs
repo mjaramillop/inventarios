@@ -1,23 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿namespace Inventarios.Models.Seguridad;
 
-namespace Inventarios.Models.Seguridad;
-
-public  class Menu
+public class Menu
 {
-
-    public Menu() {
-
+    public Menu()
+    {
         this.id = 0;
         this.orden = "";
         this.nombre = "";
         this.paginaweb = "";
         this.estadodelregistro = 0;
-    
-    
     }
-
 
     public int id { get; set; }
 
@@ -28,7 +20,4 @@ public  class Menu
     public string paginaweb { get; set; }
 
     public int estadodelregistro { get; set; }
-
-
-
 }

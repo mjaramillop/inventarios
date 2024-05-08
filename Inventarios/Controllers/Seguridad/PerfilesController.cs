@@ -2,21 +2,14 @@
 using Inventarios.Models.Seguridad;
 using Inventarios.services.Seguridad;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Seguridad
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
     public class PerfilesController : ControllerBase
     {
-
-
-
-
-
         private readonly PerfilesService _service;
         private readonly JwtService _jwtservice;
         private List<PerfilesDTO>? list;
@@ -74,8 +67,6 @@ namespace Inventarios.Controllers.Seguridad
             return list;
         }
 
-
-
         [HttpGet("{id}")]
         [ActionName("GetListProgramasPermisos")]
         public List<ProgramasPermisosDTO>? GetListProgramasPermisos(int id)
@@ -84,8 +75,5 @@ namespace Inventarios.Controllers.Seguridad
             List<ProgramasPermisosDTO>? list = _service.ListProgramasPermisos(id);
             return list;
         }
-
-
-
     }
 }

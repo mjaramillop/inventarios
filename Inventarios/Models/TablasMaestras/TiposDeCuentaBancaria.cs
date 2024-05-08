@@ -2,10 +2,10 @@
 {
     public class TiposDeCuentaBancaria
     {
-        public TiposDeCuentaBancaria() {
+        public TiposDeCuentaBancaria()
+        {
             this.id = 0;
             this.nombre = "";
-         
         }
 
         public int id { get; set; }

@@ -2,19 +2,14 @@
 using Inventarios.Models.Seguridad;
 using Inventarios.services.Seguridad;
 using Inventarios.Token;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Inventarios.Controllers.Seguridad
 {
     [Route("[controller]/[action]")]
     [ApiController]
-
     public class MensajesDelSistemaController : ControllerBase
     {
-
-
         private readonly MensajesDelSistemaService _service;
         private readonly JwtService _jwtservice;
         private List<MensajesDelSistemaDTO>? list;
@@ -27,7 +22,7 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpPost]
         [ActionName("Add")]
-        public List<MensajesDelSistemaDTO>? Add(Mensajesdelsistema obj)
+        public List<MensajesDelSistemaDTO> Add(Mensajesdelsistema obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.Add(obj);
@@ -43,8 +38,6 @@ namespace Inventarios.Controllers.Seguridad
             list = _service.Delete(id);
             return list;
         }
-
-
 
         [HttpPut]
         [ActionName("Update")]
@@ -65,10 +58,8 @@ namespace Inventarios.Controllers.Seguridad
             return list;
         }
 
-
         [HttpGet("{filtro?}")]
         [ActionName("GetAll")]
-
         public List<MensajesDelSistemaDTO>? GetAll(string filtro = "")
         {
             if (_jwtservice.UserAthenticated() == false) return null;
@@ -76,21 +67,13 @@ namespace Inventarios.Controllers.Seguridad
             return list;
         }
 
-
-
         [HttpGet]
         [ActionName("GetAllActive")]
-
         public List<MensajesDelSistemaDTO>? GetAllActive()
         {
             if (_jwtservice.UserAthenticated() == false) return null;
             list = _service.ListActive();
             return list;
         }
-
-
-
-
     }
-
 }

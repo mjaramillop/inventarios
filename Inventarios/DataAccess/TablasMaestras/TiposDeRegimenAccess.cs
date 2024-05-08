@@ -52,8 +52,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             obj_.nombre = obj.nombre;
 
-
-
             _context.SaveChanges();
             Log(obj, "Modifico Tipo de regimen");
 
@@ -63,7 +61,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<TiposDeRegimen> GetById(int id)
         {
-
             list = _context.TiposDeRegimen.Where(a => a.id == id).ToList();
             return list;
         }
@@ -87,9 +84,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             //
 
-
             _logacces.Add(comando);
         }
     }
 }
-
