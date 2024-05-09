@@ -48,7 +48,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
-        [HttpGet("{tipodedocumento}/{numerodeldocumento}/{despacha}/{recibe}")]
+        [HttpGet("{tipodedocumento}/{numerodedocumento}/{despacha}/{recibe}")]
         [ActionName("GetByNumeroDeDocumento")]
         public List<Movimientodeinventarios>? GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
@@ -56,5 +56,28 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             list = _service.GetByNumeroDeDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
             return list;
         }
+
+
+
+        [HttpGet("{tipodedocumento}/{numerodedocumento}/{despacha}/{recibe}")]
+        [ActionName("AnularDocumento")]
+
+        public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        {
+            List<string> list = _service.AnularDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
+
+            return list;
+        }
+
+
+        [HttpGet("{tipodedocumento}")]
+        [ActionName("tipodedocumento")]
+
+        public List<string> AddDocument(int tipodedocumento)
+        {
+            List<string> list = _service.AddDocument(tipodedocumento);
+            return list;
+        }
+
     }
 }

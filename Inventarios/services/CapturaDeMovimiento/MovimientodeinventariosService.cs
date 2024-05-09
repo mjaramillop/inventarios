@@ -1,5 +1,7 @@
 ﻿using Inventarios.DataAccess.CapturaDeMovimiento;
 using Inventarios.Models.CapturaDeMovimiento;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace Inventarios.services.CapturaDeMovimiento
 {
@@ -37,5 +39,19 @@ namespace Inventarios.services.CapturaDeMovimiento
 
             return list;
         }
+
+        public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        {
+            List<string> list = _access.AnularDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
+
+            return list;
+        }
+
+        public List<string> AddDocument(int tipodedocumento)
+        {
+            List<string> list = _access.AddDocument(tipodedocumento);
+            return list;
+        }
     }
+
 }

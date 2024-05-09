@@ -154,11 +154,11 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-        public List<string> AnularDocumento(int tipodedocumento, int numerodeldocumento, int despacha, int recibe)
+        public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
             string mensajedeerror = "";
 
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodeldocumento && a.despacha == despacha && a.recibe == recibe).ToList();
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
 
             try
             {

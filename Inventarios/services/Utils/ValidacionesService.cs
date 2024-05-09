@@ -176,6 +176,36 @@ namespace Inventarios.services.Utils
 
 
 
+        public string ValidarTipoDeAgente(int tipodeagente)
+        {
+            return _access.ValidarTipoDeAgente(tipodeagente);
+        }
+
+
+
+
+        public string ValidarTipoDeCuentaBancaria(int tipodecuentabancaria)
+        {
+            return _access.ValidarTipoDeCuentaBancaria(tipodecuentabancaria);
+
+        }
+
+
+
+        public string ValidarTipoDePersona(string tipodepersona)
+        {
+            return _access.ValidarTipoDePersona(tipodepersona);
+        }
+
+
+
+
+        public string ValidarTipoDeRegimen(int tipoderegimen)
+        {
+            return _access.ValidarTipoDeRegimen(tipoderegimen);
+        }
+
+
 
 
     }

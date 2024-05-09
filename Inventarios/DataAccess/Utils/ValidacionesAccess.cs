@@ -28,7 +28,7 @@ namespace Inventarios.DataAccess.Utils
         {
             if (valor <= 0)
             {
-                this.mensajedeerror = this.mensajedeerror + campo + " no puede ser menor que cero " + '\n';
+                this.mensajedeerror = this.mensajedeerror + campo + "Error. no puede ser menor que cero " + '\n';
                 return this.mensajedeerror; 
             }
             return "";
@@ -38,7 +38,7 @@ namespace Inventarios.DataAccess.Utils
         {
             if (valor == 0)
             {
-                this.mensajedeerror = this.mensajedeerror + campo + " no puede ser  cero " + '\n';
+                this.mensajedeerror = this.mensajedeerror + campo + "Error. no puede ser  cero " + '\n';
                 return this.mensajedeerror;
                 
             }
@@ -49,7 +49,7 @@ namespace Inventarios.DataAccess.Utils
         {
             if (valor < 0)
             {
-                this.mensajedeerror = this.mensajedeerror + campo + " no puede ser  menor que cero " + '\n';
+                this.mensajedeerror = this.mensajedeerror + campo + "Error. no puede ser  menor que cero " + '\n';
                 return this.mensajedeerror;
             }
             return "";
@@ -63,7 +63,7 @@ namespace Inventarios.DataAccess.Utils
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
             if (objtipodedocumento == null)
             {
-                mensajedeerror = mensajedeerror + "El tipo de documento esta errado" + "\n";
+                mensajedeerror = mensajedeerror + "Error. El tipo de documento esta errado" + "\n";
                 return mensajedeerror;
             }
 
@@ -79,7 +79,7 @@ namespace Inventarios.DataAccess.Utils
             objdespacha = _context.Proveedores.FirstOrDefault(a => a.id == despacha);
             if (objdespacha == null)
             {
-                mensajedeerror = mensajedeerror + "La entidasd emisora esta errada" + "\n";
+                mensajedeerror = mensajedeerror + "Error. La entidasd emisora esta errada" + "\n";
                 return mensajedeerror;
             }
 
@@ -95,7 +95,7 @@ namespace Inventarios.DataAccess.Utils
             if (objrecibe == null)
             {
 
-                mensajedeerror = mensajedeerror + "La entidasd receptora esta errada" + "\n";
+                mensajedeerror = mensajedeerror + "Error. La entidasd receptora esta errada" + "\n";
                 return mensajedeerror;
             }
             return objrecibe.nombre;
@@ -108,7 +108,7 @@ namespace Inventarios.DataAccess.Utils
             objtipodedocumentoaafectar = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumentoaafectar);
             if (objtipodedocumentoaafectar == null)
             {
-                mensajedeerror = mensajedeerror + "El tipo de documento a afectar esta errado" + "\n";
+                mensajedeerror = mensajedeerror + "Error. El tipo de documento a afectar esta errado" + "\n";
                 return mensajedeerror;
             }
 
@@ -122,7 +122,7 @@ namespace Inventarios.DataAccess.Utils
             objdespachaaafectar = _context.Proveedores.FirstOrDefault(a => a.id == despachaaafectar);
             if (objdespachaaafectar == null)
             {
-                mensajedeerror = mensajedeerror + "El emisor a afectar esta errado" + "\n";
+                mensajedeerror = mensajedeerror + "Error. El emisor a afectar esta errado" + "\n";
                 return mensajedeerror;
 
             }
@@ -137,7 +137,7 @@ namespace Inventarios.DataAccess.Utils
             objrecibeaafectar = _context.Proveedores.FirstOrDefault(a => a.id == recibeaafectar);
             if (objrecibeaafectar == null)
             {
-                mensajedeerror = mensajedeerror + "El receptor a afectar esta errado" + "\n";
+                mensajedeerror = mensajedeerror + "Error. El receptor a afectar esta errado" + "\n";
                 return mensajedeerror;
 
             }
@@ -152,7 +152,7 @@ namespace Inventarios.DataAccess.Utils
             objprogramas = _context.Programas.FirstOrDefault(a => a.id == programa);
             if (objprogramas == null)
             {
-                mensajedeerror = mensajedeerror + "El programa esta errado" + "\n";
+                mensajedeerror = mensajedeerror + "Error. El programa esta errado" + "\n";
                 return mensajedeerror;
             }
 
@@ -166,7 +166,7 @@ namespace Inventarios.DataAccess.Utils
             objvendedor = _context.Proveedores.FirstOrDefault(a => a.id == vendedor);
             if (objvendedor == null)
             {
-                mensajedeerror = mensajedeerror + "El vendedor esta errado" + "\n";
+                mensajedeerror = mensajedeerror + "Error. El vendedor esta errado" + "\n";
                 return mensajedeerror;
 
             }
@@ -184,7 +184,7 @@ namespace Inventarios.DataAccess.Utils
             objformasdepago = _context.FormasDePago.FirstOrDefault(a => a.id == formadepago);
             if (objformasdepago == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo de forma de pago es invalido " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo de forma de pago es invalido " + "\n";
                 return mensajedeerror;
             }
 
@@ -199,7 +199,7 @@ namespace Inventarios.DataAccess.Utils
             objconceptosnotadebitocredito = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == codigoconceptonotadebitocredito);
             if (objconceptosnotadebitocredito == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo del concepto nota debito y credito es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo del concepto nota debito y credito es invalido  " + "\n";
                 return mensajedeerror;
             }
 
@@ -216,7 +216,7 @@ namespace Inventarios.DataAccess.Utils
             if (objbanco == null)
             {
 
-                mensajedeerror = mensajedeerror + "El codigo del banco es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo del banco es invalido  " + "\n";
                 return mensajedeerror;
             }
 
@@ -232,7 +232,7 @@ namespace Inventarios.DataAccess.Utils
             if (objproducto == null)
             {
 
-                mensajedeerror = mensajedeerror + "El codigo del producto es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo del producto es invalido  " + "\n";
                 return mensajedeerror;
             }
 
@@ -249,7 +249,7 @@ namespace Inventarios.DataAccess.Utils
             objunidaddemedida = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == unidaddemedida);
             if (objunidaddemedida == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo de la unidad de medida es invalido " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo de la unidad de medida es invalido " + "\n";
                 return mensajedeerror;
             }
 
@@ -266,7 +266,7 @@ namespace Inventarios.DataAccess.Utils
             objtallas = _context.Tallas.FirstOrDefault(a => a.id == talla);
             if (objtallas == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo de la talla es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo de la talla es invalido  " + "\n";
                 return mensajedeerror;
             }
 
@@ -281,7 +281,7 @@ namespace Inventarios.DataAccess.Utils
             Colores? objcolores = new Colores();
             objcolores = _context.Colores.FirstOrDefault(a => a.id == color);
             {
-                if (objcolores == null) mensajedeerror = mensajedeerror + "El codigo del color es invalido " + "\n";
+                if (objcolores == null) mensajedeerror = mensajedeerror + "Error. El codigo del color es invalido " + "\n";
                 return mensajedeerror;
             }
 
@@ -295,7 +295,7 @@ namespace Inventarios.DataAccess.Utils
             objunidaddeempaque = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == unidaddeempaque);
             if (objunidaddeempaque == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo de la unidad de empaque  es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo de la unidad de empaque  es invalido  " + "\n";
                 return mensajedeerror;
             }
 
@@ -310,7 +310,7 @@ namespace Inventarios.DataAccess.Utils
             objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == perfil);
             if (objperfiles == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo del perfil de usuario es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo del perfil de usuario es invalido  " + "\n";
                 return mensajedeerror;
             }
 
@@ -326,12 +326,79 @@ namespace Inventarios.DataAccess.Utils
             objusuarios = _context.Usuarios.FirstOrDefault(a => a.id == usuario);
             if (objusuarios == null)
             {
-                mensajedeerror = mensajedeerror + "El codigo del usuario es invalido  " + "\n";
+                mensajedeerror = mensajedeerror + "Error. El codigo del usuario es invalido  " + "\n";
                 return mensajedeerror;
             }
 
             return objusuarios.nombre;
         }
+
+
+        public string ValidarTipoDeAgente(int tipodeagente)
+        {
+            // tipo de agente
+            TiposDeAgente? objtipodeagente = new TiposDeAgente();
+            objtipodeagente = _context.TiposDeAgente.FirstOrDefault(a => a.id == tipodeagente);
+            if (objtipodeagente == null)
+            {
+                mensajedeerror = mensajedeerror + "Error. El codigo del tipo de agente es invalido  " + "\n";
+                return mensajedeerror;
+            }
+
+            return objtipodeagente.nombre;
+        }
+
+
+
+
+        public string ValidarTipoDeCuentaBancaria(int tipodecuentabancaria)
+        {
+            // tipo de agente
+            TiposDeCuentaBancaria? objtipodecuentabancaria = new TiposDeCuentaBancaria();
+            objtipodecuentabancaria = _context.TiposDeCuentaBancaria.FirstOrDefault(a => a.id == tipodecuentabancaria);
+            if (objtipodecuentabancaria == null)
+            {
+                mensajedeerror = mensajedeerror + "Error. El codigo del tipo de cuenta bancaria es invalido  " + "\n";
+                return mensajedeerror;
+            }
+
+            return objtipodecuentabancaria.nombre;
+        }
+
+
+
+        public string ValidarTipoDePersona(string tipodepersona)
+        {
+            // tipo de agente
+            TiposDePersona? objtipodepersona = new TiposDePersona();
+            objtipodepersona = _context.TiposDePersona.FirstOrDefault(a => a.id == tipodepersona);
+            if (objtipodepersona == null)
+            {
+                mensajedeerror = mensajedeerror + "Error. El codigo del tipo de persona es invalido  " + "\n";
+                return mensajedeerror;
+            }
+
+            return objtipodepersona.nombre;
+        }
+
+
+
+
+        public string ValidarTipoDeRegimen(int tipoderegimen)
+        {
+            // tipo de agente
+            TiposDeRegimen? objtipoderegimen = new TiposDeRegimen();
+            objtipoderegimen = _context.TiposDeRegimen.FirstOrDefault(a => a.id == tipoderegimen);
+            if (objtipoderegimen == null)
+            {
+                mensajedeerror = mensajedeerror + "Error. El codigo del tipo de regimen es invalido  " + "\n";
+                return mensajedeerror;
+            }
+
+            return objtipoderegimen.nombre;
+        }
+
+
 
 
 

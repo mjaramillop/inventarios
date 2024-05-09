@@ -170,5 +170,57 @@ namespace Inventarios.Controllers.Utils
         {
               return new List<string> { _service.ValidarUsuario(usuario) };
         }
+
+
+
+
+
+        [HttpGet("{tipodeagente}")]
+        [ActionName("ValidarTipoDeagente")]
+        public List<string> ValidarTipoDeAgente(int tipodeagente)
+        {
+            return new List<string> { _service.ValidarTipoDeAgente(tipodeagente) };
+        }
+
+
+
+
+        [HttpGet("{tipodecuentabancaria}")]
+        [ActionName("ValidarTipoDeCuentaBancaria")]
+        public List<string> ValidarTipoDeDuentaBancaria(int tipodecuentabancaria)
+        {
+            return new List<string> { _service.ValidarTipoDeCuentaBancaria(tipodecuentabancaria) };
+
+        }
+
+
+
+
+        [HttpGet("{tipodepersona}")]
+        [ActionName("ValidarTipoDePerona")]
+
+        public List<string> ValidarTipoDePersona(string tipodepersona)
+        {
+            return new List<string> { _service.ValidarTipoDePersona(tipodepersona) };
+        }
+
+
+
+        [HttpGet("{tipoderegimen}")]
+        [ActionName("ValidarTipoDeRegimen")]
+
+        public List<string> ValidarTipoDeRegimen(int tipoderegimen)
+        {
+            return new List<string> { _service.ValidarTipoDeRegimen(tipoderegimen) };
+        }
+
+
+
+
+
+
+
+
+
     }
 }
