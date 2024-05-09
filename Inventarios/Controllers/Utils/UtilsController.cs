@@ -18,7 +18,7 @@ namespace Inventarios.Controllers.Utils
             _service =service;
         }
 
-        // GET api/<UtilsController>/5
+       
         [HttpGet("{fecha}/{plazo}")]
         [ActionName("CalcularFechaDeVencimiento")]
         public List<string> CalcularFechaDeVencimiento(string fecha, int plazo)
@@ -26,22 +26,21 @@ namespace Inventarios.Controllers.Utils
             return _service.CalcularFechaDeVencimiento(fecha, plazo);
         }
 
-
-        // GET api/<UtilsController>/5
-        [HttpGet("{valor}")]
-        [ActionName("CalcularFechaDeVencimiento")]
-        public string MontoEscrito(string valor)
-        {
-
-            return _service.MontoEscrito(valor);
-        }
-
-
         [HttpGet("{fecha1}/{fecha2}")]
-        [ActionName("CalcularFechaDeVencimiento")]
+        [ActionName("restarfechas")]
         public int restarfechas(DateTime fecha1, DateTime fecha2)
         {
             return _service.restarfechas(fecha1, fecha2);
+
+        }
+
+
+
+        [HttpGet("{valor}")]
+        [ActionName("MontroEscrito")]
+        public List<string> MontoEscrito(string valor)
+        {
+            return new List<string> { _service.MontoEscrito(valor) };
 
         }
 

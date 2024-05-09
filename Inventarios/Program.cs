@@ -18,6 +18,8 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.services.TablasMaestras;
 using Inventarios.services.Seguridad;
 using Inventarios.DataAccess.Utils;
+using Inventarios.Controllers.Utils;
+using Inventarios.services.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,12 +72,18 @@ builder.Services.AddSession( options => {     options.IdleTimeout= TimeSpan.From
 
 
 //data access
+
+// captura de movimiento
 builder.Services.AddScoped<ConceptosNotaDebitoCreditoAccess>();
+
+// seguridad
 builder.Services.AddScoped<LogAccess>(); 
 builder.Services.AddScoped<MenuAccess>();
 builder.Services.AddScoped<UserAccess>();
-builder.Services.AddScoped<ActividadesEconomicasAccess>();
 builder.Services.AddScoped<PerfilesAccess>();
+
+// tablas maestras
+builder.Services.AddScoped<ActividadesEconomicasAccess>();
 builder.Services.AddScoped<TiposDeDocumentoAccess>();
 builder.Services.AddScoped<ProveedoresAccess>();
 builder.Services.AddScoped<MensajesDelSistemaAccess>();
@@ -94,6 +102,9 @@ builder.Services.AddScoped<TiposDeAgenteAccess>();
 builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
 builder.Services.AddScoped<TiposDePersonaAccess>();
 builder.Services.AddScoped<TiposDeRegimenAccess>();
+
+// utils
+builder.Services.AddScoped<CorreoAccess>();
 builder.Services.AddScoped<UtilidadesAccess>();
 builder.Services.AddScoped<ValidacionesAccess>();
 
@@ -110,10 +121,18 @@ builder.Services.AddScoped<ValidacionesAccess>();
 
 
 // services
-builder.Services.AddScoped<ConceptosNotaDebitoCreditoService>();
+// captura de movimiento 
+
+// seguridad
+
 builder.Services.AddScoped<LogService>();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<PerfilesService>();
+
+
+// tablas maestras
+builder.Services.AddScoped<ConceptosNotaDebitoCreditoService>();
 builder.Services.AddScoped<ActividadesEconomicasService>();
 builder.Services.AddScoped<PerfilesService>();
 builder.Services.AddScoped<TiposDeDocumentoService>();
@@ -135,21 +154,17 @@ builder.Services.AddScoped<TiposDeCuentaBancariaService>();
 builder.Services.AddScoped<TiposDePersonaService>();
 builder.Services.AddScoped<TiposDeRegimenService>();
 
-
-
-
-
-
-
+// utils
+builder.Services.AddScoped<CorreoService>();
+builder.Services.AddScoped<UtilidadesService>();
+builder.Services.AddScoped<ValidacionesService>();
 
 
 //mapping
 builder.Services.AddScoped<Mapping>();
 
-//utils
+//token
 builder.Services.AddSingleton<JwtService>();
-builder.Services.AddScoped<ValidacionesAccess>();
-builder.Services.AddScoped<UtilidadesAccess>();
 
 
 
