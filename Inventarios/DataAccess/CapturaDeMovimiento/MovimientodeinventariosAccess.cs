@@ -24,7 +24,9 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         private readonly ValidacionesAccess _validaciones;
 
-        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, ValidacionesAccess validaciones)
+        private UtilidadesAccess _utlididades;
+
+        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, ValidacionesAccess validaciones , UtilidadesAccess utilidades )
         {
             _context = context;
             _logacces = logacces;
@@ -32,17 +34,29 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _iconfiguration = iconfiguration;
             _jwtservice = jwtservice;
             _validaciones = validaciones;
+            _utlididades = utilidades;
         }
 
-        public List<string> Add(Movimientodeinventarios obj)
+        public List<Movimientodeinventarios> Add(Movimientodeinventarios obj)
         {
+
+
+
             string mensajedeerror = "";
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
+            obj.consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+            obj.idusuario = _jwtservice.Id;
+
+            string ano = "2024";
+            string mes = "06";
+            string dia = "01";
+
+            obj.fechadeldocumento = _utlididades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(ano, mes, dia);
+
+
+
             try
             {
-                var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == obj.idusuario);
-
-                obj.consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
-                obj.idusuario = _jwtservice.Id;
                 _context.Movimientodeinventariostmp.Add(obj);
                 _context.SaveChanges();
             }
@@ -53,7 +67,13 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro añadido correctamente";
 
-            return new List<string> { mensajedeerror };
+
+             list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).ToList();
+
+
+
+
+            return list;
         }
 
         public List<string> Delete(int id)
@@ -202,6 +222,8 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return list;
         }
 
+
+
         public List<string> AddDocument(int tipodedocumento)
         {
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
@@ -221,12 +243,28 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                     _context.Movimientodeinventarios.Add(item);
                     _context.SaveChanges();
                 }
+
+
+                // borramos los registros en el movimieno temportal
+
+                foreach (var item in list)
+                {
+                    var obj = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == item.id);
+                    _context.Movimientodeinventariostmp.Remove(obj);
+                    _context.SaveChanges();
+                }
+
+
             }
             catch (Exception ex)
             {
                 mensajedeerror = mensajedeerror + "Error " + ex.Message;
                 return new List<string> { mensajedeerror };
             }
+
+
+
+
 
             // actualizamos consecutivo en tipos de documento
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
@@ -340,6 +378,20 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             return _validaciones.mensajedeerror;
         }
+
+
+
+
+        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento)
+        {
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
+            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+            list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario ==consecutivousuario).ToList();
+
+            return list;
+        }
+
+
 
         public void Log(Movimientodeinventarios obj, string operacion)
         {

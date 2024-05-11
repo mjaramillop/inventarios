@@ -1221,6 +1221,43 @@ namespace Inventarios.DataAccess.Utils
 
 
 
+        public string traerparametrowebconfig(string parametro)
+        {
+         return    _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:" +parametro);
+        }
+
+
+
+        public DateTime DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(string ano,string mes,string dia)
+        {
+
+          
+
+
+            string formato = traerparametrowebconfig("formatodefechaparagrabarenlabasededatos").ToUpper();
+
+            string valor = "";
+            if (formato == "YMD") valor = ano + "-" +  mes + "-" + dia ;
+            if (formato == "DMY") valor = dia + "-" +  mes + "-" + ano;
+            if (formato == "MDY") valor = mes + "-" +  dia + "-" + ano;
+
+            DateTime fecha= DateTime.Now;
+
+            try
+            {
+                fecha = Convert.ToDateTime(valor);
+
+            }
+            catch (Exception ex)
+            {
+
+                return DateTime.Now;    
+            }
+
+
+            return fecha;
+        }
+
 
     }
 }

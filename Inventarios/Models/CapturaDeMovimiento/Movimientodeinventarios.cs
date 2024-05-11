@@ -1,4 +1,8 @@
-﻿namespace Inventarios.Models.CapturaDeMovimiento;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
+
+namespace Inventarios.Models.CapturaDeMovimiento;
 
 public class Movimientodeinventarios
 {
@@ -76,6 +80,13 @@ public class Movimientodeinventarios
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
         this.usuarioqueactualizo = "";
+        this.consecutivousuario = "";
+        this.idusuario = 0;
+        this.anodeldocumento = "";
+        this.mesdeldocumento = "";
+        this.diadeldocumento = "";
+
+
     }
 
     public decimal id { get; set; }
@@ -108,10 +119,12 @@ public class Movimientodeinventarios
 
     public int numerodeldocumentoaafectar { get; set; }
 
+
     public DateTime fechadeldocumento { get; set; }
 
     public int plazo { get; set; }
 
+    [JsonIgnore]
     public DateTime fechadevencimientodeldocumento { get; set; }
 
     public int programa { get; set; }
@@ -197,27 +210,59 @@ public class Movimientodeinventarios
 
     public decimal valorneto { get; set; }
 
+    [JsonIgnore]
+
     public DateTime fechadeprogramaciondelpago { get; set; }
+
+    [JsonIgnore]
 
     public string lacantidadestadespachada { get; set; }
 
+    [JsonIgnore]
+
     public string eldocumentoestacancelado { get; set; }
+
+    [JsonIgnore]
 
     public string sumaorestaeninventario { get; set; }
 
+    [JsonIgnore]
+
     public string sumaorestaencartera { get; set; }
 
+    [JsonIgnore]
+
     public int estadodelregistro { get; set; }
+    [JsonIgnore]
 
     public string trasladorecibidoyaprobadopor { get; set; }
 
+    [JsonIgnore]
     public DateTime fechatrasladorecibidoyaprobado { get; set; }
 
+    [JsonIgnore]
     public DateTime fechadecreacion { get; set; }
 
+    [JsonIgnore]
     public string usuarioqueactualizo { get; set; }
 
+    [JsonIgnore]
     public string consecutivousuario { get; set; }
-
+    [JsonIgnore]
     public int idusuario { get; set; }
+
+
+    
+    [NotMapped]
+    public string anodeldocumento { get;set; }
+
+    [NotMapped]
+    public string mesdeldocumento { get; set; }
+
+    [NotMapped]
+    public string diadeldocumento { get; set; }
+
+    
+
+
 }

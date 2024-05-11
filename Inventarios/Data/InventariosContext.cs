@@ -1017,7 +1017,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
 
-            entity.Property(e => e.nombreconceptonotadebitocredito).HasColumnName("NOMBRECODIGOCONCEPTONOTADEBITOCREDITO");
+            entity.Property(e => e.nombreconceptonotadebitocredito).HasColumnName("NOMBRECONCEPTONOTADEBITOCREDITO");
 
             entity.Property(e => e.observaciones)
                 .HasMaxLength(3000)
@@ -1341,7 +1341,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.codigoconceptonotadebitocredito).HasColumnName("CODIGOCONCEPTONOTADEBITOCREDITO");
 
-            entity.Property(e => e.nombreconceptonotadebitocredito).HasColumnName("NOMBRECODIGOCONCEPTONOTADEBITOCREDITO");
+            entity.Property(e => e.nombreconceptonotadebitocredito).HasColumnName("NOMBRECONCEPTONOTADEBITOCREDITO");
 
             entity.Property(e => e.observaciones)
                 .HasMaxLength(3000)

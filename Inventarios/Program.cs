@@ -20,6 +20,9 @@ using Inventarios.services.Seguridad;
 using Inventarios.DataAccess.Utils;
 using Inventarios.Controllers.Utils;
 using Inventarios.services.Utils;
+using Inventarios.Models.CapturaDeMovimiento;
+using Inventarios.DataAccess.CapturaDeMovimiento;
+using Inventarios.services.CapturaDeMovimiento;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,7 +77,7 @@ builder.Services.AddSession( options => {     options.IdleTimeout= TimeSpan.From
 //data access
 
 // captura de movimiento
-builder.Services.AddScoped<ConceptosNotaDebitoCreditoAccess>();
+builder.Services.AddScoped<MovimientodeinventariosAccess>();
 
 // seguridad
 builder.Services.AddScoped<LogAccess>(); 
@@ -83,6 +86,7 @@ builder.Services.AddScoped<UserAccess>();
 builder.Services.AddScoped<PerfilesAccess>();
 
 // tablas maestras
+builder.Services.AddScoped<ConceptosNotaDebitoCreditoAccess>();
 builder.Services.AddScoped<ActividadesEconomicasAccess>();
 builder.Services.AddScoped<TiposDeDocumentoAccess>();
 builder.Services.AddScoped<ProveedoresAccess>();
@@ -122,6 +126,8 @@ builder.Services.AddScoped<ValidacionesAccess>();
 
 // services
 // captura de movimiento 
+builder.Services.AddScoped<MovimientodeinventariosService>();
+
 
 // seguridad
 

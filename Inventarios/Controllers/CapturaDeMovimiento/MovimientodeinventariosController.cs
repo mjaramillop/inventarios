@@ -21,10 +21,10 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
         [HttpPost]
         [ActionName("Add")]
-        public List<string>? Add(Movimientodeinventarios obj)
+        public List<Movimientodeinventarios>? Add(Movimientodeinventarios obj)
         {
             if (_jwtservice.UserAthenticated() == false) return null;
-            List<string>? list = _service.Add(obj);
+            list = _service.Add(obj);
             return list;
         }
 
@@ -59,6 +59,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
 
 
+
         [HttpGet("{tipodedocumento}/{numerodedocumento}/{despacha}/{recibe}")]
         [ActionName("AnularDocumento")]
 
@@ -71,13 +72,26 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
 
         [HttpGet("{tipodedocumento}")]
-        [ActionName("tipodedocumento")]
+        [ActionName("AddDocument")]
 
         public List<string> AddDocument(int tipodedocumento)
         {
             List<string> list = _service.AddDocument(tipodedocumento);
             return list;
         }
+
+
+
+        [HttpGet("{tipodedocumento}")]
+        [ActionName("TraerTipoDeDocumentoTemporal")]
+        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento)
+        {
+            list = _service.TraerDocumentoTemporal(tipodedocumento);
+            return list;
+        }
+
+
+
 
     }
 }
