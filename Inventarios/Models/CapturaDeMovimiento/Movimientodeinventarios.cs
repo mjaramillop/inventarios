@@ -85,11 +85,9 @@ public class Movimientodeinventarios
         this.anodeldocumento = "";
         this.mesdeldocumento = "";
         this.diadeldocumento = "";
-
-
     }
 
-    public decimal id { get; set; }
+    public int id { get; set; }
 
     public int despacha { get; set; }
 
@@ -118,7 +116,6 @@ public class Movimientodeinventarios
     public string nombretipodedocumentoaafectar { get; set; }
 
     public int numerodeldocumentoaafectar { get; set; }
-
 
     public DateTime fechadeldocumento { get; set; }
 
@@ -164,7 +161,7 @@ public class Movimientodeinventarios
     public string nombretalla { get; set; }
     public string nombrecolor { get; set; }
 
-    public decimal numerodeempaques { get; set; }
+    public int numerodeempaques { get; set; }
 
     public int unidaddeempaque { get; set; }
 
@@ -186,7 +183,7 @@ public class Movimientodeinventarios
 
     public string nombrecodigodescuento1 { get; set; }
 
-    public decimal porcentajedescuento1 { get; set; }
+    public int porcentajedescuento1 { get; set; }
 
     public int valordescuento1 { get; set; }
 
@@ -194,7 +191,7 @@ public class Movimientodeinventarios
 
     public string nombrecodigoiva1 { get; set; }
 
-    public decimal porcentajedeiva1 { get; set; }
+    public int porcentajedeiva1 { get; set; }
 
     public int valoriva1 { get; set; }
 
@@ -204,37 +201,31 @@ public class Movimientodeinventarios
 
     public string nombrecodigoretencion1 { get; set; }
 
-    public decimal porcentajederetencion1 { get; set; }
+    public int porcentajederetencion1 { get; set; }
 
     public int valorretencion1 { get; set; }
 
     public decimal valorneto { get; set; }
 
     [JsonIgnore]
-
     public DateTime fechadeprogramaciondelpago { get; set; }
 
     [JsonIgnore]
-
     public string lacantidadestadespachada { get; set; }
 
     [JsonIgnore]
-
     public string eldocumentoestacancelado { get; set; }
 
     [JsonIgnore]
-
     public string sumaorestaeninventario { get; set; }
 
     [JsonIgnore]
-
     public string sumaorestaencartera { get; set; }
 
     [JsonIgnore]
-
     public int estadodelregistro { get; set; }
-    [JsonIgnore]
 
+    [JsonIgnore]
     public string trasladorecibidoyaprobadopor { get; set; }
 
     [JsonIgnore]
@@ -248,21 +239,16 @@ public class Movimientodeinventarios
 
     [JsonIgnore]
     public string consecutivousuario { get; set; }
+
     [JsonIgnore]
     public int idusuario { get; set; }
 
-
-    
     [NotMapped]
-    public string anodeldocumento { get;set; }
+    public string anodeldocumento { get; set; }
 
     [NotMapped]
     public string mesdeldocumento { get; set; }
 
     [NotMapped]
     public string diadeldocumento { get; set; }
-
-    
-
-
 }

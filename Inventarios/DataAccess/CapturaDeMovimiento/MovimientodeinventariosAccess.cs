@@ -68,7 +68,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro añadido correctamente";
 
 
-             list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).ToList();
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).ToList();
 
 
 
