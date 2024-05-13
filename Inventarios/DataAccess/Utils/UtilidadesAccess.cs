@@ -1228,7 +1228,7 @@ namespace Inventarios.DataAccess.Utils
 
 
 
-        public DateTime DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(string ano,string mes,string dia)
+        public DateTime DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(string dia,string mes,string ano)
         {
 
           

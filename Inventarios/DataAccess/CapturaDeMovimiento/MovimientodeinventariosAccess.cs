@@ -47,11 +47,8 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             obj.consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
             obj.idusuario = _jwtservice.Id;
 
-            string ano = "2024";
-            string mes = "06";
-            string dia = "01";
 
-            obj.fechadeldocumento = _utlididades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(ano, mes, dia);
+            obj.fechadeldocumento = _utlididades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento,obj.mesdeldocumento,obj.anodeldocumento);
 
 
 
