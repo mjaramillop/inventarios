@@ -72,8 +72,17 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
 
         [HttpGet("{tipodedocumento}")]
-        [ActionName("AddDocument")]
+        [ActionName("DeleteDocument")]
+        public List<string> DeleteDocument(int tipodedocumento)
+        {
+            List<string> list = _service.DeleteDocument(tipodedocumento);
+            return list;
+        }
 
+
+
+        [HttpGet("{tipodedocumento}")]
+        [ActionName("AddDocument")]
         public List<string> AddDocument(int tipodedocumento)
         {
             List<string> list = _service.AddDocument(tipodedocumento);

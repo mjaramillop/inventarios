@@ -1185,13 +1185,23 @@ namespace Inventarios.DataAccess.Utils
 
         public List<string> CalcularFechaDeVencimiento(string fecha, int plazo)
         {
-
-            fecha = fecha.Replace("%2F", "/");
-
-            DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
-
+            string mensajedeerror = "";
             List<string> result = new List<string>();
-            result.Add(fechadevencimiento.ToString("dd/MM/yyyy"));
+            try
+            {
+               
+
+                DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
+
+                mensajedeerror =   fechadevencimiento.ToString("dd/MM/yyyy");
+            }
+            catch (Exception ee)
+            {
+                mensajedeerror = "Fecha de formato invalida";
+              
+
+            }
+            result.Add(mensajedeerror);
             return result;
 
 

@@ -47,6 +47,14 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
+
+        public List<string> DeleteDocument(int tipodedocumento)
+        {
+            List<string> list = _access.DeleteDocument(tipodedocumento);
+            return list;
+        }
+
+
         public List<string> AddDocument(int tipodedocumento)
         {
             List<string> list = _access.AddDocument(tipodedocumento);

@@ -87,6 +87,8 @@ public class Movimientodeinventarios
         this.diadeldocumento = "";
     }
 
+
+//    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
     public int id { get; set; }
 
     public int despacha { get; set; }
@@ -183,7 +185,7 @@ public class Movimientodeinventarios
 
     public string nombrecodigodescuento1 { get; set; }
 
-    public int porcentajedescuento1 { get; set; }
+    public decimal porcentajedescuento1 { get; set; }
 
     public int valordescuento1 { get; set; }
 
@@ -191,7 +193,7 @@ public class Movimientodeinventarios
 
     public string nombrecodigoiva1 { get; set; }
 
-    public int porcentajedeiva1 { get; set; }
+    public decimal porcentajedeiva1 { get; set; }
 
     public int valoriva1 { get; set; }
 
@@ -201,7 +203,7 @@ public class Movimientodeinventarios
 
     public string nombrecodigoretencion1 { get; set; }
 
-    public int porcentajederetencion1 { get; set; }
+    public decimal porcentajederetencion1 { get; set; }
 
     public int valorretencion1 { get; set; }
 

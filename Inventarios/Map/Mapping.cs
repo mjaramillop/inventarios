@@ -273,6 +273,7 @@ namespace Inventarios.Map
             RetencionesDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.porcentaje = obj.porcentaje;
             dto.basedelaretencion = obj.basedelaretencion;
             dto.estadodelregistro = obj.estadodelregistro;
 

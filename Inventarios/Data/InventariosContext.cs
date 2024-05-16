@@ -292,6 +292,11 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.basedelaretencion)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("basedelaretencion");
+
+            entity.Property(e => e.porcentaje)
+              .HasColumnType("decimal(18, 2)")
+              .HasColumnName("porcentaje");
+
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -1189,7 +1194,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.nombrecodigodescuento1).HasColumnName("NOMBRECODIGODESCUENTO1");
 
-            entity.Property(e => e.porcentajedescuento1).HasColumnName("PORCENTAJEDESCUENTO1");
+            entity.Property(e => e.porcentajedescuento1).HasColumnType("decimal(18, 5)").HasColumnName("PORCENTAJEDESCUENTO1");
 
             entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
 
@@ -1197,7 +1202,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.nombrecodigoiva1).HasColumnName("NOMBRECODIGOIVA1");
 
-            entity.Property(e => e.porcentajedeiva1).HasColumnName("PORCENTAJEDEIVA1");
+            entity.Property(e => e.porcentajedeiva1).HasColumnType("decimal(18, 5)").HasColumnName("PORCENTAJEDEIVA1");
 
             entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
 
@@ -1207,7 +1212,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.nombrecodigoretencion1).HasColumnName("NOMBRECODIGORETENCION1");
 
-            entity.Property(e => e.porcentajederetencion1).HasColumnName("PORCENTAJEDERETENCION1");
+            entity.Property(e => e.porcentajederetencion1).HasColumnType("decimal(18, 5)").HasColumnName("PORCENTAJEDERETENCION1");
 
             entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
 
@@ -1483,7 +1488,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.nombrecodigodescuento1).HasColumnName("NOMBRECODIGODESCUENTO1");
 
-            entity.Property(e => e.porcentajedescuento1).HasColumnName("PORCENTAJEDESCUENTO1");
+            entity.Property(e => e.porcentajedescuento1).HasColumnType("decimal(18, 5)").HasColumnName("PORCENTAJEDESCUENTO1");
 
             entity.Property(e => e.valordescuento1).HasColumnName("VALORDESCUENTO1");
 
@@ -1491,7 +1496,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.nombrecodigoiva1).HasColumnName("NOMBRECODIGOIVA1");
 
-            entity.Property(e => e.porcentajedeiva1).HasColumnName("PORCENTAJEDEIVA1");
+            entity.Property(e => e.porcentajedeiva1).HasColumnType("decimal(18, 5)").HasColumnName("PORCENTAJEDEIVA1");
 
             entity.Property(e => e.valoriva1).HasColumnName("VALORIVA1");
 
@@ -1501,7 +1506,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.nombrecodigoretencion1).HasColumnName("NOMBRECODIGORETENCION1");
 
-            entity.Property(e => e.porcentajederetencion1).HasColumnName("PORCENTAJEDERETENCION1");
+            entity.Property(e => e.porcentajederetencion1).HasColumnType("decimal(18, 5)").HasColumnName("PORCENTAJEDERETENCION1");
 
             entity.Property(e => e.valorretencion1).HasColumnName("VALORRETENCION1");
 
