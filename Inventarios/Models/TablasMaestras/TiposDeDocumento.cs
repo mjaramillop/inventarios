@@ -25,7 +25,6 @@ public class TiposDeDocumento
         this.pideempaque = "";
         this.pidecantidad = "";
         this.pidevalorunitario = "";
-        this.pidesubtotal = "";
         this.pidedescuentodetalle = "";
         this.pideivadetalle = "";
         this.pidetipodedocumentoaafectardetalle = "";
@@ -91,9 +90,7 @@ public class TiposDeDocumento
 
     public string pidevalorunitario { get; set; }
 
-    public string pidesubtotal { get; set; }
-
-    public string pidedescuentodetalle { get; set; }
+      public string pidedescuentodetalle { get; set; }
 
     public string pideivadetalle { get; set; }
 

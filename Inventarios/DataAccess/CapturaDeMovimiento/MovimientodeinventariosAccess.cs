@@ -61,7 +61,12 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             ProcesarLosCamposNumericosDeCadaFila(obj.tipodedocumento, obj.consecutivousuario);
 
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).ToList();
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).OrderBy(a => a.id).ToList();
+
+            var s = list.Select(s => 
+            new { producto=s.producto, 
+                talla=s.talla,color=s.color, 
+                id = s.id, total_pedido = list.Sum(d => d.cantidad) }).GroupBy(a =>a.producto , a =>a.talla ).ToList();
 
 
             return list;
@@ -383,19 +388,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 obj_.sumaorestaencartera = objtipodedocumento.sumarcartera;
                 obj_.sumaorestaeninventario = objtipodedocumento.sumainventario;
 
-                if (objtipodedocumento.pideempaque != "S")
-                {
-                    string codigotipodeempqueunidad = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:codigotipodeempaqueunidad");
-                    obj_.numerodeempaques = 1;
-                    obj_.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
-                    obj_.cantidadporempaque = obj_.cantidad;
-                }
-
-                obj_.cantidad = obj_.numerodeempaques * obj_.cantidadporempaque;
-
-                obj_.subtotal = obj_.valorunitario * obj_.cantidad;
-                obj_.valorneto = obj_.subtotal - obj_.valordescuento1 + obj_.valoriva1 + obj_.fletes - obj_.valorretencion1;
-
+             
                 if (_validaciones.mensajedeerror.Trim().Length == 0) Update(obj_);
 
                 if (_validaciones.mensajedeerror.Trim().Length > 0)
@@ -419,81 +412,15 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
 
+            int contador = 0;
+
             foreach (var item in list)
             {
                 // consulta cada item de cada documento para actulizarlo en la base de datos
                 Movimientodeinventarios obj_ = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == item.id);
 
-
-                int idiva = 0;
-                decimal porcentajedeiva = 0;
-                int valoriva = 0;
-                string nombreiva = "";
-                string nombreproducto = "";
-
-
-                if ((objtipodedocumento.esunaventa == "S") || (objtipodedocumento.esunacompra == "S"))
-                {
-
-                    Productos? objproducto = new Productos();
-                    objproducto = _context.Productos.FirstOrDefault(a => a.id == obj_.producto);
-
-                    if (objproducto == null) nombreproducto = "Codigo errado..";
-
-                        if (objproducto != null)
-                    {
-
-                        Ivas? objivas = new Ivas();
-                        objivas = _context.Ivas.FirstOrDefault(a => a.id == objproducto.codigoiva1);
-
-                        idiva = objivas.id;
-                        porcentajedeiva = objivas.porcentaje;
-                        valoriva = Convert.ToInt32(item.subtotal * (objivas.porcentaje / 100));
-                        nombreiva = objivas.nombre;
-                    }
-
-
-                }
-
-                obj_.porcentajedeiva1 = porcentajedeiva;
-                obj_.codigoiva1 = idiva;
-                obj_.valoriva1 = valoriva;
-                obj_.nombrecodigoiva1 = nombreiva;
-                obj_.nombreproducto = nombreproducto;
-
-
-
-                int idretencion = 0;
-                decimal porcentajederetencion = 0;
-                int valorretencion = 0;
-                string nombreretencion = "";
-
-
-                if (objtipodedocumento.esunpago == "S")
-                {
-
-                    Proveedores? objproveedores = new Proveedores();
-                    objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj_.recibe);
-
-
-
-                    if (objproveedores != null)
-                    {
-                        Retenciones? objretenciones = new Retenciones();
-                        objretenciones = _context.Retenciones.FirstOrDefault(a => a.id == objproveedores.codigoderetencionaaplicar);
-
-                        idretencion = objretenciones.id;
-                        porcentajederetencion = objretenciones.porcentaje;
-                        valorretencion = Convert.ToInt32(item.subtotal * (objretenciones.porcentaje / 100));
-                        nombreretencion = objretenciones.nombre;
-                    }
-
-
-                }
-                obj_.porcentajederetencion1 = porcentajederetencion;
-                obj_.codigoretencion1 = idretencion;
-                obj_.valorretencion1 = valorretencion;
-                obj_.nombrecodigoretencion1 = nombreretencion;
+                contador = contador + 1;
+            
 
 
                 if (obj_.numerodeempaques < 0) obj_.numerodeempaques = 0;
@@ -506,6 +433,19 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 if (obj_.fletes < 0) obj_.fletes = 0;
 
 
+                if (objtipodedocumento.pidevalorunitario=="S")
+                {
+                    if (objtipodedocumento.pidecantidad != "S")
+                    {
+                        obj_.cantidad = 1;
+                        string codigotipodeempqueunidad = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:codigotipodeempaqueunidad");
+                        obj_.numerodeempaques = 1;
+                        obj_.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
+                        obj_.cantidadporempaque = obj_.cantidad;
+                    }
+
+                }
+
                 if (objtipodedocumento.pideempaque != "S")
                 {
                     string codigotipodeempqueunidad = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:codigotipodeempaqueunidad");
@@ -513,11 +453,43 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                     obj_.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
                     obj_.cantidadporempaque = obj_.cantidad;
                 }
-                obj_.cantidad = obj_.numerodeempaques * obj_.cantidadporempaque;
-                obj_.valordescuento1 = Convert.ToInt32(obj_.subtotal *  (obj_.porcentajedescuento1 / 100));
 
+
+                obj_.cantidad = obj_.numerodeempaques * obj_.cantidadporempaque;
                 obj_.subtotal = obj_.valorunitario * obj_.cantidad;
+                obj_.valordescuento1 = Convert.ToInt32(obj_.subtotal *  (obj_.porcentajedescuento1 / 100));
+                decimal valorbruto = obj_.subtotal - obj_.valordescuento1;
+
+
+                // calcula iva
+                CalcularIva objetocalculariva = new CalcularIva(objtipodedocumento, _context, obj_.producto, valorbruto);
+                obj_.porcentajedeiva1 =objetocalculariva.porcentajedeiva;
+                obj_.codigoiva1 = objetocalculariva.idiva;
+                obj_.valoriva1 = objetocalculariva.valoriva;
+                obj_.nombrecodigoiva1 = objetocalculariva.nombreiva;
+                obj_.nombreproducto = objetocalculariva.nombreproducto;
+
+
+                // aplicamos retencion solo a un registro osea en un registro guardamos el valor de la retencion 
+                // no en todos
+                if (contador == 1)
+                {
+                    // calcula retencion
+                    CalcularRetencion objetocalcularretencion = new CalcularRetencion(objtipodedocumento, _context, obj_.recibe, valorbruto);
+                    obj_.porcentajederetencion1 = objetocalcularretencion.porcentajederetencion;
+                    obj_.codigoretencion1 = objetocalcularretencion.idretencion;
+                    obj_.valorretencion1 = objetocalcularretencion.valorretencion;
+                    obj_.nombrecodigoretencion1 = objetocalcularretencion.nombreretencion;
+                }
+
+
                 obj_.valorneto = obj_.subtotal - obj_.valordescuento1 + obj_.valoriva1 + obj_.fletes - obj_.valorretencion1;
+
+
+
+
+
+
 
                 Update(obj_);
 

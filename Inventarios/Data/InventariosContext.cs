@@ -737,10 +737,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasColumnName("pideprograma");
-            entity.Property(e => e.pidesubtotal)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("pidesubtotal");
+          
             entity.Property(e => e.pidetalla)
                 .HasMaxLength(1)
                 .IsUnicode(false)

@@ -76,7 +76,7 @@ namespace Inventarios.DataAccess
 
         public List<MensajesDelSistemaDTO>? ListActive()
         {
-            list = _context.Mensajesdelsistema.ToList().Where(a => DateTime.Now >= a.fechadesde && DateTime.Now < a.fechahasta.AddDays(1)).ToList();
+            list = _context.Mensajesdelsistema.ToList().Where(a => DateTime.Now >= a.fechadesde && DateTime.Now < a.fechahasta).ToList();
             return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
         }
 

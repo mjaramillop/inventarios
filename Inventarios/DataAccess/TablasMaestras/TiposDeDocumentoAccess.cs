@@ -66,7 +66,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.pideempaque = obj.pideempaque;
             obj_.pidecantidad = obj.pidecantidad;
             obj_.pidevalorunitario = obj.pidevalorunitario;
-            obj_.pidesubtotal = obj.pidesubtotal;
             obj_.pidedescuentodetalle = obj.pidedescuentodetalle;
             obj_.pideivadetalle = obj.pideivadetalle;
             obj_.pidetipodedocumentoaafectardetalle = obj.pidetipodedocumentoaafectardetalle;
@@ -230,7 +229,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "pideempaque = " + obj.pideempaque + "\n";
             comando = comando + "pidecantidad = " + obj.pidecantidad + "\n";
             comando = comando + "pidevalorunitario = " + obj.pidevalorunitario + "\n";
-            comando = comando + "pidesubtotal = " + obj.pidesubtotal + "\n";
             comando = comando + "pidedescuentodetalle = " + obj.pidedescuentodetalle + "\n";
             comando = comando + "pideivadetalle = " + obj.pideivadetalle + "\n";
             comando = comando + "pidetipodedocumentoaafectatdetalle = " + obj.pidetipodedocumentoaafectardetalle + "\n";
