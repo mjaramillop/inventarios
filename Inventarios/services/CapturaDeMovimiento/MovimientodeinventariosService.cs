@@ -15,10 +15,10 @@ namespace Inventarios.services.CapturaDeMovimiento
             _access = access;
         }
 
-        public List<Movimientodeinventarios>? Add(Movimientodeinventarios obj)
+        public List<string>? Add(Movimientodeinventarios obj)
         {
-            list = _access.Add(obj);
-            return list;
+            List<string> mensajedeeror = _access.Add(obj);
+            return  mensajedeeror;
         }
 
         public List<string>? Delete(int id)
@@ -32,6 +32,13 @@ namespace Inventarios.services.CapturaDeMovimiento
             List<string> mensajedeerror = _access.Update(obj);
             return mensajedeerror;
         }
+
+        public List<Movimientodeinventarios>? List(int tipodeodcumento)
+        {
+            list= _access.List(tipodeodcumento );
+            return list;
+        }
+
 
         public List<Movimientodeinventarios>? GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {

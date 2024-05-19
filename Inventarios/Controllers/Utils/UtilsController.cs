@@ -1,5 +1,4 @@
 ﻿using Inventarios.DataAccess.Utils;
-using Inventarios.services.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -11,9 +10,9 @@ namespace Inventarios.Controllers.Utils
     [ApiController]
     public class UtilsController : ControllerBase
     {
-        private readonly UtilidadesService _service;
+        private readonly Utilidades _service;
 
-        public UtilsController(UtilidadesService service)
+        public UtilsController(Utilidades service)
         {
             _service =service;
         }

@@ -6,13 +6,13 @@ using System.Linq.Dynamic.Core.Tokenizer;
 
 namespace Inventarios.DataAccess.Utils
 {
-    public class UtilidadesAccess
+    public class Utilidades
     {
         public int TiempoDeEspera = 600; // 600 segundos
 
         private readonly IConfiguration _iconfiguration;
 
-        public UtilidadesAccess(IConfiguration iconfigutarion)
+        public Utilidades(IConfiguration iconfigutarion)
 
         {
             _iconfiguration = iconfigutarion;

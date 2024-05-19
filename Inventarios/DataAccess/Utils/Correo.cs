@@ -1,19 +1,44 @@
-﻿using Inventarios.Models.Uitls;
+﻿
+
 
 namespace Inventarios.DataAccess.Utils
 {
-    public class CorreoAccess
+    public class Correo
     {
         private readonly IConfiguration _iconfiguration;
 
-        public CorreoAccess(IConfiguration configutarion_)
+
+        public string Asunto { get; set; }
+        public string Mensaje { get; set; }
+        public string Destinatario { get; set; }
+        public string ServidorSmtpRemitePuerto { get; set; }
+        public bool habilitarconexionsegurassl { get; set; }
+
+        //  public string RemitePassword { get; set; }
+        public string MensajeDeError { get; set; }
+
+        public string direcciondecorreodesalida { get; set; }
+        public string servidorcorreodesalidasmtp { get; set; }
+
+        public int servidordecorreodesalidasmtppuerto { get; set; }
+        public Correo(IConfiguration configutarion_)
         {
             _iconfiguration = configutarion_;
+
+            this.Asunto = "";
+            this.Mensaje = "";
+            this.Destinatario = "";
+            this.ServidorSmtpRemitePuerto = "";
+            this.habilitarconexionsegurassl = true;
+            this.direcciondecorreodesalida = "";
+            this.MensajeDeError = "";
+            this.servidorcorreodesalidasmtp = "";
+            this.servidordecorreodesalidasmtppuerto = 25;
 
         }
 
 
-        public string enviarcorreo(Correo objcorreo)
+        public string enviarcorreo(Correo? objcorreo)
         {
             objcorreo.direcciondecorreodesalida = _iconfiguration.GetConnectionString("direcciondecorreodesalida");
             objcorreo.habilitarconexionsegurassl = Convert.ToBoolean(_iconfiguration.GetConnectionString("habilitarssl"));
@@ -56,3 +81,5 @@ namespace Inventarios.DataAccess.Utils
         }
     }
 }
+
+

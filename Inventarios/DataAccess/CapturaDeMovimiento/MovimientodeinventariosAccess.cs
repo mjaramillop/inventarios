@@ -1,6 +1,7 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DataAccess.Utils;
+using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
@@ -22,11 +23,13 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         private readonly JwtService _jwtservice;
 
-        private readonly ValidacionesAccess _validaciones;
+        private readonly Validaciones _validaciones;
 
-        private UtilidadesAccess _utlididades;
+        private Utilidades _utlididades;
 
-        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, ValidacionesAccess validaciones , UtilidadesAccess utilidades )
+        private MovimientosDeInventarios _movimiento;
+
+        public MovimientodeinventariosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, JwtService jwtservice, Validaciones validaciones , Utilidades utilidades, MovimientosDeInventarios movimiento )
         {
             _context = context;
             _logacces = logacces;
@@ -35,13 +38,11 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _jwtservice = jwtservice;
             _validaciones = validaciones;
             _utlididades = utilidades;
+            _movimiento = movimiento;   
         }
 
-        public List<Movimientodeinventarios> Add(Movimientodeinventarios obj)
+        public List<string> Add(Movimientodeinventarios obj)
         {
-
-
-
             string mensajedeerror = "";
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
             obj.consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
@@ -61,15 +62,15 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             ProcesarLosCamposNumericosDeCadaFila(obj.tipodedocumento, obj.consecutivousuario);
 
-            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.consecutivousuario == obj.consecutivousuario).OrderBy(a => a.id).ToList();
-
+/*
             var s = list.Select(s => 
             new { producto=s.producto, 
                 talla=s.talla,color=s.color, 
                 id = s.id, total_pedido = list.Sum(d => d.cantidad) }).GroupBy(a =>a.producto , a =>a.talla ).ToList();
+*/
 
 
-            return list;
+            return  new List<string> { mensajedeerror };
         }
 
         public List<string> Delete(int id)
@@ -169,6 +170,20 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro modificado correctamente";
             return new List<string> { mensajedeerror };
         }
+
+
+        public List<Movimientodeinventarios>? List(int tipodedocumento)
+        {
+
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == _jwtservice.Id);
+            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+            list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).OrderBy(a => a.id).ToList();
+            return list;
+        }
+
+
+
+
 
         public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
@@ -462,12 +477,12 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
 
                 // calcula iva
-                CalcularIva objetocalculariva = new CalcularIva(objtipodedocumento, _context, obj_.producto, valorbruto);
-                obj_.porcentajedeiva1 =objetocalculariva.porcentajedeiva;
-                obj_.codigoiva1 = objetocalculariva.idiva;
-                obj_.valoriva1 = objetocalculariva.valoriva;
-                obj_.nombrecodigoiva1 = objetocalculariva.nombreiva;
-                obj_.nombreproducto = objetocalculariva.nombreproducto;
+                _movimiento.CalcularIva(objtipodedocumento,  obj_.producto, valorbruto);
+                obj_.porcentajedeiva1 =_movimiento.porcentajedeiva;
+                obj_.codigoiva1 =  _movimiento.idiva;
+                obj_.valoriva1 = _movimiento.valoriva;
+                obj_.nombrecodigoiva1 = _movimiento.nombreiva;
+                obj_.nombreproducto = _movimiento.nombreproducto;
 
 
                 // aplicamos retencion solo a un registro osea en un registro guardamos el valor de la retencion 
@@ -475,11 +490,11 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 if (contador == 1)
                 {
                     // calcula retencion
-                    CalcularRetencion objetocalcularretencion = new CalcularRetencion(objtipodedocumento, _context, obj_.recibe, valorbruto);
-                    obj_.porcentajederetencion1 = objetocalcularretencion.porcentajederetencion;
-                    obj_.codigoretencion1 = objetocalcularretencion.idretencion;
-                    obj_.valorretencion1 = objetocalcularretencion.valorretencion;
-                    obj_.nombrecodigoretencion1 = objetocalcularretencion.nombreretencion;
+                  _movimiento.CalcularRetencion(objtipodedocumento, obj_.recibe, valorbruto);
+                    obj_.porcentajederetencion1 = _movimiento.porcentajederetencion;
+                    obj_.codigoretencion1 =   _movimiento.idretencion;
+                    obj_.valorretencion1 =   _movimiento.valorretencion;
+                    obj_.nombrecodigoretencion1 = _movimiento.nombreretencion;
                 }
 
 

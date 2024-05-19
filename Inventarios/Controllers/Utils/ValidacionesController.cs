@@ -1,4 +1,4 @@
-﻿using Inventarios.services.Utils;
+﻿using Inventarios.DataAccess.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +8,9 @@ namespace Inventarios.Controllers.Utils
     [ApiController]
     public class ValidacionesController : ControllerBase
     {
-        private readonly ValidacionesService _service;
+        private readonly Validaciones _service;
 
-        public ValidacionesController(ValidacionesService service)
+        public ValidacionesController(Validaciones service)
         {
             _service = service;
         }

@@ -19,11 +19,11 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private List<Productos>? list;
 
-        private readonly ValidacionesAccess _validaciones;
+        private readonly Validaciones _validaciones;
 
         private readonly IConfiguration _iconfiguration;
 
-        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, ValidacionesAccess validaciones, IConfiguration iconfiguration)
+        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones, IConfiguration iconfiguration)
         {
             _context = context;
 

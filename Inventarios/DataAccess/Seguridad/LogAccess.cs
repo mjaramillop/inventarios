@@ -59,7 +59,7 @@ namespace Inventarios.DataAccess.Seguridad
 
             comando = "DELETE  FROM LOG WHERE FECHA_DE_ACTUALIZACION <" + "'" + fecha + "'";
 
-            UtilidadesAccess ru = new(_iconfiguration);
+            Utilidades ru = new(_iconfiguration);
 
             string mensaje = ru.ejecutarsql(comando);
             if (mensaje.Trim().Length == 0) mensaje = "Registros eliminados correctamente antes del " + fecha;

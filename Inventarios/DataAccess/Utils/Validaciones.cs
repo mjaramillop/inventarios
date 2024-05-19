@@ -8,18 +8,18 @@ using Inventarios.Models.Seguridad;
 
 namespace Inventarios.DataAccess.Utils
 {
-    public class ValidacionesAccess
+    public class Validaciones
     {
         private readonly InventariosContext _context;
 
-        public ValidacionesAccess(InventariosContext context)
+        public Validaciones(InventariosContext context)
         {
             _context = context;
         }
 
         public string mensajedeerror { get; set; }
 
-        public ValidacionesAccess()
+        public Validaciones()
         {
             this.mensajedeerror = "";
         }

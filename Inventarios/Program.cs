@@ -19,7 +19,6 @@ using Inventarios.services.TablasMaestras;
 using Inventarios.services.Seguridad;
 using Inventarios.DataAccess.Utils;
 using Inventarios.Controllers.Utils;
-using Inventarios.services.Utils;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.DataAccess.CapturaDeMovimiento;
 using Inventarios.services.CapturaDeMovimiento;
@@ -106,25 +105,16 @@ builder.Services.AddScoped<TiposDeAgenteAccess>();
 builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
 builder.Services.AddScoped<TiposDePersonaAccess>();
 builder.Services.AddScoped<TiposDeRegimenAccess>();
-
 // utils
-builder.Services.AddScoped<CorreoAccess>();
-builder.Services.AddScoped<UtilidadesAccess>();
-builder.Services.AddScoped<ValidacionesAccess>();
+builder.Services.AddScoped<Inventarios.DataAccess.Utils.Utilidades>();
+builder.Services.AddScoped<Inventarios.DataAccess.Utils.Validaciones>();
+builder.Services.AddScoped<MovimientosDeInventarios>();
 
 
 
-
-
-
-
-
-
-
-
-
-
+//-----------------------------------------------------------------------------
 // services
+//-----------------------------------------------------------------------------
 // captura de movimiento 
 builder.Services.AddScoped<MovimientodeinventariosService>();
 
@@ -159,12 +149,6 @@ builder.Services.AddScoped<TiposDeAgenteService>();
 builder.Services.AddScoped<TiposDeCuentaBancariaService>();
 builder.Services.AddScoped<TiposDePersonaService>();
 builder.Services.AddScoped<TiposDeRegimenService>();
-
-// utils
-builder.Services.AddScoped<CorreoService>();
-builder.Services.AddScoped<UtilidadesService>();
-builder.Services.AddScoped<ValidacionesService>();
-
 
 //mapping
 builder.Services.AddScoped<Mapping>();

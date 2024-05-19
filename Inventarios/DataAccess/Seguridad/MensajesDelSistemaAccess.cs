@@ -28,7 +28,7 @@ namespace Inventarios.DataAccess
         {
             string comando = "";
             comando = "delete from mensajesdelsistema where fecha_hasta < getdate()  ";
-            UtilidadesAccess ru = new(_iconfiguration);
+            Utilidades ru = new(_iconfiguration);
             string mensaje = ru.ejecutarsql(comando);
 
             _context.Mensajesdelsistema.Add(obj);

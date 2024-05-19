@@ -1,5 +1,5 @@
-﻿using Inventarios.Models.Uitls;
-using Inventarios.services.Utils;
+﻿
+using Inventarios.DataAccess.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +10,9 @@ namespace Inventarios.Controllers.Utils
     public class CorreoController : ControllerBase
     {
 
-        private CorreoService _service;
+        private  Correo _service;
 
-        public CorreoController(CorreoService service ) { 
+        public CorreoController(Correo service ) { 
         
             _service = service;
         }
@@ -20,7 +20,7 @@ namespace Inventarios.Controllers.Utils
         [HttpGet]
         [ActionName("enviarcorreo")]
 
-        public List<string> enviarcorreo(Correo obj)
+        public List<string> enviarcorreo(DataAccess.Utils.Correo obj)
         {
             return new List<string> { _service.enviarcorreo(obj) };
         }
