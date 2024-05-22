@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,20 +11,20 @@ namespace Inventarios.Controllers.TablasMaestras
     public class UnidadesDeMedidaController : ControllerBase
     {
         private readonly UnidadesDeMedidaService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<UnidadesDeMedidaDTO>? list;
 
-        public UnidadesDeMedidaController(UnidadesDeMedidaService service, JwtService jwtservice)
+        public UnidadesDeMedidaController(UnidadesDeMedidaService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<UnidadesDeMedidaDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<UnidadesDeMedidaDTO>? Update(UnidadesDeMedida obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -53,7 +53,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<UnidadesDeMedida>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<UnidadesDeMedida> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +64,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }

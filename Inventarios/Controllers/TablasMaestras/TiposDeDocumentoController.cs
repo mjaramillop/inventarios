@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,20 +11,20 @@ namespace Inventarios.Controllers.TablasMaestras
     public class TiposDeDocumentoController : ControllerBase
     {
         private readonly TiposDeDocumentoService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<TiposDeDocumentoDTO>? list;
 
-        public TiposDeDocumentoController(TiposDeDocumentoService service, JwtService jwtservice)
+        public TiposDeDocumentoController(TiposDeDocumentoService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<TiposDeDocumentoDTO>? Add(TiposDeDocumento obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<TiposDeDocumentoDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<TiposDeDocumentoDTO>? Update(TiposDeDocumento? obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -53,7 +53,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<TiposDeDocumento>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<TiposDeDocumento> list = _service.GetById(id);
             return list;
         }
@@ -64,12 +64,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             List<TiposDeDocumento> list = new List<TiposDeDocumento> { };
 
-            if (_jwtservice.UserAthenticated() == false) return null;
-
-            if (_jwtservice.tiposdedocumento.IndexOf("," + id + "=") < 0)
-            {
-                return list;
-            }
+          
 
             list = _service.GetById(id);
             return list;
@@ -81,7 +76,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }
@@ -90,30 +85,20 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetAllCodigoNombre")]
         public List<TiposDeDocumentoDTO>? GetAllCodigoNombre(string filtro = "")
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.ListCodigoNombre(filtro);
             return list;
         }
 
-        [HttpGet("{id}")]
-        [ActionName("GetListDocumentosPermisos")]
-        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id)
-        {
-            if (_jwtservice.UserAthenticated() == false) return null;
-
-            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
-            return list;
-        }
-
+      
         [HttpGet()]
         [ActionName("GetListDocumentosPermisosUserLoged")]
         public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisosUserLoged()
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
-            int id = _jwtservice.Id;
 
-            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
+            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos();
             return list;
         }
 
@@ -121,7 +106,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetDarAccesoTotal")]
         public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarAccesoTotal(id);
             return list;
@@ -131,7 +116,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetDarRestriccionTotal")]
         public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id);
             return list;

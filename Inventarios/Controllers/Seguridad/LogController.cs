@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.services.Seguridad;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Seguridad
@@ -11,13 +11,13 @@ namespace Inventarios.Controllers.Seguridad
     public class LogController : ControllerBase
     {
         private readonly LogService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<LogDTO>? list;
 
-        public LogController(LogService service, JwtService jwtservice)
+        public LogController(LogService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("filtrar")]
         public List<LogDTO>? filtrar(LogConsultar obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(obj);
             return list;
         }
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("DeleteLog")]
         public List<string>? DeleteLog(string fecha)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<string> list = _service.DeleteLog(fecha);
             return list;
         }

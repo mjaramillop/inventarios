@@ -242,7 +242,7 @@ public class Movimientodeinventarios
     [JsonIgnore]
     public string consecutivousuario { get; set; }
 
-    [JsonIgnore]
+  
     public int idusuario { get; set; }
 
     [NotMapped]

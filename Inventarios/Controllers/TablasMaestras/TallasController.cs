@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,20 +11,20 @@ namespace Inventarios.Controllers.TablasMaestras
     public class TallasController : ControllerBase
     {
         private readonly TallasService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<TallasDTO>? list;
 
-        public TallasController(TallasService service, JwtService jwtservice)
+        public TallasController(TallasService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<TallasDTO>? Add(Tallas obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<TallasDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<TallasDTO>? Update(Tallas obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -53,7 +53,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<Tallas>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<Tallas> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +64,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }

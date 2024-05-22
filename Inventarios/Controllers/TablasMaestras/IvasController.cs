@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,20 +11,20 @@ namespace Inventarios.Controllers.TablasMaestras
     public class IvasController : ControllerBase
     {
         private readonly IvasService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<IvasDTO>? list;
 
-        public IvasController(IvasService service, JwtService jwtservice)
+        public IvasController(IvasService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<IvasDTO>? Add(Ivas obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<IvasDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<IvasDTO>? Update(Ivas obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -53,7 +53,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<Ivas>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<Ivas> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +64,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }

@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,20 +11,20 @@ namespace Inventarios.Controllers.TablasMaestras
     public class EstadosDeUnRegistroController : ControllerBase
     {
         private readonly EstadosDeUnRegistroService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<EstadosDeUnRegistroDTO>? list;
 
-        public EstadosDeUnRegistroController(EstadosDeUnRegistroService service, JwtService jwtservice)
+        public EstadosDeUnRegistroController(EstadosDeUnRegistroService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<EstadosDeUnRegistroDTO>? Add(EstadosDeUnRegistro obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<EstadosDeUnRegistroDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<EstadosDeUnRegistroDTO>? Update(EstadosDeUnRegistro obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -53,7 +53,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<EstadosDeUnRegistro>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<EstadosDeUnRegistro> list = _service.GetById(id);
             return list;
         }
@@ -63,7 +63,7 @@ namespace Inventarios.Controllers.TablasMaestras
         public List<EstadosDeUnRegistroDTO>? GetAll(string filtro = "")
         {
             if (filtro == "undefined") filtro = "";
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }

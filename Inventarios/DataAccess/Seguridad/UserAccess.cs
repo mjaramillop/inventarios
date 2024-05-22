@@ -3,27 +3,31 @@ using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
-using Inventarios.Token;
+
+using Microsoft.AspNetCore.Http;
 
 namespace Inventarios.DataAccess.Seguridad
 {
     public class UserAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
+        
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
+        private readonly IHttpContextAccessor? _httpcontext;
+      
 
         private List<Usuarios>? list;
         private readonly IConfiguration _iconfiguration;
 
-        public UserAccess(InventariosContext context, JwtService jwtservice, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, IHttpContextAccessor httpcontext)
         {
             _context = context;
-            _jwtservice = jwtservice;
+            
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _httpcontext = httpcontext;
         }
 
         public List<UsersDTO>? Add(Usuarios obj)
@@ -84,6 +88,25 @@ namespace Inventarios.DataAccess.Seguridad
             return list;
         }
 
+        public List<Usuarios> GetId()
+        {
+            int id = Convert.ToInt32(_httpcontext.HttpContext.Session.GetString("id"));
+            string login = _httpcontext.HttpContext.Session.GetString("login");
+            string password = _httpcontext.HttpContext.Session.GetString("password");
+            string nombre = _httpcontext.HttpContext.Session.GetString("username");
+
+            Usuarios usuario = new Usuarios();  
+            usuario.id = id;
+            usuario.login = login;
+            usuario.password = password;
+            usuario.nombre = nombre;
+            List<Usuarios> list = new List<Usuarios> {usuario };
+
+            return list;
+        }
+
+
+
         public List<UsersDTO>? List(string filtro = "")
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
@@ -94,54 +117,35 @@ namespace Inventarios.DataAccess.Seguridad
 
         //  operations not basics
 
-        public List<string> ValidateAccess(string login, string password)
+        public List<MenuDTO> ValidateAccess(string login, string password)
         {
             login = login.ToUpper();
             password = password.ToUpper();
-            var list = _context.Usuarios.Where(a => a.login == login && a.password == password).ToList();
+            Usuarios objusuarios= _context.Usuarios.FirstOrDefault(a => a.login == login && a.password == password);
 
             string jwt = "xxx";
-            _jwtservice.jwt = "xxx";
-            _jwtservice.Id = -1;
-            _jwtservice.username = "";
-            _jwtservice.password = "x";
-            _jwtservice.login = "x";
+            if (objusuarios == null) return   new List<MenuDTO>() ;
+            if (objusuarios.perfil == 0) return new List<MenuDTO>() ;
+            var perfil = _context.Perfiles.FirstOrDefault(a => a.id == objusuarios.perfil);
 
-            if (list == null) return new List<string>() { new string(jwt) };
+            _httpcontext.HttpContext.Session.SetString("id",  objusuarios.id.ToString());
+            _httpcontext.HttpContext.Session.SetString("username", objusuarios.nombre);
+            _httpcontext.HttpContext.Session.SetString("password", objusuarios.password);
+            _httpcontext.HttpContext.Session.SetString("login", objusuarios.login);
+            _httpcontext.HttpContext.Session.SetString("tiposdedocumento", objusuarios.tiposdedocumento);
+            _httpcontext.HttpContext.Session.SetString("programas", perfil.programas);
+            _httpcontext.HttpContext.Session.SetString("token", jwt);
+           
 
-            int? idperfil = 0;
-            foreach (var s in list)
-            {
-                jwt = _jwtservice.Generate(Convert.ToInt16(s.id));
-                _jwtservice.Id = s.id;
-                _jwtservice.username = s.nombre;
-                _jwtservice.password = s.password;
-                _jwtservice.login = s.login;
-                _jwtservice.tiposdedocumento = s.tiposdedocumento;
-
-                _jwtservice.jwt = jwt;
-                idperfil = s.perfil;
-            }
-
-            if (idperfil == 0) return new List<string>() { new string(jwt) };
-
-            var perfil = _context.Perfiles.FirstOrDefault(a => a.id == idperfil);
-            _jwtservice.programas = perfil.programas;
-
-            return new List<string>() { new string(jwt) };
-        }
-
-        public List<MenuDTO> ValidateToken(string token)
-        {
             var menu = _context.Menus.OrderBy(a => a.orden).ToList();
 
             List<MenuDTO> listmenudto = new List<MenuDTO>();
 
-            string[]? permisosdelosprogramas = _jwtservice.programas?.Split(",");
+            string[]? permisosdelosprogramas = perfil.programas?.Split(",");
 
             foreach (var s in menu)
             {
-                if (_jwtservice.programas?.IndexOf("," + s.id.ToString().Trim() + "=") >= 0)
+                if (perfil.programas?.IndexOf("," + s.id.ToString().Trim() + "=") >= 0)
                 {
                     string codigoabuscar = "," + s.id.ToString().Trim() + "=";
 
@@ -166,6 +170,11 @@ namespace Inventarios.DataAccess.Seguridad
                     responseobject.nombre = s.nombre;
                     responseobject.paginaweb = s.paginaweb;
                     responseobject.permisos = permisos;
+                    responseobject.idusuario = objusuarios.id;
+                    responseobject.username = objusuarios.nombre;
+                    responseobject.login = objusuarios.login;   
+                    responseobject.password = objusuarios.password;
+
                     listmenudto.Add(responseobject);
                 }
             }

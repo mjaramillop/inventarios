@@ -51,9 +51,9 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
+        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos()
         {
-            var list = _access.ListDocumentosPermisos(id);
+            var list = _access.ListDocumentosPermisos();
             return list;
         }
 

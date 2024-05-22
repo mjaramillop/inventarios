@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.Seguridad;
 using Inventarios.Models.Seguridad;
 using Inventarios.services.Seguridad;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Seguridad
@@ -11,20 +11,20 @@ namespace Inventarios.Controllers.Seguridad
     public class MensajesDelSistemaController : ControllerBase
     {
         private readonly MensajesDelSistemaService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<MensajesDelSistemaDTO>? list;
 
-        public MensajesDelSistemaController(MensajesDelSistemaService service, JwtService jwtservice)
+        public MensajesDelSistemaController(MensajesDelSistemaService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<MensajesDelSistemaDTO> Add(Mensajesdelsistema obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Delete")]
         public List<MensajesDelSistemaDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -43,7 +43,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Update")]
         public List<MensajesDelSistemaDTO>? Update(Mensajesdelsistema obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -53,7 +53,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetById")]
         public List<Mensajesdelsistema>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<Mensajesdelsistema> list = _service.GetById(id);
             return list;
         }
@@ -62,7 +62,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetAll")]
         public List<MensajesDelSistemaDTO>? GetAll(string filtro = "")
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }
@@ -71,7 +71,7 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetAllActive")]
         public List<MensajesDelSistemaDTO>? GetAllActive()
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.ListActive();
             return list;
         }

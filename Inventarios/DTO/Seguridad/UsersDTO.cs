@@ -18,25 +18,8 @@
     }
 
 
-    public class UserIdDTO
-    {
-        public int?id { get; set; }
-     
 
-    }
-
-    public class UserProgramasDTO
-    {
-        public string?programa { get; set; }
-
-
-    }
-    public class UserTiposDeDocumentoDTO
-    {
-        public string?tipodedocumento { get; set; }
-
-
-    }
+   
 
 
 

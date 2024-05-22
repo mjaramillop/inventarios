@@ -4,7 +4,7 @@ using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 using Inventarios.ModelsParameter.Seguridad;
-using Inventarios.Token;
+
 using System.Data;
 using System.Linq.Dynamic.Core;
 
@@ -13,21 +13,25 @@ namespace Inventarios.DataAccess.Seguridad
     public class LogAccess
     {
         private readonly InventariosContext _context;
-        private readonly JwtService _jwtservice;
+        
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
+        private readonly IHttpContextAccessor? _httpcontext;
 
-        public LogAccess(InventariosContext context, JwtService jwtservice, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration)
+        public LogAccess(InventariosContext context, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration, IHttpContextAccessor httpcontext)
         {
             _context = context;
-            _jwtservice = jwtservice;
+            
             _iconfiguration = iconfigutarion;
             _mapping = mapping;
+            _httpcontext = httpcontext;
         }
 
         public void Add(string registro)
         {
-            registro = registro + "Usuario que actualizo =" + _jwtservice.username;
+
+            string username = _httpcontext.HttpContext.Session.GetString("username");
+            registro = registro + "Usuario que actualizo =" + username;
 
             Log log = new Log();
             log.fechadeactualizacion = DateTime.Now;

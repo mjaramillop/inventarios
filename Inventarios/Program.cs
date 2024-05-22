@@ -1,7 +1,7 @@
 
 using Inventarios.Data;
 using Inventarios.DataAccess;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -152,9 +152,9 @@ builder.Services.AddScoped<TiposDeRegimenService>();
 
 //mapping
 builder.Services.AddScoped<Mapping>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-//token
-builder.Services.AddSingleton<JwtService>();
+
 
 
 
@@ -199,6 +199,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.UseStaticFiles();
 app.UseAuthentication();
+app.UseSession();
 
 app.UseCors("ReactJSDomain");
 

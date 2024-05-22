@@ -13,15 +13,17 @@ namespace Inventarios.DataAccess.TablasMaestras
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
         private readonly IConfiguration _iconfiguration;
+        private readonly IHttpContextAccessor? _httpcontext;
 
         private List<TiposDeDocumento>? list;
 
-        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion)
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion , IHttpContextAccessor httpcontext)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfigutarion;
+            _httpcontext = httpcontext; 
         }
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
@@ -101,6 +103,15 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<TiposDeDocumento> GetById(int id)
         {
+
+            string tiposdedocumento = _httpcontext.HttpContext.Session.GetString("tiposdedocumento");
+
+            if (tiposdedocumento.IndexOf("," + id + "=") < 0)
+            {
+                return  list;
+            }
+
+
             list = _context.TiposDeDocumento.Where(a => a.id == id).ToList();
             if (list.Count == 0) return list;
 
@@ -134,8 +145,12 @@ namespace Inventarios.DataAccess.TablasMaestras
             return list.OrderBy(a => a.nombre).ToList();
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int id)
+        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos()
         {
+
+            int id =  Convert.ToInt32( _httpcontext.HttpContext.Session.GetString("id"));
+
+
             Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
             string? tiposdedocumento = obj.tiposdedocumento;
 
@@ -194,7 +209,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log2(obj, "Modifico usuario");
 
-            return ListDocumentosPermisos(id);
+            return ListDocumentosPermisos();
         }
 
         public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id)
@@ -208,7 +223,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log2(obj, "Modifico usuario");
 
-            return ListDocumentosPermisos(id);
+            return ListDocumentosPermisos();
         }
 
         public void Log(TiposDeDocumento obj, string operacion)

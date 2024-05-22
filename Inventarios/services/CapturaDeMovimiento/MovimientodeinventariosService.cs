@@ -33,9 +33,18 @@ namespace Inventarios.services.CapturaDeMovimiento
             return mensajedeerror;
         }
 
-        public List<Movimientodeinventarios>? List(int tipodeodcumento)
+
+
+        public List<Movimientodeinventarios> GetById(int id)
         {
-            list= _access.List(tipodeodcumento );
+            list = _access.GetById(id);
+            return list;
+        }
+
+
+        public List<Movimientodeinventarios>? List(int tipodeodcumento, int idusuario)
+        {
+            list= _access.List(tipodeodcumento,idusuario );
             return list;
         }
 
@@ -55,24 +64,38 @@ namespace Inventarios.services.CapturaDeMovimiento
         }
 
 
-        public List<string> DeleteDocument(int tipodedocumento)
+        public List<string> DeleteDocument(int tipodedocumento,int idusuario)
         {
-            List<string> list = _access.DeleteDocument(tipodedocumento);
+            List<string> list = _access.DeleteDocument(tipodedocumento,idusuario);
             return list;
         }
 
 
-        public List<string> AddDocument(int tipodedocumento)
+        public List<string> AddDocument(int tipodedocumento, int idusuario)
         {
-            List<string> list = _access.AddDocument(tipodedocumento);
+            List<string> list = _access.AddDocument(tipodedocumento,idusuario);
             return list;
         }
 
-        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento)
+        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento,int idusuario)
         {
-            list = _access.TraerDocumentoTemporal(tipodedocumento);
+            list = _access.TraerDocumentoTemporal(tipodedocumento,idusuario);
             return list;
         }
+
+        public void AplicarDescuentoPieDeFactura(int tipodedocumento, decimal porcentajededescuento,int idusuario)
+        {
+             _access.AplicarDescuentoPieDeFactura(tipodedocumento,porcentajededescuento, idusuario);
+          
+        }
+
+        public void AplicarFletePieDeFactura(int tipodedocumento, int valorfletes , int idusuario)
+        {
+            _access.AplicarFletePieDeFactura(tipodedocumento, valorfletes, idusuario);
+
+        }
+
+
 
 
 

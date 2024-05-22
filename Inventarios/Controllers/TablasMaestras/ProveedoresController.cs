@@ -2,7 +2,7 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.services.TablasMaestras;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -12,20 +12,20 @@ namespace Inventarios.Controllers.TablasMaestras
     public class ProveedoresController : ControllerBase
     {
         private readonly ProveedoresService _service;
-        private readonly JwtService _jwtservice;
+        
         private List<ProveedoresDTO>? list;
 
-        public ProveedoresController(ProveedoresService service, JwtService jwtservice)
+        public ProveedoresController(ProveedoresService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
+            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<ProveedoresDTO>? Add(Proveedores obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.Add(obj);
             return list;
         }
@@ -34,7 +34,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<ProveedoresDTO>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Delete(id);
             return list;
@@ -44,7 +44,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<ProveedoresDTO>? Update(Proveedores obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.Update(obj);
             return list;
@@ -54,7 +54,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<Proveedores>? GetById(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<Proveedores> list = _service.GetById(id);
             return list;
         }
@@ -65,7 +65,7 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.List(filtro);
             return list;
         }
@@ -74,7 +74,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("UpdateNiveles")]
         public List<ProveedoresDTO>? UpdateNiveles(UpdateNiveles obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             list = _service.UpdateNiveles(obj);
             return list;

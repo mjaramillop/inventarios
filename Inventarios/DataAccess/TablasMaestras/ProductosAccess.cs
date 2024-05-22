@@ -227,12 +227,12 @@ namespace Inventarios.DataAccess.TablasMaestras
             List<Productos>? list = null;
             List<string> listadeerrores = new List<string>();
 
-            _validaciones.mensajedeerror = "";
-            _validaciones.Validarvalordiferentedecero("Porcentaje de incremento de precio", obj.porcentajedeincremento);
+          
+           string mensajedeerror= _validaciones.Validarvalordiferentedecero("Porcentaje de incremento de precio", obj.porcentajedeincremento);
 
-            if (_validaciones.mensajedeerror.Trim().Length > 0)
+            if  ( mensajedeerror.IndexOf("Error") >= 0)
             {
-                listadeerrores.Add(_validaciones.mensajedeerror);
+                listadeerrores.Add( mensajedeerror);
                 return listadeerrores;
             }
 
@@ -251,14 +251,13 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             if (list.Count == 0)
             {
-                _validaciones.mensajedeerror = "No hubo filas para actualizar";
-                listadeerrores.Add(_validaciones.mensajedeerror);
+                mensajedeerror = "No hubo filas para actualizar";
+                listadeerrores.Add(mensajedeerror);
                 return listadeerrores;
             }
 
-            if (_validaciones.mensajedeerror.Trim().Length == 0) _validaciones.mensajedeerror = "Precio cambiado exitosamente";
-
-            listadeerrores.Add(_validaciones.mensajedeerror);
+          
+            listadeerrores.Add("Precio cambiado exitosamente");
 
             return listadeerrores;
         }

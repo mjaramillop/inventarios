@@ -1,6 +1,6 @@
 ﻿using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.services.CapturaDeMovimiento;
-using Inventarios.Token;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.CapturaDeMovimiento
@@ -10,20 +10,18 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
     public class MovimientodeinventariosController : ControllerBase
     {
         private readonly MovimientodeinventariosService _service;
-        private readonly JwtService _jwtservice;
         private List<Movimientodeinventarios>? list;
 
-        public MovimientodeinventariosController(MovimientodeinventariosService service, JwtService jwtservice)
+        public MovimientodeinventariosController(MovimientodeinventariosService service)
         {
             _service = service;
-            _jwtservice = jwtservice;
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<string>? Add(Movimientodeinventarios obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             List<string>? list = _service.Add(obj);
             return list;
         }
@@ -32,7 +30,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         [ActionName("Delete")]
         public List<string>? Delete(int id)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             List<string>? list = _service.Delete(id);
             return list;
@@ -42,9 +40,19 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         [ActionName("Update")]
         public List<string>? Update(Movimientodeinventarios obj)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
 
             List<string>? list = _service.Update(obj);
+            return list;
+        }
+
+        [HttpGet("{id}")]
+        [ActionName("GetById")]
+        public List<Movimientodeinventarios>? GetById(int id)
+        {
+            
+
+            list = _service.GetById(id);
             return list;
         }
 
@@ -52,18 +60,18 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         [ActionName("GetByNumeroDeDocumento")]
         public List<Movimientodeinventarios>? GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
+            
             list = _service.GetByNumeroDeDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
             return list;
         }
 
 
-        [HttpGet("{tipodedocumento}")]
+        [HttpGet("{tipodedocumento}/{idusuario}")]
         [ActionName("GetAll")]
-        public List<Movimientodeinventarios>? GetAll(int tipodedocumento)
+        public List<Movimientodeinventarios>? GetAll(int tipodedocumento,int idusuario)
         {
-            if (_jwtservice.UserAthenticated() == false) return null;
-            list = _service.List(tipodedocumento);
+            
+            list = _service.List(tipodedocumento,idusuario);
             return list;
         }
 
@@ -79,34 +87,52 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         }
 
 
-        [HttpGet("{tipodedocumento}")]
+        [HttpGet("{tipodedocumento}/{idusuario}")]
         [ActionName("DeleteDocument")]
-        public List<string> DeleteDocument(int tipodedocumento)
+        public List<string> DeleteDocument(int tipodedocumento,int idusuario)
         {
-            List<string> list = _service.DeleteDocument(tipodedocumento);
+            List<string> list = _service.DeleteDocument(tipodedocumento,idusuario);
             return list;
         }
 
 
 
-        [HttpGet("{tipodedocumento}")]
+        [HttpGet("{tipodedocumento}/{idusuario}")]
         [ActionName("AddDocument")]
-        public List<string> AddDocument(int tipodedocumento)
+        public List<string> AddDocument(int tipodedocumento,int idusuario)
         {
-            List<string> list = _service.AddDocument(tipodedocumento);
+            List<string> list = _service.AddDocument(tipodedocumento,idusuario);
             return list;
         }
 
 
 
-        [HttpGet("{tipodedocumento}")]
+        [HttpGet("{tipodedocumento}/{idusuario}")]
         [ActionName("TraerTipoDeDocumentoTemporal")]
-        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento)
+        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento,int idusuario)
         {
-            list = _service.TraerDocumentoTemporal(tipodedocumento);
+            list = _service.TraerDocumentoTemporal(tipodedocumento,idusuario);
             return list;
         }
 
+
+
+        [HttpGet("{tipodedocumento}/{porcentajededescuento}/{idusuario}")]
+        [ActionName("AplicarDescuentoPieDeFactura")]
+        public void AplicarDescuentoPieDeFactura(int tipodedocumento, decimal porcentajededescuento, int idusuario)
+        {
+            _service.AplicarDescuentoPieDeFactura(tipodedocumento, porcentajededescuento,idusuario);
+
+        }
+
+
+        [HttpGet("{tipodedocumento}/{valorfletes}")]
+        [ActionName("AplicarFletePieDeFactura")]
+        public void AplicarFletePieDeFactura(int tipodedocumento, int valorfletes,int idusuario)
+        {
+            _service.AplicarFletePieDeFactura(tipodedocumento, valorfletes,idusuario) ;
+
+        }
 
 
 
