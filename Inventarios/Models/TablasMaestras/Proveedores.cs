@@ -52,7 +52,7 @@ public class Proveedores
 
         this.codigoderetencionaaplicar = 0;
 
-        this.estadodelregistro = 0;
+        this.estadodelregistro = 1;
 
         this.cuentabancaria = "";
 
@@ -63,6 +63,12 @@ public class Proveedores
         this.nivel3 = "";
         this.nivel4 = "";
         this.nivel5 = "";
+
+
+        this.idusuario = 0;
+        this.nombreusuario = "";
+
+
     }
 
     public int id { get; set; }
@@ -124,4 +130,9 @@ public class Proveedores
     public string? nivel3 { get; set; }
     public string? nivel4 { get; set; }
     public string? nivel5 { get; set; }
+
+    public int idusuario { get; set; }
+
+    public string nombreusuario { get; set; }
+
 }

@@ -70,6 +70,8 @@ namespace Inventarios.DataAccess.Seguridad
         public void Log(Menu obj, string operacion)
         {
             string comando = "";
+            comando = comando + "usuario " + obj.nombreusuario + "\n";
+
             comando = comando + "operacion " + operacion + "\n";
             comando = comando + "id = " + obj.id + "\n";
             comando = comando + "Orden  = " + obj.orden + "\n";

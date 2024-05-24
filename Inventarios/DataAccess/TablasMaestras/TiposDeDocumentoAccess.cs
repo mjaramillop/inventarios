@@ -4,6 +4,7 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -13,17 +14,17 @@ namespace Inventarios.DataAccess.TablasMaestras
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
         private readonly IConfiguration _iconfiguration;
-        private readonly IHttpContextAccessor? _httpcontext;
+    
 
         private List<TiposDeDocumento>? list;
 
-        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion , IHttpContextAccessor httpcontext)
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion )
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfigutarion;
-            _httpcontext = httpcontext; 
+          
         }
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
@@ -101,12 +102,12 @@ namespace Inventarios.DataAccess.TablasMaestras
             return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
-        public List<TiposDeDocumento> GetById(int id)
+        public List<TiposDeDocumento> GetById(int id , int idusuario)
         {
+            Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.id ==idusuario);
 
-            string tiposdedocumento = _httpcontext.HttpContext.Session.GetString("tiposdedocumento");
 
-            if (tiposdedocumento.IndexOf("," + id + "=") < 0)
+            if (objusuarios.tiposdedocumento.IndexOf("," + id.ToString() + "=") < 0)
             {
                 return  list;
             }
@@ -145,13 +146,12 @@ namespace Inventarios.DataAccess.TablasMaestras
             return list.OrderBy(a => a.nombre).ToList();
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos()
+        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int idusuario)
         {
+        
 
-            int id =  Convert.ToInt32( _httpcontext.HttpContext.Session.GetString("id"));
 
-
-            Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
+            Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             string? tiposdedocumento = obj.tiposdedocumento;
 
             List<TiposDeDocumentoPermisosDTO> listapermisos = new List<TiposDeDocumentoPermisosDTO>();
@@ -190,8 +190,9 @@ namespace Inventarios.DataAccess.TablasMaestras
             return listapermisos;
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id)
+        public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id ,int idusuario)
         {
+
             List<TiposDeDocumento> list = new List<TiposDeDocumento>();
             list = _context.TiposDeDocumento.ToList();
 
@@ -209,10 +210,10 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log2(obj, "Modifico usuario");
 
-            return ListDocumentosPermisos();
+            return ListDocumentosPermisos(idusuario);
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id)
+        public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id, int idusuario)
         {
             string tiposdedocumentoquepuedeaccesar = ",";
 
@@ -223,12 +224,14 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log2(obj, "Modifico usuario");
 
-            return ListDocumentosPermisos();
+            return ListDocumentosPermisos(idusuario);
         }
 
         public void Log(TiposDeDocumento obj, string operacion)
         {
             string comando = "";
+            comando = comando + "usuario " + obj.nombreusuario + "\n";
+
             comando = comando + "operacion " + operacion + "\n";
 
             comando = comando + "id = " + obj.id + "\n";

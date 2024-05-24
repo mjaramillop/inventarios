@@ -81,10 +81,11 @@ public class Movimientodeinventarios
         this.fechadecreacion = System.DateTime.Now;
         this.usuarioqueactualizo = "";
         this.consecutivousuario = "";
-        this.idusuario = 0;
-        this.anodeldocumento = "";
+            this.anodeldocumento = "";
         this.mesdeldocumento = "";
         this.diadeldocumento = "";
+        this.idusuario = 0;
+        this.nombreusuario = "";
     }
 
 
@@ -243,7 +244,6 @@ public class Movimientodeinventarios
     public string consecutivousuario { get; set; }
 
   
-    public int idusuario { get; set; }
 
     [NotMapped]
     public string anodeldocumento { get; set; }
@@ -253,4 +253,10 @@ public class Movimientodeinventarios
 
     [NotMapped]
     public string diadeldocumento { get; set; }
+
+
+    public int idusuario { get; set; }
+
+    public string nombreusuario { get; set; }
+
 }

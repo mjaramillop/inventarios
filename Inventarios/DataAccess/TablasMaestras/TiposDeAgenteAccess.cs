@@ -76,11 +76,14 @@ namespace Inventarios.DataAccess.TablasMaestras
         public void Log(TiposDeAgente obj, string operacion)
         {
             string comando = "";
+            comando = comando + "usuario " + obj.nombreusuario + "\n";
+
             comando = comando + "operacion " + operacion + "\n";
 
             comando = comando + "id = " + obj.id + "\n";
 
             comando = comando + "Nombre = " + obj.nombre + "\n";
+
 
             //
 

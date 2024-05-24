@@ -49,24 +49,24 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}")]
         [ActionName("GetById")]
-        public List<TiposDeDocumento>? GetById(int id)
+        public List<TiposDeDocumento>? GetById(int id,int idusuario)
         {
             
-            List<TiposDeDocumento> list = _service.GetById(id);
+            List<TiposDeDocumento> list = _service.GetById(id,idusuario);
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}")]
         [ActionName("GetByIdIfHasAccess")]
-        public List<TiposDeDocumento>? GetByIdIfHasAccess(int id)
+        public List<TiposDeDocumento>? GetByIdIfHasAccess(int id,int idusuario)
         {
             List<TiposDeDocumento> list = new List<TiposDeDocumento> { };
 
           
 
-            list = _service.GetById(id);
+            list = _service.GetById(id,idusuario);
             return list;
         }
 
@@ -91,34 +91,34 @@ namespace Inventarios.Controllers.TablasMaestras
         }
 
       
-        [HttpGet()]
+        [HttpGet("{idusuario}")]
         [ActionName("GetListDocumentosPermisosUserLoged")]
-        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisosUserLoged()
+        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisosUserLoged(int idusuario)
         {
             
 
 
-            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos();
+            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(idusuario);
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}")]
         [ActionName("GetDarAccesoTotal")]
-        public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id)
+        public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id, int idusuario  )
         {
             
 
-            List<TiposDeDocumentoPermisosDTO>? list = _service.DarAccesoTotal(id);
+            List<TiposDeDocumentoPermisosDTO>? list = _service.DarAccesoTotal(id,idusuario);
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}")]
         [ActionName("GetDarRestriccionTotal")]
-        public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id)
+        public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id, int idusuario  )
         {
             
 
-            List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id);
+            List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id,idusuario);
             return list;
         }
     }

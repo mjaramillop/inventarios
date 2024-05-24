@@ -10,13 +10,17 @@
             this.precio1 = 0;
             this.costoultimo = 0;
             this.codigoiva1 = 0;
-            this.estadodelregistro = 0;
+            this.estadodelregistro = 1;
             this.secargalinventario = "";
             this.nivel1 = "";
             this.nivel2 = "";
             this.nivel3 = "";
             this.nivel4 = "";
             this.nivel5 = "";
+            this.idusuario = 0;
+            this.nombreusuario = "";
+
+
         }
 
         public int id { get; set; }
@@ -40,5 +44,10 @@
         public string nivel3 { get; set; }
         public string nivel4 { get; set; }
         public string nivel5 { get; set; }
+
+        public int idusuario { get; set; }
+
+        public string nombreusuario { get; set; }
+
     }
 }

@@ -79,6 +79,8 @@ namespace Inventarios.DataAccess
         public void Log(Programas obj, string operacion)
         {
             string comando = "";
+            comando = comando + "usuario " + obj.nombreusuario + "\n";
+
             comando = comando + "operacion " + operacion + "\n";
 
             comando = comando + "id = " + obj.id + "\n";

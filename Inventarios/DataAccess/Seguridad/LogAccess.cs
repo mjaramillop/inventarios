@@ -16,23 +16,21 @@ namespace Inventarios.DataAccess.Seguridad
         
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
-        private readonly IHttpContextAccessor? _httpcontext;
+       
 
-        public LogAccess(InventariosContext context, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration, IHttpContextAccessor httpcontext)
+        public LogAccess(InventariosContext context, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             
             _iconfiguration = iconfigutarion;
             _mapping = mapping;
-            _httpcontext = httpcontext;
+          
         }
 
         public void Add(string registro)
         {
 
-            string username = _httpcontext.HttpContext.Session.GetString("username");
-            registro = registro + "Usuario que actualizo =" + username;
-
+          
             Log log = new Log();
             log.fechadeactualizacion = DateTime.Now;
             log.descripciondelaoperacion = registro;

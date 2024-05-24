@@ -44,12 +44,17 @@ public class TiposDeDocumento
         this.eldocumentoseimprimeanombrededespachaorecibe = "";
         this.esunanota = "";
         this.esuninventarioinicial = "";
-        this.estadodelregistro = 0;
+        this.estadodelregistro = 1;
         this.titulodespacha = "";
         this.titulorecibe = "";
         this.transaccionesquepuedellamar = "";
         this.nombredespacha = "";
         this.nombrerecibe = "";
+
+      
+        this.idusuario = 0;
+        this.nombreusuario = "";
+
     }
 
     public int id { get; set; }
@@ -141,4 +146,8 @@ public class TiposDeDocumento
 
     [NotMapped]
     public string nombrerecibe { get; set; }
+
+    public int idusuario { get; set; }
+    public string nombreusuario { get; set; }
+
 }

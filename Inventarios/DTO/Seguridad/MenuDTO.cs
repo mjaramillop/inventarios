@@ -15,6 +15,9 @@ namespace Inventarios.DTO.Seguridad
             this.permisos = "";
             this.idusuario = 0; 
             this.username = "";
+            this.login = "";
+            this.password = "";
+
 
         }    
 
