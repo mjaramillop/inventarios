@@ -44,14 +44,7 @@ namespace Inventarios.services.Seguridad
 
 
 
-        public List<Usuarios> GetId()
-        {
-
-            List<Usuarios>list = _access.GetId();
-
-            return list;
-        }
-
+       
         public List<UsersDTO>? List(string filtro = "")
         {
             list = _access.List(filtro);

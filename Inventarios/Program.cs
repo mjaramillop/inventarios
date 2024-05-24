@@ -161,7 +161,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // conexion de datos
 
 builder.Services.AddDbContext<InventariosContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionstring")));
-//builder.Services.AddHttpContextAccessor();
+
 
 
 builder.Services.AddCors(options =>

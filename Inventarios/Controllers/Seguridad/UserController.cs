@@ -61,16 +61,6 @@ namespace Inventarios.Controllers.Seguridad
         }
 
 
-        [HttpGet]
-        [ActionName("GetId")]
-        public List<Usuarios>? GetId()
-        {
-           
-            List<Usuarios> list = _service.GetId();
-
-            return list;
-        }
-
 
 
         [HttpGet("{filtro}")]

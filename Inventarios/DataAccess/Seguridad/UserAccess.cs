@@ -14,20 +14,20 @@ namespace Inventarios.DataAccess.Seguridad
         
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
-        private readonly IHttpContextAccessor? _httpcontext;
+    
       
 
         private List<Usuarios>? list;
         private readonly IConfiguration _iconfiguration;
 
-        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, IHttpContextAccessor httpcontext)
+        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
             
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
-            _httpcontext = httpcontext;
+          
         }
 
         public List<UsersDTO>? Add(Usuarios obj)
@@ -85,15 +85,6 @@ namespace Inventarios.DataAccess.Seguridad
         public List<Usuarios> GetById(int id)
         {
             list = _context.Usuarios.Where(a => a.id == id).ToList();
-            return list;
-        }
-
-        public List<Usuarios> GetId()
-        {
-           
-
-         
-
             return list;
         }
 
