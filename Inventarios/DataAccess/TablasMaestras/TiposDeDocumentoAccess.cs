@@ -94,6 +94,9 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             obj_.transaccionesquepuedellamar = obj.transaccionesquepuedellamar;
             obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
+
 
             _context.SaveChanges();
             Log(obj, "Modifico TiposDeDocumento");

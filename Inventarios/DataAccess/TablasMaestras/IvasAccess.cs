@@ -52,8 +52,9 @@ namespace Inventarios.DataAccess
 
             obj_.nombre = obj.nombre;
             obj_.porcentaje = obj.porcentaje;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
 
-            //
             obj_.estadodelregistro = obj.estadodelregistro;
 
             _context.SaveChanges();

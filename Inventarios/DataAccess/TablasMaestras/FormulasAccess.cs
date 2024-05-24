@@ -57,6 +57,9 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.formula = obj.formula;
             obj_.componente = obj.componente;
             obj_.cantidad = obj.cantidad;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
+
             _context.SaveChanges();
             ActualizarCostoDeLaFormula(obj.formula);
             Log(obj, "Modifico Formula");

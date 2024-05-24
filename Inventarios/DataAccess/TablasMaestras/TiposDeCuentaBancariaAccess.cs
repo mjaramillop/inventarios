@@ -51,6 +51,8 @@ namespace Inventarios.DataAccess.TablasMaestras
             var obj_ = _context.TiposDeCuentaBancaria.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
 
             _context.SaveChanges();
             Log(obj, "Modifico Tipo de cuenta bancaria");

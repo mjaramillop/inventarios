@@ -90,17 +90,9 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<Usuarios> GetId()
         {
-            int id = Convert.ToInt32(_httpcontext.HttpContext.Session.GetString("id"));
-            string login = _httpcontext.HttpContext.Session.GetString("login");
-            string password = _httpcontext.HttpContext.Session.GetString("password");
-            string nombre = _httpcontext.HttpContext.Session.GetString("username");
+           
 
-            Usuarios usuario = new Usuarios();  
-            usuario.id = id;
-            usuario.login = login;
-            usuario.password = password;
-            usuario.nombre = nombre;
-            List<Usuarios> list = new List<Usuarios> {usuario };
+         
 
             return list;
         }
@@ -123,20 +115,12 @@ namespace Inventarios.DataAccess.Seguridad
             password = password.ToUpper();
             Usuarios objusuarios= _context.Usuarios.FirstOrDefault(a => a.login == login && a.password == password);
 
-            string jwt = "xxx";
+       
             if (objusuarios == null) return   new List<MenuDTO>() ;
             if (objusuarios.perfil == 0) return new List<MenuDTO>() ;
             var perfil = _context.Perfiles.FirstOrDefault(a => a.id == objusuarios.perfil);
 
-            _httpcontext.HttpContext.Session.SetString("id",  objusuarios.id.ToString());
-            _httpcontext.HttpContext.Session.SetString("username", objusuarios.nombre);
-            _httpcontext.HttpContext.Session.SetString("password", objusuarios.password);
-            _httpcontext.HttpContext.Session.SetString("login", objusuarios.login);
-            _httpcontext.HttpContext.Session.SetString("tiposdedocumento", objusuarios.tiposdedocumento);
-            _httpcontext.HttpContext.Session.SetString("programas", perfil.programas);
-            _httpcontext.HttpContext.Session.SetString("token", jwt);
-           
-
+         
             var menu = _context.Menus.OrderBy(a => a.orden).ToList();
 
             List<MenuDTO> listmenudto = new List<MenuDTO>();

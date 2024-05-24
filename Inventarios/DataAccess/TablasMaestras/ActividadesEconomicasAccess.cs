@@ -51,7 +51,8 @@ namespace Inventarios.DataAccess.TablasMaestras
             var obj_ = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
-
+            obj_.idusuario = obj.idusuario; 
+            obj_.nombreusuario=obj.nombreusuario;
             obj_.estadodelregistro = obj.estadodelregistro;
 
             _context.SaveChanges();

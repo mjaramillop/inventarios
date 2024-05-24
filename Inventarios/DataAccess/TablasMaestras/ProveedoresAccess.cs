@@ -78,6 +78,9 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.nivel3 = obj.nivel3;
             obj_.nivel4 = obj.nivel4;
             obj_.nivel5 = obj.nivel5;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
+
 
             _context.SaveChanges();
             Log(obj, "Modifico Proveedores");

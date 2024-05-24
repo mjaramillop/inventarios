@@ -50,6 +50,8 @@ namespace Inventarios.DataAccess
             var obj_ = _context.FormasDePago.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
 
             obj_.estadodelregistro = obj.estadodelregistro;
 
