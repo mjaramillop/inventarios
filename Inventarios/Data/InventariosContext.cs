@@ -84,6 +84,9 @@ public partial class InventariosContext : DbContext
     {
         modelBuilder.Entity<SiNo>(entity =>
         {
+
+            entity.HasKey(e => e.id).HasName("PK_SINO");
+
             entity.ToTable("SiNo");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -105,6 +108,8 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Colores>(entity =>
         {
+            entity.HasKey(e => e.id).HasName("PK_COLORES");
+
             entity.ToTable("Colores");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -130,6 +135,9 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<Tallas>(entity =>
         {
+
+            entity.HasKey(e => e.id).HasName("PK_TALLAS");
+
             entity.ToTable("Tallas");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -150,6 +158,9 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<TiposDeAgente>(entity =>
         {
+
+            entity.HasKey(e => e.id).HasName("PK_TIPOSDEAGENTE");
+
             entity.ToTable("TiposDeAgente");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -169,6 +180,8 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<TiposDeCuentaBancaria>(entity =>
         {
+            entity.HasKey(e => e.id).HasName("PK_TIPOSDECUENTABANCARIA");
+
             entity.ToTable("TiposDeCuentaBancaria");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -187,6 +200,9 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<TiposDePersona>(entity =>
         {
+
+            entity.HasKey(e => e.id).HasName("PK_TIPOSDEPERSONA");
+
             entity.ToTable("TiposDePersona");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -205,6 +221,8 @@ public partial class InventariosContext : DbContext
 
         modelBuilder.Entity<TiposDeRegimen>(entity =>
         {
+            entity.HasKey(e => e.id).HasName("PK_TIPOSDEREGIMEN");
+
             entity.ToTable("TiposDeRegimen");
 
             entity.Property(e => e.id).HasColumnName("ID");
