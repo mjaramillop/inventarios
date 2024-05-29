@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class TiposDeCuentaBancariaController : ControllerBase
     {
         private readonly TiposDeCuentaBancariaService _service;
-        
+
         private List<TiposDeCuentaBancariaDTO>? list;
 
         public TiposDeCuentaBancariaController(TiposDeCuentaBancariaService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<TiposDeCuentaBancariaDTO>? Add(TiposDeCuentaBancaria obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<TiposDeCuentaBancariaDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<TiposDeCuentaBancariaDTO>? Update(TiposDeCuentaBancaria obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<TiposDeCuentaBancaria>? GetById(int id)
         {
-            
             List<TiposDeCuentaBancaria> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +57,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }

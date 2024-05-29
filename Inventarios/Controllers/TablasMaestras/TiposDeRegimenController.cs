@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class TiposDeRegimenController : ControllerBase
     {
         private readonly TiposDeRegimenService _service;
-        
+
         private List<TiposDeRegimenDTO>? list;
 
         public TiposDeRegimenController(TiposDeRegimenService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<TiposDeRegimenDTO>? Add(TiposDeRegimen obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<TiposDeRegimenDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<TiposDeRegimenDTO>? Update(TiposDeRegimen obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<TiposDeRegimen>? GetById(int id)
         {
-            
             List<TiposDeRegimen> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +57,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }

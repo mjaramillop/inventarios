@@ -55,7 +55,6 @@
     <Folder Include="ModelsParameter\ServicioAlCliente\" />
     <Folder Include="Models\ServicioAlCliente\" />
     <Folder Include="services\ServicioAlCliente\" />
-    <Folder Include="Token\" />
   </ItemGroup>
 
 </Project>

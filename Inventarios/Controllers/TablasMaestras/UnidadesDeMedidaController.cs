@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class UnidadesDeMedidaController : ControllerBase
     {
         private readonly UnidadesDeMedidaService _service;
-        
+
         private List<UnidadesDeMedidaDTO>? list;
 
         public UnidadesDeMedidaController(UnidadesDeMedidaService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<UnidadesDeMedidaDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<UnidadesDeMedidaDTO>? Update(UnidadesDeMedida obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<UnidadesDeMedida>? GetById(int id)
         {
-            
             List<UnidadesDeMedida> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +57,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }

@@ -2,7 +2,6 @@
 {
     public class LogDTO
     {
-
         public int id { get; set; }
 
         public string? descripciondelaoperacion { get; set; }

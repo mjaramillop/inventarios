@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.Seguridad
     public class PerfilesController : ControllerBase
     {
         private readonly PerfilesService _service;
-        
+
         private List<PerfilesDTO>? list;
 
         public PerfilesController(PerfilesService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<PerfilesDTO>? Add(Perfiles obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Delete")]
         public List<PerfilesDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Update")]
         public List<PerfilesDTO>? Update(Perfiles obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetById")]
         public List<Perfiles>? GetById(int id)
         {
-            
             List<Perfiles> list = _service.GetById(id);
             return list;
         }
@@ -62,7 +55,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetAll")]
         public List<PerfilesDTO>? GetAll(string filtro = "")
         {
-            
             list = _service.List(filtro);
             return list;
         }
@@ -71,7 +63,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetListProgramasPermisos")]
         public List<ProgramasPermisosDTO>? GetListProgramasPermisos(int id)
         {
-            
             List<ProgramasPermisosDTO>? list = _service.ListProgramasPermisos(id);
             return list;
         }

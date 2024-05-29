@@ -2,9 +2,6 @@
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
 
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
-
 namespace Inventarios.DataAccess.Utils
 {
     public class MovimientosDeInventarios
@@ -14,12 +11,11 @@ namespace Inventarios.DataAccess.Utils
         private readonly InventariosContext _context;
         private readonly Validaciones _validaciones;
 
- 
-        public MovimientosDeInventarios(IConfiguration configutarion ,InventariosContext context , Validaciones valiaciones )
+        public MovimientosDeInventarios(IConfiguration configutarion, InventariosContext context, Validaciones valiaciones)
         {
-            _iconfiguration = configutarion; 
+            _iconfiguration = configutarion;
             _context = context;
-            _validaciones = valiaciones;    
+            _validaciones = valiaciones;
         }
 
         public Movimientodeinventarios CalcularIva(Movimientodeinventarios obj)
@@ -27,8 +23,7 @@ namespace Inventarios.DataAccess.Utils
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.tipodedocumento);
 
-
-            obj.codigoiva1 =0;
+            obj.codigoiva1 = 0;
             obj.porcentajedeiva1 = 0;
             obj.valoriva1 = 0;
             obj.nombrecodigoiva1 = "";
@@ -48,7 +43,7 @@ namespace Inventarios.DataAccess.Utils
 
                     obj.codigoiva1 = objivas.id;
                     obj.porcentajedeiva1 = objivas.porcentaje;
-                    obj.valoriva1 = Convert.ToInt32((obj.subtotal - obj.valordescuento1+obj.fletes) * (objivas.porcentaje / 100));
+                    obj.valoriva1 = Convert.ToInt32((obj.subtotal - obj.valordescuento1 + obj.fletes) * (objivas.porcentaje / 100));
                     obj.nombrecodigoiva1 = objivas.nombre;
                     obj.nombreproducto = objproducto.nombre;
                 }
@@ -81,9 +76,9 @@ namespace Inventarios.DataAccess.Utils
                     {
                         obj.codigoretencion1 = objretenciones.id;
                         obj.porcentajederetencion1 = objretenciones.porcentaje;
-                        if ((obj.subtotal - obj.valordescuento1+obj.fletes) >= objretenciones.basedelaretencion)
+                        if ((obj.subtotal - obj.valordescuento1 + obj.fletes) >= objretenciones.basedelaretencion)
                         {
-                            obj.valorretencion1 = Convert.ToInt32((obj.subtotal - obj.valordescuento1+obj.fletes) * (objretenciones.porcentaje / 100));
+                            obj.valorretencion1 = Convert.ToInt32((obj.subtotal - obj.valordescuento1 + obj.fletes) * (objretenciones.porcentaje / 100));
                         }
 
                         obj.nombrecodigoretencion1 = objretenciones.nombre;
@@ -92,11 +87,9 @@ namespace Inventarios.DataAccess.Utils
             }
         }
 
-
-        public Movimientodeinventarios ColocarDescripcionALasEntidades(Movimientodeinventarios obj,  TiposDeDocumento objtipodedocumento )
+        public Movimientodeinventarios ColocarDescripcionALasEntidades(Movimientodeinventarios obj, TiposDeDocumento objtipodedocumento)
         {
-           
-            obj.nombretipodedocumento=_validaciones.ValidarTipoDeDocumento(obj.tipodedocumento);
+            obj.nombretipodedocumento = _validaciones.ValidarTipoDeDocumento(obj.tipodedocumento);
             obj.nombredespacha = _validaciones.ValidarDespacha(obj.despacha);
             obj.nombrerecibe = _validaciones.ValidarRecibe(obj.recibe);
             obj.nombretipodedocumentoaafectar = _validaciones.ValidarTipoDeDocumentoaAfectar(obj.tipodedocumentoaafectar);
@@ -113,7 +106,6 @@ namespace Inventarios.DataAccess.Utils
             obj.nombrecolor = _validaciones.ValidarColor(obj.color);
             obj.nombreunidaddeempaque = _validaciones.ValidarUnidadDeEmpaque(obj.unidaddeempaque);
 
-
             if (obj.numerodeempaques < 0) obj.numerodeempaques = 0;
             if (obj.cantidadporempaque < 0) obj.cantidadporempaque = 0;
             if (obj.cantidad < 0) obj.cantidad = 0;
@@ -126,8 +118,6 @@ namespace Inventarios.DataAccess.Utils
 
             obj.fechadevencimientodeldocumento = obj.fechadeldocumento.AddDays(obj.plazo);
 
-
-
             if (objtipodedocumento.pidevalorunitario == "S")
             {
                 if (objtipodedocumento.pidecantidad != "S")
@@ -138,7 +128,6 @@ namespace Inventarios.DataAccess.Utils
                     obj.unidaddeempaque = Convert.ToInt32(codigotipodeempqueunidad);
                     obj.cantidadporempaque = obj.cantidad;
                 }
-
             }
 
             if (objtipodedocumento.pideempaque != "S")
@@ -149,7 +138,6 @@ namespace Inventarios.DataAccess.Utils
                 obj.cantidadporempaque = obj.cantidad;
             }
 
-
             obj.cantidad = obj.numerodeempaques * obj.cantidadporempaque;
             obj.subtotal = obj.valorunitario * obj.cantidad;
             obj.valordescuento1 = Convert.ToInt32(obj.subtotal * (obj.porcentajedescuento1 / 100));
@@ -157,12 +145,7 @@ namespace Inventarios.DataAccess.Utils
             obj.sumaorestaencartera = objtipodedocumento.sumarcartera;
             obj.sumaorestaeninventario = objtipodedocumento.sumainventario;
 
-
             return obj;
         }
-
-
-
-
     }
 }

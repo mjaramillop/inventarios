@@ -51,10 +51,8 @@ public class TiposDeDocumento
         this.nombredespacha = "";
         this.nombrerecibe = "";
 
-      
         this.idusuario = 0;
         this.nombreusuario = "";
-
     }
 
     public int id { get; set; }
@@ -95,7 +93,7 @@ public class TiposDeDocumento
 
     public string pidevalorunitario { get; set; }
 
-      public string pidedescuentodetalle { get; set; }
+    public string pidedescuentodetalle { get; set; }
 
     public string pideivadetalle { get; set; }
 
@@ -149,5 +147,4 @@ public class TiposDeDocumento
 
     public int idusuario { get; set; }
     public string nombreusuario { get; set; }
-
 }

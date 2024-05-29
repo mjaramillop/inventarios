@@ -12,20 +12,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class ProveedoresController : ControllerBase
     {
         private readonly ProveedoresService _service;
-        
+
         private List<ProveedoresDTO>? list;
 
         public ProveedoresController(ProveedoresService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<ProveedoresDTO>? Add(Proveedores obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -34,8 +32,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<ProveedoresDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -44,8 +40,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<ProveedoresDTO>? Update(Proveedores obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -54,7 +48,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<Proveedores>? GetById(int id)
         {
-            
             List<Proveedores> list = _service.GetById(id);
             return list;
         }
@@ -65,7 +58,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }
@@ -74,8 +66,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("UpdateNiveles")]
         public List<ProveedoresDTO>? UpdateNiveles(UpdateNiveles obj)
         {
-            
-
             list = _service.UpdateNiveles(obj);
             return list;
         }

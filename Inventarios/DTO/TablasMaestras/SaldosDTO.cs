@@ -32,9 +32,6 @@
 
         public decimal? stockmaximo { get; set; }
 
-
-        public decimal diassinrotar {get;set;}
-
-
+        public decimal diassinrotar { get; set; }
     }
 }

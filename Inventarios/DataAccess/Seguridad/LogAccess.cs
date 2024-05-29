@@ -13,24 +13,20 @@ namespace Inventarios.DataAccess.Seguridad
     public class LogAccess
     {
         private readonly InventariosContext _context;
-        
+
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
-       
 
         public LogAccess(InventariosContext context, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
-            
+
             _iconfiguration = iconfigutarion;
             _mapping = mapping;
-          
         }
 
         public void Add(string registro)
         {
-
-          
             Log log = new Log();
             log.fechadeactualizacion = DateTime.Now;
             log.descripciondelaoperacion = registro;

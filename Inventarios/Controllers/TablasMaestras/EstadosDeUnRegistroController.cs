@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class EstadosDeUnRegistroController : ControllerBase
     {
         private readonly EstadosDeUnRegistroService _service;
-        
+
         private List<EstadosDeUnRegistroDTO>? list;
 
         public EstadosDeUnRegistroController(EstadosDeUnRegistroService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<EstadosDeUnRegistroDTO>? Add(EstadosDeUnRegistro obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<EstadosDeUnRegistroDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<EstadosDeUnRegistroDTO>? Update(EstadosDeUnRegistro obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<EstadosDeUnRegistro>? GetById(int id)
         {
-            
             List<EstadosDeUnRegistro> list = _service.GetById(id);
             return list;
         }
@@ -63,7 +56,7 @@ namespace Inventarios.Controllers.TablasMaestras
         public List<EstadosDeUnRegistroDTO>? GetAll(string filtro = "")
         {
             if (filtro == "undefined") filtro = "";
-            
+
             list = _service.List(filtro);
             return list;
         }

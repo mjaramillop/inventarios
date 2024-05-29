@@ -9,9 +9,6 @@
             this.estadodelregistro = 1;
             this.idusuario = 0;
             this.nombreusuario = "";
-
-
-
         }
 
         public int id { get; set; }
@@ -23,6 +20,5 @@
         public int idusuario { get; set; }
 
         public string nombreusuario { get; set; }
-
     }
 }

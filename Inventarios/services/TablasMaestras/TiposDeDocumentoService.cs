@@ -34,7 +34,7 @@ namespace Inventarios.services.TablasMaestras
 
         public List<TiposDeDocumento>? GetById(int id, int idusuario)
         {
-            List<TiposDeDocumento> list = _access.GetById(id , idusuario);
+            List<TiposDeDocumento> list = _access.GetById(id, idusuario);
 
             return list;
         }
@@ -59,13 +59,13 @@ namespace Inventarios.services.TablasMaestras
 
         public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id, int idusuario)
         {
-            var list = _access.DarAccesoTotal(id, idusuario );
+            var list = _access.DarAccesoTotal(id, idusuario);
             return list;
         }
 
         public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id, int idusuario)
         {
-            var list = _access.DarRestriccionTotal(id,idusuario);
+            var list = _access.DarRestriccionTotal(id, idusuario);
             return list;
         }
     }

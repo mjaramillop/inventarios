@@ -50,6 +50,8 @@ namespace Inventarios.DataAccess
             obj_.programas = obj.programas;
 
             obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
 
             _context.SaveChanges();
             this.Log(obj, "Modifico Perfiles");

@@ -1,36 +1,23 @@
 ﻿using Inventarios.Data;
-using Inventarios.DataAccess;
+using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.DTO.TablasMaestras;
-using Inventarios.Models.TablasMaestras;
 using Inventarios.Models.Seguridad;
-using Microsoft.EntityFrameworkCore;
+using Inventarios.Models.TablasMaestras;
 using System.Data;
-using System;
-using Inventarios.services.TablasMaestras;
-using Inventarios.DataAccess.Utils;
 
 namespace Inventarios.Map
 {
-    public  class Mapping
+    public class Mapping
     {
-
         private readonly InventariosContext _context;
         private readonly Utilidades _utilidades;
         public Mapping(InventariosContext context, Utilidades utilidades)
         {
             _context = context;
             _utilidades = utilidades;
-
         }
-
-
-
-
-
-
-
 
         public TiposDeRegimenDTO TiposDeRegimenToTiposDeRegimenDTO(TiposDeRegimen obj)
         {
@@ -38,10 +25,8 @@ namespace Inventarios.Map
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<TiposDeRegimenDTO> ListTiposDeRegimenToTiposDeRegimenDTO(List<TiposDeRegimen> list)
         {
@@ -54,19 +39,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-     
-
         public TiposDePersonaDTO TiposDePersonaToTiposDePersonaDTO(TiposDePersona obj)
         {
             TiposDePersonaDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<TiposDePersonaDTO> ListTiposDePersonaToTiposDePersonaDTO(List<TiposDePersona> list)
         {
@@ -79,18 +59,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public TiposDeCuentaBancariaDTO TiposDeCuentaBancariaToTiposDeCuentaBancariaDTO(TiposDeCuentaBancaria obj)
         {
             TiposDeCuentaBancariaDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<TiposDeCuentaBancariaDTO> ListTiposDeCuentaBancariaToTiposDeCuentaBancariaDTO(List<TiposDeCuentaBancaria> list)
         {
@@ -103,18 +79,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public TiposDeAgenteDTO TiposDeAgenteToTiposDeAgenteDTO(TiposDeAgente obj)
         {
             TiposDeAgenteDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<TiposDeAgenteDTO> ListTiposDeAgenteToTiposDeAgenteDTO(List<TiposDeAgente> list)
         {
@@ -127,17 +99,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
         public TallasDTO TallasToTallasDTO(Tallas obj)
         {
             TallasDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<TallasDTO> ListTallasToTallasDTO(List<Tallas> list)
         {
@@ -150,20 +119,15 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public SaldosDTO SaldosToSaldosDTO(Saldos obj)
         {
             Productos producto = _context.Productos.FirstOrDefault(a => a.id == obj.producto);
             Proveedores proveedor = _context.Proveedores.FirstOrDefault(a => a.id == obj.bodega);
 
-
-
-
             SaldosDTO dto = new();
             dto.id = obj.id;
             dto.saldo = obj.saldo;
-            dto.saldoinicial = obj.saldoinicial;    
+            dto.saldoinicial = obj.saldoinicial;
             dto.saldofisico = obj.saldofisico;
             dto.salidas = obj.salidas;
             dto.fechadelaultimasalida = obj.fechadelaultimasalida;
@@ -177,11 +141,8 @@ namespace Inventarios.Map
 
             dto.diassinrotar = _utilidades.restarfechas(obj.fechadelaultimasalida, obj.fechadelaultimaentrada);
 
-          
-
             return dto;
         }
-
 
         public List<SaldosDTO> ListSaldosToSaldosDTO(List<Saldos> list)
         {
@@ -194,18 +155,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public SiNoDTO SiNoToSiNoDTO(SiNo obj)
         {
             SiNoDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<SiNoDTO> ListSiNoToSiNoDTO(List<SiNo> list)
         {
@@ -218,19 +175,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
-
         public ColoresDTO ColoresToColoresDTO(Colores obj)
         {
             ColoresDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
 
-
             return dto;
         }
-
 
         public List<ColoresDTO> ListColoresToColoresDTO(List<Colores> list)
         {
@@ -243,18 +195,14 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public EstadosDeUnRegistroDTO EstadosDeUnRegistroToEstadosDeUnRegistroDTO(EstadosDeUnRegistro obj)
         {
             EstadosDeUnRegistroDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
-           
 
             return dto;
         }
-
 
         public List<EstadosDeUnRegistroDTO> ListEstadosDeUnRegistroToEstadosDeUnRegistroDTO(List<EstadosDeUnRegistro> list)
         {
@@ -266,7 +214,6 @@ namespace Inventarios.Map
             }
             return listdto;
         }
-
 
         public RetencionesDTO RetencionesToRetencionesDTO(Retenciones obj)
         {
@@ -280,7 +227,6 @@ namespace Inventarios.Map
             return dto;
         }
 
-
         public List<RetencionesDTO> ListRetencionesToRetencionesDTO(List<Retenciones> list)
         {
             List<RetencionesDTO> listdto = new();
@@ -292,8 +238,6 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public ProgramasDTO ProgramasToProgramasDTO(Programas obj)
         {
             ProgramasDTO dto = new();
@@ -303,7 +247,6 @@ namespace Inventarios.Map
 
             return dto;
         }
-
 
         public List<ProgramasDTO> ListProgramasToProgramasDTO(List<Programas> list)
         {
@@ -316,8 +259,6 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public IvasDTO IvasToIvasDTO(Ivas obj)
         {
             IvasDTO dto = new();
@@ -328,7 +269,6 @@ namespace Inventarios.Map
 
             return dto;
         }
-
 
         public List<IvasDTO> ListIvasToIvasDTO(List<Ivas> list)
         {
@@ -341,9 +281,6 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
-
         public UnidadesDeMedidaDTO UnidadesDeMedidaToUnidadesDeMedidaDTO(UnidadesDeMedida obj)
         {
             UnidadesDeMedidaDTO dto = new();
@@ -353,7 +290,6 @@ namespace Inventarios.Map
 
             return dto;
         }
-
 
         public List<UnidadesDeMedidaDTO> ListUnidadesDeMedidaToUnidadesDeMedidaDTO(List<UnidadesDeMedida> list)
         {
@@ -366,33 +302,28 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
         public ProductosDTO ProductosToProductosDTO(Productos obj)
         {
-
             UnidadesDeMedida unidadesdemedida = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == obj.unidaddemedida);
-
 
             ProductosDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
-            dto.precio1 = obj.precio1;  
+            dto.precio1 = obj.precio1;
             dto.costoultimo = obj.costoultimo;
             dto.secargalinventario = obj.secargalinventario;
-            dto.codigoiva1 = obj.codigoiva1;    
+            dto.codigoiva1 = obj.codigoiva1;
             dto.unidaddemedida = obj.unidaddemedida;
             dto.nombreunidaddemedida = unidadesdemedida.nombre;
             dto.estadodelregistro = obj.estadodelregistro;
             dto.nivel1 = obj.nivel1;
-            dto.nivel2= obj.nivel2;
-            dto.nivel3=obj.nivel3;
-            dto.nivel4= obj.nivel4; 
-            dto.nivel5= obj.nivel5;
+            dto.nivel2 = obj.nivel2;
+            dto.nivel3 = obj.nivel3;
+            dto.nivel4 = obj.nivel4;
+            dto.nivel5 = obj.nivel5;
 
             return dto;
         }
-
 
         public List<ProductosDTO> ListProductosToProductosDTO(List<Productos> list)
         {
@@ -405,39 +336,29 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
-
         public FormulasDTO FormulasToFormulasDTO(Formulas obj)
         {
-
-            Productos producto= new Productos();
-            producto =  _context.Productos.FirstOrDefault(a => a.id == obj.formula);
-            Productos componente= new Productos();
+            Productos producto = new Productos();
+            producto = _context.Productos.FirstOrDefault(a => a.id == obj.formula);
+            Productos componente = new Productos();
             componente = _context.Productos.FirstOrDefault(a => a.id == obj.componente);
 
-            UnidadesDeMedida unidadesdemedida  = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == componente.unidaddemedida);
-
-
+            UnidadesDeMedida unidadesdemedida = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == componente.unidaddemedida);
 
             FormulasDTO dto = new();
             dto.id = obj.id;
-            dto.formula= obj.formula;
+            dto.formula = obj.formula;
             dto.nombreformula = producto.nombre;
-            dto.componente=obj.componente;
+            dto.componente = obj.componente;
             dto.nombrecomponente = componente.nombre;
             dto.cantidad = obj.cantidad;
             dto.unidaddemedida = componente.unidaddemedida;
             dto.nombreunidaddemedida = unidadesdemedida.nombre;
 
-
-        
-
             return dto;
         }
 
-
-        public  List<FormulasDTO> ListFormulasToFormulasDTO(List<Formulas> list)
+        public List<FormulasDTO> ListFormulasToFormulasDTO(List<Formulas> list)
         {
             List<FormulasDTO> listdto = new();
 
@@ -448,13 +369,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-     
-
-
-
-
-        public  FormasDePagoDTO FormasDePagoToFormasDePagoDTO(FormasDePago obj)
+        public FormasDePagoDTO FormasDePagoToFormasDePagoDTO(FormasDePago obj)
         {
             FormasDePagoDTO dto = new();
             dto.id = obj.id;
@@ -464,8 +379,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-
-        public  List<FormasDePagoDTO> ListFormasDePagoToFormasDePagoDTO(List<FormasDePago> list)
+        public List<FormasDePagoDTO> ListFormasDePagoToFormasDePagoDTO(List<FormasDePago> list)
         {
             List<FormasDePagoDTO> listdto = new();
 
@@ -476,8 +390,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-        public  ConceptosNotaDebitoCreditoDTO ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(ConceptosNotaDebitoCredito obj)
+        public ConceptosNotaDebitoCreditoDTO ConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(ConceptosNotaDebitoCredito obj)
         {
             ConceptosNotaDebitoCreditoDTO dto = new();
             dto.id = obj.id;
@@ -487,8 +400,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-
-        public  List<ConceptosNotaDebitoCreditoDTO> ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(List<ConceptosNotaDebitoCredito> list)
+        public List<ConceptosNotaDebitoCreditoDTO> ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(List<ConceptosNotaDebitoCredito> list)
         {
             List<ConceptosNotaDebitoCreditoDTO> listdto = new();
 
@@ -499,20 +411,18 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
-        public  MensajesDelSistemaDTO MensajesDelSistemaToMensajesDelSistemaDTO(Mensajesdelsistema obj)
+        public MensajesDelSistemaDTO MensajesDelSistemaToMensajesDelSistemaDTO(Mensajesdelsistema obj)
         {
             MensajesDelSistemaDTO dto = new();
-            dto.id=obj.id;
+            dto.id = obj.id;
             dto.fechadesde = String.Format("{0:f}", obj.fechadesde);
             dto.fechahasta = String.Format("{0:f}", obj.fechahasta);
             dto.mensaje = obj.mensaje;
-          
+
             return dto;
         }
 
-        public  List<MensajesDelSistemaDTO> ListMensajesDelSistemaToMensajesDelSistemaDTO(List<Mensajesdelsistema> list)
+        public List<MensajesDelSistemaDTO> ListMensajesDelSistemaToMensajesDelSistemaDTO(List<Mensajesdelsistema> list)
         {
             List<MensajesDelSistemaDTO> listdto = new();
 
@@ -523,22 +433,17 @@ namespace Inventarios.Map
             return listdto;
         }
 
-
-
-
-
-        public  LogDTO LogToLogDTO(Log obj)
+        public LogDTO LogToLogDTO(Log obj)
         {
             LogDTO dto = new();
             dto.id = obj.id;
             dto.descripciondelaoperacion = obj.descripciondelaoperacion;
             dto.fechadeactualizacion = String.Format("{0:f}", obj.fechadeactualizacion);
 
-
             return dto;
         }
 
-        public  List<LogDTO> ListLogToLogDTO(List<Log> list)
+        public List<LogDTO> ListLogToLogDTO(List<Log> list)
         {
             List<LogDTO> listdto = new();
 
@@ -549,7 +454,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public  List<LogDTO> TableLogToLogDTO(DataTable? list)
+        public List<LogDTO> TableLogToLogDTO(DataTable? list)
         {
             List<LogDTO> listdto = new();
 
@@ -562,17 +467,13 @@ namespace Inventarios.Map
                     dto.descripciondelaoperacion = dr["descripcion_de_la_operacion"].ToString();
                     dto.fechadeactualizacion = dr["fecha_de_actualizacion"].ToString();
                     listdto.Add(dto);
-
                 }
             }
 
-         
             return listdto;
         }
 
-
-
-        public  ProveedoresDTO ProveedoresToProveedoresDTO(Proveedores obj)
+        public ProveedoresDTO ProveedoresToProveedoresDTO(Proveedores obj)
         {
             ProveedoresDTO dto = new();
             dto.id = obj.id;
@@ -587,7 +488,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public  List<ProveedoresDTO> ListProveedoresToProveedoresDTO(List<Proveedores> list)
+        public List<ProveedoresDTO> ListProveedoresToProveedoresDTO(List<Proveedores> list)
         {
             List<ProveedoresDTO> listdto = new();
 
@@ -598,7 +499,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public  TiposDeDocumentoDTO TiposDeDocumentoToTiposDeDocumentoDTO(TiposDeDocumento obj)
+        public TiposDeDocumentoDTO TiposDeDocumentoToTiposDeDocumentoDTO(TiposDeDocumento obj)
         {
             TiposDeDocumentoDTO dto = new();
             dto.id = obj.id;
@@ -607,7 +508,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public  List<TiposDeDocumentoDTO> ListTiposDeDocumentoToTiposDeDocumentoDTO(List<TiposDeDocumento> list)
+        public List<TiposDeDocumentoDTO> ListTiposDeDocumentoToTiposDeDocumentoDTO(List<TiposDeDocumento> list)
         {
             List<TiposDeDocumentoDTO> listdto = new();
 
@@ -618,7 +519,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public  PerfilesDTO PerfilesToPerfilesDTO(Perfiles obj)
+        public PerfilesDTO PerfilesToPerfilesDTO(Perfiles obj)
         {
             PerfilesDTO dto = new();
             dto.id = obj.id;
@@ -629,7 +530,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public  List<PerfilesDTO> ListPerfilesToPerfilesDTO(List<Perfiles> list)
+        public List<PerfilesDTO> ListPerfilesToPerfilesDTO(List<Perfiles> list)
         {
             List<PerfilesDTO> listdto = new();
 
@@ -640,7 +541,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public  ActividadesEconomicasDTO ActividadeseconomicasToActividadeseconomicasDTO(ActividadesEconomicas obj)
+        public ActividadesEconomicasDTO ActividadeseconomicasToActividadeseconomicasDTO(ActividadesEconomicas obj)
         {
             ActividadesEconomicasDTO dto = new();
             dto.id = obj.id;
@@ -650,7 +551,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public  List<ActividadesEconomicasDTO> ListActividadeseconomicasToActividadeseconomicasDTO(List<ActividadesEconomicas> list)
+        public List<ActividadesEconomicasDTO> ListActividadeseconomicasToActividadeseconomicasDTO(List<ActividadesEconomicas> list)
         {
             List<ActividadesEconomicasDTO> listdto = new();
 
@@ -661,8 +562,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-      
-        public  MenuDTO MenuToMenuDTO(Menu menu)
+        public MenuDTO MenuToMenuDTO(Menu menu)
         {
             MenuDTO dto = new();
             dto.id = menu.id;
@@ -674,7 +574,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public  List<MenuDTO> ListMenuToListMenuDTO(List<Menu> list)
+        public List<MenuDTO> ListMenuToListMenuDTO(List<Menu> list)
         {
             List<MenuDTO> listdto = new();
 
@@ -685,7 +585,7 @@ namespace Inventarios.Map
             return listdto;
         }
 
-        public  UsersDTO UsersToUsersDTO(Usuarios user)
+        public UsersDTO UsersToUsersDTO(Usuarios user)
         {
             UsersDTO dto = new();
 
@@ -699,7 +599,7 @@ namespace Inventarios.Map
             return dto;
         }
 
-        public  List<UsersDTO> ListUsersToListUsersDTO(List<Usuarios> list)
+        public List<UsersDTO> ListUsersToListUsersDTO(List<Usuarios> list)
         {
             List<UsersDTO> listdto = new();
 

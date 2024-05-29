@@ -77,7 +77,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
 
-
             _context.SaveChanges();
             Log(obj, "Modifico Productos");
 
@@ -230,12 +229,11 @@ namespace Inventarios.DataAccess.TablasMaestras
             List<Productos>? list = null;
             List<string> listadeerrores = new List<string>();
 
-          
-           string mensajedeerror= _validaciones.Validarvalordiferentedecero("Porcentaje de incremento de precio", obj.porcentajedeincremento);
+            string mensajedeerror = _validaciones.Validarvalordiferentedecero("Porcentaje de incremento de precio", obj.porcentajedeincremento);
 
-            if  ( mensajedeerror.IndexOf("Error") >= 0)
+            if (mensajedeerror.IndexOf("Error") >= 0)
             {
-                listadeerrores.Add( mensajedeerror);
+                listadeerrores.Add(mensajedeerror);
                 return listadeerrores;
             }
 
@@ -259,7 +257,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 return listadeerrores;
             }
 
-          
             listadeerrores.Add("Precio cambiado exitosamente");
 
             return listadeerrores;

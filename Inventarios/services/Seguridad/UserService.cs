@@ -9,13 +9,10 @@ namespace Inventarios.services.Seguridad
     {
         private readonly UserAccess _access;
         private List<UsersDTO>? list;
-    
-
 
         public UserService(UserAccess access)
         {
             _access = access;
-           
         }
 
         public List<UsersDTO> Add(Usuarios obj)
@@ -42,22 +39,17 @@ namespace Inventarios.services.Seguridad
             return obj;
         }
 
-
-
-       
         public List<UsersDTO>? List(string filtro = "")
         {
             list = _access.List(filtro);
             return list;
         }
 
-        public List<MenuDTO>? ValidateAccess(string login, string password )
+        public List<MenuDTO>? ValidateAccess(string login, string password)
         {
             List<MenuDTO> obj = _access.ValidateAccess(login, password);
 
             return obj;
         }
-
-      
     }
 }

@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class IvasController : ControllerBase
     {
         private readonly IvasService _service;
-        
+
         private List<IvasDTO>? list;
 
         public IvasController(IvasService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<IvasDTO>? Add(Ivas obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<IvasDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<IvasDTO>? Update(Ivas obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<Ivas>? GetById(int id)
         {
-            
             List<Ivas> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +57,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }

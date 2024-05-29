@@ -4,7 +4,6 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -14,17 +13,15 @@ namespace Inventarios.DataAccess.TablasMaestras
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
         private readonly IConfiguration _iconfiguration;
-    
 
         private List<TiposDeDocumento>? list;
 
-        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion )
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfigutarion;
-          
         }
 
         public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
@@ -97,7 +94,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
 
-
             _context.SaveChanges();
             Log(obj, "Modifico TiposDeDocumento");
 
@@ -105,16 +101,17 @@ namespace Inventarios.DataAccess.TablasMaestras
             return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
-        public List<TiposDeDocumento> GetById(int id , int idusuario)
+        public List<TiposDeDocumento> GetById(int id, int idusuario)
         {
-            Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.id ==idusuario);
+            Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
 
-
-            if (objusuarios.tiposdedocumento.IndexOf("," + id.ToString() + "=") < 0)
+            if (idusuario > 0)
             {
-                return  list;
+                if (objusuarios.tiposdedocumento.IndexOf("," + id.ToString() + "=") < 0)
+                {
+                    return list;
+                }
             }
-
 
             list = _context.TiposDeDocumento.Where(a => a.id == id).ToList();
             if (list.Count == 0) return list;
@@ -151,9 +148,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int idusuario)
         {
-        
-
-
             Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             string? tiposdedocumento = obj.tiposdedocumento;
 
@@ -193,9 +187,8 @@ namespace Inventarios.DataAccess.TablasMaestras
             return listapermisos;
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id ,int idusuario)
+        public List<TiposDeDocumentoPermisosDTO>? DarAccesoTotal(int id, int idusuario)
         {
-
             List<TiposDeDocumento> list = new List<TiposDeDocumento>();
             list = _context.TiposDeDocumento.ToList();
 

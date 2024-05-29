@@ -1,27 +1,16 @@
-
 using Inventarios.Data;
 using Inventarios.DataAccess;
-
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.ComponentModel.Design;
-using Inventarios.Models;
-using Inventarios.ModelsParameter;
-using System.Reflection;
-using Microsoft.OpenApi.Models;
-using Inventarios.Map;
-using Inventarios.DataAccess.TablasMaestras;
-using Inventarios.DataAccess.Seguridad;
-using Inventarios.services.TablasMaestras;
-using Inventarios.services.Seguridad;
-using Inventarios.DataAccess.Utils;
-using Inventarios.Controllers.Utils;
-using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.DataAccess.CapturaDeMovimiento;
+using Inventarios.DataAccess.Seguridad;
+using Inventarios.DataAccess.TablasMaestras;
+using Inventarios.DataAccess.Utils;
+using Inventarios.Map;
 using Inventarios.services.CapturaDeMovimiento;
+using Inventarios.services.Seguridad;
+using Inventarios.services.TablasMaestras;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,15 +18,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Scaffold-DbContext "Server=DESKTOP-56QVMV6\SQLEXPRESS;Database=inventarios;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 builder.Services.AddSwaggerGen(c =>
 {
-
-  
-
-    c.SwaggerDoc("v1", 
-        new OpenApiInfo 
-        { Title = "Mi aplicacion de inventarios", 
-            Version = "v2.0" ,
-            Description="hola",
-          TermsOfService = new Uri("https://example.com/terms"),
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Mi aplicacion de inventarios",
+            Version = "v2.0",
+            Description = "hola",
+            TermsOfService = new Uri("https://example.com/terms"),
             Contact = new OpenApiContact
             {
                 Name = "John Walkner",
@@ -49,7 +36,6 @@ builder.Services.AddSwaggerGen(c =>
                 Name = "Employee API LICX",
                 Url = new Uri("https://example.com/license"),
             }
-
         });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -61,17 +47,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession( options => {     options.IdleTimeout= TimeSpan.FromSeconds(3600);
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(3600);
 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
-
-
-
-
-
 
 //data access
 
@@ -79,7 +61,7 @@ builder.Services.AddSession( options => {     options.IdleTimeout= TimeSpan.From
 builder.Services.AddScoped<MovimientodeinventariosAccess>();
 
 // seguridad
-builder.Services.AddScoped<LogAccess>(); 
+builder.Services.AddScoped<LogAccess>();
 builder.Services.AddScoped<MenuAccess>();
 builder.Services.AddScoped<UserAccess>();
 builder.Services.AddScoped<PerfilesAccess>();
@@ -110,14 +92,11 @@ builder.Services.AddScoped<Inventarios.DataAccess.Utils.Utilidades>();
 builder.Services.AddScoped<Inventarios.DataAccess.Utils.Validaciones>();
 builder.Services.AddScoped<MovimientosDeInventarios>();
 
-
-
 //-----------------------------------------------------------------------------
 // services
 //-----------------------------------------------------------------------------
-// captura de movimiento 
+// captura de movimiento
 builder.Services.AddScoped<MovimientodeinventariosService>();
-
 
 // seguridad
 
@@ -125,7 +104,6 @@ builder.Services.AddScoped<LogService>();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PerfilesService>();
-
 
 // tablas maestras
 builder.Services.AddScoped<ConceptosNotaDebitoCreditoService>();
@@ -154,15 +132,9 @@ builder.Services.AddScoped<TiposDeRegimenService>();
 builder.Services.AddScoped<Mapping>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-
-
-
-
 // conexion de datos
 
 builder.Services.AddDbContext<InventariosContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionstring")));
-
-
 
 builder.Services.AddCors(options =>
 {
@@ -171,9 +143,7 @@ builder.Services.AddCors(options =>
     .AllowAnyMethod()
     .AllowAnyOrigin()
     );
-
 });
-
 
 var app = builder.Build();
 

@@ -2,23 +2,15 @@
 {
     public class PerfilesDTO
     {
-
         public int id { get; set; }
 
         public string nombre { get; set; }
 
         public int? estadodelregistro { get; set; }
-
-
-
     }
-
 
     public class ProgramasPermisosDTO
     {
-
-        
-
         public int id { get; set; }
 
         public string nombre { get; set; }
@@ -34,6 +26,4 @@
 
         public bool anular { get; set; }
     }
-
-
 }

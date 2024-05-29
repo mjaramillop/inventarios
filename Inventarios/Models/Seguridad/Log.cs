@@ -14,4 +14,8 @@ public class Log
     public string descripciondelaoperacion { get; set; }
 
     public DateTime fechadeactualizacion { get; set; }
+
+    public int idusuario { get; set; }
+
+    public string nombreusuario { get; set; }
 }

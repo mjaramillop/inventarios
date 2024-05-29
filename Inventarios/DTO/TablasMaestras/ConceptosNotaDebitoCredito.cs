@@ -7,7 +7,5 @@
         public string? nombre { get; set; }
 
         public int? estadodelregistro { get; set; }
-
-
     }
 }

@@ -81,7 +81,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
 
-
             _context.SaveChanges();
             Log(obj, "Modifico Proveedores");
 

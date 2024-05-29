@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class ConceptosNotaDebitoCreditoController : ControllerBase
     {
         private readonly ConceptosNotaDebitoCreditoService _service;
-        
+
         private List<ConceptosNotaDebitoCreditoDTO>? list;
 
         public ConceptosNotaDebitoCreditoController(ConceptosNotaDebitoCreditoService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<ConceptosNotaDebitoCreditoDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<ConceptosNotaDebitoCreditoDTO>? Update(ConceptosNotaDebitoCredito obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<ConceptosNotaDebitoCredito>? GetById(int id)
         {
-            
             List<ConceptosNotaDebitoCredito> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +57,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }

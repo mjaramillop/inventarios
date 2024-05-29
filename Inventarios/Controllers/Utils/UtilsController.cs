@@ -1,6 +1,5 @@
 ﻿using Inventarios.DataAccess.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,10 +13,9 @@ namespace Inventarios.Controllers.Utils
 
         public UtilsController(Utilidades service)
         {
-            _service =service;
+            _service = service;
         }
 
-       
         [HttpGet("{fecha}/{plazo}")]
         [ActionName("CalcularFechaDeVencimiento")]
         public List<string> CalcularFechaDeVencimiento(string fecha, int plazo)
@@ -30,24 +28,13 @@ namespace Inventarios.Controllers.Utils
         public int restarfechas(DateTime fecha1, DateTime fecha2)
         {
             return _service.restarfechas(fecha1, fecha2);
-
         }
-
-
 
         [HttpGet("{valor}")]
         [ActionName("MontroEscrito")]
         public List<string> MontoEscrito(string valor)
         {
             return new List<string> { _service.MontoEscrito(valor) };
-
         }
-
-
-
-
-
-
-
     }
 }

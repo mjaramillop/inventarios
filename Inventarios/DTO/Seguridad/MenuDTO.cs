@@ -1,26 +1,19 @@
-﻿using System.Security;
-
-namespace Inventarios.DTO.Seguridad
+﻿namespace Inventarios.DTO.Seguridad
 {
     public class MenuDTO
     {
-
-
-        public MenuDTO() {
-
+        public MenuDTO()
+        {
             this.id = 0;
             this.orden = "";
             this.paginaweb = "";
             this.estadodelregistro = 0;
             this.permisos = "";
-            this.idusuario = 0; 
+            this.idusuario = 0;
             this.username = "";
             this.login = "";
             this.password = "";
-
-
-        }    
-
+        }
 
         public int id { get; set; }
 
@@ -33,16 +26,12 @@ namespace Inventarios.DTO.Seguridad
 
         public string permisos { get; set; }
 
-
-        public int idusuario { get; set; }  
+        public int idusuario { get; set; }
 
         public string username { get; set; }
 
         public string login { get; set; }
 
         public string password { get; set; }
-
-
-
     }
 }

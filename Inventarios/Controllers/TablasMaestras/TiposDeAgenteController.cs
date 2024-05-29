@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class TiposDeAgenteController : ControllerBase
     {
         private readonly TiposDeAgenteService _service;
-        
+
         private List<TiposDeAgenteDTO>? list;
 
         public TiposDeAgenteController(TiposDeAgenteService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<TiposDeAgenteDTO>? Add(TiposDeAgente obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<TiposDeAgenteDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<TiposDeAgenteDTO>? Update(TiposDeAgente obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<TiposDeAgente>? GetById(int id)
         {
-            
             List<TiposDeAgente> list = _service.GetById(id);
             return list;
         }
@@ -64,7 +57,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }

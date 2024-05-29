@@ -13,20 +13,18 @@ namespace Inventarios.Controllers.TablasMaestras
     public class ProductosController : ControllerBase
     {
         private readonly ProductosService _service;
-        
+
         private List<ProductosDTO>? list;
 
         public ProductosController(ProductosService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<ProductosDTO>? Add(Productos obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -35,8 +33,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public List<ProductosDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -45,8 +41,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public List<ProductosDTO>? Update(Productos obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -55,7 +49,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<ProductosDTO>? GetById(int id)
         {
-            
             list = _service.GetById(id);
             return list;
         }
@@ -66,7 +59,6 @@ namespace Inventarios.Controllers.TablasMaestras
         {
             if (filtro == "undefined") filtro = "";
 
-            
             list = _service.List(filtro);
             return list;
         }
@@ -75,7 +67,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetNivel")]
         public List<string>? GetNivel(int nivel)
         {
-            
             List<string> list = _service.GetNivel(nivel);
             return list;
         }
@@ -84,8 +75,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("UpdateNiveles")]
         public List<string>? UpdateNiveles(UpdateNiveles obj)
         {
-            
-
             return _service.UpdateNiveles(obj);
         }
 
@@ -93,8 +82,6 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("CambiarPrecios")]
         public List<string>? CambiarPrecios(CambiarPrecios obj)
         {
-            
-
             return _service.CambiarPrecios(obj);
         }
     }

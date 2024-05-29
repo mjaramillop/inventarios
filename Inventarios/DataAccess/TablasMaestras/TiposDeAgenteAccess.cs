@@ -86,7 +86,6 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             comando = comando + "Nombre = " + obj.nombre + "\n";
 
-
             //
 
             _logacces.Add(comando);

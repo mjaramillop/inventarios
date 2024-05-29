@@ -10,17 +10,6 @@
 
         public string? cargo { get; set; }
 
-
         public int? estadodelregistro { get; set; }
-
-
-
     }
-
-
-
-   
-
-
-
 }

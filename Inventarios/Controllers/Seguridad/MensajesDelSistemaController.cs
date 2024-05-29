@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.Seguridad
     public class MensajesDelSistemaController : ControllerBase
     {
         private readonly MensajesDelSistemaService _service;
-        
+
         private List<MensajesDelSistemaDTO>? list;
 
         public MensajesDelSistemaController(MensajesDelSistemaService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<MensajesDelSistemaDTO> Add(Mensajesdelsistema obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Delete")]
         public List<MensajesDelSistemaDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Update")]
         public List<MensajesDelSistemaDTO>? Update(Mensajesdelsistema obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetById")]
         public List<Mensajesdelsistema>? GetById(int id)
         {
-            
             List<Mensajesdelsistema> list = _service.GetById(id);
             return list;
         }
@@ -62,7 +55,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetAll")]
         public List<MensajesDelSistemaDTO>? GetAll(string filtro = "")
         {
-            
             list = _service.List(filtro);
             return list;
         }
@@ -71,7 +63,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetAllActive")]
         public List<MensajesDelSistemaDTO>? GetAllActive()
         {
-            
             list = _service.ListActive();
             return list;
         }

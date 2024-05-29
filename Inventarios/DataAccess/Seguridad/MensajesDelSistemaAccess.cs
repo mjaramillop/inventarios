@@ -55,6 +55,9 @@ namespace Inventarios.DataAccess
             obj.fechadesde = obj_.fechadesde;
             obj_.fechahasta = obj_.fechahasta;
             obj_.mensaje = obj.mensaje;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
+
             _context.SaveChanges();
             this.Log(obj, "Modifico Mensajes del sistema");
 
@@ -76,13 +79,16 @@ namespace Inventarios.DataAccess
 
         public List<MensajesDelSistemaDTO>? ListActive()
         {
-            list = _context.Mensajesdelsistema.ToList().Where(a => DateTime.Now >= a.fechadesde && DateTime.Now < a.fechahasta).ToList();
+            list = _context.Mensajesdelsistema.ToList().Where(a => a.fechadesde >= System.DateTime.Now && a.fechahasta < DateTime.Now.AddDays(1)).ToList();
             return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
         }
 
         public void Log(Mensajesdelsistema obj, string operacion)
         {
             string comando = "";
+
+            comando = comando + "usuario " + obj.nombreusuario + "\n";
+
             comando = comando + "operacion " + operacion + "\n";
 
             comando = comando + "id = " + obj.id + "\n";

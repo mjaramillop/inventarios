@@ -13,6 +13,7 @@ namespace Inventarios.DataAccess.Seguridad
 
         private List<Menu>? list;
         private readonly IConfiguration _iconfiguration;
+
         public MenuAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
@@ -47,6 +48,8 @@ namespace Inventarios.DataAccess.Seguridad
             obj_.paginaweb = obj.paginaweb;
 
             obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
 
             _context.SaveChanges();
             Log(obj, "Modifico menu");

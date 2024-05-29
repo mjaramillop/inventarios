@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata;
 using System.Text.Json.Serialization;
 
 namespace Inventarios.Models.CapturaDeMovimiento;
@@ -81,15 +80,14 @@ public class Movimientodeinventarios
         this.fechadecreacion = System.DateTime.Now;
         this.usuarioqueactualizo = "";
         this.consecutivousuario = "";
-            this.anodeldocumento = "";
+        this.anodeldocumento = "";
         this.mesdeldocumento = "";
         this.diadeldocumento = "";
         this.idusuario = 0;
         this.nombreusuario = "";
     }
 
-
-//    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    //    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
     public int id { get; set; }
 
     public int despacha { get; set; }
@@ -243,8 +241,6 @@ public class Movimientodeinventarios
     [JsonIgnore]
     public string consecutivousuario { get; set; }
 
-  
-
     [NotMapped]
     public string anodeldocumento { get; set; }
 
@@ -254,9 +250,7 @@ public class Movimientodeinventarios
     [NotMapped]
     public string diadeldocumento { get; set; }
 
-
     public int idusuario { get; set; }
 
     public string nombreusuario { get; set; }
-
 }

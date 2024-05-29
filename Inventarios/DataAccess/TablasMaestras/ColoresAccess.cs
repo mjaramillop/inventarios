@@ -54,7 +54,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
 
-
             obj_.estadodelregistro = obj.estadodelregistro;
 
             _context.SaveChanges();

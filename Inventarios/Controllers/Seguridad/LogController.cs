@@ -11,13 +11,12 @@ namespace Inventarios.Controllers.Seguridad
     public class LogController : ControllerBase
     {
         private readonly LogService _service;
-        
+
         private List<LogDTO>? list;
 
         public LogController(LogService service)
         {
             _service = service;
-            
         }
 
         /// <summary>
@@ -28,7 +27,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("filtrar")]
         public List<LogDTO>? filtrar(LogConsultar obj)
         {
-            
             list = _service.List(obj);
             return list;
         }
@@ -43,7 +41,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("DeleteLog")]
         public List<string>? DeleteLog(string fecha)
         {
-            
             List<string> list = _service.DeleteLog(fecha);
             return list;
         }

@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq.Dynamic.Core.Tokenizer;
 
 namespace Inventarios.DataAccess.Utils
 {
@@ -18,11 +16,8 @@ namespace Inventarios.DataAccess.Utils
             _iconfiguration = iconfigutarion;
         }
 
-
-
         public string ejecutarsql(string comando)
         {
-
             comando = comando.Trim();
             if (comando.Length == 0) return "  ";
             string xmensaje = "";
@@ -40,8 +35,6 @@ namespace Inventarios.DataAccess.Utils
                 xconexion.Close();
                 xconexion.Dispose();
                 xmensaje = "Error : " + e.Message.ToString();
-
-
             }
             return xmensaje;
         }
@@ -1182,32 +1175,23 @@ namespace Inventarios.DataAccess.Utils
             return valorenletras;
         }
 
-
         public List<string> CalcularFechaDeVencimiento(string fecha, int plazo)
         {
             string mensajedeerror = "";
             List<string> result = new List<string>();
             try
             {
-               
-
                 DateTime fechadevencimiento = Convert.ToDateTime(fecha).AddDays(plazo);
 
-                mensajedeerror =   fechadevencimiento.ToString("dd/MM/yyyy");
+                mensajedeerror = fechadevencimiento.ToString("dd/MM/yyyy");
             }
             catch (Exception ee)
             {
                 mensajedeerror = "Fecha de formato invalida";
-              
-
             }
             result.Add(mensajedeerror);
             return result;
-
-
-
         }
-
 
         /// <summary>
         /// el primer PARAMETRO fecha1 es la fecha mayor
@@ -1218,7 +1202,6 @@ namespace Inventarios.DataAccess.Utils
         /// <returns></returns>
         public int restarfechas(DateTime fecha1, DateTime fecha2)
         {
-
             int xtotaldias = 0;
             while (fecha2 < fecha1)
             {
@@ -1229,45 +1212,32 @@ namespace Inventarios.DataAccess.Utils
             return xtotaldias;
         }
 
-
-
         public string traerparametrowebconfig(string parametro)
         {
-         return    _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:" +parametro);
+            return _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:" + parametro);
         }
 
-
-
-        public DateTime DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(string dia,string mes,string ano)
+        public DateTime DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(string dia, string mes, string ano)
         {
-
-          
-
-
             string formato = traerparametrowebconfig("formatodefechaparagrabarenlabasededatos").ToUpper();
 
             string valor = "";
-            if (formato == "YMD") valor = ano + "-" +  mes + "-" + dia ;
-            if (formato == "DMY") valor = dia + "-" +  mes + "-" + ano;
-            if (formato == "MDY") valor = mes + "-" +  dia + "-" + ano;
+            if (formato == "YMD") valor = ano + "-" + mes + "-" + dia;
+            if (formato == "DMY") valor = dia + "-" + mes + "-" + ano;
+            if (formato == "MDY") valor = mes + "-" + dia + "-" + ano;
 
-            DateTime fecha= DateTime.Now;
+            DateTime fecha = DateTime.Now;
 
             try
             {
                 fecha = Convert.ToDateTime(valor);
-
             }
             catch (Exception ex)
             {
-
-                return DateTime.Now;    
+                return DateTime.Now;
             }
-
 
             return fecha;
         }
-
-
     }
 }

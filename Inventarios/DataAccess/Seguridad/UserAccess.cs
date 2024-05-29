@@ -4,18 +4,14 @@ using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 
-using Microsoft.AspNetCore.Http;
-
 namespace Inventarios.DataAccess.Seguridad
 {
     public class UserAccess
     {
         private readonly InventariosContext _context;
-        
+
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
-    
-      
 
         private List<Usuarios>? list;
         private readonly IConfiguration _iconfiguration;
@@ -23,11 +19,10 @@ namespace Inventarios.DataAccess.Seguridad
         public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
         {
             _context = context;
-            
+
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
-          
         }
 
         public List<UsersDTO>? Add(Usuarios obj)
@@ -72,8 +67,9 @@ namespace Inventarios.DataAccess.Seguridad
             obj_.perfil = obj.perfil;
             obj_.tiposdedocumento = obj.tiposdedocumento;
             obj_.bodega = obj.bodega;
-
             obj_.estadodelregistro = obj.estadodelregistro;
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
 
             _context.SaveChanges();
             Log(obj, "Modifico usuario");
@@ -87,8 +83,6 @@ namespace Inventarios.DataAccess.Seguridad
             list = _context.Usuarios.Where(a => a.id == id).ToList();
             return list;
         }
-
-
 
         public List<UsersDTO>? List(string filtro = "")
         {
@@ -104,14 +98,12 @@ namespace Inventarios.DataAccess.Seguridad
         {
             login = login.ToUpper();
             password = password.ToUpper();
-            Usuarios objusuarios= _context.Usuarios.FirstOrDefault(a => a.login == login && a.password == password);
+            Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.login == login && a.password == password);
 
-       
-            if (objusuarios == null) return   new List<MenuDTO>() ;
-            if (objusuarios.perfil == 0) return new List<MenuDTO>() ;
+            if (objusuarios == null) return new List<MenuDTO>();
+            if (objusuarios.perfil == 0) return new List<MenuDTO>();
             var perfil = _context.Perfiles.FirstOrDefault(a => a.id == objusuarios.perfil);
 
-         
             var menu = _context.Menus.OrderBy(a => a.orden).ToList();
 
             List<MenuDTO> listmenudto = new List<MenuDTO>();
@@ -147,7 +139,7 @@ namespace Inventarios.DataAccess.Seguridad
                     responseobject.permisos = permisos;
                     responseobject.idusuario = objusuarios.id;
                     responseobject.username = objusuarios.nombre;
-                    responseobject.login = objusuarios.login;   
+                    responseobject.login = objusuarios.login;
                     responseobject.password = objusuarios.password;
 
                     listmenudto.Add(responseobject);

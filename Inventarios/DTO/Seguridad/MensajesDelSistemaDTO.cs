@@ -2,7 +2,6 @@
 {
     public class MensajesDelSistemaDTO
     {
-
         public int id { get; set; }
 
         public string fechadesde { get; set; }

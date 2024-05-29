@@ -11,20 +11,18 @@ namespace Inventarios.Controllers.Seguridad
     public class MenuController : ControllerBase
     {
         private readonly MenuService _service;
-        
+
         private List<MenuDTO>? list;
 
         public MenuController(MenuService service)
         {
             _service = service;
-            
         }
 
         [HttpPost]
         [ActionName("Add")]
         public List<MenuDTO>? Add(Menu obj)
         {
-            
             list = _service.Add(obj);
             return list;
         }
@@ -33,8 +31,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Delete")]
         public List<MenuDTO>? Delete(int id)
         {
-            
-
             list = _service.Delete(id);
             return list;
         }
@@ -43,8 +39,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("Update")]
         public List<MenuDTO>? Update(Menu obj)
         {
-            
-
             list = _service.Update(obj);
             return list;
         }
@@ -53,7 +47,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetById")]
         public List<Menu>? GetById(int id)
         {
-            
             List<Menu> list = _service.GetById(id);
             return list;
         }
@@ -62,7 +55,6 @@ namespace Inventarios.Controllers.Seguridad
         [ActionName("GetAll")]
         public List<MenuDTO>? GetAll(string filtro = "")
         {
-            
             list = _service.List(filtro);
             return list;
         }

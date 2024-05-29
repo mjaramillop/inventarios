@@ -1,7 +1,5 @@
 ﻿using Inventarios.DataAccess.CapturaDeMovimiento;
 using Inventarios.Models.CapturaDeMovimiento;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
 
 namespace Inventarios.services.CapturaDeMovimiento
 {
@@ -18,7 +16,7 @@ namespace Inventarios.services.CapturaDeMovimiento
         public List<string>? Add(Movimientodeinventarios obj)
         {
             List<string> mensajedeeror = _access.Add(obj);
-            return  mensajedeeror;
+            return mensajedeeror;
         }
 
         public List<string>? Delete(int id)
@@ -33,21 +31,17 @@ namespace Inventarios.services.CapturaDeMovimiento
             return mensajedeerror;
         }
 
-
-
         public List<Movimientodeinventarios> GetById(int id)
         {
             list = _access.GetById(id);
             return list;
         }
 
-
         public List<Movimientodeinventarios>? List(int tipodeodcumento, int idusuario)
         {
-            list= _access.List(tipodeodcumento,idusuario );
+            list = _access.List(tipodeodcumento, idusuario);
             return list;
         }
-
 
         public List<Movimientodeinventarios>? GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
@@ -63,42 +57,32 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
-
-        public List<string> DeleteDocument(int tipodedocumento,int idusuario)
+        public List<string> DeleteDocument(int tipodedocumento, int idusuario)
         {
-            List<string> list = _access.DeleteDocument(tipodedocumento,idusuario);
+            List<string> list = _access.DeleteDocument(tipodedocumento, idusuario);
             return list;
         }
-
 
         public List<string> AddDocument(int tipodedocumento, int idusuario)
         {
-            List<string> list = _access.AddDocument(tipodedocumento,idusuario);
+            List<string> list = _access.AddDocument(tipodedocumento, idusuario);
             return list;
         }
 
-        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento,int idusuario)
+        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento, int idusuario)
         {
-            list = _access.TraerDocumentoTemporal(tipodedocumento,idusuario);
+            list = _access.TraerDocumentoTemporal(tipodedocumento, idusuario);
             return list;
         }
 
-        public void AplicarDescuentoPieDeFactura(int tipodedocumento, decimal porcentajededescuento,int idusuario)
+        public void AplicarDescuentoPieDeFactura(int tipodedocumento, decimal porcentajededescuento, int idusuario)
         {
-             _access.AplicarDescuentoPieDeFactura(tipodedocumento,porcentajededescuento, idusuario);
-          
+            _access.AplicarDescuentoPieDeFactura(tipodedocumento, porcentajededescuento, idusuario);
         }
 
-        public void AplicarFletePieDeFactura(int tipodedocumento, int valorfletes , int idusuario)
+        public void AplicarFletePieDeFactura(int tipodedocumento, int valorfletes, int idusuario)
         {
             _access.AplicarFletePieDeFactura(tipodedocumento, valorfletes, idusuario);
-
         }
-
-
-
-
-
     }
-
 }
