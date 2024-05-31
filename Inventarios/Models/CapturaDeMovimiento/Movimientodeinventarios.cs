@@ -53,6 +53,7 @@ public class Movimientodeinventarios
         this.cantidad = 0;
         this.valorunitario = 0;
         this.costoultimoporunidad = 0;
+        this.costopromedioporunidad = 0;
         this.costofleteporunidad = 0;
         this.subtotal = 0;
         this.codigodescuento1 = 0;
@@ -78,7 +79,7 @@ public class Movimientodeinventarios
         this.trasladorecibidoyaprobadopor = "";
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
-        this.usuarioqueactualizo = "";
+    
         this.consecutivousuario = "";
         this.anodeldocumento = "";
         this.mesdeldocumento = "";
@@ -176,6 +177,9 @@ public class Movimientodeinventarios
 
     public decimal costoultimoporunidad { get; set; }
 
+    public decimal costopromedioporunidad { get; set; }
+
+
     public decimal costofleteporunidad { get; set; }
 
     public decimal subtotal { get; set; }
@@ -235,10 +239,7 @@ public class Movimientodeinventarios
     [JsonIgnore]
     public DateTime fechadecreacion { get; set; }
 
-    [JsonIgnore]
-    public string usuarioqueactualizo { get; set; }
 
-    [JsonIgnore]
     public string consecutivousuario { get; set; }
 
     [NotMapped]

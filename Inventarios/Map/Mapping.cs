@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.DTO.TablasMaestras;
+using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
 using System.Data;
@@ -18,6 +19,185 @@ namespace Inventarios.Map
             _context = context;
             _utilidades = utilidades;
         }
+
+
+
+        public  Movimientodeinventariostmp  MovimientoTMPToMovimientoTMP ( Movimientodeinventariostmp obj , Movimientodeinventariostmp dto)
+        {
+
+
+            dto.id = obj.id;
+            dto.despacha = obj.despacha;
+            dto.nombredespacha = obj.nombredespacha;
+            dto.recibe = obj.recibe;
+            dto.nombrerecibe = obj.nombrerecibe;
+            dto.tipodedocumento = obj.tipodedocumento;
+            dto.nombretipodedocumento = obj.nombretipodedocumento;
+            dto.numerodeldocumento = obj.numerodeldocumento;
+            dto.despachaaafectar = obj.despachaaafectar;
+            dto.nombredespachaaafectar = obj.nombredespachaaafectar;
+            dto.recibeaafectar = obj.recibeaafectar;
+            dto.nombrerecibeaafectar = obj.nombrerecibeaafectar;
+            dto.tipodedocumentoaafectar = obj.tipodedocumentoaafectar;
+            dto.nombretipodedocumentoaafectar = obj.nombretipodedocumentoaafectar;
+            dto.numerodeldocumentoaafectar = obj.numerodeldocumentoaafectar;
+            dto.fechadeldocumento = obj.fechadeldocumento;
+            dto.fechadevencimientodeldocumento = obj.fechadevencimientodeldocumento;
+            dto.programa = obj.programa;
+            dto.nombreprograma = obj.nombreprograma;
+            dto.vendedor = obj.vendedor;
+            dto.nombrevendedor = obj.nombrevendedor;
+            dto.formadepago = obj.formadepago;
+            dto.nombreformadepago = obj.nombreformadepago;
+            dto.numerodelpago = obj.numerodelpago;
+            dto.banco = obj.banco;
+            dto.nombrebanco = obj.nombrebanco;
+            dto.codigoconceptonotadebitocredito = obj.codigoconceptonotadebitocredito;
+            dto.nombreconceptonotadebitocredito = obj.nombreconceptonotadebitocredito;
+            dto.observaciones = obj.observaciones;
+            dto.formula = obj.formula;
+            dto.nombreformula = obj.nombreformula;
+            dto.producto = obj.producto;
+            dto.talla = obj.talla;
+            dto.color = obj.color;
+            dto.nombreproducto = obj.nombreproducto;
+            dto.nombretalla = obj.nombretalla;
+            dto.nombrecolor = obj.nombrecolor;
+            dto.nombreunidaddemedida = obj.nombreunidaddemedida;
+            dto.numerodeempaques = obj.numerodeempaques;
+            dto.unidaddeempaque = obj.unidaddeempaque;
+            dto.nombreunidaddeempaque = obj.nombreunidaddeempaque;
+            dto.cantidadporempaque = obj.cantidadporempaque;
+            dto.cantidad = obj.cantidad;
+            dto.valorunitario = obj.valorunitario;
+            dto.costoultimoporunidad = obj.costoultimoporunidad;
+            dto.costofleteporunidad = obj.costofleteporunidad;
+            dto.subtotal = obj.subtotal;
+            dto.codigodescuento1 = obj.codigodescuento1;
+            dto.nombrecodigodescuento1 = obj.nombrecodigodescuento1;
+            dto.porcentajedescuento1 = obj.porcentajedescuento1;
+            dto.valordescuento1 = obj.valordescuento1;
+            dto.codigoiva1 = obj.codigoiva1;
+            dto.nombrecodigoiva1 = obj.nombrecodigoiva1;
+            dto.porcentajedeiva1 = obj.porcentajedeiva1;
+            dto.valoriva1 = obj.valoriva1;
+            dto.fletes = obj.fletes;
+            dto.codigoretencion1 = obj.codigoretencion1;
+            dto.nombrecodigoretencion1 = obj.nombrecodigoretencion1;
+            dto.porcentajederetencion1 = obj.porcentajederetencion1;
+            dto.valorretencion1 = obj.valorretencion1;
+            dto.valorneto = obj.valorneto;
+            dto.fechadeprogramaciondelpago = obj.fechadeprogramaciondelpago;
+            dto.lacantidadestadespachada = obj.lacantidadestadespachada;
+            dto.eldocumentoestacancelado = obj.eldocumentoestacancelado;
+            dto.sumaorestaeninventario = obj.sumaorestaeninventario;
+            dto.sumaorestaencartera = obj.sumaorestaencartera;
+            dto.estadodelregistro = obj.estadodelregistro;
+            dto.trasladorecibidoyaprobadopor = obj.trasladorecibidoyaprobadopor;
+            dto.fechatrasladorecibidoyaprobado = obj.fechatrasladorecibidoyaprobado;
+            dto.fechadecreacion = obj.fechadecreacion;
+            dto.consecutivousuario = obj.consecutivousuario;
+            dto.anodeldocumento = obj.anodeldocumento;
+            dto.mesdeldocumento = obj.mesdeldocumento;
+            dto.diadeldocumento = obj.diadeldocumento;
+            dto.idusuario = obj.idusuario;
+            dto.nombreusuario = obj.nombreusuario;
+
+
+
+            return dto;
+        }
+
+
+        public Movimientodeinventarios MovimientoTMPToMovimiento(Movimientodeinventariostmp obj )
+        {
+            Movimientodeinventarios dto = new();
+
+
+            dto.id = obj.id;
+            dto.despacha = obj.despacha;
+            dto.nombredespacha = obj.nombredespacha;
+            dto.recibe = obj.recibe;
+            dto.nombrerecibe = obj.nombrerecibe;
+            dto.tipodedocumento = obj.tipodedocumento;
+            dto.nombretipodedocumento = obj.nombretipodedocumento;
+            dto.numerodeldocumento = obj.numerodeldocumento;
+            dto.despachaaafectar = obj.despachaaafectar;
+            dto.nombredespachaaafectar = obj.nombredespachaaafectar;
+            dto.recibeaafectar = obj.recibeaafectar;
+            dto.nombrerecibeaafectar = obj.nombrerecibeaafectar;
+            dto.tipodedocumentoaafectar = obj.tipodedocumentoaafectar;
+            dto.nombretipodedocumentoaafectar = obj.nombretipodedocumentoaafectar;
+            dto.numerodeldocumentoaafectar = obj.numerodeldocumentoaafectar;
+            dto.fechadeldocumento = obj.fechadeldocumento;
+            dto.fechadevencimientodeldocumento = obj.fechadevencimientodeldocumento;
+            dto.programa = obj.programa;
+            dto.nombreprograma = obj.nombreprograma;
+            dto.vendedor = obj.vendedor;
+            dto.nombrevendedor = obj.nombrevendedor;
+            dto.formadepago = obj.formadepago;
+            dto.nombreformadepago = obj.nombreformadepago;
+            dto.numerodelpago = obj.numerodelpago;
+            dto.banco = obj.banco;
+            dto.nombrebanco = obj.nombrebanco;
+            dto.codigoconceptonotadebitocredito = obj.codigoconceptonotadebitocredito;
+            dto.nombreconceptonotadebitocredito = obj.nombreconceptonotadebitocredito;
+            dto.observaciones = obj.observaciones;
+            dto.formula = obj.formula;
+            dto.nombreformula = obj.nombreformula;
+            dto.producto = obj.producto;
+            dto.talla = obj.talla;
+            dto.color = obj.color;
+            dto.nombreproducto = obj.nombreproducto;
+            dto.nombretalla = obj.nombretalla;
+            dto.nombrecolor = obj.nombrecolor;
+            dto.nombreunidaddemedida = obj.nombreunidaddemedida;
+            dto.numerodeempaques = obj.numerodeempaques;
+            dto.unidaddeempaque = obj.unidaddeempaque;
+            dto.nombreunidaddeempaque = obj.nombreunidaddeempaque;
+            dto.cantidadporempaque = obj.cantidadporempaque;
+            dto.cantidad = obj.cantidad;
+            dto.valorunitario = obj.valorunitario;
+            dto.costoultimoporunidad = obj.costoultimoporunidad;
+            dto.costofleteporunidad = obj.costofleteporunidad;
+            dto.subtotal = obj.subtotal;
+            dto.codigodescuento1 = obj.codigodescuento1;
+            dto.nombrecodigodescuento1 = obj.nombrecodigodescuento1;
+            dto.porcentajedescuento1 = obj.porcentajedescuento1;
+            dto.valordescuento1 = obj.valordescuento1;
+            dto.codigoiva1 = obj.codigoiva1;
+            dto.nombrecodigoiva1 = obj.nombrecodigoiva1;
+            dto.porcentajedeiva1 = obj.porcentajedeiva1;
+            dto.valoriva1 = obj.valoriva1;
+            dto.fletes = obj.fletes;
+            dto.codigoretencion1 = obj.codigoretencion1;
+            dto.nombrecodigoretencion1 = obj.nombrecodigoretencion1;
+            dto.porcentajederetencion1 = obj.porcentajederetencion1;
+            dto.valorretencion1 = obj.valorretencion1;
+            dto.valorneto = obj.valorneto;
+            dto.fechadeprogramaciondelpago = obj.fechadeprogramaciondelpago;
+            dto.lacantidadestadespachada = obj.lacantidadestadespachada;
+            dto.eldocumentoestacancelado = obj.eldocumentoestacancelado;
+            dto.sumaorestaeninventario = obj.sumaorestaeninventario;
+            dto.sumaorestaencartera = obj.sumaorestaencartera;
+            dto.estadodelregistro = obj.estadodelregistro;
+            dto.trasladorecibidoyaprobadopor = obj.trasladorecibidoyaprobadopor;
+            dto.fechatrasladorecibidoyaprobado = obj.fechatrasladorecibidoyaprobado;
+            dto.fechadecreacion = obj.fechadecreacion;
+          
+            dto.consecutivousuario = obj.consecutivousuario;
+            dto.anodeldocumento = obj.anodeldocumento;
+            dto.mesdeldocumento = obj.mesdeldocumento;
+            dto.diadeldocumento = obj.diadeldocumento;
+            dto.idusuario = obj.idusuario;
+            dto.nombreusuario = obj.nombreusuario;
+
+
+
+            return dto;
+        }
+
+
 
         public TiposDeRegimenDTO TiposDeRegimenToTiposDeRegimenDTO(TiposDeRegimen obj)
         {

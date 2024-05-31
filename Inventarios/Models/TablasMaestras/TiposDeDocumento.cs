@@ -61,7 +61,7 @@ public class TiposDeDocumento
 
     public string abreviatura { get; set; }
 
-    public decimal consecutivo { get; set; }
+    public int consecutivo { get; set; }
 
     public string cuentacontabledebito { get; set; }
 

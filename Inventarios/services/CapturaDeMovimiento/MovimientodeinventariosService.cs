@@ -13,7 +13,7 @@ namespace Inventarios.services.CapturaDeMovimiento
             _access = access;
         }
 
-        public List<string>? Add(Movimientodeinventarios obj)
+        public List<string>? Add(Movimientodeinventariostmp obj)
         {
             List<string> mensajedeeror = _access.Add(obj);
             return mensajedeeror;
@@ -25,21 +25,21 @@ namespace Inventarios.services.CapturaDeMovimiento
             return mensajedeeror;
         }
 
-        public List<string>? Update(Movimientodeinventarios obj)
+        public List<string>? Update(Movimientodeinventariostmp obj)
         {
             List<string> mensajedeerror = _access.Update(obj);
             return mensajedeerror;
         }
 
-        public List<Movimientodeinventarios> GetById(int id)
+        public List<Movimientodeinventariostmp> GetById(int id)
         {
-            list = _access.GetById(id);
+            List<Movimientodeinventariostmp> list = _access.GetById(id);
             return list;
         }
 
-        public List<Movimientodeinventarios>? List(int tipodeodcumento, int idusuario)
+        public List<Movimientodeinventariostmp>? List(int tipodeodcumento, int idusuario)
         {
-            list = _access.List(tipodeodcumento, idusuario);
+            List<Movimientodeinventariostmp> list = _access.List(tipodeodcumento, idusuario);
             return list;
         }
 

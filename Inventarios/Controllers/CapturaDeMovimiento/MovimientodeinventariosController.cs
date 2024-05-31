@@ -19,7 +19,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
         [HttpPost]
         [ActionName("Add")]
-        public List<string>? Add(Movimientodeinventarios obj)
+        public List<string>? Add(Movimientodeinventariostmp obj)
         {
             List<string>? list = _service.Add(obj);
             return list;
@@ -35,7 +35,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
         [HttpPut]
         [ActionName("Update")]
-        public List<string>? Update(Movimientodeinventarios obj)
+        public List<string>? Update(Movimientodeinventariostmp obj)
         {
             List<string>? list = _service.Update(obj);
             return list;
@@ -43,9 +43,9 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
         [HttpGet("{id}")]
         [ActionName("GetById")]
-        public List<Movimientodeinventarios>? GetById(int id)
+        public List<Movimientodeinventariostmp>? GetById(int id)
         {
-            list = _service.GetById(id);
+            List<Movimientodeinventariostmp> list = _service.GetById(id);
             return list;
         }
 
@@ -59,9 +59,9 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
         [HttpGet("{tipodedocumento}/{idusuario}")]
         [ActionName("GetAll")]
-        public List<Movimientodeinventarios>? GetAll(int tipodedocumento, int idusuario)
+        public List<Movimientodeinventariostmp>? GetAll(int tipodedocumento, int idusuario)
         {
-            list = _service.List(tipodedocumento, idusuario);
+            List<Movimientodeinventariostmp> list = _service.List(tipodedocumento, idusuario);
             return list;
         }
 

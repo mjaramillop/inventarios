@@ -64,7 +64,7 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<TiposDeDocumento> TiposDeDocumento { get; set; }
 
-    public virtual DbSet<Movimientodeinventarios> Movimientodeinventariostmp { get; set; }
+    public virtual DbSet<Movimientodeinventariostmp> Movimientodeinventariostmp { get; set; }
 
     public virtual DbSet<UnidadesDeMedida> UnidadesDeMedida { get; set; }
 
@@ -740,8 +740,7 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("abreviatura");
             entity.Property(e => e.consecutivo)
-                .HasColumnType("decimal(18, 0)")
-                .HasColumnName("consecutivo");
+                 .HasColumnName("consecutivo");
             entity.Property(e => e.cuentacontablecredito)
                 .HasMaxLength(30)
                 .IsUnicode(false)
@@ -1060,6 +1059,11 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
 
+            entity.Property(e => e.nombretipodedocumento)
+            .HasMaxLength(100)
+            .IsUnicode(false)
+            .HasColumnName("NOMBRETIPODEDOCUMENTO");
+
             entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
 
             entity.Property(e => e.despacha).HasColumnName("DESPACHA");
@@ -1242,6 +1246,11 @@ public partial class InventariosContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTOULTIMOPORUNIDAD");
 
+            entity.Property(e => e.costopromedioporunidad)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("COSTOPROMEDIOPORUNIDAD");
+
+
             entity.Property(e => e.costofleteporunidad)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("COSTOFLETEPORUNIDAD");
@@ -1292,10 +1301,6 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
 
-            entity.Property(e => e.usuarioqueactualizo)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("USUARIO_QUE_ACTUALIZO");
 
             entity.Property(e => e.consecutivousuario)
                 .HasMaxLength(20)
@@ -1354,7 +1359,7 @@ public partial class InventariosContext : DbContext
         ///                                                                                          ///
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        modelBuilder.Entity<Movimientodeinventarios>(entity =>
+        modelBuilder.Entity<Movimientodeinventariostmp>(entity =>
         {
             entity.ToTable("MOVIMIENTODEINVENTARIOSTMP");
 
@@ -1371,6 +1376,11 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("ID");
 
             entity.Property(e => e.tipodedocumento).HasColumnName("TIPODEDOCUMENTO");
+
+            entity.Property(e => e.nombretipodedocumento)
+.HasMaxLength(100)
+.IsUnicode(false)
+.HasColumnName("NOMBRETIPODEDOCUMENTO");
 
             entity.Property(e => e.numerodeldocumento).HasColumnName("NUMERODELDOCUMENTO");
 
@@ -1534,6 +1544,11 @@ public partial class InventariosContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTOULTIMOPORUNIDAD");
 
+            entity.Property(e => e.costopromedioporunidad)
+    .HasColumnType("decimal(18, 5)")
+    .HasColumnName("COSTOPROMEDIOPORUNIDAD");
+
+
             entity.Property(e => e.costofleteporunidad)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("COSTOFLETEPORUNIDAD");
@@ -1583,11 +1598,6 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
-
-            entity.Property(e => e.usuarioqueactualizo)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("USUARIO_QUE_ACTUALIZO");
 
             entity.Property(e => e.consecutivousuario)
                 .HasMaxLength(20)
