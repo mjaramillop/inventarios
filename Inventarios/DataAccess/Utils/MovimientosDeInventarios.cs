@@ -401,6 +401,8 @@ namespace Inventarios.DataAccess.Utils
 
                     if (contador == 1) obj_.fletes = (valorfletedecadaitem + valordeajuste);
                     if (contador > 1) obj_.fletes = (valorfletedecadaitem);
+                    if (obj_.cantidad>0)  obj_.costofleteporunidad = obj_.fletes / obj_.cantidad;
+
 
                     //calcula iva
                     CalcularIva(obj_);
