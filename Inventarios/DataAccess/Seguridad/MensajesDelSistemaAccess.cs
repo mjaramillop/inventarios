@@ -1,9 +1,9 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
-using Inventarios.DataAccess.Utils;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
 {

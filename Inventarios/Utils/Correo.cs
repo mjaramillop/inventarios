@@ -1,4 +1,4 @@
-﻿namespace Inventarios.DataAccess.Utils
+﻿namespace Inventarios.Utils
 {
     public class Correo
     {
@@ -22,15 +22,15 @@
         {
             _iconfiguration = configutarion_;
 
-            this.Asunto = "";
-            this.Mensaje = "";
-            this.Destinatario = "";
-            this.ServidorSmtpRemitePuerto = "";
-            this.habilitarconexionsegurassl = true;
-            this.direcciondecorreodesalida = "";
-            this.MensajeDeError = "";
-            this.servidorcorreodesalidasmtp = "";
-            this.servidordecorreodesalidasmtppuerto = 25;
+            Asunto = "";
+            Mensaje = "";
+            Destinatario = "";
+            ServidorSmtpRemitePuerto = "";
+            habilitarconexionsegurassl = true;
+            direcciondecorreodesalida = "";
+            MensajeDeError = "";
+            servidorcorreodesalidasmtp = "";
+            servidordecorreodesalidasmtppuerto = 25;
         }
 
         public string enviarcorreo(Correo? objcorreo)

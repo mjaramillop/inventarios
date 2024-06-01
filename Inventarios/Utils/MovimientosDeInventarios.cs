@@ -5,7 +5,7 @@ using Inventarios.Models.TablasMaestras;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 
-namespace Inventarios.DataAccess.Utils
+namespace Inventarios.Utils
 {
     public class MovimientosDeInventarios
     {
@@ -32,9 +32,9 @@ namespace Inventarios.DataAccess.Utils
             obj.porcentajedeiva1 = 0;
             obj.valoriva1 = 0;
             obj.nombrecodigoiva1 = "";
-      
 
-            if ((objtipodedocumento.esunaventa == "S") || (objtipodedocumento.esunacompra == "S"))
+
+            if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
             {
                 Productos? objproducto = new Productos();
                 objproducto = _context.Productos.FirstOrDefault(a => a.id == obj.producto);
@@ -80,7 +80,7 @@ namespace Inventarios.DataAccess.Utils
                     {
                         obj.codigoretencion1 = objretenciones.id;
                         obj.porcentajederetencion1 = objretenciones.porcentaje;
-                        if ((obj.subtotal - obj.valordescuento1 + obj.fletes) >= objretenciones.basedelaretencion)
+                        if (obj.subtotal - obj.valordescuento1 + obj.fletes >= objretenciones.basedelaretencion)
                         {
                             obj.valorretencion1 = Convert.ToInt32((obj.subtotal - obj.valordescuento1 + obj.fletes) * (objretenciones.porcentaje / 100));
                         }
@@ -170,9 +170,9 @@ namespace Inventarios.DataAccess.Utils
             if (objtipodedocumento.pideconsecutivoautomatico != "S") return list;
 
 
-            list.ForEach(c => { c.numerodeldocumento = objtipodedocumento.consecutivo+1; });
+            list.ForEach(c => { c.numerodeldocumento = objtipodedocumento.consecutivo + 1; });
             _context.SaveChanges();
-            return list;    
+            return list;
 
 
         }
@@ -182,10 +182,10 @@ namespace Inventarios.DataAccess.Utils
         {
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
-                
+
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
 
-          
+
 
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario)
@@ -250,12 +250,12 @@ namespace Inventarios.DataAccess.Utils
                         item.cantidad = totalcantidad;
                         item.subtotal = totalsubtotal;
                         item.valorunitario = totalsubtotal / totalcantidad;
-                        item.valordescuento1 =  totaldescuento;
-                        item.porcentajedescuento1 = (totaldescuento / totalsubtotal) * 100;
-                        item.valoriva1 = Convert.ToInt32( (totalsubtotal-totaldescuento+totalfletes) * ( item.porcentajedeiva1/100));
+                        item.valordescuento1 = totaldescuento;
+                        item.porcentajedescuento1 = totaldescuento / totalsubtotal * 100;
+                        item.valoriva1 = Convert.ToInt32((totalsubtotal - totaldescuento + totalfletes) * (item.porcentajedeiva1 / 100));
                         item.valorretencion1 = totalretencion;
                         item.fletes = totalfletes;
-                        item.valorneto = item.subtotal-item.valordescuento1+item.valoriva1+item.fletes;
+                        item.valorneto = item.subtotal - item.valordescuento1 + item.valoriva1 + item.fletes;
 
                         listatotales.Add(item);
 
@@ -266,7 +266,7 @@ namespace Inventarios.DataAccess.Utils
                         totaliva = 0;
                         totalfletes = 0;
                         totalretencion = 0;
-                       
+
                     }
                 }
             }
@@ -276,7 +276,7 @@ namespace Inventarios.DataAccess.Utils
 
         public void CargarMovimientoTemporalAlDefinitivo(List<Movimientodeinventariostmp> list, int idusuario)
         {
-           
+
 
             // cargamos documento temporal al movimiento de inventarios definitivo
             Movimientodeinventarios objetodestino = new Movimientodeinventarios();
@@ -284,7 +284,7 @@ namespace Inventarios.DataAccess.Utils
             foreach (var item in list)
             {
                 objetodestino = new Movimientodeinventarios();
-             objetodestino=   _mapping.MovimientoTMPToMovimiento(item);
+                objetodestino = _mapping.MovimientoTMPToMovimiento(item);
                 objetodestino.id = 0;
                 _context.Movimientodeinventarios.Add(objetodestino);
                 _context.SaveChanges();
@@ -293,7 +293,7 @@ namespace Inventarios.DataAccess.Utils
             // borramos los registros en el movimieno temporal
             BorrarLosRegistrosDelMovimientoTemporal(list[0].tipodedocumento, idusuario);
 
-           
+
         }
 
         public void ActualizarConsecutivoDeLaTransaccion(int tipodedocumento)
@@ -303,7 +303,7 @@ namespace Inventarios.DataAccess.Utils
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
             objtipodedocumento.consecutivo = objtipodedocumento.consecutivo + 1;
             _context.SaveChanges();
-           
+
         }
 
         public string ActualizarConsecutivoDelUsuario(int idusuario)
@@ -327,7 +327,7 @@ namespace Inventarios.DataAccess.Utils
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
 
-            if ((objtipodedocumento.esunaventa == "S") || (objtipodedocumento.esunacompra == "S"))
+            if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
             {
                 var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
                 string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
@@ -338,7 +338,7 @@ namespace Inventarios.DataAccess.Utils
                 decimal subtotal = list.Sum(a => a.subtotal);
                 decimal valordescuentodelafactura = Convert.ToInt32(subtotal * (porcentajededescuento / 100));
                 decimal valordescuentodecadaitem = valordescuentodelafactura / cantidaddeelementosdelafactura;
-                decimal valordeajuste = valordescuentodelafactura - (valordescuentodecadaitem * cantidaddeelementosdelafactura);
+                decimal valordeajuste = valordescuentodelafactura - valordescuentodecadaitem * cantidaddeelementosdelafactura;
 
                 int contador = 0;
                 foreach (var item in list)
@@ -351,9 +351,9 @@ namespace Inventarios.DataAccess.Utils
                     obj_.valordescuento1 = 0;
 
                     if (contador == 1) obj_.valordescuento1 = Convert.ToInt32(obj_.valordescuento1 + (valordescuentodecadaitem + valordeajuste));
-                    if (contador > 1) obj_.valordescuento1 = Convert.ToInt32(obj_.valordescuento1 + (valordescuentodecadaitem));
+                    if (contador > 1) obj_.valordescuento1 = Convert.ToInt32(obj_.valordescuento1 + valordescuentodecadaitem);
 
-                    obj_.porcentajedescuento1 =  (obj_.valordescuento1/obj_.subtotal) *100;
+                    obj_.porcentajedescuento1 = obj_.valordescuento1 / obj_.subtotal * 100;
 
                     //calcula iva
                     CalcularIva(obj_);
@@ -379,7 +379,7 @@ namespace Inventarios.DataAccess.Utils
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
 
-            if ((objtipodedocumento.esunaventa == "S") || (objtipodedocumento.esunacompra == "S"))
+            if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
             {
                 var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
                 string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
@@ -388,7 +388,7 @@ namespace Inventarios.DataAccess.Utils
                 int cantidaddeelementosdelafactura = list.Count();
 
                 int valorfletedecadaitem = valorfletes / cantidaddeelementosdelafactura;
-                int valordeajuste = valorfletes - (valorfletedecadaitem * cantidaddeelementosdelafactura);
+                int valordeajuste = valorfletes - valorfletedecadaitem * cantidaddeelementosdelafactura;
 
                 int contador = 0;
                 foreach (var item in list)
@@ -399,9 +399,9 @@ namespace Inventarios.DataAccess.Utils
 
                     obj_.fletes = 0;
 
-                    if (contador == 1) obj_.fletes = (valorfletedecadaitem + valordeajuste);
-                    if (contador > 1) obj_.fletes = (valorfletedecadaitem);
-                    if (obj_.cantidad>0)  obj_.costofleteporunidad = obj_.fletes / obj_.cantidad;
+                    if (contador == 1) obj_.fletes = valorfletedecadaitem + valordeajuste;
+                    if (contador > 1) obj_.fletes = valorfletedecadaitem;
+                    if (obj_.cantidad > 0) obj_.costofleteporunidad = obj_.fletes / obj_.cantidad;
 
 
                     //calcula iva

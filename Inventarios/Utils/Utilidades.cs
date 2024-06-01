@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Inventarios.DataAccess.Utils
+namespace Inventarios.Utils
 {
     public class Utilidades
     {

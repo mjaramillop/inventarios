@@ -2,7 +2,7 @@
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
 
-namespace Inventarios.DataAccess.Utils
+namespace Inventarios.Utils
 {
     public class Validaciones
     {

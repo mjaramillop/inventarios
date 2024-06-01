@@ -1,4 +1,4 @@
-﻿using Inventarios.DataAccess.Utils;
+﻿using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Utils

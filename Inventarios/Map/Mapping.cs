@@ -1,11 +1,11 @@
 ﻿using Inventarios.Data;
-using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 using System.Data;
 
 namespace Inventarios.Map

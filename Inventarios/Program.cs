@@ -3,11 +3,11 @@ using Inventarios.DataAccess;
 using Inventarios.DataAccess.CapturaDeMovimiento;
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DataAccess.TablasMaestras;
-using Inventarios.DataAccess.Utils;
 using Inventarios.Map;
 using Inventarios.services.CapturaDeMovimiento;
 using Inventarios.services.Seguridad;
 using Inventarios.services.TablasMaestras;
+using Inventarios.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -88,8 +88,8 @@ builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
 builder.Services.AddScoped<TiposDePersonaAccess>();
 builder.Services.AddScoped<TiposDeRegimenAccess>();
 // utils
-builder.Services.AddScoped<Inventarios.DataAccess.Utils.Utilidades>();
-builder.Services.AddScoped<Inventarios.DataAccess.Utils.Validaciones>();
+builder.Services.AddScoped<Utilidades>();
+builder.Services.AddScoped<Validaciones>();
 builder.Services.AddScoped<MovimientosDeInventarios>();
 
 //-----------------------------------------------------------------------------

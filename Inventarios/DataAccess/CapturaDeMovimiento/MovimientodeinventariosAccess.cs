@@ -1,9 +1,9 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
-using Inventarios.DataAccess.Utils;
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento

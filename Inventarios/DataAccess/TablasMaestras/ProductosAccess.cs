@@ -1,11 +1,11 @@
 ﻿using Inventarios.Data;
 using Inventarios.DataAccess.Seguridad;
-using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
 using Inventarios.ModelsParameter.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {

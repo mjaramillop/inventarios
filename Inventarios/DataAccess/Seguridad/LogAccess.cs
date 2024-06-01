@@ -1,10 +1,9 @@
 ﻿using Inventarios.Data;
-using Inventarios.DataAccess.Utils;
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 using Inventarios.ModelsParameter.Seguridad;
-
+using Inventarios.Utils;
 using System.Data;
 using System.Linq.Dynamic.Core;
 

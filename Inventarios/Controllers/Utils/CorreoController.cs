@@ -1,4 +1,4 @@
-﻿using Inventarios.DataAccess.Utils;
+﻿using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Utils
@@ -16,7 +16,7 @@ namespace Inventarios.Controllers.Utils
 
         [HttpGet]
         [ActionName("enviarcorreo")]
-        public List<string> enviarcorreo(DataAccess.Utils.Correo obj)
+        public List<string> enviarcorreo(Correo obj)
         {
             return new List<string> { _service.enviarcorreo(obj) };
         }
