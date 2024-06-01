@@ -696,9 +696,6 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.entradas)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("entradas");
-            entity.Property(e => e.fechadelaultimaentrada)
-                .HasColumnType("datetime")
-                .HasColumnName("fechadelaultimaentrada");
             entity.Property(e => e.fechadelaultimasalida)
                 .HasColumnType("datetime")
                 .HasColumnName("fechadelaultimasalida");

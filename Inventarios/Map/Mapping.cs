@@ -314,12 +314,11 @@ namespace Inventarios.Map
             dto.bodega = obj.bodega;
             dto.costopromedio = obj.costopromedio;
             dto.entradas = obj.entradas;
-            dto.fechadelaultimaentrada = obj.fechadelaultimaentrada;
             dto.nombrebodega = proveedor.nombre;
             dto.nombreproducto = producto.nombre;
             dto.producto = obj.producto;
 
-            dto.diassinrotar = _utilidades.restarfechas(obj.fechadelaultimasalida, obj.fechadelaultimaentrada);
+            dto.diassinrotar = _utilidades.restarfechas(System.DateTime.Now, obj.fechadelaultimasalida);
 
             return dto;
         }

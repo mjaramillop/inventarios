@@ -58,7 +58,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.saldoinicial = obj.saldoinicial;
             obj_.salidas = obj.salidas;
             obj_.entradas = obj.entradas;
-            obj_.fechadelaultimaentrada = obj.fechadelaultimaentrada;
             obj_.fechadelaultimasalida = obj.fechadelaultimasalida;
             obj_.stockmaximo = obj.stockmaximo;
             obj_.stockminimo = obj.stockminimo;
@@ -103,7 +102,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "Entradas      = " + obj.entradas + "\n";
             comando = comando + "Salidas       = " + obj.salidas + "\n";
             comando = comando + "Saldo         = " + obj.saldo + "\n";
-            comando = comando + "Fecha Ultima entrada = " + obj.fechadelaultimaentrada.ToString() + "\n";
             comando = comando + "Fecha Ultima salida = " + obj.fechadelaultimasalida.ToString() + "\n";
             comando = comando + "Stock minimo = " + obj.stockminimo + "\n";
             comando = comando + "Stock maximo = " + obj.stockmaximo + "\n";

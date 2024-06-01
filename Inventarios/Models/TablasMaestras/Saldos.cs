@@ -14,8 +14,7 @@ public class Saldos
         this.saldo = 0;
         this.saldofisico = 0;
         this.costopromedio = 0;
-        this.fechadelaultimaentrada = DateTime.Now;
-        this.fechadelaultimasalida = DateTime.Now;
+        this.fechadelaultimasalida = DateTime.Now.AddYears(10);
         this.stockminimo = 0;
         this.stockmaximo = 0;
     }
@@ -38,9 +37,7 @@ public class Saldos
 
     public decimal costopromedio { get; set; }
 
-    public DateTime fechadelaultimaentrada { get; set; }
-
-    public DateTime fechadelaultimasalida { get; set; }
+      public DateTime fechadelaultimasalida { get; set; }
 
     public decimal stockminimo { get; set; }
 
