@@ -658,12 +658,13 @@ namespace Inventarios.Map
             dto.id = obj.id;
             dto.nombre = obj.nombre;
             dto.telefono = obj.telefono;
-            dto.estadodelregistro = obj.estadodelregistro;
             dto.nivel1 = obj.nivel1;
             dto.nivel2 = obj.nivel2;
             dto.nivel3 = obj.nivel3;
             dto.nivel4 = obj.nivel4;
             dto.nivel5 = obj.nivel5;
+            dto.estadodelregistro = obj.estadodelregistro;
+
             return dto;
         }
 
