@@ -678,6 +678,12 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("nombreusuario");
+            entity.Property(e => e.clavedeseguridadparapedidosporweb)
+              .HasMaxLength(10)
+              .IsUnicode(false)
+              .HasColumnName("clavedeseguridadparapedidosporweb");
+
+
         });
 
         modelBuilder.Entity<Saldos>(entity =>

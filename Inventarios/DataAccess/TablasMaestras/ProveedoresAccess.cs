@@ -80,6 +80,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.nivel5 = obj.nivel5;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
+            obj_.clavedeseguridadparapedidosporweb = obj.clavedeseguridadparapedidosporweb;
 
             _context.SaveChanges();
             Log(obj, "Modifico Proveedores");
@@ -146,18 +147,7 @@ namespace Inventarios.DataAccess.TablasMaestras
                 _context.SaveChanges();
             }
 
-            //list = _context.Proveedores
-            //    .OrderBy(a => a.nivel1)
-            //    .OrderBy(a => a.nivel2)
-            //    .OrderBy(a => a.nivel3)
-            //    .OrderBy(a => a.nivel4)
-            //    .OrderBy(a => a.nivel5)
-            //    .Where(a =>
-            //     a.nivel1.Contains(obj.filtronivel1remplazarpor) ||
-            //     a.nivel2.Contains(obj.filtronivel2remplazarpor) ||
-            //     a.nivel3.Contains(obj.filtronivel3remplazarpor) ||
-            //     a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
-            //     a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
+          
 
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
@@ -202,6 +192,8 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
+            comando = comando + "Clave de seguridad para pedidos web = " + obj.clavedeseguridadparapedidosporweb + "\n";
+
 
             _logacces.Add(comando);
         }

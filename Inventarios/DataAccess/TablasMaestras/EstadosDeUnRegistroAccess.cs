@@ -50,6 +50,8 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             var obj_ = _context.EstadosDeUnRegistro.FirstOrDefault(a => a.id == obj.id);
 
+            obj_.idusuario = obj.idusuario;
+            obj_.nombreusuario = obj.nombreusuario;
             obj_.nombre = obj.nombre;
 
             _context.SaveChanges();
