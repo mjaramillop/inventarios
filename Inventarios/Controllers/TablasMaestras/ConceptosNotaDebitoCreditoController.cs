@@ -21,25 +21,25 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpPost]
         [ActionName("Add")]
-        public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
+        public Mensaje Add(ConceptosNotaDebitoCredito obj)
         {
-            list = _service.Add(obj);
+            Mensaje list = _service.Add(obj);
             return list;
         }
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<ConceptosNotaDebitoCreditoDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _service.Delete(id);
+            Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public List<ConceptosNotaDebitoCreditoDTO>? Update(ConceptosNotaDebitoCredito obj)
+        public Mensaje Update(ConceptosNotaDebitoCredito obj)
         {
-            list = _service.Update(obj);
+            Mensaje list = _service.Update(obj);
             return list;
         }
 

@@ -23,7 +23,9 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public ProductosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, Validaciones validaciones, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
 
@@ -31,18 +33,19 @@ namespace Inventarios.DataAccess.TablasMaestras
             _mapping = mapping;
             _validaciones = validaciones;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<ProductosDTO>? Add(Productos obj)
+        public Mensaje Add(Productos obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
             _context.Productos.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Producto");
-            list = _context.Productos.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProductosToProductosDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<ProductosDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Productos.FirstOrDefault(a => a.id == id);
             _context.Productos.Remove(obj);
@@ -55,11 +58,10 @@ namespace Inventarios.DataAccess.TablasMaestras
             File.Delete(route);
 
             Log(obj, "Borro Producto");
-            list = _context.Productos.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProductosToProductosDTO(list);
+            return new Mensaje() { mensaje = "registro borrado " };
         }
 
-        public List<ProductosDTO>? Update(Productos? obj)
+        public Mensaje Update(Productos? obj)
         {
             var obj_ = _context.Productos.FirstOrDefault(a => a.id == obj.id);
             obj_.nombre = obj.nombre;
@@ -79,9 +81,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             _context.SaveChanges();
             Log(obj, "Modifico Productos");
-
-            list = _context.Productos.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProductosToProductosDTO(list);
+            return new Mensaje() { mensaje = "registro modificado  ok " };
         }
 
         public List<ProductosDTO> GetById(int id)
@@ -205,19 +205,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 return listadeerrores;
             }
 
-            //list = _context.Productos
-            //    .OrderBy(a => a.nivel1)
-            //    .OrderBy(a => a.nivel2)
-            //    .OrderBy(a => a.nivel3)
-            //    .OrderBy(a => a.nivel4)
-            //    .OrderBy(a => a.nivel5)
-            //    .Where(a =>
-            //     a.nivel1.Contains(obj.filtronivel1remplazarpor) ||
-            //     a.nivel2.Contains(obj.filtronivel2remplazarpor) ||
-            //     a.nivel3.Contains(obj.filtronivel3remplazarpor) ||
-            //     a.nivel4.Contains(obj.filtronivel4remplazarpor) ||
-            //     a.nivel5.Contains(obj.filtronivel5remplazarpor)).ToList();
-
             mensajedeerror = "Filas actualizadas existosamente";
             listadeerrores.Add(mensajedeerror);
 
@@ -315,11 +302,20 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "NIVEL 3 " + obj.nivel3;
             comando = comando + "NIVEL 4 " + obj.nivel4;
             comando = comando + "NIVEL 5 " + obj.nivel5;
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(Productos obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("Precio ", obj.precio1);
+            mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("Costo ", obj.costoultimo);
+            mensajedeerror = mensajedeerror + _validar.ValidarIva(obj.codigoiva1);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+
+            return mensajedeerror;
         }
     }
 }

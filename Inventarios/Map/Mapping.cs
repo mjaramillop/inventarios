@@ -14,18 +14,15 @@ namespace Inventarios.Map
     {
         private readonly InventariosContext _context;
         private readonly Utilidades _utilidades;
+
         public Mapping(InventariosContext context, Utilidades utilidades)
         {
             _context = context;
             _utilidades = utilidades;
         }
 
-
-
-        public  Movimientodeinventariostmp  MovimientoTMPToMovimientoTMP ( Movimientodeinventariostmp obj , Movimientodeinventariostmp dto)
+        public Movimientodeinventariostmp MovimientoTMPToMovimientoTMP(Movimientodeinventariostmp obj, Movimientodeinventariostmp dto)
         {
-
-
             dto.id = obj.id;
             dto.despacha = obj.despacha;
             dto.nombredespacha = obj.nombredespacha;
@@ -103,17 +100,13 @@ namespace Inventarios.Map
             dto.idusuario = obj.idusuario;
             dto.nombreusuario = obj.nombreusuario;
 
-
-
             return dto;
         }
 
-
-        public Movimientodeinventarios MovimientoTMPToMovimiento(Movimientodeinventariostmp obj )
+        public Movimientodeinventarios MovimientoTMPToMovimiento(Movimientodeinventariostmp obj)
         {
             Movimientodeinventarios dto = new();
 
-
             dto.id = obj.id;
             dto.despacha = obj.despacha;
             dto.nombredespacha = obj.nombredespacha;
@@ -184,7 +177,7 @@ namespace Inventarios.Map
             dto.trasladorecibidoyaprobadopor = obj.trasladorecibidoyaprobadopor;
             dto.fechatrasladorecibidoyaprobado = obj.fechatrasladorecibidoyaprobado;
             dto.fechadecreacion = obj.fechadecreacion;
-          
+
             dto.consecutivousuario = obj.consecutivousuario;
             dto.anodeldocumento = obj.anodeldocumento;
             dto.mesdeldocumento = obj.mesdeldocumento;
@@ -192,12 +185,8 @@ namespace Inventarios.Map
             dto.idusuario = obj.idusuario;
             dto.nombreusuario = obj.nombreusuario;
 
-
-
             return dto;
         }
-
-
 
         public TiposDeRegimenDTO TiposDeRegimenToTiposDeRegimenDTO(TiposDeRegimen obj)
         {
@@ -317,7 +306,6 @@ namespace Inventarios.Map
             dto.nombrebodega = proveedor.nombre;
             dto.nombreproducto = producto.nombre;
             dto.producto = obj.producto;
-
             dto.diassinrotar = _utilidades.restarfechas(System.DateTime.Now, obj.fechadelaultimasalida);
 
             return dto;

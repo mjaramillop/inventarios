@@ -21,25 +21,25 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpPost]
         [ActionName("Add")]
-        public List<EstadosDeUnRegistroDTO>? Add(EstadosDeUnRegistro obj)
+        public Mensaje Add(EstadosDeUnRegistro obj)
         {
-            list = _service.Add(obj);
+            Mensaje list = _service.Add(obj);
             return list;
         }
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<EstadosDeUnRegistroDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _service.Delete(id);
+            Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public List<EstadosDeUnRegistroDTO>? Update(EstadosDeUnRegistro obj)
+        public Mensaje Update(EstadosDeUnRegistro obj)
         {
-            list = _service.Update(obj);
+            Mensaje list = _service.Update(obj);
             return list;
         }
 

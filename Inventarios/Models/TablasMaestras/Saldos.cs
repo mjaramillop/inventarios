@@ -37,7 +37,7 @@ public class Saldos
 
     public decimal costopromedio { get; set; }
 
-      public DateTime fechadelaultimasalida { get; set; }
+    public DateTime fechadelaultimasalida { get; set; }
 
     public decimal stockminimo { get; set; }
 

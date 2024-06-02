@@ -1,6 +1,7 @@
 ﻿using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
 using Inventarios.services.Seguridad;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,25 +22,25 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpPost]
         [ActionName("Add")]
-        public List<UsersDTO>? Add(Usuarios? obj)
+        public Mensaje Add(Usuarios? obj)
         {
-            list = _service.Add(obj);
+            Mensaje list = _service.Add(obj);
             return list;
         }
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<UsersDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _service.Delete(id);
+            Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public List<UsersDTO>? Update(Usuarios obj)
+        public Mensaje Update(Usuarios obj)
         {
-            list = _service.Update(obj);
+            Mensaje list = _service.Update(obj);
             return list;
         }
 

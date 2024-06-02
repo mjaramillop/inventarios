@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,38 +19,40 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public ActividadesEconomicasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public ActividadesEconomicasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
-
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
+        public Mensaje Add(ActividadesEconomicas obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
             _context.ActividadesEconomicas.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Actividades Economicas");
-            list = _context.ActividadesEconomicas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<ActividadesEconomicasDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == id);
             _context.ActividadesEconomicas.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Actividades Economicas");
-            list = _context.ActividadesEconomicas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas? obj)
+        public Mensaje Update(ActividadesEconomicas? obj)
         {
-            var obj_ = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == obj.id);
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
 
+            var obj_ = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == obj.id);
             obj_.nombre = obj.nombre;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
@@ -58,8 +61,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log(obj, "Modifico Actividadeseconomicas");
 
-            list = _context.ActividadesEconomicas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListActividadeseconomicasToActividadeseconomicasDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<ActividadesEconomicas> GetById(int id)
@@ -80,17 +82,21 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             string comando = "";
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
 
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(ActividadesEconomicas obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+
+            return mensajedeerror;
         }
     }
 }

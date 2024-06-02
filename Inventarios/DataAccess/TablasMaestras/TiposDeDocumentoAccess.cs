@@ -4,6 +4,7 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -13,38 +14,41 @@ namespace Inventarios.DataAccess.TablasMaestras
         private readonly LogAccess _logacces;
         private readonly Mapping _mapping;
         private readonly IConfiguration _iconfiguration;
-
         private List<TiposDeDocumento>? list;
+        private readonly Validaciones _validar;
 
-        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion)
+        public TiposDeDocumentoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfigutarion, Validaciones validar)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfigutarion;
+            _validar = validar;
         }
 
-        public List<TiposDeDocumentoDTO> Add(TiposDeDocumento obj)
+        public Mensaje Add(TiposDeDocumento obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.TiposDeDocumento.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Tipos de Dcoumento");
-            list = _context.TiposDeDocumento.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<TiposDeDocumentoDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.TiposDeDocumento.FirstOrDefault(a => a.id == id);
             _context.TiposDeDocumento.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Tipos de Documento");
-            list = _context.TiposDeDocumento.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<TiposDeDocumentoDTO>? Update(TiposDeDocumento? obj)
+        public Mensaje Update(TiposDeDocumento? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -54,7 +58,6 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.cuentacontablecredito = obj.cuentacontablecredito;
             obj_.despacha = obj.despacha;
             obj_.recibe = obj.recibe;
-
             obj_.pidefechadevencimiento = obj.pidefechadevencimiento;
             obj_.pideprograma = obj.pideprograma;
             obj_.pideconceptonotadebitocredito = obj.pideconceptonotadebitocredito;
@@ -97,8 +100,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log(obj, "Modifico TiposDeDocumento");
 
-            list = _context.TiposDeDocumento.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<TiposDeDocumento> GetById(int id, int idusuario)
@@ -265,12 +267,8 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "esuninventarioinicial = " + obj.esuninventarioinicial + "\n";
             comando = comando + "titulodespacha  = " + obj.titulodespacha;
             comando = comando + "titulorecibe =" + obj.titulorecibe;
-
             comando = comando + "transaccionesquepuedellamar =" + obj.transaccionesquepuedellamar;
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
         }
 
@@ -283,6 +281,13 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "tipos de documento a accesar = " + obj.tiposdedocumento + "\n";
 
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(TiposDeDocumento obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            return mensajedeerror;
         }
     }
 }

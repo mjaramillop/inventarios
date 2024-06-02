@@ -14,21 +14,21 @@ namespace Inventarios.services.TablasMaestras
             _access = access;
         }
 
-        public List<SiNoDTO>? Add(SiNo obj)
+        public Mensaje Add(SiNo obj)
         {
-            list = _access.Add(obj);
+            Mensaje list = _access.Add(obj);
             return list;
         }
 
-        public List<SiNoDTO>? Delete(string id)
+        public Mensaje Delete(string id)
         {
-            list = _access.Delete(id);
+            Mensaje list = _access.Delete(id);
             return list;
         }
 
-        public List<SiNoDTO>? Update(SiNo obj)
+        public Mensaje Update(SiNo obj)
         {
-            list = _access.Update(obj);
+            Mensaje list = _access.Update(obj);
             return list;
         }
 

@@ -4,6 +4,7 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -15,36 +16,40 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private List<Proveedores>? list;
         private readonly IConfiguration _iconfiguration;
+        private readonly Validaciones _validar;
 
-        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<ProveedoresDTO> Add(Proveedores obj)
+        public Mensaje Add(Proveedores obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.Proveedores.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Proveedores");
-            list = _context.Proveedores.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProveedoresToProveedoresDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<ProveedoresDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Proveedores.FirstOrDefault(a => a.id == id);
             _context.Proveedores.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Proveedores");
-            list = _context.Proveedores.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProveedoresToProveedoresDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<ProveedoresDTO>? Update(Proveedores? obj)
+        public Mensaje Update(Proveedores? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.Proveedores.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -67,11 +72,9 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.declararenta = obj.declararenta;
             obj_.esgrancontribuyente = obj.esgrancontribuyente;
             obj_.tipoderegimen = obj.tipoderegimen;
-
             obj_.tipodeagente = obj.tipodeagente;
             obj_.cuentacontable = obj.cuentacontable;
             obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
-            //
             obj_.estadodelregistro = obj.estadodelregistro;
             obj_.nivel1 = obj.nivel1;
             obj_.nivel2 = obj.nivel2;
@@ -84,9 +87,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             _context.SaveChanges();
             Log(obj, "Modifico Proveedores");
-
-            list = _context.Proveedores.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProveedoresToProveedoresDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<Proveedores> GetById(int id)
@@ -147,8 +148,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                 _context.SaveChanges();
             }
 
-          
-
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
@@ -189,13 +188,17 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "NIVEL 3 " + obj.nivel3;
             comando = comando + "NIVEL 4 " + obj.nivel4;
             comando = comando + "NIVEL 5 " + obj.nivel5;
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
             comando = comando + "Clave de seguridad para pedidos web = " + obj.clavedeseguridadparapedidosporweb + "\n";
-
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(Proveedores obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            return mensajedeerror;
         }
     }
 }

@@ -21,25 +21,25 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpPost]
         [ActionName("Add")]
-        public List<IvasDTO>? Add(Ivas obj)
+        public Mensaje Add(Ivas obj)
         {
-            list = _service.Add(obj);
+            Mensaje list = _service.Add(obj);
             return list;
         }
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<IvasDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _service.Delete(id);
+            Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public List<IvasDTO>? Update(Ivas obj)
+        public Mensaje Update(Ivas obj)
         {
-            list = _service.Update(obj);
+            Mensaje list = _service.Update(obj);
             return list;
         }
 

@@ -2,8 +2,6 @@
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Inventarios.Utils
 {
@@ -32,7 +30,6 @@ namespace Inventarios.Utils
             obj.porcentajedeiva1 = 0;
             obj.valoriva1 = 0;
             obj.nombrecodigoiva1 = "";
-
 
             if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
             {
@@ -152,31 +149,23 @@ namespace Inventarios.Utils
             return obj;
         }
 
-
         public List<Movimientodeinventariostmp> ColocarConsecutivoAlMovimientoTemporal(int tipodedocumento, int idusuario)
         {
             // extraigo  el consecutivo que se asignara
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
 
-
-
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
-
 
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
 
             if (objtipodedocumento.pideconsecutivoautomatico != "S") return list;
 
-
             list.ForEach(c => { c.numerodeldocumento = objtipodedocumento.consecutivo + 1; });
             _context.SaveChanges();
             return list;
-
-
         }
-
 
         public List<Movimientodeinventariostmp> TotalizarDocumentoTemporal(int tipodedocumento, int idusuario)
         {
@@ -185,16 +174,13 @@ namespace Inventarios.Utils
 
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
 
-
-
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario)
                 .OrderBy(a => a.color)
                 .OrderBy(a => a.talla)
                 .OrderBy(a => a.producto).ToList();
 
-
-            // si no es un pedido u orden de  compran no totalizo 
+            // si no es un pedido u orden de  compran no totalizo
             // recuerde que cada vez que despachamos un pedido o recibimos
             // mercancia de una orden compra esos dos documentos no pueden
             // tener el producto repetido porque quedaria muy jodido
@@ -203,9 +189,7 @@ namespace Inventarios.Utils
             if (objtipodedocumento.saldarcantidadesdeldocumentollamado != "S")
             {
                 return list;
-
             }
-
 
             string llave1 = "xxxxxx";
             decimal totalcantidadporempaque = 0;
@@ -266,7 +250,6 @@ namespace Inventarios.Utils
                         totaliva = 0;
                         totalfletes = 0;
                         totalretencion = 0;
-
                     }
                 }
             }
@@ -276,8 +259,6 @@ namespace Inventarios.Utils
 
         public void CargarMovimientoTemporalAlDefinitivo(List<Movimientodeinventariostmp> list, int idusuario)
         {
-
-
             // cargamos documento temporal al movimiento de inventarios definitivo
             Movimientodeinventarios objetodestino = new Movimientodeinventarios();
 
@@ -292,8 +273,6 @@ namespace Inventarios.Utils
 
             // borramos los registros en el movimieno temporal
             BorrarLosRegistrosDelMovimientoTemporal(list[0].tipodedocumento, idusuario);
-
-
         }
 
         public void ActualizarConsecutivoDeLaTransaccion(int tipodedocumento)
@@ -303,7 +282,6 @@ namespace Inventarios.Utils
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
             objtipodedocumento.consecutivo = objtipodedocumento.consecutivo + 1;
             _context.SaveChanges();
-
         }
 
         public string ActualizarConsecutivoDelUsuario(int idusuario)
@@ -402,7 +380,6 @@ namespace Inventarios.Utils
                     if (contador == 1) obj_.fletes = valorfletedecadaitem + valordeajuste;
                     if (contador > 1) obj_.fletes = valorfletedecadaitem;
                     if (obj_.cantidad > 0) obj_.costofleteporunidad = obj_.fletes / obj_.cantidad;
-
 
                     //calcula iva
                     CalcularIva(obj_);

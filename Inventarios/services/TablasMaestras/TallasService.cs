@@ -14,21 +14,21 @@ namespace Inventarios.services.TablasMaestras
             _access = access;
         }
 
-        public List<TallasDTO>? Add(Tallas obj)
+        public Mensaje Add(Tallas obj)
         {
-            list = _access.Add(obj);
+            Mensaje list = _access.Add(obj);
             return list;
         }
 
-        public List<TallasDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _access.Delete(id);
+            Mensaje list = _access.Delete(id);
             return list;
         }
 
-        public List<TallasDTO>? Update(Tallas obj)
+        public Mensaje Update(Tallas obj)
         {
-            list = _access.Update(obj);
+            Mensaje list = _access.Update(obj);
             return list;
         }
 

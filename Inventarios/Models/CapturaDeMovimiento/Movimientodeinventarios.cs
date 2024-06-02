@@ -79,7 +79,7 @@ public class Movimientodeinventarios
         this.trasladorecibidoyaprobadopor = "";
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
-    
+
         this.consecutivousuario = "";
         this.anodeldocumento = "";
         this.mesdeldocumento = "";
@@ -179,7 +179,6 @@ public class Movimientodeinventarios
 
     public decimal costopromedioporunidad { get; set; }
 
-
     public decimal costofleteporunidad { get; set; }
 
     public decimal subtotal { get; set; }
@@ -238,7 +237,6 @@ public class Movimientodeinventarios
 
     [JsonIgnore]
     public DateTime fechadecreacion { get; set; }
-
 
     public string consecutivousuario { get; set; }
 

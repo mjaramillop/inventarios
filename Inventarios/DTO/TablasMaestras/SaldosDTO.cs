@@ -24,8 +24,6 @@
 
         public decimal? costopromedio { get; set; }
 
-        public DateTime? fechadelaultimaentrada { get; set; }
-
         public DateTime? fechadelaultimasalida { get; set; }
 
         public decimal? stockminimo { get; set; }

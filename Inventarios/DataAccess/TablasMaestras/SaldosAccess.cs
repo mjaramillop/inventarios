@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,38 +19,39 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public SaldosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public SaldosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
-
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<SaldosDTO>? Add(Saldos obj)
+        public Mensaje Add(Saldos obj)
         {
             _context.Saldos.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Saldo");
-            list = _context.Saldos.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListSaldosToSaldosDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<SaldosDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Saldos.FirstOrDefault(a => a.id == id);
             _context.Saldos.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Saldo");
-            list = _context.Saldos.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListSaldosToSaldosDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<SaldosDTO>? Update(Saldos? obj)
+        public Mensaje Update(Saldos? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.Saldos.Where(n => n.producto == obj.producto && n.bodega == obj.bodega).ToList()[0];
-            //.FirstOrDefault(a=>a.bodega==obj.bodega );
 
             obj_.costopromedio = obj.costopromedio;
             obj_.saldofisico = obj.saldofisico;
@@ -64,9 +66,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             _context.SaveChanges();
             Log(obj, "Modifico Saldo");
-
-            list = _context.Saldos.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListSaldosToSaldosDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<Saldos> GetById(int id)
@@ -107,6 +107,15 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "Stock maximo = " + obj.stockmaximo + "\n";
 
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(Saldos obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("stock maximo", obj.stockmaximo);
+            mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("stock minimo", obj.stockminimo);
+
+            return mensajedeerror;
         }
     }
 }

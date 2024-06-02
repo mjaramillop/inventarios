@@ -1,6 +1,7 @@
 ﻿using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
 
 namespace Inventarios.services.Seguridad
 {
@@ -14,21 +15,21 @@ namespace Inventarios.services.Seguridad
             _access = access;
         }
 
-        public List<MenuDTO>? Add(Menu obj)
+        public Mensaje Add(Menu obj)
         {
-            list = _access.Add(obj);
+            Mensaje list = _access.Add(obj);
             return list;
         }
 
-        public List<MenuDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _access.Delete(id);
+            Mensaje list = _access.Delete(id);
             return list;
         }
 
-        public List<MenuDTO>? Update(Menu obj)
+        public Mensaje Update(Menu obj)
         {
-            list = _access.Update(obj);
+            Mensaje list = _access.Update(obj);
             return list;
         }
 

@@ -1,5 +1,6 @@
 ﻿using Inventarios.DTO.Seguridad;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
 using Inventarios.services.Seguridad;
 
 using Microsoft.AspNetCore.Mvc;
@@ -21,25 +22,25 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpPost]
         [ActionName("Add")]
-        public List<MenuDTO>? Add(Menu obj)
+        public Mensaje Add(Menu obj)
         {
-            list = _service.Add(obj);
+            Mensaje list = _service.Add(obj);
             return list;
         }
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public List<MenuDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _service.Delete(id);
+            Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public List<MenuDTO>? Update(Menu obj)
+        public Mensaje Update(Menu obj)
         {
-            list = _service.Update(obj);
+            Mensaje list = _service.Update(obj);
             return list;
         }
 

@@ -3,6 +3,8 @@ using Inventarios.DTO;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.Seguridad
 {
@@ -15,26 +17,30 @@ namespace Inventarios.DataAccess.Seguridad
 
         private List<Usuarios>? list;
         private readonly IConfiguration _iconfiguration;
+        private readonly Validaciones _validar;
 
-        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+
+        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
-
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<UsersDTO>? Add(Usuarios obj)
+        public Mensaje Add(Usuarios obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.Usuarios.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego usuario");
             list = _context.Usuarios.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListUsersToListUsersDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<UsersDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
 
@@ -47,14 +53,17 @@ namespace Inventarios.DataAccess.Seguridad
             File.Delete(route);
 
             Log(obj, "Borro usuario");
-            list = _context.Usuarios.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListUsersToListUsersDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
+
+
         }
 
-        public List<UsersDTO> Update(Usuarios obj)
+        public Mensaje Update(Usuarios obj)
         {
-            var obj_ = _context.Usuarios.FirstOrDefault(a => a.id == obj.id);
 
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
+            var obj_ = _context.Usuarios.FirstOrDefault(a => a.id == obj.id);
             obj_.correoelectronico = obj.correoelectronico;
             obj_.area = obj.area;
             obj_.cargo = obj.cargo;
@@ -70,12 +79,11 @@ namespace Inventarios.DataAccess.Seguridad
             obj_.estadodelregistro = obj.estadodelregistro;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
-
             _context.SaveChanges();
             Log(obj, "Modifico usuario");
 
-            list = _context.Usuarios.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListUsersToListUsersDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
+            
         }
 
         public List<Usuarios> GetById(int id)
@@ -100,8 +108,13 @@ namespace Inventarios.DataAccess.Seguridad
             password = password.ToUpper();
             Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.login == login && a.password == password);
 
+
             if (objusuarios == null) return new List<MenuDTO>();
             if (objusuarios.perfil == 0) return new List<MenuDTO>();
+            if (objusuarios.estadodelregistro == 2) return new List<MenuDTO>();
+
+
+
             var perfil = _context.Perfiles.FirstOrDefault(a => a.id == objusuarios.perfil);
 
             var menu = _context.Menus.OrderBy(a => a.orden).ToList();
@@ -166,11 +179,19 @@ namespace Inventarios.DataAccess.Seguridad
             comando = comando + "password = " + obj.password + "\n";
             comando = comando + "Perfil = " + obj.perfil + "\n";
             comando = comando + "Tipos de documento = " + obj.tiposdedocumento + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
         }
+
+
+        public string ValidarRegistro(Usuarios obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+
+            return mensajedeerror;
+        }
+
     }
 }

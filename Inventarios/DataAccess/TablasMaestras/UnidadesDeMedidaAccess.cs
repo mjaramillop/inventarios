@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,36 +19,40 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public UnidadesDeMedidaAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public UnidadesDeMedidaAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
-
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<UnidadesDeMedidaDTO>? Add(UnidadesDeMedida obj)
+        public Mensaje Add(UnidadesDeMedida obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.UnidadesDeMedida.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Unidad de medida");
-            list = _context.UnidadesDeMedida.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListUnidadesDeMedidaToUnidadesDeMedidaDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<UnidadesDeMedidaDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == id);
             _context.UnidadesDeMedida.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Unidad de medida");
-            list = _context.UnidadesDeMedida.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListUnidadesDeMedidaToUnidadesDeMedidaDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<UnidadesDeMedidaDTO>? Update(UnidadesDeMedida? obj)
+        public Mensaje Update(UnidadesDeMedida? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -57,9 +62,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             _context.SaveChanges();
             Log(obj, "Modifico Unidade de medida");
-
-            list = _context.UnidadesDeMedida.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListUnidadesDeMedidaToUnidadesDeMedidaDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<UnidadesDeMedida> GetById(int id)
@@ -80,17 +83,18 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             string comando = "";
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(UnidadesDeMedida obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            return mensajedeerror;
         }
     }
 }

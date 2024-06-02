@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
 using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
@@ -13,19 +14,25 @@ namespace Inventarios.DataAccess
         private readonly LogAccess _logacces;
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
-
         private List<Mensajesdelsistema>? list;
 
-        public MensajesDelSistemaAccess(InventariosContext context, LogAccess logacces, IConfiguration iconfigutarion, Mapping mapping)
+        private readonly Validaciones _validar;
+
+
+        public MensajesDelSistemaAccess(InventariosContext context, LogAccess logacces, IConfiguration iconfigutarion, Mapping mapping, Validaciones validar)
         {
             _context = context;
             _iconfiguration = iconfigutarion;
             _logacces = logacces;
             _mapping = mapping;
+            _validar = validar;
         }
 
-        public List<MensajesDelSistemaDTO>? Add(Mensajesdelsistema obj)
+        public Mensaje Add(Mensajesdelsistema obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
+
             string comando = "";
             comando = "delete from mensajesdelsistema where fecha_hasta < getdate()  ";
             Utilidades ru = new(_iconfiguration);
@@ -34,22 +41,23 @@ namespace Inventarios.DataAccess
             _context.Mensajesdelsistema.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Mensaje del sistema");
-            list = _context.Mensajesdelsistema.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<MensajesDelSistemaDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Mensajesdelsistema.FirstOrDefault(a => a.id == id);
             _context.Mensajesdelsistema.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Mensajes del sistema");
-            list = _context.Mensajesdelsistema.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
+
         }
 
-        public List<MensajesDelSistemaDTO>? Update(Mensajesdelsistema? obj)
+        public Mensaje Update(Mensajesdelsistema? obj)
         {
+
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
             var obj_ = _context.Mensajesdelsistema.FirstOrDefault(a => a.id == obj.id);
 
             obj.fechadesde = obj_.fechadesde;
@@ -60,9 +68,8 @@ namespace Inventarios.DataAccess
 
             _context.SaveChanges();
             this.Log(obj, "Modifico Mensajes del sistema");
+            return new Mensaje() { mensaje = "registro modificado ok " };
 
-            list = _context.Mensajesdelsistema.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListMensajesDelSistemaToMensajesDelSistemaDTO(list);
         }
 
         public List<Mensajesdelsistema> GetById(int id)
@@ -86,18 +93,21 @@ namespace Inventarios.DataAccess
         public void Log(Mensajesdelsistema obj, string operacion)
         {
             string comando = "";
-
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "fecha desde = " + obj.fechadesde + "\n";
             comando = comando + "fecha hasta = " + obj.fechahasta + "\n";
             comando = comando + "Mensaje = " + obj.mensaje + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(Mensajesdelsistema obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Mensaje" , obj.mensaje);
+            mensajedeerror = mensajedeerror + _validar.Validarfechaddesdemenofechahasta("Fecha desde  ", obj.fechadesde , obj.fechahasta);
+            return mensajedeerror;
         }
     }
 }

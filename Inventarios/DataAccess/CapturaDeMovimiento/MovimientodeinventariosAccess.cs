@@ -2,9 +2,7 @@
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
-using Inventarios.Models.TablasMaestras;
 using Inventarios.Utils;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento
 {
@@ -55,7 +53,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro añadido correctamente";
             _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(obj.tipodedocumento, obj.consecutivousuario);
-          
 
             return new List<string> { mensajedeerror };
         }
@@ -86,7 +83,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             try
             {
                 var obj_ = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
-                _mapping.MovimientoTMPToMovimientoTMP(obj ,obj_) ;
+                _mapping.MovimientoTMPToMovimientoTMP(obj, obj_);
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -101,14 +98,13 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         public List<Movimientodeinventariostmp> GetById(int id)
         {
-            List<Movimientodeinventariostmp>  list = _context.Movimientodeinventariostmp.Where(a => a.id == id).ToList();
+            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.id == id).ToList();
             return list;
         }
 
         public List<Movimientodeinventariostmp>? List(int tipodedocumento, int idusuario)
         {
-            
-           List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario ==  _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario)).OrderBy(a => a.id).ToList();
+            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario)).OrderBy(a => a.id).ToList();
             return list;
         }
 
@@ -162,14 +158,10 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         public List<string> DeleteDocument(int tipodedocumento, int idusuario)
         {
-
-
-
             string mensajedeerror = "";
             try
             {
                 _utilsmovimiento.BorrarLosRegistrosDelMovimientoTemporal(tipodedocumento, idusuario);
-
             }
             catch (Exception ex)
             {
@@ -187,22 +179,21 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             if (mensajedeerror.IndexOf("Error") >= 0) return new List<string> { mensajedeerror };
             // aqui paso validaciones ok
 
-            mensajedeerror="";
+            mensajedeerror = "";
 
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-
                     // totalizamos movimiento temporal
                     List<Movimientodeinventariostmp> list = _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
 
                     // Colocamos el consecutivo al movmiento temporal
-                    list= _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento,idusuario);
+                    list = _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento, idusuario);
 
                     // cargamos documento temporal totalizado  al movimiento de inventarios definitivo
                     _utilsmovimiento.CargarMovimientoTemporalAlDefinitivo(list, idusuario);
-               
+
                     // actualizamos consecutivo en tipos de documento
                     _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(tipodedocumento);
 
@@ -213,14 +204,13 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                     Log(list[0].tipodedocumento, list[0].numerodeldocumento, "Agrego Movimiento de inventario ok ");
 
                     mensajedeerror = "Success";
-                    // Once your Single/Multiple table insert /Update/Delete operation done all operation should commit to database             
+                    // Once your Single/Multiple table insert /Update/Delete operation done all operation should commit to database
                     dbContextTransaction.Commit();
                 }
-
                 catch (Exception e)
                 {
                     mensajedeerror = e.Message;
-                    // If any operation getting error on the insert /Update/Delete operation all operation rollback. It should not commit to database            
+                    // If any operation getting error on the insert /Update/Delete operation all operation rollback. It should not commit to database
                     dbContextTransaction.Rollback();
                 }
             }
@@ -229,20 +219,15 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-      
-
-
         public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento, int idusuario)
         {
             list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario)).ToList();
             return list;
         }
 
-
-
         public void AplicarDescuentoPieDeFactura(int tipodedocumento, decimal porcentajededescuento, int idusuario)
         {
-           _utilsmovimiento.AplicarDescuentoPieDeFactura(tipodedocumento, porcentajededescuento, idusuario);
+            _utilsmovimiento.AplicarDescuentoPieDeFactura(tipodedocumento, porcentajededescuento, idusuario);
         }
 
         public void AplicarFletePieDeFactura(int tipodedocumento, int valorfletes, int idusuario)
@@ -250,18 +235,15 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _utilsmovimiento.AplicarFletePieDeFactura(tipodedocumento, valorfletes, idusuario);
         }
 
-
-        public void Log(int tipodedocumento , int numerodedocumento, string operacion)
+        public void Log(int tipodedocumento, int numerodedocumento, string operacion)
         {
-            var obj = _context.Movimientodeinventarios.FirstOrDefault(a => a.tipodedocumento ==tipodedocumento && a.numerodeldocumento == numerodedocumento);
-
+            var obj = _context.Movimientodeinventarios.FirstOrDefault(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento);
 
             string comando = "";
             comando = comando + "usuario " + obj.nombreusuario + "\n";
 
             comando = comando + "operacion " + operacion + "\n";
 
-         
             comando = comando + "tipo de documento = " + obj.tipodedocumento + "\n";
             comando = comando + "Nombre de odcumento = " + obj.nombretipodedocumento + "\n";
             comando = comando + "numero del documento  = " + obj.numerodeldocumento + "\n";
@@ -272,7 +254,5 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             _logacces.Add(comando);
         }
-
-      
     }
 }

@@ -14,21 +14,21 @@ namespace Inventarios.services.TablasMaestras
             _access = access;
         }
 
-        public List<ActividadesEconomicasDTO>? Add(ActividadesEconomicas obj)
+        public Mensaje Add(ActividadesEconomicas obj)
         {
-            list = _access.Add(obj);
+            Mensaje list = _access.Add(obj);
             return list;
         }
 
-        public List<ActividadesEconomicasDTO>? Delete(int id)
+        public Mensaje Delete(int id)
         {
-            list = _access.Delete(id);
+            Mensaje list = _access.Delete(id);
             return list;
         }
 
-        public List<ActividadesEconomicasDTO>? Update(ActividadesEconomicas obj)
+        public Mensaje Update(ActividadesEconomicas obj)
         {
-            list = _access.Update(obj);
+            Mensaje list = _access.Update(obj);
             return list;
         }
 

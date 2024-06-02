@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
 {
@@ -18,49 +19,51 @@ namespace Inventarios.DataAccess
 
         private readonly IConfiguration _iconfiguration;
 
-        public ProgramasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public ProgramasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<ProgramasDTO>? Add(Programas obj)
+        public Mensaje Add(Programas obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.Programas.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Actividades Economicas");
-            list = _context.Programas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProgramasToProgramasDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<ProgramasDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Programas.FirstOrDefault(a => a.id == id);
             _context.Programas.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Actividades Economicas");
-            list = _context.Programas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProgramasToProgramasDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<ProgramasDTO>? Update(Programas? obj)
+        public Mensaje Update(Programas? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.Programas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
-
             obj_.estadodelregistro = obj.estadodelregistro;
 
             _context.SaveChanges();
             this.Log(obj, "Modifico Programas");
-
-            list = _context.Programas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListProgramasToProgramasDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<Programas> GetById(int id)
@@ -81,17 +84,19 @@ namespace Inventarios.DataAccess
         {
             string comando = "";
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(Programas obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            return mensajedeerror;
         }
     }
 }

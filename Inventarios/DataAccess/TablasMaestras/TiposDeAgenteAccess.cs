@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,36 +19,40 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public TiposDeAgenteAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public TiposDeAgenteAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
-
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<TiposDeAgenteDTO>? Add(TiposDeAgente obj)
+        public Mensaje Add(TiposDeAgente obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.TiposDeAgente.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Tipo de agente");
-            list = _context.TiposDeAgente.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListTiposDeAgenteToTiposDeAgenteDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<TiposDeAgenteDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.TiposDeAgente.FirstOrDefault(a => a.id == id);
             _context.TiposDeAgente.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Tipo de agente");
-            list = _context.TiposDeAgente.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListTiposDeAgenteToTiposDeAgenteDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<TiposDeAgenteDTO>? Update(TiposDeAgente? obj)
+        public Mensaje? Update(TiposDeAgente? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.TiposDeAgente.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -57,8 +62,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log(obj, "Modifico Tipo de agente");
 
-            list = _context.TiposDeAgente.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListTiposDeAgenteToTiposDeAgenteDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<TiposDeAgente> GetById(int id)
@@ -79,16 +83,17 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             string comando = "";
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(TiposDeAgente obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            return mensajedeerror;
         }
     }
 }

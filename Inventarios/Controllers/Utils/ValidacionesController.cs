@@ -16,21 +16,21 @@ namespace Inventarios.Controllers.Utils
 
         [HttpGet("{campo}/{valor}")]
         [ActionName("Validarvalormayorquecero")]
-        public List<string> Validarvalormayorquecero(string campo, int? valor)
+        public List<string> Validarvalormayorquecero(string campo, decimal valor)
         {
             return new List<string> { _service.Validarvalormayorquecero(campo, valor) };
         }
 
         [HttpGet("{campo}/{valor}")]
         [ActionName("Validarvalordiferentedecero")]
-        public List<string> Validarvalordiferentedecero(string campo, int? valor)
+        public List<string> Validarvalordiferentedecero(string campo, decimal valor)
         {
             return new List<string> { _service.Validarvalordiferentedecero(campo, valor) };
         }
 
         [HttpGet("{campo}/{valor}")]
         [ActionName("Validarvalormenorquecero")]
-        public List<string> Validarvalormenorquecero(string campo, int? valor)
+        public List<string> Validarvalormenorquecero(string campo, decimal valor)
         {
             return new List<string> { _service.Validarvalormenorquecero(campo, valor) };
         }

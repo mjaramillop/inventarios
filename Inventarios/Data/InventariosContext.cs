@@ -556,7 +556,6 @@ public partial class InventariosContext : DbContext
             entity.HasIndex(e => e.nivel5, "IX_PROVEEDORES_5");
             entity.HasIndex(e => e.nit, "IX_PROVEEDORES_6");
 
-
             entity.Property(e => e.id).HasColumnName("id");
             entity.Property(e => e.actividadcomercial).HasColumnName("actividadcomercial");
             entity.Property(e => e.celular1)
@@ -684,8 +683,6 @@ public partial class InventariosContext : DbContext
               .HasMaxLength(10)
               .IsUnicode(false)
               .HasColumnName("clavedeseguridadparapedidosporweb");
-
-
         });
 
         modelBuilder.Entity<Saldos>(entity =>
@@ -1255,7 +1252,6 @@ public partial class InventariosContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("COSTOPROMEDIOPORUNIDAD");
 
-
             entity.Property(e => e.costofleteporunidad)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("COSTOFLETEPORUNIDAD");
@@ -1305,7 +1301,6 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("TRASLADO_RECIBIDO_Y_APROBADO_POR");
-
 
             entity.Property(e => e.consecutivousuario)
                 .HasMaxLength(20)
@@ -1552,7 +1547,6 @@ public partial class InventariosContext : DbContext
             entity.Property(e => e.costopromedioporunidad)
     .HasColumnType("decimal(18, 5)")
     .HasColumnName("COSTOPROMEDIOPORUNIDAD");
-
 
             entity.Property(e => e.costofleteporunidad)
                 .HasColumnType("decimal(18, 2)")

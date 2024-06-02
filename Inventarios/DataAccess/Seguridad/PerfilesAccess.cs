@@ -3,6 +3,8 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
 {
@@ -14,36 +16,47 @@ namespace Inventarios.DataAccess
 
         private List<Perfiles>? list;
         private readonly IConfiguration _iconfiguration;
+        private readonly Validaciones _validar;
 
-        public PerfilesAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+
+        public PerfilesAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<PerfilesDTO> Add(Perfiles obj)
+        public Mensaje Add(Perfiles obj)
         {
+
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.Perfiles.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Perfiles");
-            list = _context.Perfiles.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListPerfilesToPerfilesDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
+
         }
 
-        public List<PerfilesDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Perfiles.FirstOrDefault(a => a.id == id);
             _context.Perfiles.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Perfiles");
-            list = _context.Perfiles.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListPerfilesToPerfilesDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
+
+
         }
 
-        public List<PerfilesDTO> Update(Perfiles obj)
+        public Mensaje Update(Perfiles obj)
         {
+
+
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.Perfiles.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -55,9 +68,8 @@ namespace Inventarios.DataAccess
 
             _context.SaveChanges();
             this.Log(obj, "Modifico Perfiles");
-
-            list = _context.Perfiles.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListPerfilesToPerfilesDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok" };
+          
         }
 
         public List<Perfiles> GetById(int id)
@@ -123,17 +135,21 @@ namespace Inventarios.DataAccess
         {
             string comando = "";
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
         }
+
+        public string ValidarRegistro(Perfiles obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+
+            return mensajedeerror;
+        }
+
     }
 }

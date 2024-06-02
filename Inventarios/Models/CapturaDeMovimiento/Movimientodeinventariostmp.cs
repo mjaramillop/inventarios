@@ -3,9 +3,6 @@ using System.Text.Json.Serialization;
 
 namespace Inventarios.Models.CapturaDeMovimiento
 {
-
-
-
     public class Movimientodeinventariostmp
     {
         public Movimientodeinventariostmp()
@@ -82,7 +79,7 @@ namespace Inventarios.Models.CapturaDeMovimiento
             this.trasladorecibidoyaprobadopor = "";
             this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
             this.fechadecreacion = System.DateTime.Now;
-     
+
             this.consecutivousuario = "";
             this.anodeldocumento = "";
             this.mesdeldocumento = "";
@@ -241,7 +238,6 @@ namespace Inventarios.Models.CapturaDeMovimiento
         [JsonIgnore]
         public DateTime fechadecreacion { get; set; }
 
-     
         public string consecutivousuario { get; set; }
 
         [NotMapped]

@@ -17,16 +17,34 @@ namespace Inventarios.Utils
         {
         }
 
-        public string Validarvalormayorquecero(string campo, int? valor)
+        public string Validarnombre(string campo, string valor)
+        {
+            if (valor.Trim().Length <= 0)
+            {
+                return campo + "Error. no puede ser vacio " + '\n';
+            }
+            return "";
+        }
+
+        public string Validarvalormayorquecero(string campo, decimal valor)
         {
             if (valor <= 0)
+            {
+                return campo + "Error. no puede ser menor o igual a  cero " + '\n';
+            }
+            return "";
+        }
+
+        public string Validarvalormayoroigualacero(string campo, decimal valor)
+        {
+            if (valor < 0)
             {
                 return campo + "Error. no puede ser menor que cero " + '\n';
             }
             return "";
         }
 
-        public string Validarvalordiferentedecero(string campo, int? valor)
+        public string Validarvalordiferentedecero(string campo, decimal valor)
         {
             if (valor == 0)
             {
@@ -35,7 +53,7 @@ namespace Inventarios.Utils
             return "";
         }
 
-        public string Validarvalormenorquecero(string campo, int? valor)
+        public string Validarvalormenorquecero(string campo, decimal valor)
         {
             if (valor < 0)
             {
@@ -43,6 +61,24 @@ namespace Inventarios.Utils
             }
             return "";
         }
+
+
+        /// <summary>
+        /// la fecha1 debe ser menor que la fecha2
+        /// </summary>
+        /// <param name="fecha1"></param>
+        /// <param name="fecha2"></param>
+        /// <returns></returns>
+        public string Validarfechaddesdemenofechahasta(string campo,DateTime fecha1 , DateTime fecha2)
+        {
+            if (fecha1>fecha2)
+            {
+                return campo +  "no puede ser mayor que la 2a fecha  " + '\n';
+            }
+            return "";
+        }
+
+
 
         // valida tipo de documento
         public string ValidarTipoDeDocumento(int tipodedocumento)
@@ -197,6 +233,19 @@ namespace Inventarios.Utils
             return objproducto.nombre;
         }
 
+        public string ValidarIva(int producto)
+        {
+            //  Producto
+            Ivas? objiva = new Ivas();
+            objiva = _context.Ivas.FirstOrDefault(a => a.id == producto);
+            if (objiva == null)
+            {
+                return "Error. El codigo del iva es invalido  " + "\n";
+            }
+
+            return objiva.nombre;
+        }
+
         public string ValidarUnidadDeMedida(int unidaddemedida)
         {
             //  Unidad de medida
@@ -323,6 +372,19 @@ namespace Inventarios.Utils
             }
 
             return objtipoderegimen.nombre;
+        }
+
+        public string ValidarEstadoDelRegistro(int estadodelregistro)
+        {
+            // tipo de agente
+            EstadosDeUnRegistro? objestadodelregistro = new EstadosDeUnRegistro();
+            objestadodelregistro = _context.EstadosDeUnRegistro.FirstOrDefault(a => a.id == estadodelregistro);
+            if (objestadodelregistro == null)
+            {
+                return "Error. El codigo del estado del registro es invalido  " + "\n";
+            }
+
+            return objestadodelregistro.nombre;
         }
     }
 }

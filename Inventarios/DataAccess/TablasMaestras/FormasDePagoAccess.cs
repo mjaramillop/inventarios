@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess
 {
@@ -17,49 +18,49 @@ namespace Inventarios.DataAccess
         private List<FormasDePago>? list;
         private readonly IConfiguration _iconfiguration;
 
-        public FormasDePagoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public FormasDePagoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<FormasDePagoDTO>? Add(FormasDePago obj)
+        public Mensaje? Add(FormasDePago obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.FormasDePago.Add(obj);
             _context.SaveChanges();
             this.Log(obj, "Agrego Formas de pago");
-            list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<FormasDePagoDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.FormasDePago.FirstOrDefault(a => a.id == id);
             _context.FormasDePago.Remove(obj);
             _context.SaveChanges();
             this.Log(obj, "Borro Formas de pago");
-            list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<FormasDePagoDTO>? Update(FormasDePago? obj)
+        public Mensaje Update(FormasDePago? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
             var obj_ = _context.FormasDePago.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
-
             obj_.estadodelregistro = obj.estadodelregistro;
-
             _context.SaveChanges();
             this.Log(obj, "Modifico Formas de pago");
-
-            list = _context.FormasDePago.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListFormasDePagoToFormasDePagoDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<FormasDePago> GetById(int id)
@@ -79,19 +80,20 @@ namespace Inventarios.DataAccess
         public void Log(FormasDePago obj, string operacion)
         {
             string comando = "";
-
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(FormasDePago obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            return mensajedeerror;
         }
     }
 }

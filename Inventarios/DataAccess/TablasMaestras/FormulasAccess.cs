@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,27 +19,31 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public FormulasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public FormulasAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<FormulasDTO>? Add(Formulas obj)
+        public Mensaje Add(Formulas obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.Formulas.Add(obj);
             _context.SaveChanges();
             ActualizarCostoDeLaFormula(obj.formula);
 
             Log(obj, "Agrego Formula");
-            list = _context.Formulas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListFormulasToFormulasDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<FormulasDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.Formulas.FirstOrDefault(a => a.id == id);
             _context.Formulas.Remove(obj);
@@ -46,12 +51,13 @@ namespace Inventarios.DataAccess.TablasMaestras
             ActualizarCostoDeLaFormula(obj.formula);
             Log(obj, "Borro Formula");
 
-            list = _context.Formulas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListFormulasToFormulasDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<FormulasDTO>? Update(Formulas? obj)
+        public Mensaje Update(Formulas? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.Formulas.FirstOrDefault(a => a.id == obj.id);
 
             obj_.formula = obj.formula;
@@ -64,8 +70,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             ActualizarCostoDeLaFormula(obj.formula);
             Log(obj, "Modifico Formula");
 
-            list = _context.Formulas.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListFormulasToFormulasDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<Formulas> GetById(int id)
@@ -120,6 +125,16 @@ namespace Inventarios.DataAccess.TablasMaestras
             comando = comando + "Cantidad = " + obj.cantidad + "\n";
 
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(Formulas obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarProducto(obj.formula);
+            mensajedeerror = mensajedeerror + _validar.ValidarProducto(obj.componente);
+            mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("cantidad", obj.cantidad);
+
+            return mensajedeerror;
         }
     }
 }

@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,36 +19,43 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public ConceptosNotaDebitoCreditoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public ConceptosNotaDebitoCreditoAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<ConceptosNotaDebitoCreditoDTO>? Add(ConceptosNotaDebitoCredito obj)
+        public Mensaje Add(ConceptosNotaDebitoCredito obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.ConceptosNotaDebitoCredito.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Conceptos Nota debito credito");
-            list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<ConceptosNotaDebitoCreditoDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == id);
             _context.ConceptosNotaDebitoCredito.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Conceptos nota debito credito");
-            list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<ConceptosNotaDebitoCreditoDTO>? Update(ConceptosNotaDebitoCredito? obj)
+        public Mensaje Update(ConceptosNotaDebitoCredito? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
@@ -58,9 +66,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             _context.SaveChanges();
             Log(obj, "Modifico Conceptos Nota Debito Credito");
-
-            list = _context.ConceptosNotaDebitoCredito.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListConceptosNotaDebitoCreditoToConceptosNotaDebitoCreditoDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<ConceptosNotaDebitoCredito> GetById(int id)
@@ -80,19 +86,21 @@ namespace Inventarios.DataAccess.TablasMaestras
         public void Log(ConceptosNotaDebitoCredito obj, string operacion)
         {
             string comando = "";
-
             comando = comando + "usuario " + obj.nombreusuario + "\n";
-
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
-            //
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(ConceptosNotaDebitoCredito obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+
+            return mensajedeerror;
         }
     }
 }

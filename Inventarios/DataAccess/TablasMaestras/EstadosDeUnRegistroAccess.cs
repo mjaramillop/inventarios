@@ -3,6 +3,7 @@ using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -18,36 +19,41 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly IConfiguration _iconfiguration;
 
-        public EstadosDeUnRegistroAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration)
+        private readonly Validaciones _validar;
+
+        public EstadosDeUnRegistroAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
         {
             _context = context;
 
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
+            _validar = validar;
         }
 
-        public List<EstadosDeUnRegistroDTO>? Add(EstadosDeUnRegistro obj)
+        public Mensaje Add(EstadosDeUnRegistro obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             _context.EstadosDeUnRegistro.Add(obj);
             _context.SaveChanges();
             Log(obj, "Agrego Estado de un registro");
-            list = _context.EstadosDeUnRegistro.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListEstadosDeUnRegistroToEstadosDeUnRegistroDTO(list);
+            return new Mensaje() { mensaje = "registro insertado ok " };
         }
 
-        public List<EstadosDeUnRegistroDTO> Delete(int id)
+        public Mensaje Delete(int id)
         {
             var obj = _context.EstadosDeUnRegistro.FirstOrDefault(a => a.id == id);
             _context.EstadosDeUnRegistro.Remove(obj);
             _context.SaveChanges();
             Log(obj, "Borro Estado de un registro");
-            list = _context.EstadosDeUnRegistro.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListEstadosDeUnRegistroToEstadosDeUnRegistroDTO(list);
+            return new Mensaje() { mensaje = "registro borrado ok " };
         }
 
-        public List<EstadosDeUnRegistroDTO>? Update(EstadosDeUnRegistro? obj)
+        public Mensaje Update(EstadosDeUnRegistro? obj)
         {
+            if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
             var obj_ = _context.EstadosDeUnRegistro.FirstOrDefault(a => a.id == obj.id);
 
             obj_.idusuario = obj.idusuario;
@@ -57,8 +63,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _context.SaveChanges();
             Log(obj, "Modifico EstadosDeUnRegistro");
 
-            list = _context.EstadosDeUnRegistro.Where(a => a.id == obj.id).ToList();
-            return _mapping.ListEstadosDeUnRegistroToEstadosDeUnRegistroDTO(list);
+            return new Mensaje() { mensaje = "registro modificado ok " };
         }
 
         public List<EstadosDeUnRegistro> GetById(int id)
@@ -79,12 +84,17 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             string comando = "";
             comando = comando + "operacion " + operacion + "\n";
-
             comando = comando + "id = " + obj.id + "\n";
-
             comando = comando + "Nombre = " + obj.nombre + "\n";
-
             _logacces.Add(comando);
+        }
+
+        public string ValidarRegistro(EstadosDeUnRegistro obj)
+        {
+            string mensajedeerror = "";
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+
+            return mensajedeerror;
         }
     }
 }

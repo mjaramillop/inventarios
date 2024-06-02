@@ -15,7 +15,7 @@ public partial class FormasDePago
 
     public string? nombre { get; set; }
 
-    public int? estadodelregistro { get; set; }
+    public int estadodelregistro { get; set; }
 
     public int idusuario { get; set; }
 
