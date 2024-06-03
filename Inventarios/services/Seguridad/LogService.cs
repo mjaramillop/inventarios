@@ -1,5 +1,6 @@
 ﻿using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO;
+using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter.Seguridad;
 
 namespace Inventarios.services.Seguridad
@@ -20,9 +21,9 @@ namespace Inventarios.services.Seguridad
             return list;
         }
 
-        public List<string> DeleteLog(string fecha)
+        public Mensaje DeleteLog(string fecha)
         {
-            List<string> list = _access.DeleteLog(fecha);
+            Mensaje list = _access.DeleteLog(fecha);
             return list;
         }
     }

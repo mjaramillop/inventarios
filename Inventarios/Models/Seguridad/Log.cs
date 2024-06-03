@@ -7,6 +7,8 @@ public class Log
         this.id = 0;
         this.descripciondelaoperacion = "";
         this.fechadeactualizacion = DateTime.Now;
+        this.idusuario = 0;
+        this.nombreusuario = "";
     }
 
     public int id { get; set; }

@@ -2,6 +2,7 @@
 using Inventarios.DTO;
 using Inventarios.Map;
 using Inventarios.Models.Seguridad;
+using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.Utils;
 using System.Data;
@@ -15,13 +16,15 @@ namespace Inventarios.DataAccess.Seguridad
 
         private readonly IConfiguration _iconfiguration;
         private readonly Mapping _mapping;
+        private readonly Utilidades _utilidades;
 
-        public LogAccess(InventariosContext context, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration)
+        public LogAccess(InventariosContext context, IConfiguration iconfigutarion, Mapping mapping, IConfiguration iconfiguration, Utilidades utilidades )
         {
             _context = context;
 
             _iconfiguration = iconfigutarion;
             _mapping = mapping;
+            _utilidades = utilidades;
         }
 
         public void Add(string registro)
@@ -37,8 +40,8 @@ namespace Inventarios.DataAccess.Seguridad
         public List<LogDTO> List(LogConsultar? obj)
         {
             string? comando = " a => a.id >0  ";
-            if (obj.fechadesde != null) comando = comando + " && a.fechadeactualizacion>=DateTime(\"" + obj.fechadesde.Value.ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "\") ";
-            if (obj.fechahasta != null) comando = comando + " && a.fechadeactualizacion<DateTime(\"" + obj.fechahasta.Value.AddDays(1).ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql")) + "\") ";
+            if (obj.fechadesde != null) comando = comando + " && a.fechadeactualizacion>=DateTime(\"" + _utilidades.DevolverFechaCompatibleconlaBD(obj.fechadesde) + "\") ";
+            if (obj.fechahasta != null) comando = comando + " && a.fechadeactualizacion<DateTime(\"" +  _utilidades.DevolverFechaCompatibleconlaBD(obj.fechahasta.Value.AddDays(1)) + "\") ";
             if (obj.filtro1.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro1 + "\")";
             if (obj.filtro2.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro2 + "\")";
             if (obj.filtro3.Trim().Length > 0) comando = comando + " && a.descripciondelaoperacion.Contains(\"" + obj.filtro3 + "\")";
@@ -50,18 +53,18 @@ namespace Inventarios.DataAccess.Seguridad
             return _mapping.ListLogToLogDTO(list);
         }
 
-        public List<string> DeleteLog(string fecha)
+        public Mensaje DeleteLog(string fecha)
         {
             string? comando = "  ";
 
-            comando = "DELETE  FROM LOG WHERE FECHA_DE_ACTUALIZACION <" + "'" + fecha + "'";
+            comando = "DELETE  FROM LOG WHERE FECHA_DE_ACTUALIZACION <" + "'" +  fecha + "'";
 
             Utilidades ru = new(_iconfiguration);
 
             string mensaje = ru.ejecutarsql(comando);
             if (mensaje.Trim().Length == 0) mensaje = "Registros eliminados correctamente antes del " + fecha;
 
-            return new List<string>() { mensaje };
+            return new Mensaje() { mensaje = mensaje };
         }
     }
 }

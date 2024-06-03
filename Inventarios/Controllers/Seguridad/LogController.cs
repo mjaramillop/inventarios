@@ -1,4 +1,5 @@
 ﻿using Inventarios.DTO;
+using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.services.Seguridad;
 
@@ -39,9 +40,9 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpDelete("{fecha}")]
         [ActionName("DeleteLog")]
-        public List<string>? DeleteLog(string fecha)
+        public Mensaje DeleteLog(string fecha)
         {
-            List<string> list = _service.DeleteLog(fecha);
+            Mensaje list = _service.DeleteLog(fecha);
             return list;
         }
     }

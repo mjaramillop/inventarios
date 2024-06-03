@@ -1239,5 +1239,16 @@ namespace Inventarios.Utils
 
             return fecha;
         }
+
+        public string DevolverFechaCompatibleconlaBD( DateTime? fecha)
+        {
+
+            string formato = fecha.Value.ToString(_iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:formatodefechaparalasconsultassql"));
+
+          
+            return formato;
+        }
+
+
     }
 }
