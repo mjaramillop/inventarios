@@ -154,7 +154,6 @@ namespace Inventarios.Utils
             }
             return objrecibeaafectar.nombre;
         }
-
         public string ValidarPrograma(int programa)
         {
             // programa
@@ -167,6 +166,35 @@ namespace Inventarios.Utils
 
             return objprogramas.nombre;
         }
+
+
+        public string ValidarRetencion(int retencion)
+        {
+          
+            Retenciones? objretenciones = new Retenciones();
+            objretenciones = _context.Retenciones.FirstOrDefault(a => a.id == retencion);
+            if (objretenciones == null)
+            {
+                return "Error. El codigo de retencion esta errado" + "\n";
+            }
+
+            return objretenciones.nombre;
+        }
+
+        public string ValidarActividadComercial(int actividadcomercial)
+        {
+          
+
+            ActividadesEconomicas? objactividadeseconomicas = new  ActividadesEconomicas();
+            objactividadeseconomicas = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == actividadcomercial);
+            if (objactividadeseconomicas == null)
+            {
+                return "Error. El codigo de la actividad comercial  esta errado" + "\n";
+            }
+
+            return objactividadeseconomicas.nombre;
+        }
+
 
         public string ValidarVendedor(int vendedor)
         {

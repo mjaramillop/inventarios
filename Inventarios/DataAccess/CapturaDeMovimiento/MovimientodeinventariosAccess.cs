@@ -203,7 +203,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                     // generamos el log
                     Log(list[0].tipodedocumento, list[0].numerodeldocumento, "Agrego Movimiento de inventario ok ");
 
-                    mensajedeerror = "Success";
+                    mensajedeerror = "Transaction Successful ";
                     // Once your Single/Multiple table insert /Update/Delete operation done all operation should commit to database
                     dbContextTransaction.Commit();
                 }

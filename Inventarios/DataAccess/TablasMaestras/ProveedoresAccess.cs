@@ -17,24 +17,37 @@ namespace Inventarios.DataAccess.TablasMaestras
         private List<Proveedores>? list;
         private readonly IConfiguration _iconfiguration;
         private readonly Validaciones _validar;
+        private readonly Utilidades _utilidades;
 
-        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
+        public ProveedoresAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar, Utilidades utilidades)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
             _validar = validar;
+            _utilidades = utilidades;
+
         }
 
         public Mensaje Add(Proveedores obj)
         {
             if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
 
+
+            if (obj.tipodeagente.ToString() == _utilidades.traerparametrowebconfig("codigotipodeagentecliente"))
+            {
+                Mensaje msg = new Mensaje();
+                msg = GenerarClave(obj.id);
+                obj.clavedeseguridadparapedidosporweb = msg.mensaje;
+            }
+
             _context.Proveedores.Add(obj);
             _context.SaveChanges();
+
+
             Log(obj, "Agrego Proveedores");
-            return new Mensaje() { mensaje = "registro insertado ok " };
+            return new Mensaje() { mensaje = "registro insertado ok   "  };
         }
 
         public Mensaje Delete(int id)
@@ -73,6 +86,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.esgrancontribuyente = obj.esgrancontribuyente;
             obj_.tipoderegimen = obj.tipoderegimen;
             obj_.tipodeagente = obj.tipodeagente;
+            obj_.tipodecuenta = obj.tipodecuenta;
             obj_.cuentacontable = obj.cuentacontable;
             obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
             obj_.estadodelregistro = obj.estadodelregistro;
@@ -95,6 +109,31 @@ namespace Inventarios.DataAccess.TablasMaestras
             list = _context.Proveedores.Where(a => a.id == id).ToList();
             return list;
         }
+
+
+        public Mensaje GenerarClave(int id)
+        {
+            Random rnd1 = new Random(10); //seed value 10
+            Guid guid = Guid.NewGuid();
+            string clave = guid.ToString().ToUpper();
+            clave = clave.Substring(0, 7);
+            var obj_ = _context.Proveedores.FirstOrDefault(a => a.id == id);
+            obj_.clavedeseguridadparapedidosporweb = clave;
+            _context.SaveChanges(true);
+
+            var obj = _context.Proveedores.FirstOrDefault(a => a.id == id);
+
+
+            Correo correo = new Correo(_iconfiguration,_utilidades);
+            correo.Asunto = "Clave de acceso para capturar tus pedidos ;" + obj.clavedeseguridadparapedidosporweb;
+            correo.Mensaje = " Tu clave es " + obj.clavedeseguridadparapedidosporweb;
+            correo.Destinatario = obj.email1;
+            correo.enviarcorreo(correo);
+
+
+            return new Mensaje() { mensaje = clave };
+        }
+
 
         public List<ProveedoresDTO>? List(string filtro)
         {
@@ -198,6 +237,17 @@ namespace Inventarios.DataAccess.TablasMaestras
             string mensajedeerror = "";
             mensajedeerror = mensajedeerror + _validar.ValidarEstadoDelRegistro(obj.estadodelregistro);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
+            mensajedeerror = mensajedeerror + _validar.ValidarRetencion(obj.codigoderetencionaaplicar);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Email ", obj.email1);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Celuar 1 ", obj.celular1);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Direccion ", obj.direccion);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nit ", obj.nit);
+            mensajedeerror = mensajedeerror + _validar.ValidarActividadComercial(obj.actividadcomercial);
+            mensajedeerror = mensajedeerror + _validar.ValidarTipoDeRegimen(obj.tipoderegimen);
+            mensajedeerror = mensajedeerror + _validar.ValidarTipoDeCuentaBancaria(obj.tipodecuenta);
+
+
+
             return mensajedeerror;
         }
     }

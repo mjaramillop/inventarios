@@ -1,26 +1,17 @@
-﻿namespace Inventarios.Utils
+﻿using System.Net.Mail;
+
+namespace Inventarios.Utils
 {
     public class Correo
     {
+
+        private readonly Utilidades _utilidades;
         private readonly IConfiguration _iconfiguration;
 
-        public string Asunto { get; set; }
-        public string Mensaje { get; set; }
-        public string Destinatario { get; set; }
-        public string ServidorSmtpRemitePuerto { get; set; }
-        public bool habilitarconexionsegurassl { get; set; }
-
-        //  public string RemitePassword { get; set; }
-        public string MensajeDeError { get; set; }
-
-        public string direcciondecorreodesalida { get; set; }
-        public string servidorcorreodesalidasmtp { get; set; }
-
-        public int servidordecorreodesalidasmtppuerto { get; set; }
-
-        public Correo(IConfiguration configutarion_)
+        public Correo(IConfiguration configutarion_ ,Utilidades utilidades ) 
         {
             _iconfiguration = configutarion_;
+            _utilidades = utilidades;
 
             Asunto = "";
             Mensaje = "";
@@ -33,12 +24,30 @@
             servidordecorreodesalidasmtppuerto = 25;
         }
 
+
+
+        public string Asunto { get; set; }
+        public string Mensaje { get; set; }
+        public string Destinatario { get; set; }
+        private string ServidorSmtpRemitePuerto { get; set; }
+        private bool habilitarconexionsegurassl { get; set; }
+
+        //  public string RemitePassword { get; set; }
+        public string MensajeDeError { get; set; }
+
+        private string direcciondecorreodesalida { get; set; }
+        private string servidorcorreodesalidasmtp { get; set; }
+
+        public int servidordecorreodesalidasmtppuerto { get; set; }
+
+    
         public string enviarcorreo(Correo? objcorreo)
         {
-            objcorreo.direcciondecorreodesalida = _iconfiguration.GetConnectionString("direcciondecorreodesalida");
-            objcorreo.habilitarconexionsegurassl = Convert.ToBoolean(_iconfiguration.GetConnectionString("habilitarssl"));
-            objcorreo.servidorcorreodesalidasmtp = _iconfiguration.GetConnectionString("servidorcorreodesalidasmtp");
-            objcorreo.servidordecorreodesalidasmtppuerto = Convert.ToInt32(_iconfiguration.GetConnectionString("servidordecorreodesalidasmtppuerto"));
+            objcorreo.direcciondecorreodesalida = _utilidades.traerparametrowebconfig("direcciondecorreodesalida");
+            objcorreo.habilitarconexionsegurassl = Convert.ToBoolean( Convert.ToInt16( _utilidades.traerparametrowebconfig("habilitarssl")));
+            objcorreo.servidorcorreodesalidasmtp = _utilidades.traerparametrowebconfig("servidordecorreodesalidasmtp");
+            objcorreo.servidordecorreodesalidasmtppuerto = Convert.ToInt32(_utilidades.traerparametrowebconfig("servidordecorreodesalidasmtppuerto"));
+
 
             System.Net.Mail.MailMessage correo = new System.Net.Mail.MailMessage();
             correo.From = new System.Net.Mail.MailAddress(objcorreo.direcciondecorreodesalida);
@@ -51,13 +60,15 @@
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
 
             smtp.Host = objcorreo.servidorcorreodesalidasmtp;// "correo.mincultura.gov.co";
-            smtp.Credentials = new System.Net.NetworkCredential(objcorreo.direcciondecorreodesalida, _iconfiguration.GetConnectionString("direcciondecorreodesalidapassword"));
-            smtp.EnableSsl = objcorreo.habilitarconexionsegurassl; // false;
+            smtp.Credentials = new System.Net.NetworkCredential(objcorreo.direcciondecorreodesalida, _utilidades.traerparametrowebconfig("direcciondecorreodesalidapassword"));
             smtp.Port = objcorreo.servidordecorreodesalidasmtppuerto;
+            smtp.EnableSsl = objcorreo.habilitarconexionsegurassl; // false;
 
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             string MensajeDeError = "";
             try
             {
+                MensajeDeError = "Correo enviado satisfactoriamente a " + objcorreo.Destinatario;
                 smtp.Send(correo);
             }
             catch (Exception ex)

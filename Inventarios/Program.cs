@@ -87,10 +87,15 @@ builder.Services.AddScoped<TiposDeAgenteAccess>();
 builder.Services.AddScoped<TiposDeCuentaBancariaAccess>();
 builder.Services.AddScoped<TiposDePersonaAccess>();
 builder.Services.AddScoped<TiposDeRegimenAccess>();
+builder.Services.AddScoped<RetencionesAccess>();
+
+
 // utils
 builder.Services.AddScoped<Utilidades>();
 builder.Services.AddScoped<Validaciones>();
 builder.Services.AddScoped<MovimientosDeInventarios>();
+builder.Services.AddScoped<Correo>();
+
 
 //-----------------------------------------------------------------------------
 // services
@@ -127,6 +132,8 @@ builder.Services.AddScoped<TiposDeAgenteService>();
 builder.Services.AddScoped<TiposDeCuentaBancariaService>();
 builder.Services.AddScoped<TiposDePersonaService>();
 builder.Services.AddScoped<TiposDeRegimenService>();
+builder.Services.AddScoped<RetencionesService>();
+
 
 //mapping
 builder.Services.AddScoped<Mapping>();

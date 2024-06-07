@@ -558,6 +558,7 @@ public partial class InventariosContext : DbContext
 
             entity.Property(e => e.id).HasColumnName("id");
             entity.Property(e => e.actividadcomercial).HasColumnName("actividadcomercial");
+
             entity.Property(e => e.celular1)
                 .HasMaxLength(20)
                 .IsUnicode(false)
@@ -585,11 +586,11 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("direccion");
             entity.Property(e => e.email1)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("email1");
             entity.Property(e => e.email2)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("email2");
             entity.Property(e => e.esgrancontribuyente)
@@ -602,7 +603,7 @@ public partial class InventariosContext : DbContext
                 .HasColumnName("espersonanaturalojuridica");
             entity.Property(e => e.estadodelregistro)
                 .IsUnicode(false)
-                .HasColumnName("ESTADO_DEL_REGISTRO");
+                .HasColumnName("ESTADODELREGISTRO");
 
             entity.Property(e => e.fechadeingreso)
                 .HasColumnType("datetime")
@@ -639,15 +640,13 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("telefono");
-            entity.Property(e => e.tipodeagente).HasColumnName("TIPO_DE_AGENTE");
+            entity.Property(e => e.tipodeagente).HasColumnName("TIPODEAGENTE");
             entity.Property(e => e.tipoderegimen).HasColumnName("tipoderegimen");
             entity.Property(e => e.cuentabancaria)
               .HasMaxLength(20)
               .IsUnicode(false)
               .HasColumnName("cuentabancaria");
             entity.Property(e => e.tipodecuenta)
-              .HasMaxLength(1)
-              .IsUnicode(false)
               .HasColumnName("tipodecuenta");
 
             entity.Property(e => e.nivel1)
@@ -680,7 +679,7 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("nombreusuario");
             entity.Property(e => e.clavedeseguridadparapedidosporweb)
-              .HasMaxLength(10)
+              .HasMaxLength(20)
               .IsUnicode(false)
               .HasColumnName("clavedeseguridadparapedidosporweb");
         });

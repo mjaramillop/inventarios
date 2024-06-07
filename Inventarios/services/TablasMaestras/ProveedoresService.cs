@@ -2,6 +2,7 @@
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventarios.services.TablasMaestras
 {
@@ -39,6 +40,14 @@ namespace Inventarios.services.TablasMaestras
 
             return list;
         }
+
+
+        public Mensaje GenerarClave(int id)
+        {
+            Mensaje list = _access.GenerarClave(id);
+            return list;
+        }
+
 
         public List<ProveedoresDTO>? List(string filtro)
         {

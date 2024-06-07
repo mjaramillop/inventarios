@@ -56,7 +56,7 @@ public class Proveedores
 
         this.cuentabancaria = "";
 
-        this.tipodecuenta = "";
+        this.tipodecuenta = 1;
 
         this.nivel1 = "";
         this.nivel2 = "";
@@ -121,7 +121,7 @@ public class Proveedores
 
     public string cuentabancaria { get; set; }
 
-    public string tipodecuenta { get; set; }
+    public int tipodecuenta { get; set; }
 
     public string nivel1 { get; set; }
     public string nivel2 { get; set; }

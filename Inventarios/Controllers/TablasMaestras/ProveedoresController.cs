@@ -52,6 +52,15 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
+
+        [HttpGet("{id}")]
+        [ActionName("GenerarClave")]
+        public Mensaje GenerarClave(int id)
+        {
+            Mensaje list = _service.GenerarClave(id);
+            return list;
+        }
+
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
         public List<ProveedoresDTO>? GetAll(string filtro = "")
