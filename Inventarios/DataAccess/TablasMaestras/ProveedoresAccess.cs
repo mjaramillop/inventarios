@@ -32,7 +32,11 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         public Mensaje Add(Proveedores obj)
         {
+            
+            
+            
             if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
+
 
             string mensajedeclave = "";
             if (obj.tipodeagente.ToString() == _utilidades.traerparametrowebconfig("codigotipodeagentecliente"))
@@ -44,9 +48,16 @@ namespace Inventarios.DataAccess.TablasMaestras
                 mensajedeclave = "Clave generada" + list[0].mensaje + " " + list[1].mensaje;
             }
 
-            _context.Proveedores.Add(obj);
-            _context.SaveChanges();
-
+            try
+            {
+                _context.Proveedores.Add(obj);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                mensajedeclave = e.InnerException.Message.ToString();
+                return new Mensaje() { mensaje = "Error   " + mensajedeclave };
+            }
 
             Log(obj, "Agrego Proveedores");
             return new Mensaje() { mensaje = "registro insertado ok   "  + mensajedeclave };
@@ -67,41 +78,54 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             var obj_ = _context.Proveedores.FirstOrDefault(a => a.id == obj.id);
 
-            obj_.nombre = obj.nombre;
-            obj_.direccion = obj.direccion;
-            obj_.telefono = obj.telefono;
-            obj_.celular1 = obj.celular1;
-            obj_.celular2 = obj.celular2;
-            obj_.email1 = obj.email1;
-            obj_.email2 = obj.email2;
-            obj_.nit = obj.nit;
-            obj_.fechadeingreso = obj.fechadeingreso;
-            obj_.observaciones = obj.observaciones;
-            obj_.contactos = obj.contactos;
-            obj_.actividadcomercial = obj.actividadcomercial;
-            obj_.seleretienefuente = obj.seleretienefuente;
-            obj_.seleretieneiva = obj.seleretieneiva;
-            obj_.seleretieneica = obj.seleretieneica;
-            obj_.puedecobrariva = obj.puedecobrariva;
-            obj_.espersonanaturalojuridica = obj.espersonanaturalojuridica;
-            obj_.declararenta = obj.declararenta;
-            obj_.esgrancontribuyente = obj.esgrancontribuyente;
-            obj_.tipoderegimen = obj.tipoderegimen;
-            obj_.tipodeagente = obj.tipodeagente;
-            obj_.tipodecuenta = obj.tipodecuenta;
-            obj_.cuentacontable = obj.cuentacontable;
-            obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
-            obj_.estadodelregistro = obj.estadodelregistro;
-            obj_.nivel1 = obj.nivel1;
-            obj_.nivel2 = obj.nivel2;
-            obj_.nivel3 = obj.nivel3;
-            obj_.nivel4 = obj.nivel4;
-            obj_.nivel5 = obj.nivel5;
-            obj_.idusuario = obj.idusuario;
-            obj_.nombreusuario = obj.nombreusuario;
-            obj_.clavedeseguridadparapedidosporweb = obj.clavedeseguridadparapedidosporweb;
 
-            _context.SaveChanges();
+            try
+            {
+
+
+                obj_.nombre = obj.nombre;
+                obj_.direccion = obj.direccion;
+                obj_.telefono = obj.telefono;
+                obj_.celular1 = obj.celular1;
+                obj_.celular2 = obj.celular2;
+                obj_.email1 = obj.email1;
+                obj_.email2 = obj.email2;
+                obj_.nit = obj.nit;
+                obj_.fechadeingreso = obj.fechadeingreso;
+                obj_.observaciones = obj.observaciones;
+                obj_.contactos = obj.contactos;
+                obj_.actividadcomercial = obj.actividadcomercial;
+                obj_.seleretienefuente = obj.seleretienefuente;
+                obj_.seleretieneiva = obj.seleretieneiva;
+                obj_.seleretieneica = obj.seleretieneica;
+                obj_.puedecobrariva = obj.puedecobrariva;
+                obj_.espersonanaturalojuridica = obj.espersonanaturalojuridica;
+                obj_.declararenta = obj.declararenta;
+                obj_.esgrancontribuyente = obj.esgrancontribuyente;
+                obj_.tipoderegimen = obj.tipoderegimen;
+                obj_.tipodeagente = obj.tipodeagente;
+                obj_.tipodecuenta = obj.tipodecuenta;
+                obj_.cuentacontable = obj.cuentacontable;
+                obj_.codigoderetencionaaplicar = obj.codigoderetencionaaplicar;
+                obj_.estadodelregistro = obj.estadodelregistro;
+                obj_.nivel1 = obj.nivel1;
+                obj_.nivel2 = obj.nivel2;
+                obj_.nivel3 = obj.nivel3;
+                obj_.nivel4 = obj.nivel4;
+                obj_.nivel5 = obj.nivel5;
+                obj_.idusuario = obj.idusuario;
+                obj_.nombreusuario = obj.nombreusuario;
+                obj_.clavedeseguridadparapedidosporweb = obj.clavedeseguridadparapedidosporweb;
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                return new Mensaje() { mensaje = "Error  " + ex.InnerException.Message.ToString() };
+            }
+
+
             Log(obj, "Modifico Proveedores");
             return new Mensaje() { mensaje = "registro modificado ok " };
         }

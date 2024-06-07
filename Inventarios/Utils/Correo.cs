@@ -50,13 +50,26 @@ namespace Inventarios.Utils
 
 
             System.Net.Mail.MailMessage correo = new System.Net.Mail.MailMessage();
-            correo.From = new System.Net.Mail.MailAddress(objcorreo.direcciondecorreodesalida);
-            correo.To.Add(objcorreo.Destinatario);
-            correo.Subject = objcorreo.Asunto;
-            correo.Body = objcorreo.Mensaje;
-            correo.IsBodyHtml = true;
-            correo.Priority = System.Net.Mail.MailPriority.Normal;
-            correo.IsBodyHtml = true;
+            string Mensajedeerror = "";
+            try
+            {
+                correo.From = new System.Net.Mail.MailAddress(objcorreo.direcciondecorreodesalida);
+                correo.To.Add(objcorreo.Destinatario);
+                correo.Subject = objcorreo.Asunto;
+                correo.Body = objcorreo.Mensaje;
+                correo.IsBodyHtml = true;
+                correo.Priority = System.Net.Mail.MailPriority.Normal;
+                correo.IsBodyHtml = true;
+            }
+            catch (Exception ex)
+            {
+                MensajeDeError = "Error:" + ex.Message;
+             
+                    MensajeDeError += " Error revise el destinatario" + ex.Message.ToString();
+                    return MensajeDeError;
+               
+            }
+
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
 
             smtp.Host = objcorreo.servidorcorreodesalidasmtp;// "correo.mincultura.gov.co";
@@ -65,7 +78,7 @@ namespace Inventarios.Utils
             smtp.EnableSsl = objcorreo.habilitarconexionsegurassl; // false;
 
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            string MensajeDeError = "";
+         
             try
             {
                 MensajeDeError = "Correo enviado satisfactoriamente a " + objcorreo.Destinatario;
