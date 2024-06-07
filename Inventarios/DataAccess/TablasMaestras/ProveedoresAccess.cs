@@ -34,12 +34,14 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             if (this.ValidarRegistro(obj).IndexOf("Error.") >= 0) return new Mensaje() { mensaje = this.ValidarRegistro(obj) };
 
-
+            string mensajedeclave = "";
             if (obj.tipodeagente.ToString() == _utilidades.traerparametrowebconfig("codigotipodeagentecliente"))
             {
-                Mensaje msg = new Mensaje();
-                msg = GenerarClave(obj.id);
-                obj.clavedeseguridadparapedidosporweb = msg.mensaje;
+                List<Mensaje> list = new List<Mensaje>();
+
+                list = GenerarClave(obj.id);
+                obj.clavedeseguridadparapedidosporweb = list[0].mensaje;
+                mensajedeclave = "Clave generada" + list[0].mensaje + " " + list[1].mensaje;
             }
 
             _context.Proveedores.Add(obj);
@@ -47,7 +49,7 @@ namespace Inventarios.DataAccess.TablasMaestras
 
 
             Log(obj, "Agrego Proveedores");
-            return new Mensaje() { mensaje = "registro insertado ok   "  };
+            return new Mensaje() { mensaje = "registro insertado ok   "  + mensajedeclave };
         }
 
         public Mensaje Delete(int id)
@@ -111,7 +113,7 @@ namespace Inventarios.DataAccess.TablasMaestras
         }
 
 
-        public Mensaje GenerarClave(int id)
+        public List<Mensaje> GenerarClave(int id)
         {
             Random rnd1 = new Random(10); //seed value 10
             Guid guid = Guid.NewGuid();
@@ -128,10 +130,17 @@ namespace Inventarios.DataAccess.TablasMaestras
             correo.Asunto = "Clave de acceso para capturar tus pedidos ;" + obj.clavedeseguridadparapedidosporweb;
             correo.Mensaje = " Tu clave es " + obj.clavedeseguridadparapedidosporweb;
             correo.Destinatario = obj.email1;
-            correo.enviarcorreo(correo);
+            string mensajedecorreo = correo.enviarcorreo(correo);
+
+            List<Mensaje> list = new List<Mensaje>();
 
 
-            return new Mensaje() { mensaje = clave };
+            list.Add(new Mensaje() { mensaje = clave });
+            list.Add(new Mensaje() { mensaje = mensajedecorreo });
+
+
+
+            return    list;
         }
 
 
@@ -239,13 +248,22 @@ namespace Inventarios.DataAccess.TablasMaestras
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
             mensajedeerror = mensajedeerror + _validar.ValidarRetencion(obj.codigoderetencionaaplicar);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Email ", obj.email1);
-            mensajedeerror = mensajedeerror + _validar.Validarnombre("Celuar 1 ", obj.celular1);
+            mensajedeerror = mensajedeerror + _validar.Validarnombre("Celular 1 ", obj.celular1);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Direccion ", obj.direccion);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Nit ", obj.nit);
             mensajedeerror = mensajedeerror + _validar.ValidarActividadComercial(obj.actividadcomercial);
             mensajedeerror = mensajedeerror + _validar.ValidarTipoDeRegimen(obj.tipoderegimen);
             mensajedeerror = mensajedeerror + _validar.ValidarTipoDeCuentaBancaria(obj.tipodecuenta);
 
+            if (mensajedeerror.IndexOf("Error.")>=0)
+            {
+                int posicioninicial = mensajedeerror.IndexOf("Error.");
+                int posicionfinial = mensajedeerror.IndexOf(",");
+
+                mensajedeerror = mensajedeerror.Substring(posicioninicial, posicionfinial-posicioninicial);
+
+
+            }
 
 
             return mensajedeerror;

@@ -55,9 +55,9 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpGet("{id}")]
         [ActionName("GenerarClave")]
-        public Mensaje GenerarClave(int id)
+        public List<Mensaje> GenerarClave(int id)
         {
-            Mensaje list = _service.GenerarClave(id);
+            List<Mensaje> list = _service.GenerarClave(id);
             return list;
         }
 

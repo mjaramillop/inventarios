@@ -21,7 +21,7 @@ namespace Inventarios.Utils
         {
             if (valor.Trim().Length <= 0)
             {
-                return campo + "Error. no puede ser vacio " + '\n';
+                return "Error." + campo + " no puede ser vacio ," + '\n';
             }
             return "";
         }
@@ -30,7 +30,7 @@ namespace Inventarios.Utils
         {
             if (valor <= 0)
             {
-                return campo + "Error. no puede ser menor o igual a  cero " + '\n';
+                return "Error." + campo + " no puede ser menor o igual a  cero ," + '\n';
             }
             return "";
         }
@@ -39,7 +39,7 @@ namespace Inventarios.Utils
         {
             if (valor < 0)
             {
-                return campo + "Error. no puede ser menor que cero " + '\n';
+                return "Error." + campo + " no puede ser menor que cero ," + '\n';
             }
             return "";
         }
@@ -48,7 +48,7 @@ namespace Inventarios.Utils
         {
             if (valor == 0)
             {
-                return campo + "Error. no puede ser  cero " + '\n';
+                return "Error." + campo + " no puede ser  cero ," + '\n';
             }
             return "";
         }
@@ -57,7 +57,7 @@ namespace Inventarios.Utils
         {
             if (valor < 0)
             {
-                return campo + "Error. no puede ser  menor que cero " + '\n';
+                return "Error." + campo + " no puede ser  menor que cero ," + '\n';
             }
             return "";
         }
@@ -73,7 +73,7 @@ namespace Inventarios.Utils
         {
             if (fecha1>fecha2)
             {
-                return campo +  "no puede ser mayor que la 2a fecha  " + '\n';
+                return "Error." + campo +  " no puede ser mayor que la 2a fecha ," + '\n';
             }
             return "";
         }
@@ -87,7 +87,7 @@ namespace Inventarios.Utils
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
             if (objtipodedocumento == null)
             {
-                return "Error. El tipo de documento esta errado" + "\n";
+                return "Error. El tipo de documento esta errado , " + "\n";
             }
 
             return objtipodedocumento.nombre;
@@ -100,7 +100,7 @@ namespace Inventarios.Utils
             objdespacha = _context.Proveedores.FirstOrDefault(a => a.id == despacha);
             if (objdespacha == null)
             {
-                return "Error. La entidasd emisora esta errada" + "\n";
+                return "Error. La entidad emisora esta errada ," + "\n";
             }
 
             return objdespacha.nombre;
@@ -112,7 +112,7 @@ namespace Inventarios.Utils
             objrecibe = _context.Proveedores.FirstOrDefault(a => a.id == recibe);
             if (objrecibe == null)
             {
-                return "Error. La entidasd receptora esta errada" + "\n";
+                return "Error. La entidasd receptora esta errada ," + "\n";
                 ;
             }
             return objrecibe.nombre;
@@ -125,7 +125,7 @@ namespace Inventarios.Utils
             objtipodedocumentoaafectar = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumentoaafectar);
             if (objtipodedocumentoaafectar == null)
             {
-                return "Error. El tipo de documento a afectar esta errado" + "\n";
+                return "Error. El tipo de documento a afectar esta errado ," + "\n";
             }
 
             return objtipodedocumentoaafectar.nombre;
@@ -138,7 +138,7 @@ namespace Inventarios.Utils
             objdespachaaafectar = _context.Proveedores.FirstOrDefault(a => a.id == despachaaafectar);
             if (objdespachaaafectar == null)
             {
-                return "Error. El emisor a afectar esta errado" + "\n";
+                return "Error. El emisor a afectar esta errado ," + "\n";
             }
             return objdespachaaafectar.nombre;
         }
@@ -150,7 +150,7 @@ namespace Inventarios.Utils
             objrecibeaafectar = _context.Proveedores.FirstOrDefault(a => a.id == recibeaafectar);
             if (objrecibeaafectar == null)
             {
-                return "Error. El receptor a afectar esta errado" + "\n";
+                return "Error. El receptor a afectar esta errado ," + "\n";
             }
             return objrecibeaafectar.nombre;
         }
@@ -161,7 +161,7 @@ namespace Inventarios.Utils
             objprogramas = _context.Programas.FirstOrDefault(a => a.id == programa);
             if (objprogramas == null)
             {
-                return "Error. El programa esta errado" + "\n";
+                return "Error. El programa esta errado ," + "\n";
             }
 
             return objprogramas.nombre;
@@ -175,7 +175,7 @@ namespace Inventarios.Utils
             objretenciones = _context.Retenciones.FirstOrDefault(a => a.id == retencion);
             if (objretenciones == null)
             {
-                return "Error. El codigo de retencion esta errado" + "\n";
+                return "Error. El codigo de retencion esta errado ," + "\n";
             }
 
             return objretenciones.nombre;
@@ -189,7 +189,7 @@ namespace Inventarios.Utils
             objactividadeseconomicas = _context.ActividadesEconomicas.FirstOrDefault(a => a.id == actividadcomercial);
             if (objactividadeseconomicas == null)
             {
-                return "Error. El codigo de la actividad comercial  esta errado" + "\n";
+                return "Error. El codigo de la actividad comercial  esta errada ," + "\n";
             }
 
             return objactividadeseconomicas.nombre;
@@ -203,7 +203,7 @@ namespace Inventarios.Utils
             objvendedor = _context.Proveedores.FirstOrDefault(a => a.id == vendedor);
             if (objvendedor == null)
             {
-                return "Error. El vendedor esta errado" + "\n";
+                return "Error. El vendedor esta errado ," + "\n";
             }
 
             return objvendedor.nombre;
@@ -216,7 +216,7 @@ namespace Inventarios.Utils
             objformasdepago = _context.FormasDePago.FirstOrDefault(a => a.id == formadepago);
             if (objformasdepago == null)
             {
-                return "Error. El codigo de forma de pago es invalido " + "\n";
+                return "Error. El codigo de forma de pago es invalido ," + "\n";
             }
 
             return objformasdepago.nombre;
@@ -229,7 +229,7 @@ namespace Inventarios.Utils
             objconceptosnotadebitocredito = _context.ConceptosNotaDebitoCredito.FirstOrDefault(a => a.id == codigoconceptonotadebitocredito);
             if (objconceptosnotadebitocredito == null)
             {
-                return "Error. El codigo del concepto nota debito y credito es invalido  " + "\n";
+                return "Error. El codigo del concepto nota debito y credito es invalido  ," + "\n";
             }
 
             return objconceptosnotadebitocredito.nombre;
@@ -242,7 +242,7 @@ namespace Inventarios.Utils
             objbanco = _context.Proveedores.FirstOrDefault(a => a.id == banco);
             if (objbanco == null)
             {
-                return "Error. El codigo del banco es invalido  " + "\n";
+                return "Error. El codigo del banco es invalido , " + "\n";
             }
 
             return objbanco.nombre;
@@ -255,7 +255,7 @@ namespace Inventarios.Utils
             objproducto = _context.Productos.FirstOrDefault(a => a.id == producto);
             if (objproducto == null)
             {
-                return "Error. El codigo del producto es invalido  " + "\n";
+                return "Error. El codigo del producto es invalido , " + "\n";
             }
 
             return objproducto.nombre;
@@ -268,7 +268,7 @@ namespace Inventarios.Utils
             objiva = _context.Ivas.FirstOrDefault(a => a.id == producto);
             if (objiva == null)
             {
-                return "Error. El codigo del iva es invalido  " + "\n";
+                return "Error. El codigo del iva es invalido , " + "\n";
             }
 
             return objiva.nombre;
@@ -281,7 +281,7 @@ namespace Inventarios.Utils
             objunidaddemedida = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == unidaddemedida);
             if (objunidaddemedida == null)
             {
-                return "Error. El codigo de la unidad de medida es invalido " + "\n";
+                return "Error. El codigo de la unidad de medida es invalido ," + "\n";
             }
 
             return objunidaddemedida.nombre;
@@ -294,7 +294,7 @@ namespace Inventarios.Utils
             objtallas = _context.Tallas.FirstOrDefault(a => a.id == talla);
             if (objtallas == null)
             {
-                return "Error. El codigo de la talla es invalido  " + "\n";
+                return "Error. El codigo de la talla es invalido , " + "\n";
             }
 
             return objtallas.nombre;
@@ -306,7 +306,7 @@ namespace Inventarios.Utils
             Colores? objcolores = new Colores();
             objcolores = _context.Colores.FirstOrDefault(a => a.id == color);
             {
-                if (objcolores == null) return "Error. El codigo del color es invalido " + "\n";
+                if (objcolores == null) return "Error. El codigo del color es invalido, " + "\n";
             }
             return objcolores.nombre;
         }
@@ -318,7 +318,7 @@ namespace Inventarios.Utils
             objunidaddeempaque = _context.UnidadesDeMedida.FirstOrDefault(a => a.id == unidaddeempaque);
             if (objunidaddeempaque == null)
             {
-                return "Error. El codigo de la unidad de empaque  es invalido  " + "\n";
+                return "Error. El codigo de la unidad de empaque  es invalido,  " + "\n";
             }
 
             return objunidaddeempaque.nombre;
@@ -331,7 +331,7 @@ namespace Inventarios.Utils
             objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == perfil);
             if (objperfiles == null)
             {
-                return "Error. El codigo del perfil de usuario es invalido  " + "\n";
+                return "Error. El codigo del perfil de usuario es invalido , " + "\n";
             }
 
             return objperfiles.nombre;
@@ -344,7 +344,7 @@ namespace Inventarios.Utils
             objusuarios = _context.Usuarios.FirstOrDefault(a => a.id == usuario);
             if (objusuarios == null)
             {
-                return "Error. El codigo del usuario es invalido  " + "\n";
+                return "Error. El codigo del usuario es invalido , " + "\n";
             }
 
             return objusuarios.nombre;
@@ -357,7 +357,7 @@ namespace Inventarios.Utils
             objtipodeagente = _context.TiposDeAgente.FirstOrDefault(a => a.id == tipodeagente);
             if (objtipodeagente == null)
             {
-                return "Error. El codigo del tipo de agente es invalido  " + "\n";
+                return "Error. El codigo del tipo de agente es invalido , " + "\n";
             }
 
             return objtipodeagente.nombre;
@@ -370,7 +370,7 @@ namespace Inventarios.Utils
             objtipodecuentabancaria = _context.TiposDeCuentaBancaria.FirstOrDefault(a => a.id == tipodecuentabancaria);
             if (objtipodecuentabancaria == null)
             {
-                return "Error. El codigo del tipo de cuenta bancaria es invalido  " + "\n";
+                return "Error. El codigo del tipo de cuenta bancaria es invalido , " + "\n";
             }
 
             return objtipodecuentabancaria.nombre;
@@ -383,7 +383,7 @@ namespace Inventarios.Utils
             objtipodepersona = _context.TiposDePersona.FirstOrDefault(a => a.id == tipodepersona);
             if (objtipodepersona == null)
             {
-                return "Error. El codigo del tipo de persona es invalido  " + "\n";
+                return "Error. El codigo del tipo de persona es invalido , " + "\n";
             }
 
             return objtipodepersona.nombre;
@@ -396,7 +396,7 @@ namespace Inventarios.Utils
             objtipoderegimen = _context.TiposDeRegimen.FirstOrDefault(a => a.id == tipoderegimen);
             if (objtipoderegimen == null)
             {
-                return "Error. El codigo del tipo de regimen es invalido  " + "\n";
+                return "Error. El codigo del tipo de regimen es invalido , " + "\n";
             }
 
             return objtipoderegimen.nombre;
@@ -409,7 +409,7 @@ namespace Inventarios.Utils
             objestadodelregistro = _context.EstadosDeUnRegistro.FirstOrDefault(a => a.id == estadodelregistro);
             if (objestadodelregistro == null)
             {
-                return "Error. El codigo del estado del registro es invalido  " + "\n";
+                return "Error. El codigo del estado del registro es invalido , " + "\n";
             }
 
             return objestadodelregistro.nombre;

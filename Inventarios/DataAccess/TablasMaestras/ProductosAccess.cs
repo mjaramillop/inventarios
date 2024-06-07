@@ -315,6 +315,16 @@ namespace Inventarios.DataAccess.TablasMaestras
             mensajedeerror = mensajedeerror + _validar.ValidarIva(obj.codigoiva1);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Nombre ", obj.nombre);
 
+            if (mensajedeerror.IndexOf("Error.") >= 0)
+            {
+                int posicioninicial = mensajedeerror.IndexOf("Error.");
+                int posicionfinial = mensajedeerror.IndexOf(",");
+
+                mensajedeerror = mensajedeerror.Substring(posicioninicial, posicionfinial - posicioninicial);
+
+
+            }
+
             return mensajedeerror;
         }
     }

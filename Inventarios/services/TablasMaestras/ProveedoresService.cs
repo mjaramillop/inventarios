@@ -42,9 +42,9 @@ namespace Inventarios.services.TablasMaestras
         }
 
 
-        public Mensaje GenerarClave(int id)
+        public List<Mensaje> GenerarClave(int id)
         {
-            Mensaje list = _access.GenerarClave(id);
+            List<Mensaje> list = _access.GenerarClave(id);
             return list;
         }
 

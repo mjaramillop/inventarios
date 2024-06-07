@@ -134,6 +134,15 @@ namespace Inventarios.DataAccess.TablasMaestras
             mensajedeerror = mensajedeerror + _validar.ValidarProducto(obj.componente);
             mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("cantidad", obj.cantidad);
 
+            if (mensajedeerror.IndexOf("Error.") >= 0)
+            {
+                int posicioninicial = mensajedeerror.IndexOf("Error.");
+                int posicionfinial = mensajedeerror.IndexOf(",");
+
+                mensajedeerror = mensajedeerror.Substring(posicioninicial, posicionfinial - posicioninicial);
+
+
+            }
             return mensajedeerror;
         }
     }
