@@ -48,6 +48,14 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
+        public List<string>? GetNivel(int nivel)
+        {
+            List<string>? list = new List<string>();
+
+            list = _access.GetNivel(nivel);
+
+            return list;
+        }
 
         public List<ProveedoresDTO>? List(string filtro)
         {

@@ -17,6 +17,19 @@ namespace Inventarios.Utils
         {
         }
 
+        public string Validarvalor1menorquevalor2(string campo, decimal valor1, decimal valor2)
+        {
+            if (valor1>=valor2)
+            {
+                return "Error." + campo + " el primer valor debe ser menor al segundo valor ," + '\n';
+            }
+            return "";
+        }
+
+
+
+
+
         public string Validarnombre(string campo, string valor)
         {
             if (valor.Trim().Length <= 0)

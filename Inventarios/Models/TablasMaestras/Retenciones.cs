@@ -6,6 +6,7 @@
         {
             this.id = 0;
             this.nombre = "";
+            this.porcentaje = 0;
             this.estadodelregistro = 1;
             this.basedelaretencion = 0;
             this.idusuario = 0;

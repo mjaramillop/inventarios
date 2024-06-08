@@ -61,6 +61,16 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
+
+        [HttpGet("{nivel}")]
+        [ActionName("GetNivel")]
+        public List<string>? GetNivel(int nivel)
+        {
+            List<string> list = _service.GetNivel(nivel);
+            return list;
+        }
+
+
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
         public List<ProveedoresDTO>? GetAll(string filtro = "")

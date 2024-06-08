@@ -59,6 +59,7 @@ namespace Inventarios.DataAccess
             var obj_ = _context.Retenciones.FirstOrDefault(a => a.id == obj.id);
 
             obj_.nombre = obj.nombre;
+            obj_.porcentaje=obj.porcentaje;
             obj_.basedelaretencion = obj.basedelaretencion;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;

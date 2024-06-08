@@ -223,6 +223,43 @@ namespace Inventarios.DataAccess.TablasMaestras
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 
+        public List<string>? GetNivel(int nivel)
+        {
+            List<Proveedores>? list_ = new List<Proveedores>();
+            list_ = _context.Proveedores.ToList();
+
+            dynamic groupnivel = null;
+            if (nivel == 1) groupnivel = list_.Where(a => a.nivel1.Trim().Length > 0).GroupBy(u => u.nivel1).Select(grp => grp.ToList()).ToList();
+            if (nivel == 2) groupnivel = list_.Where(a => a.nivel2.Trim().Length > 0).GroupBy(u => u.nivel2).Select(grp => grp.ToList()).ToList();
+            if (nivel == 3) groupnivel = list_.Where(a => a.nivel3.Trim().Length > 0).GroupBy(u => u.nivel3).Select(grp => grp.ToList()).ToList();
+            if (nivel == 4) groupnivel = list_.Where(a => a.nivel4.Trim().Length > 0).GroupBy(u => u.nivel4).Select(grp => grp.ToList()).ToList();
+            if (nivel == 5) groupnivel = list_.Where(a => a.nivel5.Trim().Length > 0).GroupBy(u => u.nivel5).Select(grp => grp.ToList()).ToList();
+
+            List<string> lista = new List<string>();
+
+            foreach (var group in groupnivel)
+            {
+                foreach (var user in group)
+                {
+                    if (nivel == 1) lista.Add(user.nivel1);
+                    if (nivel == 2) lista.Add(user.nivel2);
+                    if (nivel == 3) lista.Add(user.nivel3);
+                    if (nivel == 4) lista.Add(user.nivel4);
+                    if (nivel == 5) lista.Add(user.nivel5);
+                }
+            }
+
+            List<string> listacodigonombre = new List<string>();
+
+            foreach (var s in lista.Distinct())
+            {
+                listacodigonombre.Add(s.ToString());
+            }
+
+            return listacodigonombre;
+        }
+
+
         public void Log(Proveedores obj, string operacion)
         {
             string comando = "";
@@ -274,7 +311,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Email ", obj.email1);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Celular 1 ", obj.celular1);
             mensajedeerror = mensajedeerror + _validar.Validarnombre("Direccion ", obj.direccion);
-            mensajedeerror = mensajedeerror + _validar.Validarnombre("Nit ", obj.nit);
+          
             mensajedeerror = mensajedeerror + _validar.ValidarActividadComercial(obj.actividadcomercial);
             mensajedeerror = mensajedeerror + _validar.ValidarTipoDeRegimen(obj.tipoderegimen);
             mensajedeerror = mensajedeerror + _validar.ValidarTipoDeCuentaBancaria(obj.tipodecuenta);

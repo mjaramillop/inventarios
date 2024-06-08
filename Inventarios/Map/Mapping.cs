@@ -307,6 +307,8 @@ namespace Inventarios.Map
             dto.nombreproducto = producto.nombre;
             dto.producto = obj.producto;
             dto.diassinrotar = _utilidades.restarfechas(System.DateTime.Now, obj.fechadelaultimasalida);
+            dto.stockmaximo=obj.stockmaximo;
+            dto.stockminimo=obj.stockminimo;    
 
             return dto;
         }

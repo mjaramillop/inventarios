@@ -114,6 +114,8 @@ namespace Inventarios.DataAccess.TablasMaestras
             string mensajedeerror = "";
             mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("stock maximo", obj.stockmaximo);
             mensajedeerror = mensajedeerror + _validar.Validarvalormayorquecero("stock minimo", obj.stockminimo);
+            mensajedeerror = mensajedeerror + _validar.Validarvalor1menorquevalor2("Los stocks estan mal", obj.stockminimo,obj.stockmaximo);
+
 
             return mensajedeerror;
         }

@@ -90,7 +90,7 @@ namespace Inventarios.Utils
 
                 if (ex.InnerException != null)
                 {
-                    MensajeDeError += " " + ex.InnerException.InnerException.Message.ToString();
+                    MensajeDeError += " " + ex.InnerException.Message.ToString();
                 }
             }
 

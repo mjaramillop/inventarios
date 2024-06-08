@@ -367,7 +367,7 @@ public partial class InventariosContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE");
             entity.Property(e => e.basedelaretencion)
-                .HasColumnType("decimal(5, 2)")
+                .HasColumnType("decimal(18, 2)")
                 .HasColumnName("basedelaretencion");
 
             entity.Property(e => e.porcentaje)
@@ -547,7 +547,7 @@ public partial class InventariosContext : DbContext
 
             entity.HasIndex(e => e.nombre, "IX_PROVEEDORES");
 
-            entity.HasIndex(e => e.nit, "PK_PROVEEDORES").IsUnique();
+            entity.HasIndex(e => e.nit, "IX_NIT");
 
             entity.HasIndex(e => e.nivel1, "IX_PROVEEDORES_1");
             entity.HasIndex(e => e.nivel2, "IX_PROVEEDORES_2");
