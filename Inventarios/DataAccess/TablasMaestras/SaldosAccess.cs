@@ -4,6 +4,8 @@ using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.Utils;
+using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -148,10 +150,55 @@ namespace Inventarios.DataAccess.TablasMaestras
                         where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())) 
                         select s).ToList();
 
-               list= list.Where(x => ((TimeSpan)(Now - x.fechadelaultimasalida)).Days >= diassinrotar).ToList();
+                list = list.Where(x => ((TimeSpan)(Now - x.fechadelaultimasalida)).Days >= diassinrotar).ToList();
             }
 
-            return _mapping.ListSaldosToSaldosDTO(list);
+
+
+            return _mapping.ListSaldosToSaldosDTO(list).OrderBy(a=>a.nombrebodega).OrderBy(a=>a.nombreproducto).ToList();
+        }
+
+
+
+        public StringBuilder DownloadCSV(string filtro = "", string bodega = "", int opcion = 0, int diassinrotar = 0)
+        {
+            var list = List(filtro, bodega, opcion, diassinrotar);
+
+
+            //trae los nombres de los cmapos.
+            string namespace_ = "Inventarios.DTO.TablasMaestras.SaldosDTO";
+            string[]? titulos = _utilidades.TraerTitulos(list[0], namespace_);
+
+            // carga los nombres de los campos como titulos
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < titulos.Length - 1; i++)
+            {
+                sb.Append(titulos[i] + ';');
+            }
+            //Append new line character.
+            sb.Append("\r\n");
+
+
+            //carga los valores
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                string[] valoresdeloscampos = _utilidades.TraerValores(list[i], namespace_);
+                for (int j = 0; j < valoresdeloscampos.Length - 1; j++)
+                {
+                    //Append data with separator.
+                    sb.Append(valoresdeloscampos[j] + ';');
+                }
+
+                //Append new line character.
+                sb.Append("\r\n");
+            }
+            return sb;
+
+         
+
+
+
         }
 
         public void Log(Saldos obj, string operacion)

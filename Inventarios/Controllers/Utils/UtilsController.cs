@@ -1,5 +1,9 @@
 ﻿using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,5 +40,11 @@ namespace Inventarios.Controllers.Utils
         {
             return new List<string> { _service.MontoEscrito(valor) };
         }
+
+
+
+
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Reflection;
 
 namespace Inventarios.Utils
 {
@@ -1249,6 +1250,48 @@ namespace Inventarios.Utils
             return formato;
         }
 
+
+
+        /// <summary>
+        /// el pirmer parametro es el objeto que se manda
+        /// el segundo el nombre del spacio de nombres
+        /// </summary>
+        /// <param name="empObject"></param>
+        /// <param name="Namespace"></param>
+        /// <returns></returns>
+        public string[] TraerTitulos(object empObject, string Namespace)
+        {
+            Type? _type = Type.GetType(Namespace);
+            PropertyInfo[] propInfo = _type.GetProperties();
+            string titulo = String.Empty;
+            foreach (PropertyInfo prop in propInfo)
+            {
+                titulo += prop.Name + ";";
+            }
+
+            return titulo.Split(';');
+        }
+
+
+        /// <summary>
+        /// el pirmer parametro es el objeto que se manda
+        /// el segundo el nombre del spacio de nombres
+        /// </summary>
+        /// <param name="empObject"></param>
+        /// <param name="Namespace"></param>
+        /// <returns></returns>
+        public string[] TraerValores(object empObject, string Namespace)
+        {
+            Type _type = Type.GetType(Namespace);
+            PropertyInfo[] propInfo = _type.GetProperties();
+            string valores = String.Empty;
+            foreach (PropertyInfo prop in propInfo)
+            {
+                valores += empObject.GetType().GetProperty(prop.Name).GetValue(empObject, null).ToString() + ";";
+            }
+
+            return valores.Split(';');
+        }
 
     }
 }

@@ -149,6 +149,7 @@ builder.Services.AddCors(options =>
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowAnyOrigin()
+    .WithExposedHeaders("content-disposition")
     );
 });
 

@@ -1,6 +1,7 @@
 ﻿using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
+using System.Text;
 
 namespace Inventarios.services.TablasMaestras
 {
@@ -44,5 +45,14 @@ namespace Inventarios.services.TablasMaestras
             var list = _access.List(filtro, bodega,opcion,diassinrotar);
             return list;
         }
+
+        public StringBuilder DownloadCSV(string filtro, string bodega, int opcion, int diassinrotar)
+        {
+            StringBuilder list = _access.DownloadCSV(filtro, bodega, opcion, diassinrotar);
+            return list;
+        }
+
+
+
     }
 }
