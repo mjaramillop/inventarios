@@ -298,6 +298,9 @@ namespace Inventarios.Map
             dto.saldo = obj.saldo;
             dto.saldoinicial = obj.saldoinicial;
             dto.saldofisico = obj.saldofisico;
+            dto.diferencia_saldofisico_saldoteorico = Math.Abs(obj.saldofisico - obj.saldo);
+            dto.valordiferencia = Math.Abs(obj.saldofisico - obj.saldo) * obj.costopromedio;
+            dto.valorinventario = obj.saldo * obj.costopromedio;
             dto.salidas = obj.salidas;
             dto.fechadelaultimasalida = obj.fechadelaultimasalida;
             dto.bodega = obj.bodega;

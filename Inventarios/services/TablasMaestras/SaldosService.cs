@@ -39,9 +39,9 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-        public List<SaldosDTO>? List(string filtro, string bodega)
+        public List<SaldosDTO>? List(string filtro, string bodega, int opcion, int diassinrotar)
         {
-            var list = _access.List(filtro, bodega);
+            var list = _access.List(filtro, bodega,opcion,diassinrotar);
             return list;
         }
     }

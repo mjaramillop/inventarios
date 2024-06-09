@@ -22,7 +22,14 @@
 
         public decimal? saldofisico { get; set; }
 
+        public decimal? diferencia_saldofisico_saldoteorico { get; set; }
+
+
         public decimal? costopromedio { get; set; }
+
+        public decimal? valordiferencia { get; set; }
+
+        public decimal? valorinventario { get; set; }
 
         public DateTime? fechadelaultimasalida { get; set; }
 

@@ -21,13 +21,16 @@ namespace Inventarios.DataAccess.TablasMaestras
 
         private readonly Validaciones _validar;
 
-        public SaldosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
+        private readonly Utilidades _utilidades;
+
+        public SaldosAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar, Utilidades utilidades)
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
             _validar = validar;
+            _utilidades = utilidades;   
         }
 
         public Mensaje Add(Saldos obj)
@@ -75,16 +78,78 @@ namespace Inventarios.DataAccess.TablasMaestras
             return list;
         }
 
-        public List<SaldosDTO>? List(string filtro, string bodega)
+        public List<SaldosDTO>? List(string filtro, string bodega,int opcion,int diassinrotar)
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
 
-            list = (from s in _context.Saldos
-                    join p in _context.Productos on s.producto equals p.id
-                    join b in _context.Proveedores on s.bodega equals b.id
-                    where p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())
-                    select s).ToList();
+            List<Saldos>? list = new List<Saldos>();
+
+            if (opcion == 1)
+            {
+
+                list = (from s in _context.Saldos
+                        join p in _context.Productos on s.producto equals p.id
+                        join b in _context.Proveedores on s.bodega equals b.id
+                        where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())) && ((s.saldofisico - s.saldo) != 0)
+                        select s).ToList();
+            }
+
+            if (opcion == 2)
+            {
+
+                list = (from s in _context.Saldos
+                        join p in _context.Productos on s.producto equals p.id
+                        join b in _context.Proveedores on s.bodega equals b.id
+                        where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())) && ((s.saldo<  s.stockminimo) )
+                        select s).ToList();
+            }
+
+            if (opcion == 3)
+            {
+
+                list = (from s in _context.Saldos
+                        join p in _context.Productos on s.producto equals p.id
+                        join b in _context.Proveedores on s.bodega equals b.id
+                        where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())) && ((s.saldo > s.stockmaximo))
+                        select s).ToList();
+            }
+
+
+            if (opcion == 4)
+            {
+
+                list = (from s in _context.Saldos
+                        join p in _context.Productos on s.producto equals p.id
+                        join b in _context.Proveedores on s.bodega equals b.id
+                        where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())) && ((s.saldo < s.stockminimo)||(s.saldo>s.stockmaximo))
+                        select s).ToList();
+            }
+
+
+            if (opcion == 5)
+            {
+
+                list = (from s in _context.Saldos
+                        join p in _context.Productos on s.producto equals p.id
+                        join b in _context.Proveedores on s.bodega equals b.id
+                        where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim()))
+                        select s).ToList();
+            }
+
+
+            if (opcion == 6)
+            {
+                DateTime Now = DateTime.Now;
+
+                list = (from s in _context.Saldos
+                        join p in _context.Productos on s.producto equals p.id
+                        join b in _context.Proveedores on s.bodega equals b.id
+                        where (p.nombre.Contains(filtro.Trim()) && b.nombre.Contains(bodega.Trim())) 
+                        select s).ToList();
+
+               list= list.Where(x => ((TimeSpan)(Now - x.fechadelaultimasalida)).Days >= diassinrotar).ToList();
+            }
 
             return _mapping.ListSaldosToSaldosDTO(list);
         }

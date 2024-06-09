@@ -51,14 +51,14 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-        [HttpGet("{filtro}/{bodega}")]
+        [HttpGet("{filtro}/{bodega}/{opcion}/{diassinrotar}")]
         [ActionName("GetAll")]
-        public List<SaldosDTO>? GetAll(string filtro = "", string bodega = "")
+        public List<SaldosDTO>? GetAll(string filtro = "", string bodega = "",int opcion=0,int diassinrotar=0)
         {
             if (filtro == "undefined") filtro = "";
             if (bodega == "undefined") bodega = "";
 
-            list = _service.List(filtro, bodega);
+            list = _service.List(filtro, bodega, opcion,diassinrotar );
             return list;
         }
     }
