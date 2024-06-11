@@ -193,6 +193,7 @@ namespace Inventarios.Map
             TiposDeRegimenDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
 
             return dto;
         }
@@ -213,6 +214,8 @@ namespace Inventarios.Map
             TiposDePersonaDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }
@@ -233,6 +236,8 @@ namespace Inventarios.Map
             TiposDeCuentaBancariaDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }
@@ -253,6 +258,8 @@ namespace Inventarios.Map
             TiposDeAgenteDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }
@@ -273,6 +280,8 @@ namespace Inventarios.Map
             TallasDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }
@@ -294,6 +303,11 @@ namespace Inventarios.Map
             Proveedores proveedor = _context.Proveedores.FirstOrDefault(a => a.id == obj.bodega);
 
             SaldosDTO dto = new();
+            dto.nivel1 = producto.nivel1;
+            dto.nivel2 = producto.nivel2;
+            dto.nivel3 = producto.nivel3;
+            dto.nivel4 = producto.nivel4;
+            dto.nivel5 = producto.nivel5;
             dto.id = obj.id;
             dto.saldo = obj.saldo;
             dto.saldoinicial = obj.saldoinicial;
@@ -332,6 +346,8 @@ namespace Inventarios.Map
             SiNoDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }
@@ -352,6 +368,8 @@ namespace Inventarios.Map
             ColoresDTO dto = new();
             dto.id = obj.id;
             dto.nombre = obj.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }
@@ -526,6 +544,8 @@ namespace Inventarios.Map
             dto.cantidad = obj.cantidad;
             dto.unidaddemedida = componente.unidaddemedida;
             dto.nombreunidaddemedida = unidadesdemedida.nombre;
+            dto.estadodelregistro = obj.estadodelregistro;
+
 
             return dto;
         }

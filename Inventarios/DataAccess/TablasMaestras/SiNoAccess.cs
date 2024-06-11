@@ -59,6 +59,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             obj_.nombre = obj.nombre;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
+            obj_.estadodelregistro = obj.estadodelregistro;
             _context.SaveChanges();
             Log(obj, "Modifico Color");
 

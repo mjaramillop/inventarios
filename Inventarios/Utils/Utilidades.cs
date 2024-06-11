@@ -1,7 +1,11 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Inventarios.DTO.TablasMaestras;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using System.Text;
+using System.Xml.Linq;
 
 namespace Inventarios.Utils
 {
@@ -1253,14 +1257,46 @@ namespace Inventarios.Utils
 
 
         /// <summary>
-        /// el pirmer parametro es el objeto que se manda
-        /// el segundo el nombre del spacio de nombres
+        /// el premer parametro es la lista        /// el segundo el nombre del spacio de nombres
         /// </summary>
-        /// <param name="empObject"></param>
+        /// <param name="list"></param>
         /// <param name="Namespace"></param>
         /// <returns></returns>
-        public string[] TraerTitulos(object empObject, string Namespace)
+        public StringBuilder TraerValores(StringBuilder sb, object objeto,string Namespace)
         {
+
+
+            
+            //carga los valores
+            Type? _type = Type.GetType(Namespace);
+            PropertyInfo[] propInfo = _type.GetProperties();
+              string valoresdelcampo = String.Empty;
+                foreach (PropertyInfo prop in propInfo)
+                {
+                    valoresdelcampo += objeto.GetType().GetProperty(prop.Name).GetValue(objeto, null).ToString() + ";";
+                }
+
+                string[] valoresdeloscampos = valoresdelcampo.Split(';');
+                for (int j = 0; j < valoresdeloscampos.Length - 1; j++)
+                {
+                    //Append data with separator.
+                    sb.Append(valoresdeloscampos[j] + ';');
+                }
+
+                //Append new line character.
+                sb.Append("\r\n");
+          
+            return sb;
+
+
+        }
+
+
+
+        public StringBuilder TraerTitulo(StringBuilder sb , string Namespace)
+        {
+
+            string[]? titulos = null;
             Type? _type = Type.GetType(Namespace);
             PropertyInfo[] propInfo = _type.GetProperties();
             string titulo = String.Empty;
@@ -1269,29 +1305,24 @@ namespace Inventarios.Utils
                 titulo += prop.Name + ";";
             }
 
-            return titulo.Split(';');
-        }
+            titulos=titulo.Split(";");  
 
+            // carga los nombres de los campos como titulos
 
-        /// <summary>
-        /// el pirmer parametro es el objeto que se manda
-        /// el segundo el nombre del spacio de nombres
-        /// </summary>
-        /// <param name="empObject"></param>
-        /// <param name="Namespace"></param>
-        /// <returns></returns>
-        public string[] TraerValores(object empObject, string Namespace)
-        {
-            Type _type = Type.GetType(Namespace);
-            PropertyInfo[] propInfo = _type.GetProperties();
-            string valores = String.Empty;
-            foreach (PropertyInfo prop in propInfo)
+            for (int i = 0; i < titulos.Length - 1; i++)
             {
-                valores += empObject.GetType().GetProperty(prop.Name).GetValue(empObject, null).ToString() + ";";
+                sb.Append(titulos[i] + ';');
             }
 
-            return valores.Split(';');
+
+            //Append new line character.
+            sb.Append("\r\n");
+
+            return sb;
         }
+
+
+
 
     }
 }

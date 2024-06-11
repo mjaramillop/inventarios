@@ -17,5 +17,7 @@
         public string nombreunidaddemedida { get; set; }
 
         public decimal? cantidad { get; set; }
+
+        public int estadodelregistro { get; set; }
     }
 }
