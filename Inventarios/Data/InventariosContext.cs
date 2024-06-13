@@ -179,7 +179,7 @@ public partial class InventariosContext : DbContext
 
             entity.ToTable("TiposDeCuentaBancaria");
 
-            entity.Property(e => e.id).HasColumnName("ID");
+            entity.Property(e => e.id).HasColumnName("ID").ValueGeneratedOnAdd();
 
             entity.Property(e => e.nombre)
                 .HasMaxLength(100)
@@ -725,6 +725,12 @@ public partial class InventariosContext : DbContext
               .HasMaxLength(20)
               .IsUnicode(false)
               .HasColumnName("clavedeseguridadparapedidosporweb");
+            entity.Property(e => e.secargainventario)
+    .HasMaxLength(1)
+    .IsUnicode(false)
+    .HasColumnName("secargainventario");
+
+
         });
 
         modelBuilder.Entity<Saldos>(entity =>

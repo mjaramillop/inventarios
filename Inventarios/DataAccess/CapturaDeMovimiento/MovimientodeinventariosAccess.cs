@@ -188,6 +188,11 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                     // totalizamos movimiento temporal
                     List<Movimientodeinventariostmp> list = _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
 
+                    // actualizamos inventario
+
+                    list = _utilsmovimiento.ActualizarInventario(tipodedocumento, idusuario);
+
+
                     // Colocamos el consecutivo al movmiento temporal
                     list = _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento, idusuario);
 

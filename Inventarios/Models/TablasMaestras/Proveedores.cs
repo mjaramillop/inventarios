@@ -67,6 +67,7 @@ public class Proveedores
         this.idusuario = 0;
         this.nombreusuario = "";
         this.clavedeseguridadparapedidosporweb = "";
+        this.secargainventario = "N";
     }
 
     public int id { get; set; }
@@ -134,4 +135,6 @@ public class Proveedores
     public string nombreusuario { get; set; }
 
     public string clavedeseguridadparapedidosporweb { get; set; }
+
+    public string secargainventario { get; set; }
 }
