@@ -39,6 +39,7 @@ namespace Inventarios.Map
             dto.nombretipodedocumentoaafectar = obj.nombretipodedocumentoaafectar;
             dto.numerodeldocumentoaafectar = obj.numerodeldocumentoaafectar;
             dto.fechadeldocumento = obj.fechadeldocumento;
+            dto.plazo=obj.plazo;
             dto.fechadevencimientodeldocumento = obj.fechadevencimientodeldocumento;
             dto.programa = obj.programa;
             dto.nombreprograma = obj.nombreprograma;
@@ -68,6 +69,7 @@ namespace Inventarios.Map
             dto.cantidad = obj.cantidad;
             dto.valorunitario = obj.valorunitario;
             dto.costoultimoporunidad = obj.costoultimoporunidad;
+            dto.costopromedioporunidad = obj.costopromedioporunidad;
             dto.costofleteporunidad = obj.costofleteporunidad;
             dto.subtotal = obj.subtotal;
             dto.codigodescuento1 = obj.codigodescuento1;
@@ -123,6 +125,7 @@ namespace Inventarios.Map
             dto.nombretipodedocumentoaafectar = obj.nombretipodedocumentoaafectar;
             dto.numerodeldocumentoaafectar = obj.numerodeldocumentoaafectar;
             dto.fechadeldocumento = obj.fechadeldocumento;
+            dto.plazo=obj.plazo;    
             dto.fechadevencimientodeldocumento = obj.fechadevencimientodeldocumento;
             dto.programa = obj.programa;
             dto.nombreprograma = obj.nombreprograma;
@@ -152,6 +155,7 @@ namespace Inventarios.Map
             dto.cantidad = obj.cantidad;
             dto.valorunitario = obj.valorunitario;
             dto.costoultimoporunidad = obj.costoultimoporunidad;
+            dto.costopromedioporunidad= obj.costopromedioporunidad;
             dto.costofleteporunidad = obj.costofleteporunidad;
             dto.subtotal = obj.subtotal;
             dto.codigodescuento1 = obj.codigodescuento1;

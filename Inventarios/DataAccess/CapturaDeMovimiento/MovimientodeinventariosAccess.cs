@@ -175,9 +175,20 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         public List<string> AddDocument(int tipodedocumento, int idusuario)
         {
+
+            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(tipodedocumento, _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario));
+
             string mensajedeerror = _utilsmovimiento.ValidarAntesDeCargarAlMovimiento(tipodedocumento, idusuario);
             if (mensajedeerror.IndexOf("Error") >= 0) return new List<string> { mensajedeerror };
             // aqui paso validaciones ok
+
+            // totalizamos movimiento temporal
+            List<Movimientodeinventariostmp> list = _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
+
+            // validamos saldo
+            mensajedeerror = _utilsmovimiento.ValidarSaldo(tipodedocumento, idusuario);
+            if (mensajedeerror.IndexOf("Error") >= 0) return new List<string> { mensajedeerror };
+
 
             mensajedeerror = "";
 
@@ -185,8 +196,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             {
                 try
                 {
-                    // totalizamos movimiento temporal
-                    List<Movimientodeinventariostmp> list = _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
 
                     // actualizamos inventario
 
@@ -204,6 +213,9 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
                     // actualizamos consecutivo usuario
                     _utilsmovimiento.ActualizarConsecutivoDelUsuario(idusuario);
+
+                    // borrramos el documento temporal
+                    DeleteDocument(tipodedocumento, idusuario);
 
                     // generamos el log
                     Log(list[0].tipodedocumento, list[0].numerodeldocumento, "Agrego Movimiento de inventario ok ");

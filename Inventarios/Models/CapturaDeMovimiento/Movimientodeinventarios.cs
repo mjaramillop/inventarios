@@ -79,7 +79,6 @@ public class Movimientodeinventarios
         this.trasladorecibidoyaprobadopor = "";
         this.fechatrasladorecibidoyaprobado = System.DateTime.Now;
         this.fechadecreacion = System.DateTime.Now;
-
         this.consecutivousuario = "";
         this.anodeldocumento = "";
         this.mesdeldocumento = "";

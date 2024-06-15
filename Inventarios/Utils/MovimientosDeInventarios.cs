@@ -167,7 +167,8 @@ namespace Inventarios.Utils
             return list;
         }
 
-        public List<Movimientodeinventariostmp> ActualizarInventario(int tipodedocumento, int idusuario)
+
+        public string ValidarSaldo(int tipodedocumento, int idusuario)
         {
             // extraigo  el consecutivo que se asignara
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
@@ -175,10 +176,69 @@ namespace Inventarios.Utils
 
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+            if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return "";
+
 
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
 
+            string mensajedeerror = "";
+
+            foreach (var obj in list)
+            {
+
+                Proveedores objproveedores = new Proveedores();
+                objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj.despacha);
+                string cargainventariosdespacha = objproveedores.secargainventario;
+                Productos objproducto = new Productos();
+                objproducto = _context.Productos.FirstOrDefault(a => a.id == obj.producto);
+                Saldos objsaldos = new Saldos();
+
+                //-------------------------------------------------------------------
+                // procesa despacha a restar inventario
+                //------------------------------------------------------------------
+                if (cargainventariosdespacha == "S")
+                {
+                    if (objproducto.secargalinventario == "S")
+                    {
+                        objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.despacha);
+
+                        if (obj.cantidad > objsaldos.saldo)
+                        {
+                            Movimientodeinventariostmp objmovimiento = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
+
+                            objmovimiento.nombreproducto = objmovimiento.nombreproducto + "|Error, disponible:" + objsaldos.saldo.ToString()+"|";
+                            _context.Movimientodeinventariostmp.Update(objmovimiento);
+                            _context.SaveChanges();
+                            mensajedeerror = "Error No hay saldo suficiente para despachar"+ "\n";
+                        }
+
+
+
+                    }
+
+                }
+                //----------------------------------------------------------------------------------------------//
+
+            }
+
+            return  mensajedeerror;
+        }
+
+
+        public List<Movimientodeinventariostmp> ActualizarInventario(int tipodedocumento, int idusuario)
+        {
+            // extraigo  el consecutivo que se asignara
+            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
+
+
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
+            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+
+
+            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
             if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return list;
+
 
             foreach (var obj in list)
             {
@@ -209,37 +269,39 @@ namespace Inventarios.Utils
                 //------------------------------------------------------------------
                 if (cargainventariosdespacha == "S")
                 {
-                    objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.despacha);
-
-
-                    if (objtipodedocumento.esuninventarioinicial != "S")
+                    if (objproducto.secargalinventario == "S")
                     {
-                        objsaldos.salidas = objsaldos.salidas + obj.cantidad;
-                        objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
-                    }
+                        objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.despacha);
 
-                    if (objtipodedocumento.esunaventa == "S")
-                    {
-                        objsaldos.fechadelaultimasalida = obj.fechadecreacion;
-                    }
 
-                    if (cargainventariosrecibe == "S")
-                    {
+                        if (objtipodedocumento.esuninventarioinicial != "S")
+                        {
+                            objsaldos.salidas = objsaldos.salidas + obj.cantidad;
+                            objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
+                        }
+
+                        if (objtipodedocumento.esunaventa == "S")
+                        {
+                            objsaldos.fechadelaultimasalida = obj.fechadecreacion;
+                        }
+
+
                         _context.Saldos.Update(objsaldos);
                         _context.SaveChanges();
-                    }
 
 
-                    if ((objtipodedocumento.esunaventa != "S") && (objtipodedocumento.esunacompra != "S"))
-                    {
-                        // valoriza el registro de salida 
-                        objmovimiento.valorunitario = objsaldos.costopromedio;
-                        objmovimiento.subtotal = objmovimiento.cantidad * objmovimiento.valorunitario;
-                        objmovimiento.valorneto = objmovimiento.subtotal;
+
+                        if ((objtipodedocumento.esunaventa != "S") && (objtipodedocumento.esunacompra != "S"))
+                        {
+                            // valoriza el registro de salida 
+                            objmovimiento.valorunitario = objsaldos.costopromedio;
+                            objmovimiento.subtotal = objmovimiento.cantidad * objmovimiento.valorunitario;
+                            objmovimiento.valorneto = objmovimiento.subtotal;
+
+                        }
                         objmovimiento.costopromedioporunidad = objsaldos.costopromedio;
-                        objmovimiento.costoultimoporunidad = objproducto.costoultimo;
-                      
                     }
+
                 }
                 //----------------------------------------------------------------------------------------------//
 
@@ -251,43 +313,46 @@ namespace Inventarios.Utils
                 //-------------------------------------------------------------------------------------------------
                 if (cargainventariosrecibe == "S")
                 {
-                    Saldos objverificarproductobodega = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.recibe);
-                    objsaldos = new Saldos();
-                    if (objverificarproductobodega != null) objsaldos = objverificarproductobodega;
-
-                    objsaldos.producto = obj.producto;
-                    objsaldos.bodega = obj.recibe;
-
-
-
-                    if (objtipodedocumento.esuninventarioinicial == "S")
+                    if (objproducto.secargalinventario == "S")
                     {
-                        objsaldos.saldoinicial = obj.cantidad;
-                        objsaldos.entradas = 0;
-                        objsaldos.salidas = 0;
-                        objsaldos.saldo = objsaldos.saldoinicial;
-                        objsaldos.costopromedio = objproducto.costoultimo;
-                        objsaldos.fechadelaultimasalida = obj.fechadecreacion;
-                    }
+                        Saldos objverificarproductobodega = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.recibe);
+                        objsaldos = new Saldos();
+                        if (objverificarproductobodega != null) objsaldos = objverificarproductobodega;
 
-                    if (objtipodedocumento.esuninventarioinicial != "S")
-                    {
-                        if (objtipodedocumento.pidefisico != "S")
+                        objsaldos.producto = obj.producto;
+                        objsaldos.bodega = obj.recibe;
+
+
+
+                        if (objtipodedocumento.esuninventarioinicial == "S")
                         {
-                            objsaldos.entradas = objsaldos.entradas + obj.cantidad;
-                            objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
-                            objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (obj.cantidad * obj.valorunitario)) / (objsaldos.saldo + obj.cantidad);
-
+                            objsaldos.saldoinicial = obj.cantidad;
+                            objsaldos.entradas = 0;
+                            objsaldos.salidas = 0;
+                            objsaldos.saldo = objsaldos.saldoinicial;
+                            objsaldos.costopromedio = objproducto.costoultimo;
+                            objsaldos.fechadelaultimasalida = obj.fechadecreacion;
                         }
-                        if (objtipodedocumento.pidefisico == "S")
+
+                        if (objtipodedocumento.esuninventarioinicial != "S")
                         {
-                            objsaldos.saldofisico = objsaldos.saldofisico + obj.cantidad;
-                        }
-                    }
+                            if (objtipodedocumento.pidefisico != "S")
+                            {
+                                objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (obj.cantidad * obj.valorunitario)) / (objsaldos.saldo + obj.cantidad);
+                                objsaldos.entradas = objsaldos.entradas + obj.cantidad;
+                                objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
 
-                    if (objverificarproductobodega == null) _context.Saldos.Add(objsaldos);
-                    if (objverificarproductobodega != null) _context.Saldos.Update(objsaldos);
-                    _context.SaveChanges();
+                            }
+                            if (objtipodedocumento.pidefisico == "S")
+                            {
+                                objsaldos.saldofisico = objsaldos.saldofisico + obj.cantidad;
+                            }
+                        }
+
+                        if (objverificarproductobodega == null) _context.Saldos.Add(objsaldos);
+                        if (objverificarproductobodega != null) _context.Saldos.Update(objsaldos);
+                        _context.SaveChanges();
+                    }
                 }
 
 
@@ -296,6 +361,8 @@ namespace Inventarios.Utils
                 if (objtipodedocumento.restarcartera == "S") objmovimiento.sumaorestaeninventario = "-";
                 if (objtipodedocumento.sumarcartera == "S") objmovimiento.sumaorestaencartera = "+";
                 if (objtipodedocumento.restarcartera == "S") objmovimiento.sumaorestaencartera = "-";
+                objmovimiento.costoultimoporunidad = objproducto.costoultimo;
+                if (objmovimiento.costopromedioporunidad == 0) objmovimiento.costopromedioporunidad = objproducto.costoultimo;                
 
                 _context.Movimientodeinventariostmp.Update(objmovimiento);
                 _context.SaveChanges();
