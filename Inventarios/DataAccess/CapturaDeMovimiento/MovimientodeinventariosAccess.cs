@@ -159,23 +159,14 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
         public List<string> DeleteDocument(int tipodedocumento, int idusuario)
         {
             string mensajedeerror = "";
-            try
-            {
-                _utilsmovimiento.BorrarLosRegistrosDelMovimientoTemporal(tipodedocumento, idusuario);
-            }
-            catch (Exception ex)
-            {
-                mensajedeerror = mensajedeerror + "Error " + ex.Message;
-                return new List<string> { mensajedeerror };
-            }
 
-            if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Documento temporal borrado exitosamente";
+            mensajedeerror = _utilsmovimiento.BorrarLosRegistrosDelMovimientoTemporal(tipodedocumento, idusuario)[0];
+
             return new List<string> { mensajedeerror };
         }
 
         public List<string> AddDocument(int tipodedocumento, int idusuario)
         {
-
             _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(tipodedocumento, _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario));
 
             string mensajedeerror = _utilsmovimiento.ValidarAntesDeCargarAlMovimiento(tipodedocumento, idusuario);
@@ -189,18 +180,15 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             mensajedeerror = _utilsmovimiento.ValidarSaldo(tipodedocumento, idusuario);
             if (mensajedeerror.IndexOf("Error") >= 0) return new List<string> { mensajedeerror };
 
-
             mensajedeerror = "";
 
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-
                     // actualizamos inventario
 
                     list = _utilsmovimiento.ActualizarInventario(tipodedocumento, idusuario);
-
 
                     // Colocamos el consecutivo al movmiento temporal
                     list = _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento, idusuario);

@@ -209,7 +209,7 @@ namespace Inventarios.Utils
                             objmovimiento.nombreproducto = objmovimiento.nombreproducto + "|Error, disponible:" + objsaldos.saldo.ToString()+"|";
                             _context.Movimientodeinventariostmp.Update(objmovimiento);
                             _context.SaveChanges();
-                            mensajedeerror = "Error No hay saldo suficiente para despachar"+ "\n";
+                            mensajedeerror = "Error No hay saldo suficiente para despachar id="+ obj.id.ToString()+ "\n";
                         }
 
 
@@ -244,7 +244,7 @@ namespace Inventarios.Utils
             {
 
                 // valoriza el registro de entrada
-                Movimientodeinventariostmp objmovimiento = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
+                Movimientodeinventariostmp? objmovimiento = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
 
                 Proveedores objproveedores = new Proveedores();
                 objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj.despacha);
@@ -272,6 +272,17 @@ namespace Inventarios.Utils
                     if (objproducto.secargalinventario == "S")
                     {
                         objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.despacha);
+
+
+
+                        if (objtipodedocumento.esuninventarioinicial == "S")
+                        {
+                            objsaldos.saldoinicial = objsaldos.saldoinicial - obj.cantidad;
+                            objsaldos.entradas = 0;
+                            objsaldos.salidas = 0;
+                            objsaldos.saldo = objsaldos.saldoinicial;
+                           
+                        }
 
 
                         if (objtipodedocumento.esuninventarioinicial != "S")
@@ -326,12 +337,22 @@ namespace Inventarios.Utils
 
                         if (objtipodedocumento.esuninventarioinicial == "S")
                         {
-                            objsaldos.saldoinicial = obj.cantidad;
+                            objsaldos.saldoinicial = objsaldos.saldoinicial+ obj.cantidad;
                             objsaldos.entradas = 0;
                             objsaldos.salidas = 0;
                             objsaldos.saldo = objsaldos.saldoinicial;
                             objsaldos.costopromedio = objproducto.costoultimo;
                             objsaldos.fechadelaultimasalida = obj.fechadecreacion;
+
+                            // valoriza el registro de entrada 
+                            objmovimiento.valorunitario = objsaldos.costopromedio;
+                            objmovimiento.subtotal = objmovimiento.cantidad * objmovimiento.valorunitario;
+                            objmovimiento.valorneto = objmovimiento.subtotal;
+                            _context.Movimientodeinventariostmp.Update(objmovimiento);
+                            _context.SaveChanges();
+
+
+
                         }
 
                         if (objtipodedocumento.esuninventarioinicial != "S")
@@ -349,9 +370,22 @@ namespace Inventarios.Utils
                             }
                         }
 
-                        if (objverificarproductobodega == null) _context.Saldos.Add(objsaldos);
-                        if (objverificarproductobodega != null) _context.Saldos.Update(objsaldos);
-                        _context.SaveChanges();
+                        if (objverificarproductobodega == null)
+                        {
+                            _context.Saldos.Add(objsaldos);
+                            _context.SaveChanges();
+
+                        }
+
+                        if (objverificarproductobodega != null)
+                        {
+                            _context.Saldos.Update(objsaldos);
+                            _context.SaveChanges();
+                        }
+
+
+
+
                     }
                 }
 
@@ -696,16 +730,23 @@ namespace Inventarios.Utils
             }
         }
 
-        public void BorrarLosRegistrosDelMovimientoTemporal(int tipodedocumento, int idusuario)
+        public List<string> BorrarLosRegistrosDelMovimientoTemporal(int tipodedocumento, int idusuario)
         {
             List<Movimientodeinventariostmp> listatemporal = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == TraerConsecutivoDelUsuario(idusuario)).ToList();
 
+            string mensaje = "No hay registros temporales para borrar";
             foreach (var s in listatemporal)
             {
                 var obj = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == s.id);
                 _context.Movimientodeinventariostmp.Remove(obj);
                 _context.SaveChanges();
+                mensaje="Registro temporales borrados exitosamente"
             }
+
+         
+            return new List<string> { mensaje };
+
+
         }
     }
 }
