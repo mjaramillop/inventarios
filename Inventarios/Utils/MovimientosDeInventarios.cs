@@ -740,7 +740,7 @@ namespace Inventarios.Utils
                 var obj = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == s.id);
                 _context.Movimientodeinventariostmp.Remove(obj);
                 _context.SaveChanges();
-                mensaje="Registro temporales borrados exitosamente"
+                mensaje = "Registro temporales borrados exitosamente";
             }
 
          
