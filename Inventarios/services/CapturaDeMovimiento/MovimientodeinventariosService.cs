@@ -1,5 +1,6 @@
 ﻿using Inventarios.DataAccess.CapturaDeMovimiento;
 using Inventarios.Models.CapturaDeMovimiento;
+using Inventarios.ModelsParameter.CapturaDeMovimiento;
 
 namespace Inventarios.services.CapturaDeMovimiento
 {
@@ -50,9 +51,9 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
-        public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        public List<string> AnularDocumento(CargueDeMovimiento obj)
         {
-            List<string> list = _access.AnularDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
+            List<string> list = _access.AnularDocumento(obj );
 
             return list;
         }
@@ -63,9 +64,9 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
-        public List<string> AddDocument(int tipodedocumento, int idusuario)
+        public List<string> AddDocument(CargueDeMovimiento obj)
         {
-            List<string> list = _access.AddDocument(tipodedocumento, idusuario);
+            List<string> list = _access.AddDocument(obj);
             return list;
         }
 

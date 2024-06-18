@@ -2,6 +2,7 @@
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
+using Inventarios.ModelsParameter.CapturaDeMovimiento;
 
 namespace Inventarios.Utils
 {
@@ -225,39 +226,34 @@ namespace Inventarios.Utils
         }
 
 
-        public List<Movimientodeinventariostmp> ActualizarInventario(int tipodedocumento, int idusuario)
+        public void ActualizarInventario(CargueDeMovimiento obj)
         {
             // extraigo  el consecutivo que se asignara
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
-            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id ==obj.tipodedocumento);
+
+            List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha==obj.despacha && a.recibe==obj.recibe ).ToList();
+            if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return ;
 
 
-            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
-            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
-
-
-            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
-            if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return list;
-
-
-            foreach (var obj in list)
+            foreach (var obj_ in list)
             {
 
                 // valoriza el registro de entrada
-                Movimientodeinventariostmp? objmovimiento = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
+                Movimientodeinventarios? objmovimiento = _context.Movimientodeinventarios.FirstOrDefault(a => a.id == obj_.id);
 
                 Proveedores objproveedores = new Proveedores();
-                objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj.despacha);
+                objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj_.despacha);
                 string cargainventariosdespacha = objproveedores.secargainventario;
-                objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj.recibe);
+                objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj_.recibe);
                 string cargainventariosrecibe = objproveedores.secargainventario;
 
                 Productos objproducto = new Productos();
-                objproducto = _context.Productos.FirstOrDefault(a => a.id == obj.producto);
+                objproducto = _context.Productos.FirstOrDefault(a => a.id == obj_.producto);
 
                 if (objtipodedocumento.esunacompra == "S")
                 {
-                    objproducto.costoultimo = obj.valorunitario;
+                    objproducto.costoultimo = obj_.valorunitario;
                     _context.Productos.Update(objproducto);
                     _context.SaveChanges();
                 }
@@ -271,13 +267,13 @@ namespace Inventarios.Utils
                 {
                     if (objproducto.secargalinventario == "S")
                     {
-                        objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.despacha);
+                        objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj_.producto && a.bodega == obj_.despacha);
 
 
 
                         if (objtipodedocumento.esuninventarioinicial == "S")
                         {
-                            objsaldos.saldoinicial = objsaldos.saldoinicial - obj.cantidad;
+                            objsaldos.saldoinicial = objsaldos.saldoinicial - obj_.cantidad;
                             objsaldos.entradas = 0;
                             objsaldos.salidas = 0;
                             objsaldos.saldo = objsaldos.saldoinicial;
@@ -287,13 +283,13 @@ namespace Inventarios.Utils
 
                         if (objtipodedocumento.esuninventarioinicial != "S")
                         {
-                            objsaldos.salidas = objsaldos.salidas + obj.cantidad;
+                            objsaldos.salidas = objsaldos.salidas + obj_.cantidad;
                             objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
                         }
 
                         if (objtipodedocumento.esunaventa == "S")
                         {
-                            objsaldos.fechadelaultimasalida = obj.fechadecreacion;
+                            objsaldos.fechadelaultimasalida = obj_.fechadecreacion;
                         }
 
 
@@ -326,29 +322,29 @@ namespace Inventarios.Utils
                 {
                     if (objproducto.secargalinventario == "S")
                     {
-                        Saldos objverificarproductobodega = _context.Saldos.FirstOrDefault(a => a.producto == obj.producto && a.bodega == obj.recibe);
+                        Saldos objverificarproductobodega = _context.Saldos.FirstOrDefault(a => a.producto == obj_.producto && a.bodega == obj_.recibe);
                         objsaldos = new Saldos();
                         if (objverificarproductobodega != null) objsaldos = objverificarproductobodega;
 
-                        objsaldos.producto = obj.producto;
-                        objsaldos.bodega = obj.recibe;
+                        objsaldos.producto = obj_.producto;
+                        objsaldos.bodega = obj_.recibe;
 
 
 
                         if (objtipodedocumento.esuninventarioinicial == "S")
                         {
-                            objsaldos.saldoinicial = objsaldos.saldoinicial+ obj.cantidad;
+                            objsaldos.saldoinicial = objsaldos.saldoinicial+ obj_.cantidad;
                             objsaldos.entradas = 0;
                             objsaldos.salidas = 0;
                             objsaldos.saldo = objsaldos.saldoinicial;
                             objsaldos.costopromedio = objproducto.costoultimo;
-                            objsaldos.fechadelaultimasalida = obj.fechadecreacion;
+                            objsaldos.fechadelaultimasalida = obj_.fechadecreacion;
 
                             // valoriza el registro de entrada 
                             objmovimiento.valorunitario = objsaldos.costopromedio;
                             objmovimiento.subtotal = objmovimiento.cantidad * objmovimiento.valorunitario;
                             objmovimiento.valorneto = objmovimiento.subtotal;
-                            _context.Movimientodeinventariostmp.Update(objmovimiento);
+                            _context.Movimientodeinventarios.Update(objmovimiento);
                             _context.SaveChanges();
 
 
@@ -359,14 +355,14 @@ namespace Inventarios.Utils
                         {
                             if (objtipodedocumento.pidefisico != "S")
                             {
-                                objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (obj.cantidad * obj.valorunitario)) / (objsaldos.saldo + obj.cantidad);
-                                objsaldos.entradas = objsaldos.entradas + obj.cantidad;
+                                objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (obj_.cantidad * obj_.valorunitario)) / (objsaldos.saldo + obj_.cantidad);
+                                objsaldos.entradas = objsaldos.entradas + obj_.cantidad;
                                 objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
 
                             }
                             if (objtipodedocumento.pidefisico == "S")
                             {
-                                objsaldos.saldofisico = objsaldos.saldofisico + obj.cantidad;
+                                objsaldos.saldofisico = objsaldos.saldofisico + obj_.cantidad;
                             }
                         }
 
@@ -398,16 +394,16 @@ namespace Inventarios.Utils
                 objmovimiento.costoultimoporunidad = objproducto.costoultimo;
                 if (objmovimiento.costopromedioporunidad == 0) objmovimiento.costopromedioporunidad = objproducto.costoultimo;                
 
-                _context.Movimientodeinventariostmp.Update(objmovimiento);
+                _context.Movimientodeinventarios.Update(objmovimiento);
                 _context.SaveChanges();
 
 
             }
 
-            return list;
+           
         }
 
-        public List<Movimientodeinventariostmp> TotalizarDocumentoTemporal(int tipodedocumento, int idusuario)
+        public void TotalizarDocumentoTemporal(int tipodedocumento, int idusuario)
         {
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
@@ -422,14 +418,15 @@ namespace Inventarios.Utils
 
             // si no es un pedido u orden de  compran no totalizo
             // recuerde que cada vez que despachamos un pedido o recibimos
-            // mercancia de una orden compra esos dos documentos no pueden
+            // mercancia de una orden de compra esos dos documentos no pueden
             // tener el producto repetido porque quedaria muy jodido
             // saldar las cantidad que queda por despachar o lo de la orden de
             // compra que falta por recibir.
             if (objtipodedocumento.saldarcantidadesdeldocumentollamado != "S")
             {
-                return list;
+                return ;
             }
+
 
             string llave1 = "xxxxxx";
             decimal totalcantidadporempaque = 0;
@@ -494,11 +491,35 @@ namespace Inventarios.Utils
                 }
             }
 
-            return listatotales;
+
+            foreach (var item in list)
+            {
+                var obj = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == item.id);
+                _context.Movimientodeinventariostmp.Remove(obj);
+                _context.SaveChanges();
+            }
+
+            foreach (var obj in listatotales)
+            {
+                _context.Movimientodeinventariostmp.Add(obj);
+                _context.SaveChanges();
+
+            }
+
+
+
+
         }
 
-        public void CargarMovimientoTemporalAlDefinitivo(List<Movimientodeinventariostmp> list, int idusuario)
+        public void CargarMovimientoTemporalAlDefinitivo(  int tipodedocumento, int idusuario)
         {
+
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
+            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+
+
+            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
+
             // cargamos documento temporal al movimiento de inventarios definitivo
             Movimientodeinventarios objetodestino = new Movimientodeinventarios();
 
@@ -515,22 +536,22 @@ namespace Inventarios.Utils
             BorrarLosRegistrosDelMovimientoTemporal(list[0].tipodedocumento, idusuario);
         }
 
-        public void ActualizarConsecutivoDeLaTransaccion(int tipodedocumento)
+        public int ActualizarConsecutivoDeLaTransaccion(int tipodedocumento)
         {
             // actualizamos consecutivo en tipos de documento
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
             objtipodedocumento.consecutivo = objtipodedocumento.consecutivo + 1;
             _context.SaveChanges();
+            return objtipodedocumento.consecutivo;
         }
 
-        public string ActualizarConsecutivoDelUsuario(int idusuario)
+        public void ActualizarConsecutivoDelUsuario(int idusuario)
         {
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             objusuario.consecutivo = objusuario.consecutivo + 1;
             _context.SaveChanges();
 
-            return "";
         }
 
         public string TraerConsecutivoDelUsuario(int idusuario)

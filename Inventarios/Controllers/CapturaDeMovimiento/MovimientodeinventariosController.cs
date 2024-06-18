@@ -1,4 +1,5 @@
 ﻿using Inventarios.Models.CapturaDeMovimiento;
+using Inventarios.ModelsParameter.CapturaDeMovimiento;
 using Inventarios.services.CapturaDeMovimiento;
 
 using Microsoft.AspNetCore.Mvc;
@@ -65,11 +66,11 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
-        [HttpGet("{tipodedocumento}/{numerodedocumento}/{despacha}/{recibe}")]
+        [HttpPut]
         [ActionName("AnularDocumento")]
-        public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        public List<string> AnularDocumento(CargueDeMovimiento obj)
         {
-            List<string> list = _service.AnularDocumento(tipodedocumento, numerodedocumento, despacha, recibe);
+            List<string> list = _service.AnularDocumento(obj);
 
             return list;
         }
@@ -82,11 +83,11 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
-        [HttpGet("{tipodedocumento}/{idusuario}")]
+        [HttpPut]
         [ActionName("AddDocument")]
-        public List<string> AddDocument(int tipodedocumento, int idusuario)
+        public List<string> AddDocument(CargueDeMovimiento obj)
         {
-            List<string> list = _service.AddDocument(tipodedocumento, idusuario);
+            List<string> list = _service.AddDocument(obj);
             return list;
         }
 

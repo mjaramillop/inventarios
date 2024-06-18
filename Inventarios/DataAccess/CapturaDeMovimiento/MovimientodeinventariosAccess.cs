@@ -2,6 +2,8 @@
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.Map;
 using Inventarios.Models.CapturaDeMovimiento;
+using Inventarios.Models.TablasMaestras;
+using Inventarios.ModelsParameter.CapturaDeMovimiento;
 using Inventarios.Utils;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento
@@ -108,43 +110,56 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return list;
         }
 
-        public List<string> AnularDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        public List<string> AnularDocumento(CargueDeMovimiento obj)
         {
             string mensajedeerror = "";
 
-            List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
+            List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha == obj.despacha && a.recibe == obj.recibe).ToList();
 
-            try
+
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
-                foreach (var item in list)
+                try
                 {
-                    var obj_ = _context.Movimientodeinventarios.FirstOrDefault(a => a.id == item.id);
-                    obj_.estadodelregistro = 2;
-                    obj_.cantidad = 0;
-                    obj_.valordescuento1 = 0;
-                    obj_.codigodescuento1 = 0;
-                    obj_.nombrecodigodescuento1 = "";
-                    obj_.valoriva1 = 0;
-                    obj_.codigoiva1 = 0;
-                    obj_.nombrecodigoiva1 = "";
-                    obj_.valorretencion1 = 0;
-                    obj_.codigoretencion1 = 0;
-                    obj_.nombrecodigoretencion1 = "";
-                    obj_.valorunitario = 0;
-                    obj_.valorneto = 0;
-                    obj_.subtotal = 0;
-                    obj_.cantidadporempaque = 0;
-                    obj_.fletes = 0;
+
+                    list.ForEach(c => { c.despacha = obj.recibe; c.recibe = obj.despacha;  });
                     _context.SaveChanges();
+                    _utilsmovimiento.ActualizarInventario(obj);
+
+                    foreach (var item in list)
+                    {
+                        var obj_ = _context.Movimientodeinventarios.FirstOrDefault(a => a.id == item.id);
+                        obj_.despacha=obj.despacha; 
+                        obj_.recibe=obj.recibe; 
+                        obj_.estadodelregistro = 2;
+                        obj_.cantidad = 0;
+                        obj_.valordescuento1 = 0;
+                        obj_.codigodescuento1 = 0;
+                        obj_.nombrecodigodescuento1 = "";
+                        obj_.valoriva1 = 0;
+                        obj_.codigoiva1 = 0;
+                        obj_.nombrecodigoiva1 = "";
+                        obj_.valorretencion1 = 0;
+                        obj_.codigoretencion1 = 0;
+                        obj_.nombrecodigoretencion1 = "";
+                        obj_.valorunitario = 0;
+                        obj_.valorneto = 0;
+                        obj_.subtotal = 0;
+                        obj_.cantidadporempaque = 0;
+                        obj_.fletes = 0;
+                        _context.SaveChanges();
+                        dbContextTransaction.Rollback();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    mensajedeerror = mensajedeerror + "Error " + ex.Message;
+                    dbContextTransaction.Rollback();
+                    return new List<string> { mensajedeerror };
                 }
             }
-            catch (Exception ex)
-            {
-                mensajedeerror = mensajedeerror + "Error " + ex.Message;
-                return new List<string> { mensajedeerror };
-            }
 
-            Log(list[0].tipodedocumento, list[0].numerodeldocumento, "Anulo Movimiento de inventario");
+            Log(obj, "Anulo Movimiento de inventario");
 
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Documento anulado correctamente";
             return new List<string> { mensajedeerror };
@@ -165,8 +180,10 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-        public List<string> AddDocument(int tipodedocumento, int idusuario)
+        public List<string> AddDocument(CargueDeMovimiento obj)
         {
+            int tipodedocumento = obj.tipodedocumento;
+            int idusuario = obj.idusuario;
             _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(tipodedocumento, _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario));
 
             string mensajedeerror = _utilsmovimiento.ValidarAntesDeCargarAlMovimiento(tipodedocumento, idusuario);
@@ -174,7 +191,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             // aqui paso validaciones ok
 
             // totalizamos movimiento temporal
-            List<Movimientodeinventariostmp> list = _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
+            _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
 
             // validamos saldo
             mensajedeerror = _utilsmovimiento.ValidarSaldo(tipodedocumento, idusuario);
@@ -186,27 +203,26 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             {
                 try
                 {
-                    // actualizamos inventario
-
-                    list = _utilsmovimiento.ActualizarInventario(tipodedocumento, idusuario);
-
-                    // Colocamos el consecutivo al movmiento temporal
-                    list = _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento, idusuario);
+                    // Colocamos el consecutivo al movimiento temporal
+                    _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento, idusuario);
 
                     // cargamos documento temporal totalizado  al movimiento de inventarios definitivo
-                    _utilsmovimiento.CargarMovimientoTemporalAlDefinitivo(list, idusuario);
+                    _utilsmovimiento.CargarMovimientoTemporalAlDefinitivo(tipodedocumento, idusuario);
 
                     // actualizamos consecutivo en tipos de documento
-                    _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(tipodedocumento);
+                   obj.numerodeldocumento= _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(tipodedocumento);
 
                     // actualizamos consecutivo usuario
                     _utilsmovimiento.ActualizarConsecutivoDelUsuario(idusuario);
+
+                    // actualizamos inventario
+                    _utilsmovimiento.ActualizarInventario(obj);
 
                     // borrramos el documento temporal
                     DeleteDocument(tipodedocumento, idusuario);
 
                     // generamos el log
-                    Log(list[0].tipodedocumento, list[0].numerodeldocumento, "Agrego Movimiento de inventario ok ");
+                    Log(obj, "Agrego Movimiento de inventario ok ");
 
                     mensajedeerror = "Transaction Successful ";
                     // Once your Single/Multiple table insert /Update/Delete operation done all operation should commit to database
@@ -240,22 +256,21 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _utilsmovimiento.AplicarFletePieDeFactura(tipodedocumento, valorfletes, idusuario);
         }
 
-        public void Log(int tipodedocumento, int numerodedocumento, string operacion)
+        public void Log(CargueDeMovimiento obj, string operacion)
         {
-            var obj = _context.Movimientodeinventarios.FirstOrDefault(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento);
+           
+            var obj_ = _context.Movimientodeinventarios.FirstOrDefault(a => a.despacha == obj.despacha && a.recibe == obj.recibe && a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento);
 
             string comando = "";
-            comando = comando + "usuario " + obj.nombreusuario + "\n";
-
+            comando = comando + "usuario " + obj_.nombreusuario + "\n";
             comando = comando + "operacion " + operacion + "\n";
-
-            comando = comando + "tipo de documento = " + obj.tipodedocumento + "\n";
-            comando = comando + "Nombre de odcumento = " + obj.nombretipodedocumento + "\n";
-            comando = comando + "numero del documento  = " + obj.numerodeldocumento + "\n";
-            comando = comando + "emisor  = " + obj.despacha + "\n";
-            comando = comando + "emisor  = " + obj.nombredespacha + "\n";
-            comando = comando + "receptor  = " + obj.recibe + "\n";
-            comando = comando + "nombrereceptor  = " + obj.nombrerecibe + "\n";
+            comando = comando + "tipo de documento = " + obj_.tipodedocumento + "\n";
+            comando = comando + "Nombre de documento = " + obj_.nombretipodedocumento + "\n";
+            comando = comando + "numero del documento  = " + obj_.numerodeldocumento + "\n";
+            comando = comando + "emisor  = " + obj_.despacha + "\n";
+            comando = comando + "emisor  = " + obj_.nombredespacha + "\n";
+            comando = comando + "receptor  = " + obj_.recibe + "\n";
+            comando = comando + "nombrereceptor  = " + obj_.nombrerecibe + "\n";
 
             _logacces.Add(comando);
         }

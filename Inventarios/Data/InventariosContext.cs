@@ -1099,6 +1099,8 @@ public partial class InventariosContext : DbContext
 
             entity.HasIndex(e => new { e.tipodedocumento, e.fechadecreacion }, "IX_MOVIMIENTODEINVENTARIOS_3");
 
+            entity.HasIndex(e => new { e.id }, "IX_MOVIMIENTODEINVENTARIOS_4");
+
             /////////////////////
             ///// ENCABEZADO
             /////////////////////

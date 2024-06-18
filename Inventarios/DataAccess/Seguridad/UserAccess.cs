@@ -18,15 +18,17 @@ namespace Inventarios.DataAccess.Seguridad
         private List<Usuarios>? list;
         private readonly IConfiguration _iconfiguration;
         private readonly Validaciones _validar;
+        private readonly Utilidades _utilidades;
 
 
-        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar)
+        public UserAccess(InventariosContext context, LogAccess logacces, Mapping mapping, IConfiguration iconfiguration, Validaciones validar, Utilidades utlidades  )
         {
             _context = context;
             _logacces = logacces;
             _mapping = mapping;
             _iconfiguration = iconfiguration;
             _validar = validar;
+            _utilidades = utlidades;
         }
 
         public Mensaje Add(Usuarios obj)
@@ -94,7 +96,7 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<UsersDTO>? List(string filtro = "")
         {
-            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            string caracterdebusqueda = _utilidades.traerparametrowebconfig("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.Usuarios.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains(filtro.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListUsersToListUsersDTO(list);
@@ -111,7 +113,7 @@ namespace Inventarios.DataAccess.Seguridad
 
             if (objusuarios == null) return new List<MenuDTO>();
             if (objusuarios.perfil == 0) return new List<MenuDTO>();
-            if (objusuarios.estadodelregistro == 2) return new List<MenuDTO>();
+            if ( objusuarios.estadodelregistro == Convert.ToInt16( _utilidades.traerparametrowebconfig("codigoestadoinactivo"))   ) return new List<MenuDTO>();
 
 
 
