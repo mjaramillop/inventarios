@@ -115,14 +115,25 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             string mensajedeerror = "";
 
             List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha == obj.despacha && a.recibe == obj.recibe).ToList();
+            DateTime fechadeldocumentograbado = list[0].fechadecreacion;
 
+            List<FechaDeCierre> listfechadecierre =_context.FechaDeCierre.ToList();
+
+            DateTime fechadecierre = listfechadecierre[0].fechadecierre;
+
+
+            if (fechadeldocumentograbado<=fechadecierre)
+            {
+                mensajedeerror = mensajedeerror + "Error No puede anular un documento de un periodo que ya se cerro: fecha del documento "+ fechadeldocumentograbado.ToString();
+                return new List<string> { mensajedeerror };
+            }
 
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
 
-                    list.ForEach(c => { c.despacha = obj.recibe; c.recibe = obj.despacha;  });
+                    list.ForEach(c => { c.cantidad = c.cantidad * -1;  });
                     _context.SaveChanges();
                     _utilsmovimiento.ActualizarInventario(obj);
 
@@ -132,6 +143,8 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                         obj_.despacha=obj.despacha; 
                         obj_.recibe=obj.recibe; 
                         obj_.estadodelregistro = 2;
+                        obj_.cantidadporempaque = 0;
+                        obj_.numerodeempaques = 0;
                         obj_.cantidad = 0;
                         obj_.valordescuento1 = 0;
                         obj_.codigodescuento1 = 0;
@@ -145,11 +158,17 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                         obj_.valorunitario = 0;
                         obj_.valorneto = 0;
                         obj_.subtotal = 0;
-                        obj_.cantidadporempaque = 0;
+                        obj_.costofleteporunidad = 0;
+                        obj_.costopromedioporunidad = 0;
+                        obj_.costoultimoporunidad = 0;
                         obj_.fletes = 0;
                         _context.SaveChanges();
-                        dbContextTransaction.Rollback();
+                       
                     }
+
+
+                    dbContextTransaction.Commit();
+
                 }
                 catch (Exception ex)
                 {

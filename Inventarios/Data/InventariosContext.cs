@@ -70,6 +70,8 @@ public partial class InventariosContext : DbContext
 
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
+    public virtual DbSet<FechaDeCierre> FechaDeCierre { get; set; }
+
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //    => optionsBuilder.UseSqlServer("Server=DESKTOP-56QVMV6\\SQLEXPRESS;Database=inventarios;Trusted_Connection=True;TrustServerCertificate=true;");
 
@@ -78,6 +80,22 @@ public partial class InventariosContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        modelBuilder.Entity<FechaDeCierre>(entity =>
+        {
+          
+            entity.ToTable("FECHADECIERRE");
+
+            entity.HasKey(e => e.id).HasName("PK_FECHADECIERRE");
+
+            entity.Property(e => e.id).HasColumnName("ID");
+
+            entity.Property(e => e.fechadecierre).HasColumnName("FECHADECIERRE");
+
+         
+        });
+
+
         modelBuilder.Entity<SiNo>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK_SINO");
