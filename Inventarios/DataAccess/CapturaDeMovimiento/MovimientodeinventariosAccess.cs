@@ -22,7 +22,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         private readonly Validaciones _validaciones;
 
-        private Utilidades _utlididades;
+        private Utilidades _utilididades;
 
         private MovimientosDeInventarios _utilsmovimiento;
 
@@ -33,7 +33,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _mapping = mapping;
             _iconfiguration = iconfiguration;
             _validaciones = validaciones;
-            _utlididades = utilidades;
+            _utilididades = utilidades;
             _utilsmovimiento = utilsmovimiento;
         }
 
@@ -41,7 +41,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
         {
             string mensajedeerror = "";
             obj.consecutivousuario = _utilsmovimiento.TraerConsecutivoDelUsuario(obj.idusuario);
-            obj.fechadeldocumento = _utlididades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento, obj.mesdeldocumento, obj.anodeldocumento);
+            obj.fechadeldocumento = _utilididades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento, obj.mesdeldocumento, obj.anodeldocumento);
             try
             {
                 _context.Movimientodeinventariostmp.Add(obj);
@@ -116,6 +116,16 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha == obj.despacha && a.recibe == obj.recibe).ToList();
             DateTime fechadeldocumentograbado = list[0].fechadecreacion;
+            int estadodelregistro = list[0].estadodelregistro;
+
+            if (estadodelregistro==  Convert.ToInt16( _utilididades.traerparametrowebconfig("codigoestadoinactivo")) ) 
+            {
+                mensajedeerror = mensajedeerror + "Error Ya fue anulado este documento " ;
+                return new List<string> { mensajedeerror };
+
+
+            }
+
 
             List<FechaDeCierre> listfechadecierre =_context.FechaDeCierre.ToList();
 
