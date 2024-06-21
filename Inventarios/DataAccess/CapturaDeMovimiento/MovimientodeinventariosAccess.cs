@@ -5,6 +5,10 @@ using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter.CapturaDeMovimiento;
 using Inventarios.Utils;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using System.Globalization;
+using CsvHelper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento
 {
@@ -22,7 +26,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         private readonly Validaciones _validaciones;
 
-        private Utilidades _utilididades;
+        private Utilidades _utilidades;
 
         private MovimientosDeInventarios _utilsmovimiento;
 
@@ -33,7 +37,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _mapping = mapping;
             _iconfiguration = iconfiguration;
             _validaciones = validaciones;
-            _utilididades = utilidades;
+            _utilidades = utilidades;
             _utilsmovimiento = utilsmovimiento;
         }
 
@@ -41,7 +45,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
         {
             string mensajedeerror = "";
             obj.consecutivousuario = _utilsmovimiento.TraerConsecutivoDelUsuario(obj.idusuario);
-            obj.fechadeldocumento = _utilididades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento, obj.mesdeldocumento, obj.anodeldocumento);
+            obj.fechadeldocumento = _utilidades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento, obj.mesdeldocumento, obj.anodeldocumento);
             try
             {
                 _context.Movimientodeinventariostmp.Add(obj);
@@ -119,34 +123,25 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             int estadodelregistro = list[0].estadodelregistro;
             int idusuario = list[0].idusuario;
 
-
             if (idusuario != obj.idusuario)
             {
                 mensajedeerror = mensajedeerror + "Error No puedes anular un documento que es de otro usuario ";
                 return new List<string> { mensajedeerror };
-
-
             }
 
-
-
-            if (estadodelregistro==  Convert.ToInt16( _utilididades.traerparametrowebconfig("codigoestadoinactivo")) ) 
+            if (estadodelregistro == Convert.ToInt16(_utilidades.traerparametrowebconfig("codigoestadoinactivo")))
             {
-                mensajedeerror = mensajedeerror + "Error Ya fue anulado este documento " ;
+                mensajedeerror = mensajedeerror + "Error Ya fue anulado este documento ";
                 return new List<string> { mensajedeerror };
-
-
             }
 
-
-            List<FechaDeCierre> listfechadecierre =_context.FechaDeCierre.ToList();
+            List<FechaDeCierre> listfechadecierre = _context.FechaDeCierre.ToList();
 
             DateTime fechadecierre = listfechadecierre[0].fechadecierre;
 
-
-            if (fechadeldocumentograbado<=fechadecierre)
+            if (fechadeldocumentograbado <= fechadecierre)
             {
-                mensajedeerror = mensajedeerror + "Error No puede anular un documento de un periodo que ya se cerro: fecha del documento "+ fechadeldocumentograbado.ToString();
+                mensajedeerror = mensajedeerror + "Error No puede anular un documento de un periodo que ya se cerro: fecha del documento " + fechadeldocumentograbado.ToString();
                 return new List<string> { mensajedeerror };
             }
 
@@ -154,16 +149,15 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             {
                 try
                 {
-
-                    list.ForEach(c => { c.cantidad = c.cantidad * -1;  });
+                    list.ForEach(c => { c.cantidad = c.cantidad * -1; });
                     _context.SaveChanges();
                     _utilsmovimiento.ActualizarInventario(obj);
 
                     foreach (var item in list)
                     {
                         var obj_ = _context.Movimientodeinventarios.FirstOrDefault(a => a.id == item.id);
-                        obj_.despacha=obj.despacha; 
-                        obj_.recibe=obj.recibe; 
+                        obj_.despacha = obj.despacha;
+                        obj_.recibe = obj.recibe;
                         obj_.estadodelregistro = 2;
                         obj_.cantidadporempaque = 0;
                         obj_.numerodeempaques = 0;
@@ -185,12 +179,9 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                         obj_.costoultimoporunidad = 0;
                         obj_.fletes = 0;
                         _context.SaveChanges();
-                       
                     }
 
-
                     dbContextTransaction.Commit();
-
                 }
                 catch (Exception ex)
                 {
@@ -217,6 +208,110 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             string mensajedeerror = "";
 
             mensajedeerror = _utilsmovimiento.BorrarLosRegistrosDelMovimientoTemporal(tipodedocumento, idusuario)[0];
+
+            return new List<string> { mensajedeerror };
+        }
+
+        public List<string> AddDocumentFromFileCSV(int idusuario)
+        {
+            string mensajedeerror = "";
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "UploadInventarioInicial");
+            var filePath = Path.Combine(uploads, "inventarioinicial_" + idusuario.ToString() + ".csv");
+
+            int tipodedocumento = 0;
+            try
+            {
+                var reader = new StreamReader(filePath);
+                using (var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    var records = csv.GetRecords<MovimientoFromFileCSV>();
+                    foreach (var record in records)
+                    {
+                        tipodedocumento = record.tipodedocumento;
+                        records = null;
+
+                        break;
+                    }
+                    records = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                mensajedeerror = "Error. debe tener encabezado el archivo " + ex.Message.ToString();
+                return new List<string> { mensajedeerror };
+            }
+
+            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
+            if (objtipodedocumento == null)
+            {
+                mensajedeerror = "Error. El tipo de documento no existe  ";
+                return new List<string> { mensajedeerror };
+            }
+
+            if ((objtipodedocumento.pidefisico != "S") && (objtipodedocumento.esuninventarioinicial != "S"))
+            {
+                mensajedeerror = "Error. El tipo de documento no es una transaccion de captura de inventario fisico o inicial";
+                return new List<string> { mensajedeerror };
+            }
+
+            CargueDeMovimiento obj = new CargueDeMovimiento();
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
+            string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
+            obj.tipodedocumento = tipodedocumento;
+            obj.despacha = Convert.ToInt32(objtipodedocumento.despacha);
+            obj.recibe = Convert.ToInt32(objtipodedocumento.recibe);
+            obj.idusuario = idusuario;
+            obj.consecutivousuario = consecutivousuario;
+            obj.numerodeldocumento = 0;
+
+
+
+
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var reader = new StreamReader(filePath);
+
+                    using (var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture))
+                    {
+                        var records = csv.GetRecords<MovimientoFromFileCSV>();
+
+                        foreach (var record in records)
+                        {
+                            Movimientodeinventariostmp movtmp = new Movimientodeinventariostmp();
+
+                            movtmp.tipodedocumento = record.tipodedocumento;
+                            movtmp.despacha = obj.despacha;
+                            movtmp.recibe = record.bodega;
+                            movtmp.numerodeldocumento = obj.numerodeldocumento;
+                            movtmp.producto = record.producto;
+                            movtmp.cantidad = 1;
+                            movtmp.unidaddeempaque = 0;
+                            movtmp.cantidadporempaque = 1;
+                            movtmp.numerodeempaques = 1;
+                            movtmp.idusuario = obj.idusuario;
+                            movtmp.nombreusuario = objusuario.nombre;
+
+                            Add(movtmp);
+                        }
+                    }
+
+                    System.IO.File.Delete(filePath);
+
+                    mensajedeerror = "Transaction Successful ";
+
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    mensajedeerror = e.Message;
+                    dbContextTransaction.Rollback();
+                }
+            }
+
+            AddDocument(obj);
 
             return new List<string> { mensajedeerror };
         }
@@ -251,7 +346,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                     _utilsmovimiento.CargarMovimientoTemporalAlDefinitivo(tipodedocumento, idusuario);
 
                     // actualizamos consecutivo en tipos de documento
-                   obj.numerodeldocumento= _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(tipodedocumento);
+                    obj.numerodeldocumento = _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(tipodedocumento);
 
                     // actualizamos consecutivo usuario
                     _utilsmovimiento.ActualizarConsecutivoDelUsuario(idusuario);
@@ -299,7 +394,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         public void Log(CargueDeMovimiento obj, string operacion)
         {
-           
             var obj_ = _context.Movimientodeinventarios.FirstOrDefault(a => a.despacha == obj.despacha && a.recibe == obj.recibe && a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento);
 
             string comando = "";

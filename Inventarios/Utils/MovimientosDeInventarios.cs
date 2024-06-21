@@ -168,7 +168,6 @@ namespace Inventarios.Utils
             return list;
         }
 
-
         public string ValidarSaldo(int tipodedocumento, int idusuario)
         {
             // extraigo  el consecutivo que se asignara
@@ -179,14 +178,12 @@ namespace Inventarios.Utils
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
             if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return "";
 
-
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
 
             string mensajedeerror = "";
 
             foreach (var obj in list)
             {
-
                 Proveedores objproveedores = new Proveedores();
                 objproveedores = _context.Proveedores.FirstOrDefault(a => a.id == obj.despacha);
                 string cargainventariosdespacha = objproveedores.secargainventario;
@@ -207,38 +204,30 @@ namespace Inventarios.Utils
                         {
                             Movimientodeinventariostmp objmovimiento = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == obj.id);
 
-                            objmovimiento.nombreproducto = objmovimiento.nombreproducto + "|Error, disponible:" + objsaldos.saldo.ToString()+"|";
+                            objmovimiento.nombreproducto = objmovimiento.nombreproducto + "|Error, disponible:" + objsaldos.saldo.ToString() + "|";
                             _context.Movimientodeinventariostmp.Update(objmovimiento);
                             _context.SaveChanges();
-                            mensajedeerror = "Error No hay saldo suficiente para despachar id="+ obj.id.ToString()+ "\n";
+                            mensajedeerror = "Error No hay saldo suficiente para despachar id=" + obj.id.ToString() + "\n";
                         }
-
-
-
                     }
-
                 }
                 //----------------------------------------------------------------------------------------------//
-
             }
 
-            return  mensajedeerror;
+            return mensajedeerror;
         }
-
 
         public void ActualizarInventario(CargueDeMovimiento obj)
         {
             // extraigo  el consecutivo que se asignara
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
-            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id ==obj.tipodedocumento);
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.tipodedocumento);
 
-            List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha==obj.despacha && a.recibe==obj.recibe ).ToList();
-            if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return ;
-
+            List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha == obj.despacha && a.recibe == obj.recibe).ToList();
+            if (objtipodedocumento.sumainventario == "N" && objtipodedocumento.restainventario == "N") return;
 
             foreach (var obj_ in list)
             {
-
                 // valoriza el registro de entrada
                 Movimientodeinventarios? objmovimiento = _context.Movimientodeinventarios.FirstOrDefault(a => a.id == obj_.id);
 
@@ -269,51 +258,29 @@ namespace Inventarios.Utils
                     {
                         objsaldos = _context.Saldos.FirstOrDefault(a => a.producto == obj_.producto && a.bodega == obj_.despacha);
 
-
-
-                        if (objtipodedocumento.esuninventarioinicial == "S")
-                        {
-                            objsaldos.saldoinicial = objsaldos.saldoinicial - obj_.cantidad;
-                            objsaldos.entradas = 0;
-                            objsaldos.salidas = 0;
-                            objsaldos.saldo = objsaldos.saldoinicial;
-                           
-                        }
-
-
-                        if (objtipodedocumento.esuninventarioinicial != "S")
-                        {
-                            objsaldos.salidas = objsaldos.salidas + obj_.cantidad;
-                            objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
-                        }
+                        objsaldos.salidas = objsaldos.salidas + obj_.cantidad;
+                        objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
 
                         if (objtipodedocumento.esunaventa == "S")
                         {
                             objsaldos.fechadelaultimasalida = obj_.fechadecreacion;
                         }
 
-
                         _context.Saldos.Update(objsaldos);
                         _context.SaveChanges();
 
-
-
                         if ((objtipodedocumento.esunaventa != "S") && (objtipodedocumento.esunacompra != "S"))
                         {
-                            // valoriza el registro de salida 
+                            // valoriza el registro de salida
                             objmovimiento.valorunitario = objsaldos.costopromedio;
                             objmovimiento.subtotal = objmovimiento.cantidad * objmovimiento.valorunitario;
                             objmovimiento.valorneto = objmovimiento.subtotal;
-
                         }
                         objmovimiento.costopromedioporunidad = objsaldos.costopromedio;
+                        objmovimiento.costoultimoporunidad = objproducto.costoultimo;
                     }
-
                 }
                 //----------------------------------------------------------------------------------------------//
-
-
-
 
                 //-------------------------------------------------------------------------------------------------
                 // procesa recibe sumar inventario
@@ -329,48 +296,45 @@ namespace Inventarios.Utils
                         objsaldos.producto = obj_.producto;
                         objsaldos.bodega = obj_.recibe;
 
-
+                        if (objtipodedocumento.esunacompra == "S")
+                        {
+                            objproducto.costoultimo = objmovimiento.valorunitario;
+                            _context.Productos.Update(objproducto);
+                            _context.SaveChanges();
+                        }
 
                         if (objtipodedocumento.esuninventarioinicial == "S")
                         {
-                            objsaldos.saldoinicial = objsaldos.saldoinicial+ obj_.cantidad;
-                            objsaldos.entradas = 0;
-                            objsaldos.salidas = 0;
-                            objsaldos.saldo = objsaldos.saldoinicial;
-                            objsaldos.costopromedio = objproducto.costoultimo;
                             objsaldos.fechadelaultimasalida = obj_.fechadecreacion;
+                            // valoriza el saldo inicial
+                            objsaldos.costopromedio = objproducto.costoultimo;
+                        }
 
-                            // valoriza el registro de entrada 
+                        if ( (objtipodedocumento.esuninventarioinicial == "S") || (objtipodedocumento.pidefisico=="S" ))
+                        {
+                            // valoriza el movimiento
                             objmovimiento.valorunitario = objsaldos.costopromedio;
                             objmovimiento.subtotal = objmovimiento.cantidad * objmovimiento.valorunitario;
                             objmovimiento.valorneto = objmovimiento.subtotal;
                             _context.Movimientodeinventarios.Update(objmovimiento);
                             _context.SaveChanges();
-
-
-
                         }
 
-                        if (objtipodedocumento.esuninventarioinicial != "S")
+                        if (objtipodedocumento.pidefisico != "S")
                         {
-                            if (objtipodedocumento.pidefisico != "S")
-                            {
-                                objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (obj_.cantidad * obj_.valorunitario)) / (objsaldos.saldo + obj_.cantidad);
-                                objsaldos.entradas = objsaldos.entradas + obj_.cantidad;
-                                objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
-
-                            }
-                            if (objtipodedocumento.pidefisico == "S")
-                            {
-                                objsaldos.saldofisico = objsaldos.saldofisico + obj_.cantidad;
-                            }
+                            objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (objmovimiento.cantidad * objmovimiento.valorunitario)) / (objsaldos.saldo + objmovimiento.cantidad);
+                            objsaldos.entradas = objsaldos.entradas + obj_.cantidad;
+                            objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
+                        }
+                        if (objtipodedocumento.pidefisico == "S")
+                        {
+                            objsaldos.saldofisico = objsaldos.saldofisico + obj_.cantidad;
                         }
 
                         if (objverificarproductobodega == null)
                         {
                             _context.Saldos.Add(objsaldos);
                             _context.SaveChanges();
-
                         }
 
                         if (objverificarproductobodega != null)
@@ -378,29 +342,18 @@ namespace Inventarios.Utils
                             _context.Saldos.Update(objsaldos);
                             _context.SaveChanges();
                         }
-
-
-
-
                     }
                 }
-
 
                 // actualiza campos del registro de movimiento
                 if (objtipodedocumento.sumainventario == "S") objmovimiento.sumaorestaeninventario = "+";
                 if (objtipodedocumento.restarcartera == "S") objmovimiento.sumaorestaeninventario = "-";
                 if (objtipodedocumento.sumarcartera == "S") objmovimiento.sumaorestaencartera = "+";
                 if (objtipodedocumento.restarcartera == "S") objmovimiento.sumaorestaencartera = "-";
-                objmovimiento.costoultimoporunidad = objproducto.costoultimo;
-                if (objmovimiento.costopromedioporunidad == 0) objmovimiento.costopromedioporunidad = objproducto.costoultimo;                
-
+             
                 _context.Movimientodeinventarios.Update(objmovimiento);
                 _context.SaveChanges();
-
-
             }
-
-           
         }
 
         public void TotalizarDocumentoTemporal(int tipodedocumento, int idusuario)
@@ -424,9 +377,8 @@ namespace Inventarios.Utils
             // compra que falta por recibir.
             if (objtipodedocumento.saldarcantidadesdeldocumentollamado != "S")
             {
-                return ;
+                return;
             }
-
 
             string llave1 = "xxxxxx";
             decimal totalcantidadporempaque = 0;
@@ -491,7 +443,6 @@ namespace Inventarios.Utils
                 }
             }
 
-
             foreach (var item in list)
             {
                 var obj = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == item.id);
@@ -503,20 +454,13 @@ namespace Inventarios.Utils
             {
                 _context.Movimientodeinventariostmp.Add(obj);
                 _context.SaveChanges();
-
             }
-
-
-
-
         }
 
-        public void CargarMovimientoTemporalAlDefinitivo(  int tipodedocumento, int idusuario)
+        public void CargarMovimientoTemporalAlDefinitivo(int tipodedocumento, int idusuario)
         {
-
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
-
 
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).ToList();
 
@@ -551,7 +495,6 @@ namespace Inventarios.Utils
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             objusuario.consecutivo = objusuario.consecutivo + 1;
             _context.SaveChanges();
-
         }
 
         public string TraerConsecutivoDelUsuario(int idusuario)
@@ -764,10 +707,7 @@ namespace Inventarios.Utils
                 mensaje = "Registro temporales borrados exitosamente";
             }
 
-         
             return new List<string> { mensaje };
-
-
         }
     }
 }

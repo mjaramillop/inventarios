@@ -64,6 +64,14 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
+
+
+        public List<string> AddDocumentFromFileCSV( int idusuario)
+        {
+            List<string> list = _access.AddDocumentFromFileCSV(idusuario);
+            return list;
+        }
+
         public List<string> AddDocument(CargueDeMovimiento obj)
         {
             List<string> list = _access.AddDocument(obj);
