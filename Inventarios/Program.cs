@@ -14,6 +14,13 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// permite transmitir archivos mayores de 512 megas
+builder.WebHost.ConfigureKestrel(options => {
+
+    options.Limits.MaxRequestBodySize = 256 * 1024 * 1024;
+});
+
 // Add services to the container.
 // Scaffold-DbContext "Server=DESKTOP-56QVMV6\SQLEXPRESS;Database=inventarios;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 builder.Services.AddSwaggerGen(c =>

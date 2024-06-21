@@ -161,7 +161,7 @@ namespace Inventarios.DataAccess.Seguridad
                 }
             }
 
-            return listmenudto;
+            return listmenudto.OrderBy(a=>a.nombre).OrderBy(a =>a.orden).ToList();
         }
 
         public void Log(Usuarios obj, string operacion)

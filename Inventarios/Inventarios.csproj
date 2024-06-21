@@ -49,6 +49,8 @@
     <Folder Include="DTO\ServicioAlCliente\" />
     <Folder Include="ModelsParameter\ServicioAlCliente\" />
     <Folder Include="Models\ServicioAlCliente\" />
+    <Folder Include="UploadInventarioFisico\" />
+    <Folder Include="UploadInventarioInicial\" />
     <Folder Include="services\ServicioAlCliente\" />
   </ItemGroup>
 

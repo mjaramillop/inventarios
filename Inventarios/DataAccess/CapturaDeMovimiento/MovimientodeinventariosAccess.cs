@@ -117,6 +117,18 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             List<Movimientodeinventarios> list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento && a.despacha == obj.despacha && a.recibe == obj.recibe).ToList();
             DateTime fechadeldocumentograbado = list[0].fechadecreacion;
             int estadodelregistro = list[0].estadodelregistro;
+            int idusuario = list[0].idusuario;
+
+
+            if (idusuario != obj.idusuario)
+            {
+                mensajedeerror = mensajedeerror + "Error No puedes anular un documento que es de otro usuario ";
+                return new List<string> { mensajedeerror };
+
+
+            }
+
+
 
             if (estadodelregistro==  Convert.ToInt16( _utilididades.traerparametrowebconfig("codigoestadoinactivo")) ) 
             {

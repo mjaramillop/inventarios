@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Inventarios.ModelsParameter.CapturaDeMovimiento;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Image
 {
@@ -10,19 +11,10 @@ namespace Inventarios.Controllers.Image
         {
         }
 
-        [HttpGet]
-        public IActionResult GetFondo()
-        {
-            string route = Path.Combine(Directory.GetCurrentDirectory(), "images");
-
-            route = route + "\\fondo.jpg";
-
-            var image = System.IO.File.OpenRead(route);
-            return File(image, "image/jpeg");
-        }
+       
 
         [HttpGet("{id}")]
-        public IActionResult GetImageUser(int id)
+        public IActionResult GetImageUser(int id )
         {
             string route = Path.Combine(Directory.GetCurrentDirectory(), "ImagesUsers");
 
@@ -54,7 +46,7 @@ namespace Inventarios.Controllers.Image
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadProducts(IFormFile file)
+        public async Task<IActionResult> UploadProducts(IFormFile file, int idusuario=0)
         {
             var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
             if (!Directory.Exists(uploads))
@@ -73,7 +65,7 @@ namespace Inventarios.Controllers.Image
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadUsers(IFormFile file)
+        public async Task<IActionResult> UploadUsers(IFormFile file, int idusuario=0)
         {
             var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesUsers");
             if (!Directory.Exists(uploads))
@@ -91,12 +83,55 @@ namespace Inventarios.Controllers.Image
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Download(int id)
+    
+
+
+
+        // upload files csv
+
+        [HttpPost]
+        public async Task<IActionResult> UploadInventarioInicial(IFormFile file , int idusuario=0)
         {
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
-            var filepath = Path.Combine(uploads, id.ToString() + ".jpg");
-            return File(System.IO.File.ReadAllBytes(filepath), "image/jpg", Path.GetFileName(filepath));
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "UploadInventarioInicial");
+            if (!Directory.Exists(uploads))
+            {
+                Directory.CreateDirectory(uploads);
+            }
+            if (file.Length > 0)
+            {
+                var filePath = Path.Combine(uploads,  file.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+
+                }
+            }
+            return Ok();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadInventarioFisico(IFormFile file , int idusuario=0)
+        {
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "UploadInventarioFisico");
+            if (!Directory.Exists(uploads))
+            {
+                Directory.CreateDirectory(uploads);
+            }
+            if (file.Length > 0)
+            {
+                var filePath = Path.Combine(uploads, file.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            return Ok();
+        }
+
+
+
+
+
+
     }
 }
