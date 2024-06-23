@@ -212,48 +212,16 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-        public List<string> AddDocumentFromFileCSV(int idusuario)
+        public List<string> AddDocumentFromFileCSV( string nombredelarchivo,  string  directorio, int idusuario , int tipodedocumento)
         {
             string mensajedeerror = "";
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "UploadInventarioInicial");
-            var filePath = Path.Combine(uploads, "inventarioinicial_" + idusuario.ToString() + ".csv");
-
-            int tipodedocumento = 0;
-            try
-            {
-                var reader = new StreamReader(filePath);
-                using (var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture))
-                {
-                    var records = csv.GetRecords<MovimientoFromFileCSV>();
-                    foreach (var record in records)
-                    {
-                        tipodedocumento = record.tipodedocumento;
-                        records = null;
-
-                        break;
-                    }
-                    records = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                mensajedeerror = "Error. debe tener encabezado el archivo " + ex.Message.ToString();
-                return new List<string> { mensajedeerror };
-            }
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), directorio);
+            var filePath = Path.Combine(uploads, nombredelarchivo);
+          
 
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
-            if (objtipodedocumento == null)
-            {
-                mensajedeerror = "Error. El tipo de documento no existe  ";
-                return new List<string> { mensajedeerror };
-            }
-
-            if ((objtipodedocumento.pidefisico != "S") && (objtipodedocumento.esuninventarioinicial != "S"))
-            {
-                mensajedeerror = "Error. El tipo de documento no es una transaccion de captura de inventario fisico o inicial";
-                return new List<string> { mensajedeerror };
-            }
+           
 
             CargueDeMovimiento obj = new CargueDeMovimiento();
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
@@ -282,9 +250,9 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                         {
                             Movimientodeinventariostmp movtmp = new Movimientodeinventariostmp();
 
-                            movtmp.tipodedocumento = record.tipodedocumento;
+                            movtmp.tipodedocumento = tipodedocumento;
                             movtmp.despacha = obj.despacha;
-                            movtmp.recibe = record.bodega;
+                            movtmp.recibe = obj.recibe;
                             movtmp.numerodeldocumento = obj.numerodeldocumento;
                             movtmp.producto = record.producto;
                             movtmp.cantidad = 1;

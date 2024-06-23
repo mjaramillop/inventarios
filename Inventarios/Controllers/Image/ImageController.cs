@@ -1,6 +1,7 @@
 ﻿using Inventarios.ModelsParameter.CapturaDeMovimiento;
 using Inventarios.services.CapturaDeMovimiento;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Inventarios.Controllers.Image
 {
@@ -15,26 +16,11 @@ namespace Inventarios.Controllers.Image
             _service = service;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetImageUser(int id)
+
+        [HttpGet("{id}/{directorio}")]
+        public IActionResult GetImage(int id, string directorio)
         {
-            string route = Path.Combine(Directory.GetCurrentDirectory(), "ImagesUsers");
-
-            string routefinal = route + "\\" + id.ToString() + ".jpg";
-
-            if (!System.IO.File.Exists(routefinal))
-            {
-                routefinal = route + "\\" + "0.jpg";
-            }
-
-            var image = System.IO.File.OpenRead(routefinal);
-            return File(image, "image/jpeg");
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetImageProduct(int id)
-        {
-            string route = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
+            string route = Path.Combine(Directory.GetCurrentDirectory(), directorio);
 
             string routefinal = route + "\\" + id.ToString() + ".jpg";
 
@@ -48,68 +34,49 @@ namespace Inventarios.Controllers.Image
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadProducts(IFormFile file, int idusuario = 0)
+        public async Task<List<string>> Upload(IFormFile file , string directorio , int idusuario=0 , int tipodedocumento=0 )
         {
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesProducts");
-            if (!Directory.Exists(uploads))
-            {
-                Directory.CreateDirectory(uploads);
-            }
-            if (file.Length > 0)
-            {
-                var filePath = Path.Combine(uploads, file.FileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-            }
-            return Ok();
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> UploadUsers(IFormFile file, int idusuario = 0)
-        {
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "ImagesUsers");
-            if (!Directory.Exists(uploads))
-            {
-                Directory.CreateDirectory(uploads);
-            }
-            if (file.Length > 0)
-            {
-                var filePath = Path.Combine(uploads, file.FileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-            }
-            return Ok();
-        }
 
-        // upload files csv
-
-        [HttpPost]
-        public async Task< List<String>> UploadInventarioInicial(IFormFile file, int idusuario = 0)
-        {
+            string nombredelarchivo = file.FileName;
+            string mensajedeerror = "";
             List<string> list = new List<string>();
 
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "UploadInventarioInicial");
-            if (!Directory.Exists(uploads))
+            try
             {
-                Directory.CreateDirectory(uploads);
-            }
-            if (file.Length > 0)
-            {
-                var filePath = Path.Combine(uploads, file.FileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), directorio);
+                if (!Directory.Exists(uploads))
                 {
-                    await file.CopyToAsync(fileStream);
-                    fileStream.Dispose();
-
-                    list = _service.AddDocumentFromFileCSV(idusuario);
+                    Directory.CreateDirectory(uploads);
                 }
+                if (file.Length > 0)
+                {
+                    var filePath = Path.Combine(uploads, file.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                        fileStream.Dispose();
+                    }
+                }
+
+                if (directorio== "UploadInventarioInicial")  list = _service.AddDocumentFromFileCSV(nombredelarchivo,directorio,idusuario,tipodedocumento);
+                if (directorio == "UploadInventarioFisico") list = _service.AddDocumentFromFileCSV(nombredelarchivo,directorio,idusuario,tipodedocumento);
+
+
+                mensajedeerror = "Archivo cargado existosamente";
             }
-            return list;
+            catch (Exception ee) 
+            {
+                mensajedeerror = "Error " + ee.Message.ToString();
+            
+            }
+
+
+            return  new List<string>(){ mensajedeerror };
         }
+
+
+
 
 
     }

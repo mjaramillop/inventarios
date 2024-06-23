@@ -15,11 +15,14 @@ public class Usuarios
         this.password = "";
         this.perfil = 0;
         this.tiposdedocumento = "";
-        this.bodega = 0;
+       
         this.estadodelregistro = 0;
         this.consecutivo = 0;
         this.idusuario = 0;
         this.nombreusuario = "";
+        this.tipodedocumentocargueinventariofisico = 0; 
+        this.tipodedocumentocargueinventarioinicial = 0;    
+
     }
 
     public int id { get; set; }
@@ -44,7 +47,6 @@ public class Usuarios
 
     public string tiposdedocumento { get; set; }
 
-    public int bodega { get; set; }
 
     public int estadodelregistro { get; set; }
 
@@ -53,4 +55,11 @@ public class Usuarios
     public int idusuario { get; set; }
 
     public string nombreusuario { get; set; }
+
+    public int tipodedocumentocargueinventarioinicial {get;set;}
+
+    public int tipodedocumentocargueinventariofisico { get; set; }
+
+
+
 }

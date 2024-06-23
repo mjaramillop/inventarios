@@ -77,10 +77,12 @@ namespace Inventarios.DataAccess.Seguridad
             obj_.password = obj.password;
             obj_.perfil = obj.perfil;
             obj_.tiposdedocumento = obj.tiposdedocumento;
-            obj_.bodega = obj.bodega;
             obj_.estadodelregistro = obj.estadodelregistro;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
+            obj_.tipodedocumentocargueinventarioinicial = obj.tipodedocumentocargueinventarioinicial;
+            obj_.tipodedocumentocargueinventariofisico = obj.tipodedocumentocargueinventariofisico;
+
             _context.SaveChanges();
             Log(obj, "Modifico usuario");
 

@@ -1056,7 +1056,11 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("AREA");
-            entity.Property(e => e.bodega).HasColumnName("BODEGA");
+            entity.Property(e => e.tipodedocumentocargueinventariofisico).HasColumnName("tipodedocumentocargueinventariofisico");
+            entity.Property(e => e.tipodedocumentocargueinventarioinicial).HasColumnName("tipodedocumentocargueinventarioinicial");
+
+
+
             entity.Property(e => e.cargo)
                 .HasMaxLength(100)
                 .IsUnicode(false)

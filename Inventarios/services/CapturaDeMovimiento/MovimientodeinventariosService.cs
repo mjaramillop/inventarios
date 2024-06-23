@@ -66,9 +66,9 @@ namespace Inventarios.services.CapturaDeMovimiento
 
 
 
-        public List<string> AddDocumentFromFileCSV( int idusuario)
+        public List<string> AddDocumentFromFileCSV( string nombredelarchivo ,string directorio , int idusuario , int tipodedocumento)
         {
-            List<string> list = _access.AddDocumentFromFileCSV(idusuario);
+            List<string> list = _access.AddDocumentFromFileCSV(nombredelarchivo , directorio ,idusuario , tipodedocumento);
             return list;
         }
 

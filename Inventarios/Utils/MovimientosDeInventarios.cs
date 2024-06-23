@@ -350,7 +350,10 @@ namespace Inventarios.Utils
                 if (objtipodedocumento.restarcartera == "S") objmovimiento.sumaorestaeninventario = "-";
                 if (objtipodedocumento.sumarcartera == "S") objmovimiento.sumaorestaencartera = "+";
                 if (objtipodedocumento.restarcartera == "S") objmovimiento.sumaorestaencartera = "-";
-             
+
+                objmovimiento.costopromedioporunidad = objsaldos.costopromedio;
+                objmovimiento.costoultimoporunidad = objproducto.costoultimo;
+
                 _context.Movimientodeinventarios.Update(objmovimiento);
                 _context.SaveChanges();
             }
@@ -424,7 +427,7 @@ namespace Inventarios.Utils
                         item.subtotal = totalsubtotal;
                         item.valorunitario = totalsubtotal / totalcantidad;
                         item.valordescuento1 = totaldescuento;
-                        item.porcentajedescuento1 = totaldescuento / totalsubtotal * 100;
+                        if (totalsubtotal>0)   item.porcentajedescuento1 = totaldescuento / totalsubtotal * 100;
                         item.valoriva1 = Convert.ToInt32((totalsubtotal - totaldescuento + totalfletes) * (item.porcentajedeiva1 / 100));
                         item.valorretencion1 = totalretencion;
                         item.fletes = totalfletes;
@@ -452,6 +455,7 @@ namespace Inventarios.Utils
 
             foreach (var obj in listatotales)
             {
+                obj.id = 0;
                 _context.Movimientodeinventariostmp.Add(obj);
                 _context.SaveChanges();
             }
