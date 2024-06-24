@@ -606,16 +606,16 @@ public partial class InventariosContext : DbContext
         {
             entity.ToTable("PROVEEDORES");
 
+            entity.HasIndex(e => e.nit, "PK_PROVEEDORES");
             entity.HasIndex(e => e.nombre, "IX_PROVEEDORES");
-
             entity.HasIndex(e => e.nit, "IX_NIT");
-
             entity.HasIndex(e => e.nivel1, "IX_PROVEEDORES_1");
             entity.HasIndex(e => e.nivel2, "IX_PROVEEDORES_2");
             entity.HasIndex(e => e.nivel3, "IX_PROVEEDORES_3");
             entity.HasIndex(e => e.nivel4, "IX_PROVEEDORES_4");
             entity.HasIndex(e => e.nivel5, "IX_PROVEEDORES_5");
-            entity.HasIndex(e => e.nit, "IX_PROVEEDORES_6");
+            entity.HasIndex(e => e.nivel5, "IX_PROVEEDORES_6");
+
 
             entity.Property(e => e.id).HasColumnName("id");
             entity.Property(e => e.actividadcomercial).HasColumnName("actividadcomercial");

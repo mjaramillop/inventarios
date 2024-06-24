@@ -168,11 +168,21 @@ namespace Inventarios.DataAccess.TablasMaestras
         }
 
 
-        public List<ProveedoresDTO>? List(string filtro)
+        public List<ProveedoresDTO>? List(string filtro, int tipodeagente = 0)
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
-            list = _context.Proveedores.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains(filtro.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+            if (tipodeagente > 0)
+            {
+                list = _context.Proveedores.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains(filtro.Trim(), StringComparison.OrdinalIgnoreCase) && a.tipodeagente == tipodeagente).ToList();
+
+            }
+            else
+            {
+                list = _context.Proveedores.ToList().OrderBy(a => a.nombre).Where(a => a.nombre.Contains(filtro.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+
+            }
+
             return _mapping.ListProveedoresToProveedoresDTO(list);
         }
 

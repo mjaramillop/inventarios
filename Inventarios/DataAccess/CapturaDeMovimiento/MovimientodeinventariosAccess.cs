@@ -222,6 +222,11 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
            
+            if (objtipodedocumento.pidefisico!="S"  && objtipodedocumento.esuninventarioinicial!="S" )
+            {
+                mensajedeerror = "la transaccion seleccionada no es de cargue de invetario fisico  o inicial";
+                return new List<string> { mensajedeerror };
+            }
 
             CargueDeMovimiento obj = new CargueDeMovimiento();
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);

@@ -71,13 +71,13 @@ namespace Inventarios.Controllers.TablasMaestras
         }
 
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro}/{tipodeagente}")]
         [ActionName("GetAll")]
-        public List<ProveedoresDTO>? GetAll(string filtro = "")
+        public List<ProveedoresDTO>? GetAll(string filtro = "", int tipodeagente=0)
         {
             if (filtro == "undefined") filtro = "";
 
-            list = _service.List(filtro);
+            list = _service.List(filtro , tipodeagente );
             return list;
         }
 
