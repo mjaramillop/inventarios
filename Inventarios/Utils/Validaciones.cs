@@ -1,6 +1,7 @@
 ﻿using Inventarios.Data;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
+using System;
 
 namespace Inventarios.Utils
 {
@@ -16,6 +17,24 @@ namespace Inventarios.Utils
         public Validaciones()
         {
         }
+
+
+        public bool ValidarToken(int idusuario,string token)
+        {
+
+            bool tokenvalido = true;
+
+            var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
+            string consecutivousuario = objusuario.token;
+
+
+            if (token != objusuario.token)
+            {
+                tokenvalido = false;
+            }
+            return tokenvalido;
+        }
+
 
         public string Validarvalor1menorquevalor2(string campo, decimal valor1, decimal valor2)
         {

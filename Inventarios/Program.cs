@@ -4,6 +4,7 @@ using Inventarios.DataAccess.CapturaDeMovimiento;
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DataAccess.TablasMaestras;
 using Inventarios.Map;
+using Inventarios.Models;
 using Inventarios.services.CapturaDeMovimiento;
 using Inventarios.services.Seguridad;
 using Inventarios.services.TablasMaestras;
@@ -61,6 +62,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddHttpContextAccessor();  
 
 //data access
 
@@ -140,6 +142,8 @@ builder.Services.AddScoped<TiposDeCuentaBancariaService>();
 builder.Services.AddScoped<TiposDePersonaService>();
 builder.Services.AddScoped<TiposDeRegimenService>();
 builder.Services.AddScoped<RetencionesService>();
+
+
 
 
 //mapping

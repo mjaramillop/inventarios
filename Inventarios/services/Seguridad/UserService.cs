@@ -40,7 +40,7 @@ namespace Inventarios.services.Seguridad
             return obj;
         }
 
-        public List<UsersDTO>? List(string filtro = "")
+        public List<UsersDTO>? List(string filtro )
         {
             list = _access.List(filtro);
             return list;

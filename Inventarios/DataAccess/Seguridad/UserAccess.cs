@@ -82,6 +82,7 @@ namespace Inventarios.DataAccess.Seguridad
             obj_.nombreusuario = obj.nombreusuario;
             obj_.tipodedocumentocargueinventarioinicial = obj.tipodedocumentocargueinventarioinicial;
             obj_.tipodedocumentocargueinventariofisico = obj.tipodedocumentocargueinventariofisico;
+            obj_.token=obj.token;   
 
             _context.SaveChanges();
             Log(obj, "Modifico usuario");
@@ -96,7 +97,7 @@ namespace Inventarios.DataAccess.Seguridad
             return list;
         }
 
-        public List<UsersDTO>? List(string filtro = "")
+        public List<UsersDTO>? List(string filtro)
         {
             string caracterdebusqueda = _utilidades.traerparametrowebconfig("caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
@@ -158,6 +159,7 @@ namespace Inventarios.DataAccess.Seguridad
                     responseobject.username = objusuarios.nombre;
                     responseobject.login = objusuarios.login;
                     responseobject.password = objusuarios.password;
+                    responseobject.token=objusuarios.token; 
 
                     listmenudto.Add(responseobject);
                 }

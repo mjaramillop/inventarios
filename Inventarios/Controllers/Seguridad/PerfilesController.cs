@@ -1,8 +1,9 @@
 ﻿using Inventarios.DTO.Seguridad;
+using Inventarios.Models;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.Seguridad;
-
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Seguridad
@@ -14,56 +15,72 @@ namespace Inventarios.Controllers.Seguridad
         private readonly PerfilesService _service;
 
         private List<PerfilesDTO>? list;
+        private Validaciones _validaciones;
+      
 
-        public PerfilesController(PerfilesService service)
-        {
-            _service = service;
+        public PerfilesController(PerfilesService service , Validaciones validaciones   )
+        {   
+          
+            _service = service; 
+            _validaciones = validaciones;   
         }
 
         [HttpPost]
         [ActionName("Add")]
-        public Mensaje Add(Perfiles obj)
+        public Mensaje Add(Perfiles obj, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             Mensaje list = _service.Add(obj);
             return list;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/{idusuario}/{token}")]
         [ActionName("Delete")]
-        public Mensaje Delete(int id)
+        public Mensaje Delete(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public Mensaje Update(Perfiles obj)
+        public Mensaje Update(Perfiles obj, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             Mensaje list = _service.Update(obj);
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetById")]
-        public List<Perfiles>? GetById(int id)
+        public List<Perfiles>? GetById(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             List<Perfiles> list = _service.GetById(id);
             return list;
         }
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro}/{idusuario}/{token}")]
         [ActionName("GetAll")]
-        public List<PerfilesDTO>? GetAll(string filtro = "")
+        public List<PerfilesDTO>? GetAll(string filtro, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             list = _service.List(filtro);
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetListProgramasPermisos")]
-        public List<ProgramasPermisosDTO>? GetListProgramasPermisos(int id)
+        public List<ProgramasPermisosDTO>? GetListProgramasPermisos(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             List<ProgramasPermisosDTO>? list = _service.ListProgramasPermisos(id);
             return list;
         }

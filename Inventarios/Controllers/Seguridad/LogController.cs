@@ -2,7 +2,7 @@
 using Inventarios.Models.TablasMaestras;
 using Inventarios.ModelsParameter.Seguridad;
 using Inventarios.services.Seguridad;
-
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.Seguridad
@@ -12,12 +12,14 @@ namespace Inventarios.Controllers.Seguridad
     public class LogController : ControllerBase
     {
         private readonly LogService _service;
+        private Validaciones _validaciones;
 
         private List<LogDTO>? list;
 
-        public LogController(LogService service)
+        public LogController(LogService service, Validaciones validaciones )
         {
             _service = service;
+            _validaciones = validaciones;
         }
 
         /// <summary>
@@ -26,8 +28,10 @@ namespace Inventarios.Controllers.Seguridad
 
         [HttpPut]
         [ActionName("filtrar")]
-        public List<LogDTO>? filtrar(LogConsultar obj)
+        public List<LogDTO> filtrar(LogConsultar obj, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             list = _service.List(obj);
             return list;
         }
@@ -36,12 +40,15 @@ namespace Inventarios.Controllers.Seguridad
         /// formato de fecha a-m-d
         /// </summary>
         /// <param name="fecha"></param>
+        /// 
         /// <returns></returns>
 
-        [HttpDelete("{fecha}")]
+        [HttpDelete("{fecha}/{idusuario}/{token}")]
         [ActionName("DeleteLog")]
-        public Mensaje DeleteLog(string fecha)
+        public Mensaje DeleteLog(string fecha, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+
             Mensaje list = _service.DeleteLog(fecha);
             return list;
         }

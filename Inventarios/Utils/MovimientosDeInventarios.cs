@@ -322,7 +322,11 @@ namespace Inventarios.Utils
 
                         if (objtipodedocumento.pidefisico != "S")
                         {
-                            objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (objmovimiento.cantidad * objmovimiento.valorunitario)) / (objsaldos.saldo + objmovimiento.cantidad);
+
+                            if ((objsaldos.saldo + objmovimiento.cantidad) != 0)
+                            {
+                                objsaldos.costopromedio = ((objsaldos.saldo * objsaldos.costopromedio) + (objmovimiento.cantidad * objmovimiento.valorunitario)) / (objsaldos.saldo + objmovimiento.cantidad);
+                            }
                             objsaldos.entradas = objsaldos.entradas + obj_.cantidad;
                             objsaldos.saldo = objsaldos.saldoinicial + objsaldos.entradas - objsaldos.salidas;
                         }

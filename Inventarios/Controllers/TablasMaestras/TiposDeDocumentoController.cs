@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -13,23 +13,26 @@ namespace Inventarios.Controllers.TablasMaestras
         private readonly TiposDeDocumentoService _service;
 
         private List<TiposDeDocumentoDTO>? list;
+        private Validaciones _validaciones;
 
-        public TiposDeDocumentoController(TiposDeDocumentoService service)
+
+        public TiposDeDocumentoController(TiposDeDocumentoService service, Validaciones validaciones )
         {
             _service = service;
+            _validaciones = validaciones;
         }
 
         [HttpPost]
         [ActionName("Add")]
-        public Mensaje Add(TiposDeDocumento obj)
+        public Mensaje Add(TiposDeDocumento obj, int idusuario, string token)
         {
             Mensaje list = _service.Add(obj);
             return list;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/{idusuario}/{token}")]
         [ActionName("Delete")]
-        public Mensaje Delete(int id)
+        public Mensaje Delete(int id, int idusuario, string token)
         {
             Mensaje list = _service.Delete(id);
             return list;
@@ -37,57 +40,57 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpPut]
         [ActionName("Update")]
-        public Mensaje Update(TiposDeDocumento? obj)
+        public Mensaje Update(TiposDeDocumento? obj, int idusuario, string token    )
         {
             Mensaje list = _service.Update(obj);
             return list;
         }
 
-        [HttpGet("{id}/{idusuario}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetById")]
-        public List<TiposDeDocumento>? GetById(int id, int idusuario = 0)
+        public List<TiposDeDocumento>? GetById(int id, int idusuario , string token)
         {
             List<TiposDeDocumento> list = _service.GetById(id, idusuario);
             return list;
         }
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro}/{idusuario}/{token}")]
         [ActionName("GetAll")]
-        public List<TiposDeDocumentoDTO>? GetAll(string filtro = "")
+        public List<TiposDeDocumentoDTO>? GetAll(string filtro, int idusuario, string token )
         {
-            if (filtro == "undefined") filtro = "";
+         
 
             list = _service.List(filtro);
             return list;
         }
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro}/{idusuario}/{token}")]
         [ActionName("GetAllCodigoNombre")]
-        public List<TiposDeDocumentoDTO>? GetAllCodigoNombre(string filtro = "")
+        public List<TiposDeDocumentoDTO>? GetAllCodigoNombre(string filtro, int idusuario, string token)
         {
             list = _service.ListCodigoNombre(filtro);
             return list;
         }
 
-        [HttpGet("{idusuario}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetListDocumentosPermisos")]
-        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int idusuario)
+        public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id,int idusuario, string token)
         {
             List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(idusuario);
             return list;
         }
 
-        [HttpGet("{id}/{idusuario}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetDarAccesoTotal")]
-        public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id, int idusuario)
+        public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id, int idusuario, string token)
         {
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarAccesoTotal(id, idusuario);
             return list;
         }
 
-        [HttpGet("{id}/{idusuario}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetDarRestriccionTotal")]
-        public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id, int idusuario)
+        public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id, int idusuario, string token)
         {
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id, idusuario);
             return list;

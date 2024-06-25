@@ -1,4 +1,6 @@
-﻿namespace Inventarios.Models.Seguridad;
+﻿using NuGet.Protocol;
+
+namespace Inventarios.Models.Seguridad;
 
 public class Usuarios
 {
@@ -21,7 +23,8 @@ public class Usuarios
         this.idusuario = 0;
         this.nombreusuario = "";
         this.tipodedocumentocargueinventariofisico = 0; 
-        this.tipodedocumentocargueinventarioinicial = 0;    
+        this.tipodedocumentocargueinventarioinicial = 0;
+        this.token = "";
 
     }
 
@@ -59,6 +62,8 @@ public class Usuarios
     public int tipodedocumentocargueinventarioinicial {get;set;}
 
     public int tipodedocumentocargueinventariofisico { get; set; }
+
+    public string token {  get; set; }  
 
 
 
