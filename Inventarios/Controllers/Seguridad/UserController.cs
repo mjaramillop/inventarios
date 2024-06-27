@@ -33,7 +33,7 @@ namespace Inventarios.Controllers.Seguridad
         public Mensaje Add(Usuarios? obj, int idusuario, string token )
         {
 
-            if (_validaciones.ValidarToken(idusuario, token)==false) return new Mensaje();
+            if (_validaciones.ValidarToken(idusuario, token)==false) return null;
 
 
             Mensaje list = _service.Add(obj);

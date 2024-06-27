@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,17 +11,19 @@ namespace Inventarios.Controllers.TablasMaestras
     public class TiposDeRegimenController : ControllerBase
     {
         private readonly TiposDeRegimenService _service;
+        private Validaciones _validaciones;
 
         private List<TiposDeRegimenDTO>? list;
 
-        public TiposDeRegimenController(TiposDeRegimenService service)
+        public TiposDeRegimenController(TiposDeRegimenService service, Validaciones validaciones)
         {
             _service = service;
+            _validaciones = validaciones;
         }
 
         [HttpPost]
         [ActionName("Add")]
-        public Mensaje Add(TiposDeRegimen obj)
+        public Mensaje Add(TiposDeRegimen obj, int idusuario, string token)
         {
             Mensaje list = _service.Add(obj);
             return list;
@@ -29,7 +31,7 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        public Mensaje Delete(int id)
+        public Mensaje Delete(int id, int idusuario, string token)
         {
             Mensaje list = _service.Delete(id);
             return list;
@@ -37,7 +39,7 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpPut]
         [ActionName("Update")]
-        public Mensaje Update(TiposDeRegimen obj)
+        public Mensaje Update(TiposDeRegimen obj, int idusuario, string token)
         {
             Mensaje list = _service.Update(obj);
             return list;
@@ -45,7 +47,7 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpGet("{id}")]
         [ActionName("GetById")]
-        public List<TiposDeRegimen>? GetById(int id)
+        public List<TiposDeRegimen>? GetById(int id, int idusuario, string token    )
         {
             List<TiposDeRegimen> list = _service.GetById(id);
             return list;
@@ -53,10 +55,9 @@ namespace Inventarios.Controllers.TablasMaestras
 
         [HttpGet("{filtro}")]
         [ActionName("GetAll")]
-        public List<TiposDeRegimenDTO>? GetAll(string filtro = "")
+        public List<TiposDeRegimenDTO>? GetAll(string filtro, int idusuario, string token)
         {
-            if (filtro == "undefined") filtro = "";
-
+         
             list = _service.List(filtro);
             return list;
         }

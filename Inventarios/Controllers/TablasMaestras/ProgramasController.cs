@@ -1,7 +1,7 @@
 ﻿using Inventarios.DTO.TablasMaestras;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.services.TablasMaestras;
-
+using Inventarios.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventarios.Controllers.TablasMaestras
@@ -11,52 +11,58 @@ namespace Inventarios.Controllers.TablasMaestras
     public class ProgramasController : ControllerBase
     {
         private readonly ProgramasService _service;
+        private Validaciones _validaciones;
 
         private List<ProgramasDTO>? list;
 
-        public ProgramasController(ProgramasService service)
+        public ProgramasController(ProgramasService service, Validaciones validaciones)
         {
             _service = service;
+            _validaciones = validaciones;   
         }
 
         [HttpPost]
         [ActionName("Add")]
-        public Mensaje Add(Programas obj)
+        public Mensaje Add(Programas obj, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             Mensaje list = _service.Add(obj);
             return list;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/{idusuario}/{token}")]
         [ActionName("Delete")]
-        public Mensaje Delete(int id)
+        public Mensaje Delete(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             Mensaje list = _service.Delete(id);
             return list;
         }
 
         [HttpPut]
         [ActionName("Update")]
-        public Mensaje Update(Programas obj)
+        public Mensaje Update(Programas obj, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             Mensaje list = _service.Update(obj);
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetById")]
-        public List<Programas>? GetById(int id)
+        public List<Programas>? GetById(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<Programas> list = _service.GetById(id);
             return list;
         }
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro}/{idusuario}/{token}")]
         [ActionName("GetAll")]
-        public List<ProgramasDTO>? GetAll(string filtro = "")
+        public List<ProgramasDTO>? GetAll(string filtro, int idusuario, string token)
         {
-            if (filtro == "undefined") filtro = "";
 
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             list = _service.List(filtro);
             return list;
         }

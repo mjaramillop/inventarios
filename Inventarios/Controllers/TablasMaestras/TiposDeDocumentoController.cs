@@ -26,6 +26,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Add")]
         public Mensaje Add(TiposDeDocumento obj, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             Mensaje list = _service.Add(obj);
             return list;
         }
@@ -34,6 +35,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Delete")]
         public Mensaje Delete(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             Mensaje list = _service.Delete(id);
             return list;
         }
@@ -42,6 +44,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("Update")]
         public Mensaje Update(TiposDeDocumento? obj, int idusuario, string token    )
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             Mensaje list = _service.Update(obj);
             return list;
         }
@@ -50,6 +53,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetById")]
         public List<TiposDeDocumento>? GetById(int id, int idusuario , string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<TiposDeDocumento> list = _service.GetById(id, idusuario);
             return list;
         }
@@ -58,8 +62,8 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetAll")]
         public List<TiposDeDocumentoDTO>? GetAll(string filtro, int idusuario, string token )
         {
-         
 
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             list = _service.List(filtro);
             return list;
         }
@@ -68,6 +72,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetAllCodigoNombre")]
         public List<TiposDeDocumentoDTO>? GetAllCodigoNombre(string filtro, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             list = _service.ListCodigoNombre(filtro);
             return list;
         }
@@ -76,6 +81,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetListDocumentosPermisos")]
         public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id,int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(idusuario);
             return list;
         }
@@ -84,6 +90,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetDarAccesoTotal")]
         public List<TiposDeDocumentoPermisosDTO>? GetDarAccesoTotal(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarAccesoTotal(id, idusuario);
             return list;
         }
@@ -92,6 +99,7 @@ namespace Inventarios.Controllers.TablasMaestras
         [ActionName("GetDarRestriccionTotal")]
         public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id, int idusuario, string token)
         {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id, idusuario);
             return list;
         }
