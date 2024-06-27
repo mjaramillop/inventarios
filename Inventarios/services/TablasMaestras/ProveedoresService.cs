@@ -57,7 +57,7 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-        public List<ProveedoresDTO>? List(string filtro , int tipodeagente=0)
+        public List<ProveedoresDTO>? List(string filtro , int tipodeagente)
         {
             var list = _access.List(filtro,tipodeagente);
             return list;

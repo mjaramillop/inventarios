@@ -85,6 +85,8 @@ namespace Inventarios.DataAccess.TablasMaestras
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");
+            bodega = bodega.Replace(caracterdebusqueda, "");
+
 
             List<Saldos>? list = new List<Saldos>();
 

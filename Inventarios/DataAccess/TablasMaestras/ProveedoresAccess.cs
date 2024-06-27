@@ -168,7 +168,7 @@ namespace Inventarios.DataAccess.TablasMaestras
         }
 
 
-        public List<ProveedoresDTO>? List(string filtro, int tipodeagente = 0)
+        public List<ProveedoresDTO>? List(string filtro, int tipodeagente)
         {
             string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
             filtro = filtro.Replace(caracterdebusqueda, "");

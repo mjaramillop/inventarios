@@ -30,7 +30,7 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/{idusuario}/{token}")]
         [ActionName("Delete")]
         public Mensaje Delete(string id, int idusuario, string token)
         {
@@ -48,7 +48,7 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/{idusuario}/{token}")]
         [ActionName("GetById")]
         public List<TiposDePersona>? GetById(string id, int idusuario, string token)
         {
@@ -57,7 +57,7 @@ namespace Inventarios.Controllers.TablasMaestras
             return list;
         }
 
-        [HttpGet("{filtro}")]
+        [HttpGet("{filtro}/{idusuario}/{token}")]
         [ActionName("GetAll")]
         public List<TiposDePersonaDTO>? GetAll(string filtro, int idusuario, string token   )
         {
