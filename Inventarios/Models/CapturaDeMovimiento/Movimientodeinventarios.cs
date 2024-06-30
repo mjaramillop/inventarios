@@ -225,7 +225,7 @@ public class Movimientodeinventarios
     [JsonIgnore]
     public string sumaorestaencartera { get; set; }
 
-    [JsonIgnore]
+   
     public int estadodelregistro { get; set; }
 
     [JsonIgnore]

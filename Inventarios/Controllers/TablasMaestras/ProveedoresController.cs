@@ -79,9 +79,9 @@ namespace Inventarios.Controllers.TablasMaestras
         }
 
 
-        [HttpGet("{filtro}/{idusuario}/{token}/{tipodeagente}")]
+        [HttpGet("{filtro}/{tipodeagente}/{idusuario}/{token}")]
         [ActionName("GetAll")]
-        public List<ProveedoresDTO>? GetAll(string filtro , int idusuario, string token , int tipodeagente)
+        public List<ProveedoresDTO>? GetAll(string filtro ,int tipodeagente, int idusuario, string token )
         {
 
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
