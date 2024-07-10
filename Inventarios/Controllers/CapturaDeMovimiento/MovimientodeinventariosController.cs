@@ -67,6 +67,17 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
+        [HttpGet("{tipodedocumento}/{numerodedocumento}/{despacha}/{recibe}/{idusuario}/{token}")]
+        [ActionName("GetByNumeroDeDocumentoYPasarloAlTemporal")]
+        public List<Movimientodeinventariostmp>? GetByNumeroDeDocumentoYPasarloAlTemporal(int tipodedocumento, int numerodedocumento, int despacha, int recibe, int idusuario, string token)
+        {
+            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
+          List<Movimientodeinventariostmp>   list = _service.GetByNumeroDeDocumentoYPasarloAlTemporal(tipodedocumento, numerodedocumento, despacha, recibe);
+            return list;
+        }
+
+        // trae todo el documento temporal que esta generando el usuario
+        // cada vez que graba un registro nuevo
         [HttpGet("{tipodedocumento}/{idusuario}/{token}")]
         [ActionName("GetAll")]
         public List<Movimientodeinventariostmp>? GetAll(int tipodedocumento, int idusuario, string token)
@@ -76,6 +87,8 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
+
+        // anula un documento en el movimiento definitivo
         [HttpPut]
         [ActionName("AnularDocumento")]
         public List<string> AnularDocumento(CargueDeMovimiento obj, int idusuario, string token)
@@ -86,6 +99,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
+        // borra documento en el temporal 
         [HttpGet("{tipodedocumento}/{idusuario}/{token}")]
         [ActionName("DeleteDocument")]
         public List<string> DeleteDocument(int tipodedocumento, int idusuario, string token)
@@ -104,14 +118,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
             return list;
         }
 
-        [HttpGet("{tipodedocumento}/{idusuario}/{token}")]
-        [ActionName("TraerTipoDeDocumentoTemporal")]
-        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento, int idusuario, string token)
-        {
-            if (_validaciones.ValidarToken(idusuario, token) == false) return null;
-            list = _service.TraerDocumentoTemporal(tipodedocumento, idusuario);
-            return list;
-        }
+
 
         [HttpGet("{tipodedocumento}/{porcentajededescuento}/{idusuario}/{token}")]
         [ActionName("AplicarDescuentoPieDeFactura")]

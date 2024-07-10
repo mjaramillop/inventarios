@@ -51,6 +51,14 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
+        public List<Movimientodeinventariostmp>? GetByNumeroDeDocumentoYPasarloAlTemporal(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        {
+           List<Movimientodeinventariostmp> list = _access.GetByNumeroDeDocumentoYPasarloAlTemporal(tipodedocumento, numerodedocumento, despacha, recibe);
+
+            return list;
+        }
+
+
         public List<string> AnularDocumento(CargueDeMovimiento obj)
         {
             List<string> list = _access.AnularDocumento(obj );
@@ -75,12 +83,6 @@ namespace Inventarios.services.CapturaDeMovimiento
         public List<string> AddDocument(CargueDeMovimiento obj)
         {
             List<string> list = _access.AddDocument(obj);
-            return list;
-        }
-
-        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento, int idusuario)
-        {
-            list = _access.TraerDocumentoTemporal(tipodedocumento, idusuario);
             return list;
         }
 

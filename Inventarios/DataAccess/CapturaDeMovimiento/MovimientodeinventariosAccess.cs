@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.Elfie.Serialization;
 using System.Globalization;
 using CsvHelper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Inventarios.DataAccess.CapturaDeMovimiento
 {
@@ -48,6 +49,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             obj.fechadeldocumento = _utilidades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento, obj.mesdeldocumento, obj.anodeldocumento);
             try
             {
+                obj.estadodelregistro = 1;
                 _context.Movimientodeinventariostmp.Add(obj);
                 _context.SaveChanges();
             }
@@ -203,6 +205,32 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return list;
         }
 
+        public List<Movimientodeinventariostmp> GetByNumeroDeDocumentoYPasarloAlTemporal(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        {
+
+            List<Movimientodeinventariostmp> result = new List<Movimientodeinventariostmp>();
+            list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
+
+            if (list.Count == 0) return result;
+
+            _context.Movimientodeinventariostmp.Where(x => x.tipodedocumento == list[0].tipodedocumento && x.idusuario == list[0].idusuario).ExecuteDelete();
+
+       
+            foreach (var obj in list)
+            {
+                Movimientodeinventariostmp obj_ = new Movimientodeinventariostmp();
+                obj_ = _mapping.MovimientoToMovimientoTMP(obj);
+                obj_.id = 0;
+                _context.Movimientodeinventariostmp.Add(obj_);
+                _context.SaveChanges();
+               
+            }
+
+            result  = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == list[0].tipodedocumento && a.idusuario == list[0].idusuario).OrderBy(a => a.id).ToList();
+
+            return result;
+        }
+
         public List<string> DeleteDocument(int tipodedocumento, int idusuario)
         {
             string mensajedeerror = "";
@@ -212,17 +240,16 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-        public List<string> AddDocumentFromFileCSV( string nombredelarchivo,  string  directorio, int idusuario , int tipodedocumento)
+        public List<string> AddDocumentFromFileCSV(string nombredelarchivo, string directorio, int idusuario, int tipodedocumento)
         {
             string mensajedeerror = "";
             var uploads = Path.Combine(Directory.GetCurrentDirectory(), directorio);
             var filePath = Path.Combine(uploads, nombredelarchivo);
-          
 
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
-           
-            if (objtipodedocumento.pidefisico!="S"  && objtipodedocumento.esuninventarioinicial!="S" )
+
+            if (objtipodedocumento.pidefisico != "S" && objtipodedocumento.esuninventarioinicial != "S")
             {
                 mensajedeerror = "la transaccion seleccionada no es de cargue de invetario fisico  o inicial";
                 return new List<string> { mensajedeerror };
@@ -237,9 +264,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             obj.idusuario = idusuario;
             obj.consecutivousuario = consecutivousuario;
             obj.numerodeldocumento = 0;
-
-
-
 
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
@@ -347,12 +371,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Movimiento cargado correctamente";
             return new List<string> { mensajedeerror };
-        }
-
-        public List<Movimientodeinventarios> TraerDocumentoTemporal(int tipodedocumento, int idusuario)
-        {
-            list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario)).ToList();
-            return list;
         }
 
         public void AplicarDescuentoPieDeFactura(int tipodedocumento, decimal porcentajededescuento, int idusuario)

@@ -226,7 +226,6 @@ namespace Inventarios.Models.CapturaDeMovimiento
         [JsonIgnore]
         public string sumaorestaencartera { get; set; }
 
-        [JsonIgnore]
         public int estadodelregistro { get; set; }
 
         [JsonIgnore]
