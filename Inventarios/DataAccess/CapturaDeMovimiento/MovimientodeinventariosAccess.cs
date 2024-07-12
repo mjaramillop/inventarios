@@ -49,7 +49,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             obj.fechadeldocumento = _utilidades.DevolverFechaParaGrabarAlServidorDeLaBaseDeDatos(obj.diadeldocumento, obj.mesdeldocumento, obj.anodeldocumento);
             try
             {
-                obj.estadodelregistro = 1;
+                obj.estadodelregistro = Convert.ToInt16(_utilidades.traerparametrowebconfig("codigoestadoactivo"));
                 _context.Movimientodeinventariostmp.Add(obj);
                 _context.SaveChanges();
             }
@@ -60,7 +60,8 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             }
 
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro añadido correctamente";
-            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(obj.tipodedocumento, obj.consecutivousuario);
+
+            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(obj);
 
             return new List<string> { mensajedeerror };
         }
@@ -86,7 +87,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         public List<string> Update(Movimientodeinventariostmp? obj)
         {
-            obj.id = obj.numerodeldocumento;
+           
             string mensajedeerror = "";
             try
             {
@@ -99,7 +100,8 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 mensajedeerror = "Error " + ex.Message.ToString();
                 return new List<string> { mensajedeerror };
             }
-            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(obj.tipodedocumento, _utilsmovimiento.TraerConsecutivoDelUsuario(obj.idusuario));
+
+            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(obj);
             if (mensajedeerror.Trim().Length == 0) mensajedeerror = "Registro modificado correctamente";
             return new List<string> { mensajedeerror };
         }
@@ -110,13 +112,13 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return list;
         }
 
-        public List<Movimientodeinventariostmp>? List(int tipodedocumento, int idusuario)
+        public List<Movimientodeinventariostmp>? TraerDocumentoTemporal(int tipodedocumento, int idusuario)
         {
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario)).OrderBy(a => a.id).ToList();
             return list;
         }
 
-        public List<string> AnularDocumento(CargueDeMovimiento obj)
+        public List<string> AnularDocumento(Movimientodeinventariostmp obj)
         {
             string mensajedeerror = "";
 
@@ -207,7 +209,6 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
         public List<Movimientodeinventariostmp> GetByNumeroDeDocumentoYPasarloAlTemporal(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
-
             List<Movimientodeinventariostmp> result = new List<Movimientodeinventariostmp>();
             list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
 
@@ -215,18 +216,18 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
             _context.Movimientodeinventariostmp.Where(x => x.tipodedocumento == list[0].tipodedocumento && x.idusuario == list[0].idusuario).ExecuteDelete();
 
-       
             foreach (var obj in list)
             {
                 Movimientodeinventariostmp obj_ = new Movimientodeinventariostmp();
                 obj_ = _mapping.MovimientoToMovimientoTMP(obj);
                 obj_.id = 0;
+                obj_.consecutivousuario = _utilsmovimiento.TraerConsecutivoDelUsuario(obj_.idusuario);
+                obj_.numerodeldocumento = _utilsmovimiento.TraerConsecutivoDeLaTransaccion(obj_.tipodedocumento)+1;
                 _context.Movimientodeinventariostmp.Add(obj_);
                 _context.SaveChanges();
-               
             }
 
-            result  = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == list[0].tipodedocumento && a.idusuario == list[0].idusuario).OrderBy(a => a.id).ToList();
+            result = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == list[0].tipodedocumento && a.idusuario == list[0].idusuario).OrderBy(a => a.id).ToList();
 
             return result;
         }
@@ -255,7 +256,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 return new List<string> { mensajedeerror };
             }
 
-            CargueDeMovimiento obj = new CargueDeMovimiento();
+           Movimientodeinventariostmp obj = new Movimientodeinventariostmp();
             var objusuario = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
             string consecutivousuario = objusuario.id.ToString().Trim() + "-" + objusuario.consecutivo.ToString().Trim();
             obj.tipodedocumento = tipodedocumento;
@@ -313,21 +314,19 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-        public List<string> AddDocument(CargueDeMovimiento obj)
+        public List<string> AddDocument(Movimientodeinventariostmp obj)
         {
-            int tipodedocumento = obj.tipodedocumento;
-            int idusuario = obj.idusuario;
-            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(tipodedocumento, _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario));
+            _utilsmovimiento.ProcesarLosCamposNumericosDeCadaFila(obj);
 
-            string mensajedeerror = _utilsmovimiento.ValidarAntesDeCargarAlMovimiento(tipodedocumento, idusuario);
+            string mensajedeerror = _utilsmovimiento.ValidarAntesDeCargarAlMovimiento(obj.tipodedocumento, obj.idusuario);
             if (mensajedeerror.IndexOf("Error") >= 0) return new List<string> { mensajedeerror };
             // aqui paso validaciones ok
 
             // totalizamos movimiento temporal
-            _utilsmovimiento.TotalizarDocumentoTemporal(tipodedocumento, idusuario);
+            _utilsmovimiento.TotalizarDocumentoTemporal(obj.tipodedocumento, obj.idusuario);
 
             // validamos saldo
-            mensajedeerror = _utilsmovimiento.ValidarSaldo(tipodedocumento, idusuario);
+            mensajedeerror = _utilsmovimiento.ValidarSaldo(obj.tipodedocumento, obj.idusuario);
             if (mensajedeerror.IndexOf("Error") >= 0) return new List<string> { mensajedeerror };
 
             mensajedeerror = "";
@@ -337,22 +336,22 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
                 try
                 {
                     // Colocamos el consecutivo al movimiento temporal
-                    _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(tipodedocumento, idusuario);
+                    _utilsmovimiento.ColocarConsecutivoAlMovimientoTemporal(obj.tipodedocumento, obj.idusuario);
 
                     // cargamos documento temporal totalizado  al movimiento de inventarios definitivo
-                    _utilsmovimiento.CargarMovimientoTemporalAlDefinitivo(tipodedocumento, idusuario);
+                    _utilsmovimiento.CargarMovimientoTemporalAlDefinitivo(obj.tipodedocumento, obj.idusuario);
 
                     // actualizamos consecutivo en tipos de documento
-                    obj.numerodeldocumento = _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(tipodedocumento);
+                    obj.numerodeldocumento = _utilsmovimiento.ActualizarConsecutivoDeLaTransaccion(obj.tipodedocumento);
 
                     // actualizamos consecutivo usuario
-                    _utilsmovimiento.ActualizarConsecutivoDelUsuario(idusuario);
+                    _utilsmovimiento.ActualizarConsecutivoDelUsuario(obj.idusuario);
 
                     // actualizamos inventario
                     _utilsmovimiento.ActualizarInventario(obj);
 
                     // borrramos el documento temporal
-                    DeleteDocument(tipodedocumento, idusuario);
+                    DeleteDocument(obj.tipodedocumento, obj.idusuario);
 
                     // generamos el log
                     Log(obj, "Agrego Movimiento de inventario ok ");
@@ -383,7 +382,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             _utilsmovimiento.AplicarFletePieDeFactura(tipodedocumento, valorfletes, idusuario);
         }
 
-        public void Log(CargueDeMovimiento obj, string operacion)
+        public void Log(Movimientodeinventariostmp obj, string operacion)
         {
             var obj_ = _context.Movimientodeinventarios.FirstOrDefault(a => a.despacha == obj.despacha && a.recibe == obj.recibe && a.tipodedocumento == obj.tipodedocumento && a.numerodeldocumento == obj.numerodeldocumento);
 

@@ -38,9 +38,9 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
-        public List<Movimientodeinventariostmp>? List(int tipodeodcumento, int idusuario)
+        public List<Movimientodeinventariostmp>? TraerDocumentoTemporal(int tipodeodcumento, int idusuario)
         {
-            List<Movimientodeinventariostmp> list = _access.List(tipodeodcumento, idusuario);
+            List<Movimientodeinventariostmp> list = _access.TraerDocumentoTemporal(tipodeodcumento, idusuario);
             return list;
         }
 
@@ -59,7 +59,7 @@ namespace Inventarios.services.CapturaDeMovimiento
         }
 
 
-        public List<string> AnularDocumento(CargueDeMovimiento obj)
+        public List<string> AnularDocumento(Movimientodeinventariostmp obj)
         {
             List<string> list = _access.AnularDocumento(obj );
 
@@ -80,7 +80,7 @@ namespace Inventarios.services.CapturaDeMovimiento
             return list;
         }
 
-        public List<string> AddDocument(CargueDeMovimiento obj)
+        public List<string> AddDocument(Movimientodeinventariostmp obj)
         {
             List<string> list = _access.AddDocument(obj);
             return list;

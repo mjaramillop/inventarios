@@ -89,8 +89,12 @@ namespace Inventarios.Utils
             }
         }
 
-        public Movimientodeinventariostmp ColocarDescripcionALasEntidades(Movimientodeinventariostmp obj, TiposDeDocumento objtipodedocumento)
+        public Movimientodeinventariostmp ColocarDescripcionALasEntidades(Movimientodeinventariostmp obj)
         {
+
+            TiposDeDocumento  objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == obj.tipodedocumento);
+
+
             obj.nombretipodedocumento = _validaciones.ValidarTipoDeDocumento(obj.tipodedocumento);
             obj.nombredespacha = _validaciones.ValidarDespacha(obj.despacha);
             obj.nombrerecibe = _validaciones.ValidarRecibe(obj.recibe);
@@ -217,7 +221,7 @@ namespace Inventarios.Utils
             return mensajedeerror;
         }
 
-        public void ActualizarInventario(CargueDeMovimiento obj)
+        public void ActualizarInventario(Movimientodeinventariostmp obj)
         {
             // extraigo  el consecutivo que se asignara
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
@@ -488,6 +492,14 @@ namespace Inventarios.Utils
             BorrarLosRegistrosDelMovimientoTemporal(list[0].tipodedocumento, idusuario);
         }
 
+
+        public int TraerConsecutivoDeLaTransaccion(int tipodedocumento)
+        {
+            // actualizamos consecutivo en tipos de documento
+            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
+            return objtipodedocumento.consecutivo;
+        }
         public int ActualizarConsecutivoDeLaTransaccion(int tipodedocumento)
         {
             // actualizamos consecutivo en tipos de documento
@@ -651,19 +663,12 @@ namespace Inventarios.Utils
             return mensajedeerror;
         }
 
-        public void ProcesarLosCamposNumericosDeCadaFila(int tipodedocumento, string consecutivousuario)
+        public void ProcesarLosCamposNumericosDeCadaFila(Movimientodeinventariostmp obj)
         {
-            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
-            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == tipodedocumento);
+            string consecutivousuario = TraerConsecutivoDelUsuario(obj.idusuario);
 
-            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == consecutivousuario).OrderBy(a => a.id).ToList();
-            int despacha = list[list.Count - 1].despacha;
-            int recibe = list[list.Count - 1].recibe;
-            DateTime fechadeldocumento = list[list.Count - 1].fechadeldocumento;
-            int plazo = list[list.Count - 1].plazo;
-            DateTime fechadevencimientodeldocumento = list[list.Count - 1].fechadevencimientodeldocumento;
-            int programa = list[list.Count - 1].programa;
-            int vendedor = list[list.Count - 1].vendedor;
+            List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == obj.tipodedocumento && a.idusuario == obj.idusuario).OrderBy(a => a.id).ToList();
+
 
             int contador = 0;
 
@@ -672,23 +677,18 @@ namespace Inventarios.Utils
                 // consulta cada item de cada documento para actulizarlo en la base de datos
                 Movimientodeinventariostmp obj_ = _context.Movimientodeinventariostmp.FirstOrDefault(a => a.id == item.id);
 
-                // aqui lo que estmoas haciendo es que el digitador puede grabar 4 registros y el sistema se cae
-                // pero puede contineuar mas tarde y que pasa si de pronto le da una fecha de documento o vendedor o programa
-                // o emisor o receptor diferente?puede quedar un mismo documento grabado con registros con fecha de documento diferente o
-                // emisor o receptor o vendedor diferente, pára evitar eso le asignamos a todos los regisros el encabezado del ultimo registro que
-                // grabe
-                // siempre que agregue uno nuevo por seguridad hacemos este proceso
 
-                obj_.despacha = despacha;
-                obj_.recibe = recibe;
-                obj_.fechadeldocumento = fechadeldocumento;
-                obj_.plazo = plazo;
-                obj_.fechadevencimientodeldocumento = fechadevencimientodeldocumento;
-                obj_.vendedor = vendedor;
-                obj_.programa = programa;
+                obj_.despacha = obj.despacha;
+                obj_.recibe = obj.recibe;
+                obj_.fechadeldocumento = obj.fechadeldocumento;
+                obj_.plazo = obj.plazo;
+                obj_.fechadevencimientodeldocumento = obj.fechadevencimientodeldocumento;
+                obj_.vendedor = obj.vendedor;
+                obj_.programa = obj.programa;
+                obj_.consecutivousuario = consecutivousuario;
 
                 contador = contador + 1;
-                ColocarDescripcionALasEntidades(obj_, objtipodedocumento);
+                ColocarDescripcionALasEntidades(obj_);
 
                 // calcula iva
                 CalcularIva(obj_);

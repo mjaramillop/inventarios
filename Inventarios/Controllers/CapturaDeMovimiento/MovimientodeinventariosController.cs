@@ -79,11 +79,11 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         // trae todo el documento temporal que esta generando el usuario
         // cada vez que graba un registro nuevo
         [HttpGet("{tipodedocumento}/{idusuario}/{token}")]
-        [ActionName("GetAll")]
-        public List<Movimientodeinventariostmp>? GetAll(int tipodedocumento, int idusuario, string token)
+        [ActionName("TraerDocumentoTemporal")]
+        public List<Movimientodeinventariostmp>?  TraerDocumentoTemporal(int tipodedocumento, int idusuario, string token)
         {
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
-            List<Movimientodeinventariostmp> list = _service.List(tipodedocumento, idusuario);
+            List<Movimientodeinventariostmp> list = _service.TraerDocumentoTemporal(tipodedocumento, idusuario);
             return list;
         }
 
@@ -91,7 +91,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
         // anula un documento en el movimiento definitivo
         [HttpPut]
         [ActionName("AnularDocumento")]
-        public List<string> AnularDocumento(CargueDeMovimiento obj, int idusuario, string token)
+        public List<string> AnularDocumento(Movimientodeinventariostmp obj , int idusuario, string token)
         {
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<string> list = _service.AnularDocumento(obj);
@@ -111,7 +111,7 @@ namespace Inventarios.Controllers.CapturaDeMovimiento
 
         [HttpPut]
         [ActionName("AddDocument")]
-        public List<string> AddDocument(CargueDeMovimiento obj, int idusuario, string token)
+        public List<string> AddDocument(Movimientodeinventariostmp obj, int idusuario, string token)
         {
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<string> list = _service.AddDocument(obj);
