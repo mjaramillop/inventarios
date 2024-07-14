@@ -251,4 +251,13 @@ public class Movimientodeinventarios
     public int idusuario { get; set; }
 
     public string nombreusuario { get; set; }
+
+
+
+    [NotMapped]
+    public List<string> titulos { get; set; }
+    [NotMapped]
+    public List<string> detalle { get; set; }
+
+
 }

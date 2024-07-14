@@ -1424,6 +1424,8 @@ public partial class InventariosContext : DbContext
             entity.ToTable("MOVIMIENTODEINVENTARIOSTMP");
 
             entity.HasIndex(e => new { e.tipodedocumento, e.consecutivousuario }, "IX_MOVIMIENTODEINVENTARIOSTMP_1");
+            entity.HasIndex(e => new { e.tipodedocumento, e.idusuario }, "IX_MOVIMIENTODEINVENTARIOSTMP_2");
+
 
             entity.HasIndex(e => new { e.id }, "IX_MOVIMIENTODEINVENTARIOSTMP");
 
