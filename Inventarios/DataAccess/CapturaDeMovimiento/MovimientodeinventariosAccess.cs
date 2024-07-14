@@ -116,6 +116,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
         {
             list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
 
+            if (list.Count==0) return new List<Movimientodeinventarios>();
 
             TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
             objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumento);
