@@ -111,6 +111,136 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return list;
         }
 
+
+        public List<Movimientodeinventarios> GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
+        {
+            list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
+
+
+            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
+            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumento);
+
+            foreach (var obj in list)
+            {
+                List<string> detalle = new List<string>();
+                List<Titulo> titulos = new List<Titulo>();
+
+
+                if (objtipodedocumento.pidetipodedocumentoaafectar == "S")
+                {
+                    titulos.Add(new Titulo { id = 0, titulo = "Doc a afectar" });
+                    titulos.Add(new Titulo { id = 1, titulo = "No a afectar" });
+                    detalle.Add(obj.nombretipodedocumentoaafectar);
+                    detalle.Add(obj.numerodeldocumentoaafectar.ToString());
+                }
+
+                if (objtipodedocumento.esunpago == "S")
+                {
+                    titulos.Add(new Titulo { id = 2, titulo = "Forma de pago" });
+                    titulos.Add(new Titulo { id = 3, titulo = "No de pago" });
+                    titulos.Add(new Titulo { id = 4, titulo = "Banco" });
+
+                    detalle.Add(obj.nombreformadepago);
+                    detalle.Add(obj.numerodelpago);
+                    detalle.Add(obj.nombrebanco);
+                }
+
+                if (objtipodedocumento.pideconceptonotadebitocredito == "S")
+                {
+                    titulos.Add(new Titulo { id = 5, titulo = "Concepto Nota db/cr" });
+
+                    detalle.Add(obj.nombreconceptonotadebitocredito);
+                }
+
+                if (objtipodedocumento.pideproducto == "S")
+                {
+                    titulos.Add(new Titulo { id = 6, titulo = "Producto" });
+                    detalle.Add(obj.producto + "-" + obj.nombreproducto + "-" + obj.nombreunidaddemedida);
+                }
+
+                if (objtipodedocumento.pidetalla == "S")
+                {
+                    titulos.Add(new Titulo { id = 7, titulo = "Talla" });
+                    detalle.Add(obj.nombretalla);
+                }
+
+                if (objtipodedocumento.pidecolor == "S")
+                {
+                    titulos.Add(new Titulo { id = 8, titulo = "Color" });
+                    detalle.Add(obj.nombrecolor);
+                }
+
+                if (objtipodedocumento.pideempaque == "S")
+                {
+                    titulos.Add(new Titulo { id = 9, titulo = "Forma Empaque" });
+                    detalle.Add(obj.numerodeempaques.ToString() + "-" + obj.nombreunidaddeempaque);
+                    titulos.Add(new Titulo { id = 10, titulo = "Empaque x" });
+                    detalle.Add(obj.cantidadporempaque.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+                }
+
+                if (objtipodedocumento.pidecantidad == "S")
+                {
+                    titulos.Add(new Titulo { id = 11, titulo = "Cantidad" });
+                    detalle.Add(obj.cantidad.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+                }
+
+                if (objtipodedocumento.pidevalorunitario == "S")
+                {
+                    titulos.Add(new Titulo { id = 12, titulo = "Valor unitario" });
+                    detalle.Add(obj.valorunitario.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+                }
+
+
+                titulos.Add(new Titulo { id = 13, titulo = "Subtotal" });
+                detalle.Add(obj.subtotal.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+
+
+                if (objtipodedocumento.pidedescuentodetalle == "S")
+                {
+                    titulos.Add(new Titulo { id = 14, titulo = "Valor Descto" });
+                    detalle.Add(obj.porcentajedescuento1.ToString() + "%" + obj.valordescuento1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+                    titulos.Add(new Titulo { id = 15, titulo = "Valor Bruto" });
+                    detalle.Add((obj.subtotal - obj.valordescuento1).ToString());
+                }
+
+
+                if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
+                {
+                    titulos.Add(new Titulo { id = 16, titulo = "Fletes" });
+                    detalle.Add(obj.fletes.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+
+                }
+
+
+                if (objtipodedocumento.pideivadetalle == "S")
+                {
+                    titulos.Add(new Titulo { id = 17, titulo = "Valor Iva" });
+                    detalle.Add(obj.porcentajedeiva1.ToString() + "%" + obj.valoriva1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+
+                }
+
+
+                if (objtipodedocumento.esunpago == "S")
+                {
+                    titulos.Add(new Titulo { id = 18, titulo = "Valor Retencion" });
+                    detalle.Add(obj.valorretencion1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+
+                }
+
+
+                titulos.Add(new Titulo { id = 19, titulo = "Valor Neto" });
+                detalle.Add(obj.valorneto.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
+
+                obj.detalle = detalle;
+                obj.titulos = titulos;
+            }
+
+
+
+            return list;
+        }
+
+
         public List<Movimientodeinventariostmp>? TraerDocumentoTemporal(int tipodedocumento, int idusuario)
         {
             List<Movimientodeinventariostmp> list = _context.Movimientodeinventariostmp.Where(a => a.tipodedocumento == tipodedocumento && a.consecutivousuario == _utilsmovimiento.TraerConsecutivoDelUsuario(idusuario)).OrderBy(a => a.id).ToList();
@@ -121,21 +251,22 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             foreach (var obj in list)
             {
                 List<string> detalle = new List<string>();
-                List<string> titulos = new List<string>();
+                List<Titulo> titulos = new List<Titulo>();
+
 
                 if (objtipodedocumento.pidetipodedocumentoaafectar == "S")
                 {
-                    titulos.Add("Doc a afectar");
-                    titulos.Add("No a afectar");
+                    titulos.Add( new Titulo {id=0,titulo="Doc a afectar" } );
+                    titulos.Add(new Titulo { id = 1, titulo = "No a afectar" });
                     detalle.Add(obj.nombretipodedocumentoaafectar);
                     detalle.Add(obj.numerodeldocumentoaafectar.ToString());
                 }
 
                 if (objtipodedocumento.esunpago == "S")
                 {
-                    titulos.Add("Forma de pago");
-                    titulos.Add("No del pago");
-                    titulos.Add("Banco");
+                    titulos.Add(new Titulo { id = 2, titulo = "Forma de pago" });
+                    titulos.Add(new Titulo { id = 3, titulo = "No de pago" });
+                    titulos.Add(new Titulo { id = 4, titulo = "Banco" });
 
                     detalle.Add(obj.nombreformadepago);
                     detalle.Add(obj.numerodelpago);
@@ -144,64 +275,66 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
                 if (objtipodedocumento.pideconceptonotadebitocredito == "S")
                 {
-                    titulos.Add("Concepto Ndb/Ncr");
+                    titulos.Add(new Titulo { id = 5, titulo = "Concepto Nota db/cr" });
+
                     detalle.Add(obj.nombreconceptonotadebitocredito);
                 }
 
                 if (objtipodedocumento.pideproducto == "S")
                 {
-                    titulos.Add("Producto");
+                    titulos.Add(new Titulo { id = 6, titulo = "Producto" });
                     detalle.Add(obj.producto + "-" + obj.nombreproducto + "-" + obj.nombreunidaddemedida);
                 }
 
                 if (objtipodedocumento.pidetalla == "S")
                 {
-                    titulos.Add("Talla");
+                    titulos.Add(new Titulo { id = 7, titulo = "Talla" });
                     detalle.Add(obj.nombretalla);
                 }
 
                 if (objtipodedocumento.pidecolor == "S")
                 {
-                    titulos.Add("Color");
+                    titulos.Add(new Titulo { id = 8, titulo = "Color" });
                     detalle.Add(obj.nombrecolor);
                 }
 
                 if (objtipodedocumento.pideempaque == "S")
                 {
-                    titulos.Add("No Empaques");
+                    titulos.Add(new Titulo { id = 9, titulo = "Forma Empaque" });
                     detalle.Add(obj.numerodeempaques.ToString() + "-" + obj.nombreunidaddeempaque);
-                    titulos.Add("Empaque x");
+                    titulos.Add(new Titulo { id = 10, titulo = "Empaque x" });
                     detalle.Add(obj.cantidadporempaque.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
                 }
 
                 if (objtipodedocumento.pidecantidad == "S")
                 {
-                    titulos.Add("Cantidad");
+                    titulos.Add(new Titulo { id = 11, titulo = "Cantidad" });
                     detalle.Add(obj.cantidad.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
                 }
 
                 if (objtipodedocumento.pidevalorunitario == "S")
                 {
-                    titulos.Add("Valor unitario");
+                    titulos.Add(new Titulo { id = 12, titulo = "Valor unitario" });
                     detalle.Add(obj.valorunitario.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
                 }
 
-                titulos.Add("Subtotal");
-                detalle.Add(obj.subtotal.ToString());
+
+                titulos.Add(new Titulo { id = 13, titulo = "Subtotal" });
+                detalle.Add(obj.subtotal.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
 
 
                 if (objtipodedocumento.pidedescuentodetalle == "S")
                 {
-                    titulos.Add("Valor Descuento");
+                    titulos.Add(new Titulo { id = 14, titulo = "Valor Descto" });
                     detalle.Add(obj.porcentajedescuento1.ToString() + "%" + obj.valordescuento1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-                    titulos.Add("Valor Bruto");
+                    titulos.Add(new Titulo { id = 15, titulo = "Valor Bruto" });
                     detalle.Add( (obj.subtotal- obj.valordescuento1).ToString());
                 }
 
 
                 if (objtipodedocumento.esunaventa=="S" || objtipodedocumento.esunacompra == "S")
                 {
-                    titulos.Add("Fletes");
+                    titulos.Add(new Titulo { id = 16, titulo = "Fletes" });
                     detalle.Add(obj.fletes.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
                  
                 }
@@ -209,7 +342,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
                 if (objtipodedocumento.pideivadetalle == "S")
                 {
-                    titulos.Add("Valor Iva");
+                    titulos.Add(new Titulo { id = 17, titulo = "Valor Iva" });
                     detalle.Add(obj.porcentajedeiva1.ToString() + "%" + obj.valoriva1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
                   
                 }
@@ -217,13 +350,13 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
 
                 if (objtipodedocumento.esunpago == "S")
                 {
-                    titulos.Add("Valor Retencion");
+                    titulos.Add(new Titulo { id = 18, titulo = "Valor Retencion" });
                     detalle.Add(obj.valorretencion1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
 
                 }
 
 
-                titulos.Add("Valor neto");
+                titulos.Add(new Titulo { id = 19, titulo = "Valor Neto" });
                 detalle.Add(obj.valorneto.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
 
                 obj.detalle = detalle;
@@ -316,130 +449,7 @@ namespace Inventarios.DataAccess.CapturaDeMovimiento
             return new List<string> { mensajedeerror };
         }
 
-        public List<Movimientodeinventarios> GetByNumeroDeDocumento(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
-        {
-            list = _context.Movimientodeinventarios.Where(a => a.tipodedocumento == tipodedocumento && a.numerodeldocumento == numerodedocumento && a.despacha == despacha && a.recibe == recibe).ToList();
-
-            TiposDeDocumento? objtipodedocumento = new TiposDeDocumento();
-            objtipodedocumento = _context.TiposDeDocumento.FirstOrDefault(a => a.id == list[0].tipodedocumento);
-
-            foreach (var obj in list)
-            {
-                List<string> detalle = new List<string>();
-                List<string> titulos = new List<string>();
-
-                if (objtipodedocumento.pidetipodedocumentoaafectar == "S")
-                {
-                    titulos.Add("Doc a afectar");
-                    titulos.Add("No a afectar");
-                    detalle.Add(obj.nombretipodedocumentoaafectar);
-                    detalle.Add(obj.numerodeldocumentoaafectar.ToString());
-                }
-
-                if (objtipodedocumento.esunpago == "S")
-                {
-                    titulos.Add("Forma de pago");
-                    titulos.Add("No del pago");
-                    titulos.Add("Banco");
-
-                    detalle.Add(obj.nombreformadepago);
-                    detalle.Add(obj.numerodelpago);
-                    detalle.Add(obj.nombrebanco);
-                }
-
-                if (objtipodedocumento.pideconceptonotadebitocredito == "S")
-                {
-                    titulos.Add("Concepto Ndb/Ncr");
-                    detalle.Add(obj.nombreconceptonotadebitocredito);
-                }
-
-                if (objtipodedocumento.pideproducto == "S")
-                {
-                    titulos.Add("Producto");
-                    detalle.Add(obj.producto + "-" + obj.nombreproducto + "-" + obj.nombreunidaddemedida);
-                }
-
-                if (objtipodedocumento.pidetalla == "S")
-                {
-                    titulos.Add("Talla");
-                    detalle.Add(obj.nombretalla);
-                }
-
-                if (objtipodedocumento.pidecolor == "S")
-                {
-                    titulos.Add("Color");
-                    detalle.Add(obj.nombrecolor);
-                }
-
-                if (objtipodedocumento.pideempaque == "S")
-                {
-                    titulos.Add("No Empaques");
-                    detalle.Add(obj.numerodeempaques.ToString() + "-" + obj.nombreunidaddeempaque);
-                    titulos.Add("Empaque x");
-                    detalle.Add(obj.cantidadporempaque.ToString());
-                }
-
-                if (objtipodedocumento.pidecantidad == "S")
-                {
-                    titulos.Add("Cantidad");
-                    detalle.Add(obj.cantidad.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-                }
-
-                if (objtipodedocumento.pidevalorunitario == "S")
-                {
-                    titulos.Add("Valor unitario");
-                    detalle.Add(obj.valorunitario.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-                }
-
-                titulos.Add("Subtotal");
-                detalle.Add(obj.subtotal.ToString("C2"));
-
-
-                if (objtipodedocumento.pidedescuentodetalle == "S")
-                {
-                    titulos.Add("Valor Descuento");
-                    detalle.Add(obj.porcentajedescuento1.ToString() + "%" + obj.valordescuento1.ToString());
-                    titulos.Add("Valor Bruto");
-                    detalle.Add((obj.subtotal - obj.valordescuento1).ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-                }
-
-
-                if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
-                {
-                    titulos.Add("Fletes");
-                    detalle.Add(obj.fletes.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-
-                }
-
-
-                if (objtipodedocumento.pideivadetalle == "S")
-                {
-                    titulos.Add("Valor Iva");
-                    detalle.Add(obj.porcentajedeiva1.ToString() + "%" + obj.valoriva1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-
-                }
-
-
-                if (objtipodedocumento.esunpago == "S")
-                {
-                    titulos.Add("Valor Retencion");
-                    detalle.Add(obj.valorretencion1.ToString("C2", CultureInfo.CreateSpecificCulture("en-US")));
-
-                }
-
-
-                titulos.Add("Valor neto");
-                detalle.Add(obj.valorneto.ToString("C2",CultureInfo.CreateSpecificCulture("en-US")));
-
-                obj.detalle = detalle;
-                obj.titulos = titulos;
-            }
-
-
-
-            return list;
-        }
-
+    
         public List<Movimientodeinventariostmp> GetByNumeroDeDocumentoYPasarloAlTemporal(int tipodedocumento, int numerodedocumento, int despacha, int recibe)
         {
             List<Movimientodeinventariostmp> result = new List<Movimientodeinventariostmp>();

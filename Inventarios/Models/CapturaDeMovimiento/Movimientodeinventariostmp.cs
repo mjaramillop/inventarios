@@ -255,10 +255,26 @@ namespace Inventarios.Models.CapturaDeMovimiento
 
 
         [NotMapped]
-        public List<string> titulos { get; set; }
+        public List<Titulo> titulos { get; set; }
         [NotMapped]
         public List<string> detalle { get; set; }
 
+
+
+    }
+
+    public class Titulo
+    {
+
+
+        public Titulo() {
+
+            id = 0;
+            titulo = "";
+        }    
+
+        public int id {  get; set; }    
+        public string titulo { get; set; } 
 
 
 

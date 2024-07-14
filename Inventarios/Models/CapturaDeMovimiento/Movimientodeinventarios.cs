@@ -255,9 +255,10 @@ public class Movimientodeinventarios
 
 
     [NotMapped]
-    public List<string> titulos { get; set; }
+    public List<Titulo> titulos { get; set; }
     [NotMapped]
     public List<string> detalle { get; set; }
 
 
 }
+
