@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Inventarios.Models.CapturaDeMovimiento;
@@ -87,7 +88,7 @@ public class Movimientodeinventarios
         this.nombreusuario = "";
     }
 
-    //    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+   
     public int id { get; set; }
 
     public int despacha { get; set; }
@@ -252,13 +253,13 @@ public class Movimientodeinventarios
 
     public string nombreusuario { get; set; }
 
-
-
     [NotMapped]
-    public List<Titulo> titulos { get; set; }
-    [NotMapped]
-    public List<string> detalle { get; set; }
+    public List<Detalle> detalle { get; set; }
+
 
 
 }
+
+
+
 

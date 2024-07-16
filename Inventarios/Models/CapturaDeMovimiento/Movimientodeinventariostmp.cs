@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Inventarios.Models.CapturaDeMovimiento
 {
-    public class Movimientodeinventariostmp 
+    public class Movimientodeinventariostmp
+
     {
-       
         public Movimientodeinventariostmp()
         {
             this.id = 0;
@@ -253,30 +253,7 @@ namespace Inventarios.Models.CapturaDeMovimiento
 
         public string nombreusuario { get; set; }
 
-
         [NotMapped]
-        public List<Titulo> titulos { get; set; }
-        [NotMapped]
-        public List<string> detalle { get; set; }
-
-
-
-    }
-
-    public class Titulo
-    {
-
-
-        public Titulo() {
-
-            id = 0;
-            titulo = "";
-        }    
-
-        public int id {  get; set; }    
-        public string titulo { get; set; } 
-
-
-
+        public List<Detalle> detalle { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Inventarios.Models.CapturaDeMovimiento;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inventarios.Models.TablasMaestras;
 
@@ -147,4 +148,10 @@ public class TiposDeDocumento
 
     public int idusuario { get; set; }
     public string nombreusuario { get; set; }
+
+
+
+    [NotMapped]
+    public List<Titulo> titulos { get; set; }
+
 }

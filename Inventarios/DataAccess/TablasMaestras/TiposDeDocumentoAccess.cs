@@ -2,9 +2,11 @@
 using Inventarios.DataAccess.Seguridad;
 using Inventarios.DTO.TablasMaestras;
 using Inventarios.Map;
+using Inventarios.Models.CapturaDeMovimiento;
 using Inventarios.Models.Seguridad;
 using Inventarios.Models.TablasMaestras;
 using Inventarios.Utils;
+using System.Globalization;
 
 namespace Inventarios.DataAccess.TablasMaestras
 {
@@ -128,6 +130,114 @@ namespace Inventarios.DataAccess.TablasMaestras
                 var obj2_ = _context.Proveedores.FirstOrDefault(a => a.id == Convert.ToInt32(list[0].recibe));
                 list[0].nombrerecibe = obj2_.nombre;
             }
+
+
+
+            foreach (var objtipodedocumento in list)
+            {
+                List<Titulo> titulos = new List<Titulo>();
+
+
+                if (objtipodedocumento.pidetipodedocumentoaafectar == "S")
+                {
+                    titulos.Add(new Titulo { id = 0, titulo = "Doc a afectar" });
+                    titulos.Add(new Titulo { id = 1, titulo = "No a afectar" });
+                  
+                }
+
+                if (objtipodedocumento.esunpago == "S")
+                {
+                    titulos.Add(new Titulo { id = 2, titulo = "Forma de pago" });
+                    titulos.Add(new Titulo { id = 3, titulo = "No de pago" });
+                    titulos.Add(new Titulo { id = 4, titulo = "Banco" });
+
+                 
+                }
+
+                if (objtipodedocumento.pideconceptonotadebitocredito == "S")
+                {
+                    titulos.Add(new Titulo { id = 5, titulo = "Concepto Nota db/cr" });
+
+                  
+                }
+
+                if (objtipodedocumento.pideproducto == "S")
+                {
+                    titulos.Add(new Titulo { id = 6, titulo = "Producto" });
+                  
+                }
+
+                if (objtipodedocumento.pidetalla == "S")
+                {
+                    titulos.Add(new Titulo { id = 7, titulo = "Talla" });
+                  
+                }
+
+                if (objtipodedocumento.pidecolor == "S")
+                {
+                    titulos.Add(new Titulo { id = 8, titulo = "Color" });
+                   
+                }
+
+                if (objtipodedocumento.pideempaque == "S")
+                {
+                    titulos.Add(new Titulo { id = 9, titulo = "Forma Empaque" });
+                    
+                    titulos.Add(new Titulo { id = 10, titulo = "Empaque x" });
+                  
+                }
+
+                if (objtipodedocumento.pidecantidad == "S")
+                {
+                    titulos.Add(new Titulo { id = 11, titulo = "Cantidad" });
+                  
+                }
+
+                if (objtipodedocumento.pidevalorunitario == "S")
+                {
+                    titulos.Add(new Titulo { id = 12, titulo = "Valor unitario" });
+                   
+                }
+
+
+                titulos.Add(new Titulo { id = 13, titulo = "Subtotal" });
+             
+
+
+                if (objtipodedocumento.pidedescuentodetalle == "S")
+                {
+                    titulos.Add(new Titulo { id = 14, titulo = "Valor Descto" });
+                    titulos.Add(new Titulo { id = 15, titulo = "Valor Bruto" });
+                }
+
+
+                if (objtipodedocumento.esunaventa == "S" || objtipodedocumento.esunacompra == "S")
+                {
+                    titulos.Add(new Titulo { id = 16, titulo = "Fletes" });
+
+                }
+
+
+                if (objtipodedocumento.pideivadetalle == "S")
+                {
+                    titulos.Add(new Titulo { id = 17, titulo = "Valor Iva" });
+
+                }
+
+
+                if (objtipodedocumento.esunpago == "S")
+                {
+                    titulos.Add(new Titulo { id = 18, titulo = "Valor Retencion" });
+
+                }
+
+
+                titulos.Add(new Titulo { id = 19, titulo = "Valor Neto" });
+
+                objtipodedocumento.titulos = titulos;
+            }
+
+
 
             return list;
         }

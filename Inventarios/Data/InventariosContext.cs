@@ -785,7 +785,6 @@ public partial class InventariosContext : DbContext
             entity.HasKey(e => e.id).HasName("PK_TIPOSDEDOCUMENTO");
             entity.HasKey(e => e.id).HasName("IX_TIPOSDEDOCUMENTO");
 
-
             entity.ToTable("TIPOSDEDOCUMENTO");
 
             entity.Property(e => e.id).HasColumnName("ID");
@@ -1426,7 +1425,6 @@ public partial class InventariosContext : DbContext
             entity.HasIndex(e => new { e.tipodedocumento, e.consecutivousuario }, "IX_MOVIMIENTODEINVENTARIOSTMP_1");
             entity.HasIndex(e => new { e.tipodedocumento, e.idusuario }, "IX_MOVIMIENTODEINVENTARIOSTMP_2");
 
-
             entity.HasIndex(e => new { e.id }, "IX_MOVIMIENTODEINVENTARIOSTMP");
 
             /////////////////////
@@ -1671,6 +1669,9 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("nombreusuario");
+
+         
+             
 
             ////////////////////////////////
             /// LIQUIDACION DOCUMENTO

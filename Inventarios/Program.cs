@@ -102,7 +102,6 @@ builder.Services.AddScoped<RetencionesAccess>();
 // utils
 builder.Services.AddScoped<Utilidades>();
 builder.Services.AddScoped<Validaciones>();
-builder.Services.AddScoped<MovimientosDeInventarios>();
 builder.Services.AddScoped<Correo>();
 
 
