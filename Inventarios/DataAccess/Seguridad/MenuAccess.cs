@@ -75,6 +75,8 @@ namespace Inventarios.DataAccess.Seguridad
 
         public List<MenuDTO>? List(string filtro)
         {
+            string caracterdebusqueda = _iconfiguration.GetValue<string>("ParametrosDeLaEmpresa:caracterdebusqueda");
+            filtro = filtro.Replace(caracterdebusqueda, "");
             list = _context.Menus.ToList().OrderBy(a => a.orden).Where(a => a.nombre.Contains(filtro.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
             return _mapping.ListMenuToListMenuDTO(list);
         }

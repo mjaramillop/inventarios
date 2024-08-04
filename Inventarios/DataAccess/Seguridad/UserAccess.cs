@@ -76,7 +76,6 @@ namespace Inventarios.DataAccess.Seguridad
             obj_.login = obj.login;
             obj_.password = obj.password;
             obj_.perfil = obj.perfil;
-            obj_.tiposdedocumento = obj.tiposdedocumento;
             obj_.estadodelregistro = obj.estadodelregistro;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
@@ -184,7 +183,7 @@ namespace Inventarios.DataAccess.Seguridad
             comando = comando + "login = " + obj.login + "\n";
             comando = comando + "password = " + obj.password + "\n";
             comando = comando + "Perfil = " + obj.perfil + "\n";
-            comando = comando + "Tipos de documento = " + obj.tiposdedocumento + "\n";
+          
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
             _logacces.Add(comando);
         }

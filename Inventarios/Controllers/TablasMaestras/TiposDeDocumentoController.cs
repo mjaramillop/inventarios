@@ -73,7 +73,7 @@ namespace Inventarios.Controllers.TablasMaestras
         public List<TiposDeDocumentoDTO>? GetAllCodigoNombre(string filtro, int idusuario, string token)
         {
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
-            list = _service.ListCodigoNombre(filtro);
+            list = _service.ListCodigoNombre(filtro,idusuario);
             return list;
         }
 
@@ -82,7 +82,7 @@ namespace Inventarios.Controllers.TablasMaestras
         public List<TiposDeDocumentoPermisosDTO>? GetListDocumentosPermisos(int id,int idusuario, string token)
         {
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
-            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(idusuario);
+            List<TiposDeDocumentoPermisosDTO>? list = _service.ListDocumentosPermisos(id);
             return list;
         }
 
@@ -96,8 +96,8 @@ namespace Inventarios.Controllers.TablasMaestras
         }
 
         [HttpGet("{id}/{idusuario}/{token}")]
-        [ActionName("GetDarRestriccionTotal")]
-        public List<TiposDeDocumentoPermisosDTO>? GetDarRestriccionTotal(int id, int idusuario, string token)
+        [ActionName("GetRestriccionTotal")]
+        public List<TiposDeDocumentoPermisosDTO>? GetRestriccionTotal(int id, int idusuario, string token)
         {
             if (_validaciones.ValidarToken(idusuario, token) == false) return null;
             List<TiposDeDocumentoPermisosDTO>? list = _service.DarRestriccionTotal(id, idusuario);

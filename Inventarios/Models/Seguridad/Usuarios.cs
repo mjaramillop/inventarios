@@ -16,7 +16,7 @@ public class Usuarios
         this.login = "";
         this.password = "";
         this.perfil = 0;
-        this.tiposdedocumento = "";
+     
        
         this.estadodelregistro = 0;
         this.consecutivo = 0;
@@ -48,8 +48,7 @@ public class Usuarios
 
     public int perfil { get; set; }
 
-    public string tiposdedocumento { get; set; }
-
+    
 
     public int estadodelregistro { get; set; }
 

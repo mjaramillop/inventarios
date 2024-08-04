@@ -61,7 +61,7 @@ namespace Inventarios.DataAccess
 
             obj_.nombre = obj.nombre;
             obj_.programas = obj.programas;
-
+            obj_.tiposdedocumento = obj.tiposdedocumento;   
             obj_.estadodelregistro = obj.estadodelregistro;
             obj_.idusuario = obj.idusuario;
             obj_.nombreusuario = obj.nombreusuario;
@@ -138,6 +138,9 @@ namespace Inventarios.DataAccess
             comando = comando + "operacion " + operacion + "\n";
             comando = comando + "id = " + obj.id + "\n";
             comando = comando + "Nombre = " + obj.nombre + "\n";
+            comando = comando + "Programas = " + obj.programas + "\n";
+            comando = comando + "Tipos de documento = " + obj.tiposdedocumento + "\n";
+
             comando = comando + "Estado del Registro = " + obj.estadodelregistro + "\n";
             _logacces.Add(comando);
         }

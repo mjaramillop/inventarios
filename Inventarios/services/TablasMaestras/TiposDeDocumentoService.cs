@@ -45,9 +45,9 @@ namespace Inventarios.services.TablasMaestras
             return list;
         }
 
-        public List<TiposDeDocumentoDTO>? ListCodigoNombre(string filtro)
+        public List<TiposDeDocumentoDTO>? ListCodigoNombre(string filtro,int idusuario)
         {
-            var list = _access.ListCodigoNombre(filtro);
+            var list = _access.ListCodigoNombre(filtro,idusuario);
             return list;
         }
 

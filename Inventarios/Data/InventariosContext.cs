@@ -994,6 +994,12 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("PROGRAMAS");
+
+            entity.Property(e => e.tiposdedocumento)
+              .HasMaxLength(500)
+              .IsUnicode(false)
+              .HasColumnName("TIPOSDEDOCUMENTO");
+
             entity.Property(e => e.estadodelregistro)
                 .HasMaxLength(1)
                 .IsUnicode(false)
@@ -1080,10 +1086,7 @@ public partial class InventariosContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("TELEFONO");
-            entity.Property(e => e.tiposdedocumento)
-                .HasMaxLength(500)
-                .IsUnicode(false)
-                .HasColumnName("TIPOSDEDOCUMENTO");
+          
             entity.Property(e => e.idusuario).HasColumnName("idusuario");
             entity.Property(e => e.nombreusuario)
                 .HasMaxLength(100)

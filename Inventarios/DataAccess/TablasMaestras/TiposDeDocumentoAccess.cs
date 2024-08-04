@@ -108,10 +108,11 @@ namespace Inventarios.DataAccess.TablasMaestras
         public List<TiposDeDocumento> GetById(int id, int idusuario)
         {
             Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
+            Perfiles objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == objusuarios.perfil);
 
             if (idusuario > 0)
             {
-                if (objusuarios.tiposdedocumento.IndexOf("," + id.ToString() + "=") < 0)
+                if (objperfiles.tiposdedocumento.IndexOf("," + id.ToString() + "=") < 0)
                 {
                     return list;
                 }
@@ -250,18 +251,38 @@ namespace Inventarios.DataAccess.TablasMaestras
             return _mapping.ListTiposDeDocumentoToTiposDeDocumentoDTO(list);
         }
 
-        public List<TiposDeDocumentoDTO> ListCodigoNombre(string filtro)
+        public List<TiposDeDocumentoDTO> ListCodigoNombre(string filtro,int idusuario)
         {
+            Usuarios objusuarios = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
+
+            Perfiles objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == objusuarios.perfil);
+
+
+
             var list = from pro in _context.TiposDeDocumento
                        select new TiposDeDocumentoDTO() { nombre = pro.nombre, id = pro.id };
 
-            return list.OrderBy(a => a.nombre).ToList();
+            List<TiposDeDocumentoDTO> lista = new List<TiposDeDocumentoDTO>();
+            foreach (var s in list)
+            {
+                if (objperfiles.tiposdedocumento.IndexOf("," +s.id +"=")>=0)
+                {
+                    TiposDeDocumentoDTO objtipodedocumento = new TiposDeDocumentoDTO();
+                    objtipodedocumento.nombre = s.nombre;   
+                    objtipodedocumento.id= s.id;
+                    lista.Add(objtipodedocumento);
+                }
+
+
+            }
+
+            return lista.OrderBy(a => a.nombre).ToList();
         }
 
-        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int idusuario)
+        public List<TiposDeDocumentoPermisosDTO>? ListDocumentosPermisos(int  idperfil)
         {
-            Usuarios? obj = _context.Usuarios.FirstOrDefault(a => a.id == idusuario);
-            string? tiposdedocumento = obj.tiposdedocumento;
+            Perfiles objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == idperfil);
+            string? tiposdedocumento = objperfiles.tiposdedocumento;
 
             List<TiposDeDocumentoPermisosDTO> listapermisos = new List<TiposDeDocumentoPermisosDTO>();
 
@@ -288,8 +309,6 @@ namespace Inventarios.DataAccess.TablasMaestras
                     obj1.estadodelregistro = list[0].estadodelregistro;
 
                     if (permisos[i].IndexOf("A") >= 0) obj1.agregar = true;
-                    if (permisos[i].IndexOf("M") >= 0) obj1.modificar = true;
-                    if (permisos[i].IndexOf("B") >= 0) obj1.borrar = true;
                     if (permisos[i].IndexOf("I") >= 0) obj1.imprimir = true;
                     if (permisos[i].IndexOf("N") >= 0) obj1.anular = true;
                     listapermisos.Add(obj1);
@@ -308,31 +327,33 @@ namespace Inventarios.DataAccess.TablasMaestras
 
             foreach (var s in list)
             {
-                tiposdedocumentoquepuedeaccesar = tiposdedocumentoquepuedeaccesar + s.id + "=AMBIN,";
+                tiposdedocumentoquepuedeaccesar = tiposdedocumentoquepuedeaccesar + s.id + "=ANI,";
             }
 
-            var obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
+        
+            var objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == id);
 
-            obj.tiposdedocumento = tiposdedocumentoquepuedeaccesar;
+            objperfiles.tiposdedocumento = tiposdedocumentoquepuedeaccesar;
 
             _context.SaveChanges();
-            Log2(obj, "Modifico usuario");
+           
 
-            return ListDocumentosPermisos(idusuario);
+            return ListDocumentosPermisos(id);
         }
 
         public List<TiposDeDocumentoPermisosDTO>? DarRestriccionTotal(int id, int idusuario)
         {
             string tiposdedocumentoquepuedeaccesar = ",";
 
-            var obj = _context.Usuarios.FirstOrDefault(a => a.id == id);
+           
+            var objperfiles = _context.Perfiles.FirstOrDefault(a => a.id == id);
 
-            obj.tiposdedocumento = tiposdedocumentoquepuedeaccesar;
+            objperfiles.tiposdedocumento = tiposdedocumentoquepuedeaccesar;
 
             _context.SaveChanges();
-            Log2(obj, "Modifico usuario");
+         
 
-            return ListDocumentosPermisos(idusuario);
+            return ListDocumentosPermisos(id);
         }
 
         public void Log(TiposDeDocumento obj, string operacion)
@@ -382,17 +403,7 @@ namespace Inventarios.DataAccess.TablasMaestras
             _logacces.Add(comando);
         }
 
-        public void Log2(Usuarios obj, string operacion)
-        {
-            string comando = "";
-            comando = comando + "operacion " + operacion + "\n";
-
-            comando = comando + "id = " + obj.id + "\n";
-            comando = comando + "tipos de documento a accesar = " + obj.tiposdedocumento + "\n";
-
-            _logacces.Add(comando);
-        }
-
+       
         public string ValidarRegistro(TiposDeDocumento obj)
         {
             string mensajedeerror = "";
