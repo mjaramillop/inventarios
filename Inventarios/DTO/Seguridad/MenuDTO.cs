@@ -37,5 +37,7 @@
         public string password { get; set; }
 
         public string token { get; set; }
+
+        
     }
 }
